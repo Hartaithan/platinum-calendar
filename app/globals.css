@@ -2,10 +2,16 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  input {
+    @apply focus-visible:outline-none;
+  }
+}
+
 html {
   @apply h-full w-full;
 }
 
 body {
-  @apply flex flex-col text-white bg-black w-full min-h-full;
+  @apply flex flex-col text-white bg-zinc-950 w-full min-h-full;
 }
