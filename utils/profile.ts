@@ -1,4 +1,5 @@
 import type { ProfileResponse } from "@/models/profile";
+import type { TrophyCounts } from "@/models/trophy";
 import type { AnyNode, CheerioAPI } from "cheerio";
 import { load } from "cheerio";
 
@@ -7,6 +8,11 @@ const select = {
   avatar: "div.avatar img",
   level: "div.level-box span",
   stats: "div.stats > span.stat",
+  total: "li.total",
+  platinum: "li.platinum",
+  gold: "li.gold",
+  silver: "li.silver",
+  bronze: "li.bronze",
 };
 
 const notFound = "Not Found";
@@ -59,6 +65,19 @@ export const getProfile = (content: string): Partial<ProfileResponse> => {
   const avatar_url = cheerio(select.avatar).first().attr("src") || notFound;
   const level = cheerio(select.level).first().text() || notFound;
 
+  const total = cheerio(select.total).first().text().trim() || notFound;
+  const platinum = cheerio(select.platinum).first().text().trim() || notFound;
+  const gold = cheerio(select.gold).first().text().trim() || notFound;
+  const silver = cheerio(select.silver).first().text().trim() || notFound;
+  const bronze = cheerio(select.bronze).first().text().trim() || notFound;
+  const counts: TrophyCounts = {
+    total,
+    platinum,
+    gold,
+    silver,
+    bronze,
+  };
+
   const {
     games_played,
     completed_games,
@@ -74,6 +93,7 @@ export const getProfile = (content: string): Partial<ProfileResponse> => {
     name,
     avatar_url,
     level,
+    counts,
     games_played,
     completed_games,
     completion,

@@ -1,7 +1,7 @@
 export interface TrophyCounts {
-  total: number;
-  platinum: number;
-  gold: number;
-  silver: number;
-  bronze: number;
+  total: string;
+  platinum: string;
+  gold: string;
+  silver: string;
+  bronze: string;
 }
