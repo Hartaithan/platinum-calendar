@@ -1,14 +1,76 @@
 import type { TrophyCounts } from "./trophy";
 
-export interface ProfileCountry {
-  value: number;
-  image_url: string;
-}
-
-export interface ProfilePlus {
-  value: number;
-  image_url: string;
-}
+export type ProfileCountry =
+  | "ae"
+  | "ar"
+  | "at"
+  | "au"
+  | "be"
+  | "bg"
+  | "bh"
+  | "bo"
+  | "br"
+  | "ca"
+  | "ch"
+  | "cl"
+  | "cn"
+  | "co"
+  | "cr"
+  | "cy"
+  | "cz"
+  | "de"
+  | "dk"
+  | "ec"
+  | "es"
+  | "fi"
+  | "fr"
+  | "gb"
+  | "gr"
+  | "gt"
+  | "hk"
+  | "hn"
+  | "hr"
+  | "hu"
+  | "id"
+  | "ie"
+  | "il"
+  | "in"
+  | "is"
+  | "it"
+  | "jp"
+  | "kr"
+  | "kw"
+  | "lb"
+  | "lu"
+  | "mt"
+  | "mx"
+  | "my"
+  | "ni"
+  | "nl"
+  | "no"
+  | "nz"
+  | "om"
+  | "pa"
+  | "pe"
+  | "pl"
+  | "pt"
+  | "py"
+  | "qa"
+  | "ro"
+  | "ru"
+  | "sa"
+  | "se"
+  | "sg"
+  | "si"
+  | "sk"
+  | "sv"
+  | "th"
+  | "tr"
+  | "tw"
+  | "ua"
+  | "us"
+  | "uy"
+  | "za";
 
 export interface ProfileResponse {
   name: string;
@@ -21,8 +83,8 @@ export interface ProfileResponse {
   unearned_trophies: string;
   trophies_per_day: string;
   views: string;
-  country: ProfileCountry;
+  country: ProfileCountry | string;
   world_rank: string;
   country_rank: string;
-  plus: ProfilePlus;
+  plus: boolean;
 }

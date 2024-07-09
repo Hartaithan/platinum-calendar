@@ -13,6 +13,8 @@ const select = {
   gold: "li.gold",
   silver: "li.silver",
   bronze: "li.bronze",
+  country: "img.round-flags",
+  plus: "div.ps-plus",
 };
 
 const notFound = "Not Found";
@@ -58,12 +60,21 @@ const getStats = (cheerio: CheerioAPI): Record<string, string> => {
   return stats;
 };
 
-export const getProfile = (content: string): Partial<ProfileResponse> => {
+const getCounty = (cheerio: CheerioAPI): string => {
+  const element = cheerio(select.country).first();
+  const classes = element.attr("class");
+  const country = classes && classes.split(" ").pop();
+  return country ?? notFound;
+};
+
+export const getProfile = (content: string): ProfileResponse => {
   const cheerio = load(content);
 
   const name = cheerio(select.name).text() || notFound;
   const avatar_url = cheerio(select.avatar).first().attr("src") || notFound;
   const level = cheerio(select.level).first().text() || notFound;
+  const country = getCounty(cheerio);
+  const plus = cheerio(select.plus).length > 0;
 
   const total = cheerio(select.total).first().text().trim() || notFound;
   const platinum = cheerio(select.platinum).first().text().trim() || notFound;
@@ -100,7 +111,9 @@ export const getProfile = (content: string): Partial<ProfileResponse> => {
     unearned_trophies,
     trophies_per_day,
     views,
+    country,
     world_rank,
     country_rank,
+    plus,
   };
 };
