@@ -1,7 +1,7 @@
 "use client";
 
 import { examples } from "@/examples";
-import { getProfile } from "@/utils/profile";
+import { getPlatinums } from "@/utils/trophies";
 import type { FormEventHandler } from "react";
 import { useCallback, type FC } from "react";
 
@@ -16,7 +16,7 @@ const MainSection: FC = () => {
     const id = target.id.value;
     const form = { id };
     console.info("form :>> ", form);
-    const res = getProfile(examples["player-profile"]);
+    const res = getPlatinums(examples["player-platinums"]);
     console.info("res :>> ", res);
   }, []);
 
