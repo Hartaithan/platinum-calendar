@@ -13,6 +13,8 @@ const select = {
   achievers: "td:nth-child(7) > span > span.typo-top",
   owners: "td:nth-child(8) > span > span.typo-top",
   uncommon: "td:nth-child(9) > span > span.typo-top",
+  pagination: "ul.pagination",
+  currentPage: "a.typo-button.active",
 };
 
 const notFound = "Not Found";
@@ -52,8 +54,17 @@ const getList = (cheerio: CheerioAPI): Platinum[] => {
   return list;
 };
 
-export const getPlatinums = (content: string): Partial<PlatinumsResponse> => {
+export const getPlatinums = (content: string): PlatinumsResponse => {
   const cheerio = load(content);
+
   const list = getList(cheerio);
-  return { list };
+
+  const pagination = cheerio(select.pagination).first();
+  const currentPageElement = pagination.find(select.currentPage);
+  const currentPageParent = currentPageElement.parent();
+  const current_page = Number(currentPageElement.text());
+  const previous_page = Number(currentPageParent.prev().text()) || null;
+  const next_page = Number(currentPageParent.next().text()) || null;
+
+  return { list, current_page, previous_page, next_page };
 };

@@ -20,7 +20,7 @@ export interface Platinum {
 
 export interface PlatinumsResponse {
   list: Platinum[];
-  current_page: string;
-  previous_page: string | null;
-  next_page: string | null;
+  current_page: number;
+  previous_page: number | null;
+  next_page: number | null;
 }
