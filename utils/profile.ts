@@ -1,3 +1,4 @@
+import { notFound } from "@/constants/messages";
 import type { ProfileResponse } from "@/models/profile";
 import type { TrophyCounts } from "@/models/trophy";
 import type { AnyNode, CheerioAPI } from "cheerio";
@@ -16,8 +17,6 @@ const select = {
   country: "img.round-flags",
   plus: "div.ps-plus",
 };
-
-const notFound = "Not Found";
 
 const statsMapped: Record<number, string> = {
   0: "games_played",

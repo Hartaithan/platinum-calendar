@@ -1,6 +1,8 @@
+import { notFound } from "@/constants/messages";
 import type { Platinum, PlatinumsResponse } from "@/models/trophy";
 import type { CheerioAPI } from "cheerio";
 import { load } from "cheerio";
+import { convertParsedDate } from "./date";
 
 const select = {
   table: "table.zebra",
@@ -16,8 +18,6 @@ const select = {
   pagination: "ul.pagination",
   currentPage: "a.typo-button.active",
 };
-
-const notFound = "Not Found";
 
 const getList = (cheerio: CheerioAPI): Platinum[] => {
   const list: Platinum[] = [];
@@ -45,7 +45,7 @@ const getList = (cheerio: CheerioAPI): Platinum[] => {
       title,
       description,
       number,
-      date,
+      date: convertParsedDate(date),
       achievers,
       owners,
       uncommon,
