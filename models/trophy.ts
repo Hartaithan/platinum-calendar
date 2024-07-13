@@ -24,3 +24,7 @@ export interface PlatinumsResponse {
   previous_page: number | null;
   next_page: number | null;
 }
+
+export type NullablePlatinums = Platinum[] | null;
+
+export type Pagination = Omit<PlatinumsResponse, "list"> | null;

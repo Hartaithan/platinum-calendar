@@ -1,5 +1,5 @@
 import { notFound } from "@/constants/messages";
-import type { ProfileResponse } from "@/models/profile";
+import type { Profile } from "@/models/profile";
 import type { TrophyCounts } from "@/models/trophy";
 import type { AnyNode, CheerioAPI } from "cheerio";
 import { load } from "cheerio";
@@ -66,7 +66,7 @@ const getCounty = (cheerio: CheerioAPI): string => {
   return country ?? notFound;
 };
 
-export const getProfile = (content: string): ProfileResponse => {
+export const getProfile = (content: string): Profile => {
   const cheerio = load(content);
 
   const name = cheerio(select.name).text() || notFound;

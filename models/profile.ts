@@ -72,7 +72,7 @@ export type ProfileCountry =
   | "uy"
   | "za";
 
-export interface ProfileResponse {
+export interface Profile {
   name: string;
   avatar_url: string;
   level: string;
@@ -88,3 +88,5 @@ export interface ProfileResponse {
   country_rank: string;
   plus: boolean;
 }
+
+export type NullableProfile = Profile | null;
