@@ -3,6 +3,7 @@ import type { Profile } from "@/models/profile";
 import type { TrophyCounts } from "@/models/trophy";
 import type { AnyNode, CheerioAPI } from "cheerio";
 import { load } from "cheerio";
+import { toNumber } from "./number";
 
 const select = {
   name: "span.username",
@@ -81,11 +82,11 @@ export const getProfile = (content: string): Profile => {
   const silver = cheerio(select.silver).first().text().trim() || notFound;
   const bronze = cheerio(select.bronze).first().text().trim() || notFound;
   const counts: TrophyCounts = {
-    total,
-    platinum,
-    gold,
-    silver,
-    bronze,
+    total: toNumber(total),
+    platinum: toNumber(platinum),
+    gold: toNumber(gold),
+    silver: toNumber(silver),
+    bronze: toNumber(bronze),
   };
 
   const {
@@ -102,17 +103,17 @@ export const getProfile = (content: string): Profile => {
   return {
     name,
     avatar_url,
-    level,
+    level: toNumber(level),
     counts,
-    games_played,
-    completed_games,
-    completion,
-    unearned_trophies,
-    trophies_per_day,
-    views,
+    games_played: toNumber(games_played),
+    completed_games: toNumber(completed_games),
+    completion: toNumber(completion),
+    unearned_trophies: toNumber(unearned_trophies),
+    trophies_per_day: toNumber(trophies_per_day),
+    views: toNumber(views),
     country,
-    world_rank,
-    country_rank,
+    world_rank: toNumber(world_rank),
+    country_rank: toNumber(country_rank),
     plus,
   };
 };

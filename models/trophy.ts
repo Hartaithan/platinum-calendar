@@ -1,9 +1,9 @@
 export interface TrophyCounts {
-  total: string;
-  platinum: string;
-  gold: string;
-  silver: string;
-  bronze: string;
+  total: number;
+  platinum: number;
+  gold: number;
+  silver: number;
+  bronze: number;
 }
 
 export interface Platinum {
@@ -11,11 +11,11 @@ export interface Platinum {
   trophy_image_url: string;
   title: string;
   description: string;
-  number: string;
+  number: number;
   date: string;
-  achievers: string;
-  owners: string;
-  uncommon: string;
+  achievers: number;
+  owners: number;
+  uncommon: number;
 }
 
 export interface PlatinumsResponse {

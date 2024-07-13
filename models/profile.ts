@@ -75,17 +75,17 @@ export type ProfileCountry =
 export interface Profile {
   name: string;
   avatar_url: string;
-  level: string;
+  level: number;
   counts: TrophyCounts;
-  games_played: string;
-  completed_games: string;
-  completion: string;
-  unearned_trophies: string;
-  trophies_per_day: string;
-  views: string;
+  games_played: number;
+  completed_games: number;
+  completion: number;
+  unearned_trophies: number;
+  trophies_per_day: number;
+  views: number;
   country: ProfileCountry | string;
-  world_rank: string;
-  country_rank: string;
+  world_rank: number;
+  country_rank: number;
   plus: boolean;
 }
 
