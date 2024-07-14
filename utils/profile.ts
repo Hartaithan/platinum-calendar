@@ -67,7 +67,7 @@ const getCounty = (cheerio: CheerioAPI): string => {
   return country ?? notFound;
 };
 
-export const getProfile = (content: string): Profile => {
+export const parseProfile = (content: string): Profile => {
   const cheerio = load(content);
 
   const name = cheerio(select.name).text() || notFound;

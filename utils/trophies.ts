@@ -55,7 +55,7 @@ const getList = (cheerio: CheerioAPI): Platinum[] => {
   return list;
 };
 
-export const getPlatinums = (content: string): PlatinumsResponse => {
+export const parsePlatinums = (content: string): PlatinumsResponse => {
   const cheerio = load(content);
 
   const list = getList(cheerio);
