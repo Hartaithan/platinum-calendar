@@ -24,11 +24,16 @@ export const fetchData = async (url: URL): Promise<string | null> => {
 };
 
 export const fetchProfile = async (psnId: string): Promise<Profile | null> => {
-  const url = new URL(FETCH_PROFILE_URL);
-  url.searchParams.set("psn_id", psnId);
-  const response = await fetchData(url);
-  if (!response) return null;
-  return parseProfile(response);
+  try {
+    const url = new URL(FETCH_PROFILE_URL);
+    url.searchParams.set("psn_id", psnId);
+    const response = await fetchData(url);
+    if (!response) return null;
+    return parseProfile(response);
+  } catch (error) {
+    console.error("unable to fetch profile", psnId, error);
+    return null;
+  }
 };
 
 export const fetchPlatinums = async (
@@ -38,7 +43,12 @@ export const fetchPlatinums = async (
   const url = new URL(FETCH_PLATINUMS_URL);
   url.searchParams.set("psn_id", psnId);
   url.searchParams.set("page", page.toString());
-  const response = await fetchData(url);
-  if (!response) return null;
-  return parsePlatinums(response);
+  try {
+    const response = await fetchData(url);
+    if (!response) return null;
+    return parsePlatinums(response);
+  } catch (error) {
+    console.error("unable to fetch platinums", url.toString(), error);
+    return null;
+  }
 };

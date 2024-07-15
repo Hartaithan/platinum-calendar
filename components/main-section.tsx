@@ -1,6 +1,6 @@
 "use client";
 
-import type { PlatinumsResponse } from "@/models/trophy";
+import type { Platinum, PlatinumsResponse } from "@/models/trophy";
 import { useData } from "@/providers/DataProvider";
 import { fetchPlatinums, fetchProfile } from "@/utils/fetch";
 import type { FormEventHandler } from "react";
@@ -25,19 +25,15 @@ const MainSection: FC = () => {
           return;
         }
         setProfile(profile);
-        const page_count = Math.ceil(profile.counts.platinum / 50);
+        const pages = Math.ceil(profile.counts.platinum / 50);
         const requests: Promise<PlatinumsResponse | null>[] = [];
-        for (let i = 1; i <= page_count; i++) {
-          requests.push(fetchPlatinums(id, i));
-        }
+        for (let i = 1; i <= pages; i++) requests.push(fetchPlatinums(id, i));
         const responses = await Promise.all(requests);
+        let list: Platinum[] = [];
         for (const response of responses) {
-          const list = response?.list ?? [];
-          setPlatinums((prev) => {
-            const arr = prev ?? [];
-            return [...arr, ...list];
-          });
+          if (response?.list) list = list.concat(response.list);
         }
+        setPlatinums(list);
       } catch (error) {
         // TODO: handle errors
         console.info("error", error);
