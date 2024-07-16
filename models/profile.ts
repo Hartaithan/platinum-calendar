@@ -1,4 +1,4 @@
-import type { TrophyCounts } from "./trophy";
+import type { TrophyCounts } from "@/models/trophy";
 
 export type ProfileCountry =
   | "ae"

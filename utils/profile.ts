@@ -3,7 +3,7 @@ import type { Profile } from "@/models/profile";
 import type { TrophyCounts } from "@/models/trophy";
 import type { AnyNode, CheerioAPI } from "cheerio";
 import { load } from "cheerio";
-import { toNumber } from "./number";
+import { toNumber } from "@/utils/number";
 
 const select = {
   name: "span.username",

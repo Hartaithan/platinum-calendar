@@ -5,7 +5,7 @@ import { useData } from "@/providers/DataProvider";
 import { fetchPlatinums, fetchProfile } from "@/utils/fetch";
 import type { FormEventHandler } from "react";
 import { useCallback, type FC } from "react";
-import OGCalendar from "./og-calendar";
+import OGCalendar from "@/components/og-calendar";
 
 interface Form {
   id: { value: string };

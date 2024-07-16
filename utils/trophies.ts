@@ -2,8 +2,8 @@ import { notFound } from "@/constants/messages";
 import type { Platinum, PlatinumsResponse } from "@/models/trophy";
 import type { CheerioAPI } from "cheerio";
 import { load } from "cheerio";
-import { convertParsedDate } from "./date";
-import { toNumber } from "./number";
+import { convertParsedDate } from "@/utils/date";
+import { toNumber } from "@/utils/number";
 
 const select = {
   table: "table.zebra",

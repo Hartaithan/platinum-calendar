@@ -1,8 +1,8 @@
 "use server";
 
 import { FETCH_URL } from "@/constants/variables";
-import { parseProfile } from "./profile";
-import { parsePlatinums } from "./trophies";
+import { parseProfile } from "@/utils/profile";
+import { parsePlatinums } from "@/utils/trophies";
 import type { Profile } from "@/models/profile";
 import type { PlatinumsResponse } from "@/models/trophy";
 
