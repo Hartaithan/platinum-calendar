@@ -5,6 +5,7 @@ import { useData } from "@/providers/DataProvider";
 import { fetchPlatinums, fetchProfile } from "@/utils/fetch";
 import type { FormEventHandler } from "react";
 import { useCallback, type FC } from "react";
+import OGCalendar from "./og-calendar";
 
 interface Form {
   id: { value: string };
@@ -51,6 +52,9 @@ const MainSection: FC = () => {
           placeholder="Enter your PSN ID"
         />
       </form>
+      <div className="mt-6">
+        <OGCalendar />
+      </div>
       <div className="flex gap-6 mt-6">
         <div className="w-[500px] overflow-auto max-h-80 mt-6">
           <pre className="text-[9px] whitespace-pre-wrap">
