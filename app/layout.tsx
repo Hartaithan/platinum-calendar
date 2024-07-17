@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import type { FC, PropsWithChildren } from "react";
 import AppProviders from "@/providers/AppProviders";
-import "@/app/global.css";
+import "@/app/globals.css";
 
 const font = Inter({ subsets: ["latin"], fallback: ["Arial"] });
 

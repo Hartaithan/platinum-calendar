@@ -1,4 +1,5 @@
 import { notFound } from "@/constants/messages";
+import { cleanString } from "@/utils/string";
 
 const months: Record<string, string> = {
   Jan: "01",
@@ -20,9 +21,10 @@ export const pad = (value: string): string => {
 };
 
 export const convertParsedDate = (date: string): string => {
+  const cleaned = cleanString(date);
   const pattern =
     /(\d{1,2})(st|nd|rd|th)\s(\w{3})\s(\d{4})(\d{1,2}:\d{2}:\d{2})\s(AM|PM)/;
-  const match = date.match(pattern);
+  const match = cleaned.match(pattern);
 
   if (!match) return notFound;
 

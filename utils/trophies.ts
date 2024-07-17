@@ -4,6 +4,7 @@ import type { CheerioAPI } from "cheerio";
 import { load } from "cheerio";
 import { convertParsedDate } from "@/utils/date";
 import { toNumber } from "@/utils/number";
+import { cleanString } from "@/utils/string";
 
 const select = {
   table: "table.zebra",
@@ -44,7 +45,7 @@ const getList = (cheerio: CheerioAPI): Platinum[] => {
       game_image_url,
       trophy_image_url,
       title,
-      description,
+      description: cleanString(description),
       number: toNumber(number),
       date: convertParsedDate(date),
       achievers: toNumber(achievers),
