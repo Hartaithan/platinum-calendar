@@ -1,5 +1,9 @@
 import { notFound } from "@/constants/messages";
-import type { Platinum, PlatinumsResponse } from "@/models/trophy";
+import type {
+  FormattedPlatinums,
+  Platinum,
+  PlatinumsResponse,
+} from "@/models/trophy";
 import type { CheerioAPI } from "cheerio";
 import { load } from "cheerio";
 import { convertParsedDate } from "@/utils/date";
@@ -69,4 +73,18 @@ export const parsePlatinums = (content: string): PlatinumsResponse => {
   const next_page = Number(currentPageParent.next().text()) || null;
 
   return { list, current_page, previous_page, next_page };
+};
+
+export const formatPlatinumList = (list: Platinum[]): FormattedPlatinums => {
+  let result: FormattedPlatinums = {};
+  for (const plat of list) {
+    const { date } = plat;
+    const withoutTime = date.split("T")[0];
+    if (result[withoutTime] !== undefined) {
+      result[withoutTime].push(plat);
+    } else {
+      result[withoutTime] = [plat];
+    }
+  }
+  return result;
 };
