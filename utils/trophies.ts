@@ -83,16 +83,25 @@ export const parsePlatinums = (content: string): PlatinumsResponse => {
   return { list, current_page, previous_page, next_page };
 };
 
+export const setGroupKey = (
+  key: string,
+  item: Platinum,
+  result: GroupedPlatinums,
+) => {
+  if (result[key] !== undefined) {
+    result[key].push(item);
+  } else {
+    result[key] = [item];
+  }
+};
+
 export const groupPlatinumList = (list: Platinum[]): GroupedPlatinums => {
   let result: GroupedPlatinums = {};
   for (const plat of list) {
     const { date } = plat;
-    const key = getDateKey(date);
-    if (result[key] !== undefined) {
-      result[key].push(plat);
-    } else {
-      result[key] = [plat];
-    }
+    const [monthKey, yearKey] = getDateKey(date);
+    setGroupKey(monthKey, plat, result);
+    setGroupKey(yearKey, plat, result);
   }
   return result;
 };

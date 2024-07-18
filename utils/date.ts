@@ -47,10 +47,10 @@ export const convertParsedDate = (date: string): string => {
   return isoDate;
 };
 
-export const getDateKey = (value: string): string => {
+export const getDateKey = (value: string): [string, string] => {
   const date = new Date(value);
   const day = date.getDate();
-  const month = date.getMonth();
+  const month = date.getMonth() + 1;
   const year = date.getFullYear();
-  return `${day}.${month}.${year}`;
+  return [`${day}.${month}`, `${day}.${month}.${year}`];
 };
