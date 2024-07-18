@@ -2,7 +2,7 @@
 
 import type { Status } from "@/models/app";
 import type { NullableProfile } from "@/models/profile";
-import type { NullableFormattedPlatinums, Pagination } from "@/models/trophy";
+import type { NullableGroupedPlatinums, Pagination } from "@/models/trophy";
 import type { Dispatch, FC, PropsWithChildren, SetStateAction } from "react";
 import { createContext, useContext, useMemo, useState } from "react";
 
@@ -11,8 +11,8 @@ interface Context {
   setStatus: Dispatch<SetStateAction<Status>>;
   profile: NullableProfile;
   setProfile: Dispatch<SetStateAction<NullableProfile>>;
-  platinums: NullableFormattedPlatinums;
-  setPlatinums: Dispatch<SetStateAction<NullableFormattedPlatinums>>;
+  platinums: NullableGroupedPlatinums;
+  setPlatinums: Dispatch<SetStateAction<NullableGroupedPlatinums>>;
   pagination: Pagination;
   setPagination: Dispatch<Pagination>;
 }

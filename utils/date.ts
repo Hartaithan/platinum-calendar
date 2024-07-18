@@ -16,15 +16,16 @@ const months: Record<string, string> = {
   Dec: "12",
 };
 
+const datePattern =
+  /(\d{1,2})(st|nd|rd|th)\s(\w{3})\s(\d{4})(\d{1,2}:\d{2}:\d{2})\s(AM|PM)/;
+
 export const pad = (value: string): string => {
   return value.padStart(2, "0");
 };
 
 export const convertParsedDate = (date: string): string => {
   const cleaned = cleanString(date);
-  const pattern =
-    /(\d{1,2})(st|nd|rd|th)\s(\w{3})\s(\d{4})(\d{1,2}:\d{2}:\d{2})\s(AM|PM)/;
-  const match = cleaned.match(pattern);
+  const match = cleaned.match(datePattern);
 
   if (!match) return notFound;
 
@@ -44,4 +45,12 @@ export const convertParsedDate = (date: string): string => {
   const timeFormatted = `${pad(hours)}:${pad(minutes)}:${pad(seconds)}`;
   const isoDate = `${year}-${monthFormatted}-${dayFormatted}T${timeFormatted}Z`;
   return isoDate;
+};
+
+export const getDateKey = (value: string): string => {
+  const date = new Date(value);
+  const day = date.getDate();
+  const month = date.getMonth();
+  const year = date.getFullYear();
+  return `${day}.${month}.${year}`;
 };

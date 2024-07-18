@@ -6,7 +6,7 @@ import { fetchPlatinums, fetchProfile } from "@/utils/fetch";
 import type { FormEventHandler } from "react";
 import { useCallback, type FC } from "react";
 import OGCalendar from "@/components/og-calendar";
-import { formatPlatinumList } from "@/utils/trophies";
+import { groupPlatinumList } from "@/utils/trophies";
 
 interface Form {
   id: { value: string };
@@ -35,8 +35,8 @@ const MainSection: FC = () => {
         for (const response of responses) {
           if (response?.list) list = list.concat(response.list);
         }
-        const formatted = formatPlatinumList(list);
-        setPlatinums(formatted);
+        const grouped = groupPlatinumList(list);
+        setPlatinums(grouped);
       } catch (error) {
         // TODO: handle errors
         console.info("error", error);

@@ -26,7 +26,7 @@ export interface PlatinumsResponse {
 }
 
 export type NullablePlatinums = Platinum[] | null;
-export type FormattedPlatinums = Record<string, Platinum[]>;
-export type NullableFormattedPlatinums = FormattedPlatinums | null;
+export type GroupedPlatinums = Record<string, Platinum[]>;
+export type NullableGroupedPlatinums = GroupedPlatinums | null;
 
 export type Pagination = Omit<PlatinumsResponse, "list"> | null;
