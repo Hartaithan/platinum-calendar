@@ -6,9 +6,14 @@ export interface TrophyCounts {
   bronze: number;
 }
 
+export interface Game {
+  title: string;
+  image_url: string;
+}
+
 export interface Platinum {
-  game_image_url: string;
-  trophy_image_url: string;
+  game: Game;
+  image_url: string;
   title: string;
   description: string;
   number: number;

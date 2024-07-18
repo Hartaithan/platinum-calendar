@@ -1,10 +1,11 @@
 import { notFound } from "@/constants/messages";
 import type {
+  Game,
   GroupedPlatinums,
   Platinum,
   PlatinumsResponse,
 } from "@/models/trophy";
-import type { CheerioAPI } from "cheerio";
+import type { Cheerio, CheerioAPI, Element } from "cheerio";
 import { load } from "cheerio";
 import { convertParsedDate, getDateKey } from "@/utils/date";
 import { toNumber } from "@/utils/number";
@@ -25,6 +26,13 @@ const select = {
   currentPage: "a.typo-button.active",
 };
 
+const getGame = (row: Cheerio<Element>): Game => {
+  const image = row.find(select.image(1));
+  const title = image.attr("title") || notFound;
+  const image_url = image.attr("src") || notFound;
+  return { title, image_url };
+};
+
 const getList = (cheerio: CheerioAPI): Platinum[] => {
   const list: Platinum[] = [];
   const table = cheerio(select.table).first();
@@ -32,10 +40,10 @@ const getList = (cheerio: CheerioAPI): Platinum[] => {
   rows.each((_, element) => {
     const row = cheerio(element);
 
-    const game_image_url = row.find(select.image(1)).attr("src") || notFound;
-    const trophy_image_url = row.find(select.image(2)).attr("src") || notFound;
+    const game = getGame(row);
 
     const content = row.find(select.content);
+    const image_url = row.find(select.image(2)).attr("src") || notFound;
     const title = content.find(select.title).text() || notFound;
     const description = content.children().remove().end().text() || notFound;
 
@@ -46,8 +54,8 @@ const getList = (cheerio: CheerioAPI): Platinum[] => {
     const uncommon = row.find(select.uncommon).text() || notFound;
 
     list.push({
-      game_image_url,
-      trophy_image_url,
+      game,
+      image_url,
       title,
       description: cleanString(description),
       number: toNumber(number),
