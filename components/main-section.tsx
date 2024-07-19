@@ -1,7 +1,7 @@
 "use client";
 
 import type { Platinum, PlatinumsResponse } from "@/models/trophy";
-import { useData } from "@/providers/DataProvider";
+import { useData } from "@/providers/data";
 import { fetchPlatinums, fetchProfile } from "@/utils/fetch";
 import type { FormEventHandler } from "react";
 import { useCallback, type FC } from "react";

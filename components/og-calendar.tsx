@@ -1,6 +1,6 @@
 import { monthIndex, months } from "@/constants/calendar";
 import type { Platinum } from "@/models/trophy";
-import { useData } from "@/providers/DataProvider";
+import { useData } from "@/providers/data";
 import { createArray } from "@/utils/array";
 import { memo, type FC } from "react";
 

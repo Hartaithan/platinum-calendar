@@ -1,11 +1,11 @@
 "use client";
 
 import type { FC, PropsWithChildren } from "react";
-import DataProvider from "@/providers/DataProvider";
+import DataProvider from "@/providers/data";
 
-const AppProviders: FC<PropsWithChildren> = (props) => {
+const RootProviders: FC<PropsWithChildren> = (props) => {
   const { children } = props;
   return <DataProvider>{children}</DataProvider>;
 };
 
-export default AppProviders;
+export default RootProviders;

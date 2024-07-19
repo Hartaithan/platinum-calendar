@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import type { FC, PropsWithChildren } from "react";
-import AppProviders from "@/providers/AppProviders";
+import RootProviders from "@/providers/root";
 import "@/app/globals.css";
 
 const font = Inter({ subsets: ["latin"], fallback: ["Arial"] });
@@ -15,7 +15,7 @@ const MainLayout: FC<PropsWithChildren> = ({ children }) => {
   return (
     <html lang="en">
       <body className={font.className}>
-        <AppProviders>{children}</AppProviders>
+        <RootProviders>{children}</RootProviders>
       </body>
     </html>
   );
