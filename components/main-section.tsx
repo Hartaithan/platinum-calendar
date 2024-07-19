@@ -57,17 +57,15 @@ const MainSection: FC = () => {
       <div className="mt-6">
         <OGCalendar />
       </div>
-      <div className="flex gap-6 mt-6">
-        <div className="w-[500px] overflow-auto max-h-80 mt-6">
-          <pre className="text-[9px] whitespace-pre-wrap">
-            {JSON.stringify(profile, null, 2)}
-          </pre>
-        </div>
-        <div className="w-[500px] overflow-auto max-h-80 mt-6">
-          <pre className="text-[9px] whitespace-pre-wrap">
-            {JSON.stringify(platinums, null, 2)}
-          </pre>
-        </div>
+      <div className="w-[400px] absolute inset-y-1/2 -translate-y-1/2 left-4 overflow-auto h-[500px]">
+        <pre className="text-[9px] whitespace-pre-wrap">
+          profile: {JSON.stringify(profile, null, 2)}
+        </pre>
+      </div>
+      <div className="w-[400px] absolute inset-y-1/2 -translate-y-1/2 right-4 overflow-auto h-[500px]">
+        <pre className="text-[9px] whitespace-pre-wrap">
+          platinums: {JSON.stringify(platinums, null, 2)}
+        </pre>
       </div>
     </div>
   );
