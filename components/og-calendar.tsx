@@ -18,13 +18,30 @@ interface MarkProps {
   list: Platinum[] | null;
 }
 
+const colors: Record<number, [string, string]> = {
+  1: ["bg-[#C00001]", "text-white"],
+  2: ["bg-[#FF0000]", "text-white"],
+  3: ["bg-[#FEC000]", "text-black"],
+  4: ["bg-[#FFFD02]", "text-black"],
+  5: ["bg-[#93D151]", "text-black"],
+  6: ["bg-[#03AFEF]", "text-black"],
+  7: ["bg-[#0271C1]", "text-white"],
+};
+
+const getColors = (list: Platinum[]): [string, string] => {
+  if (list.length === 0) return ["", ""];
+  if (list.length > 7) return colors[7];
+  return colors[list.length];
+};
+
 const Mark: FC<MarkProps> = (props) => {
   const { list } = props;
-  if (!list) return null;
-  if (list.length === 0) return null;
+  if (!list || list.length === 0) return null;
+  const [bg, text] = getColors(list);
   return (
-    <div className="absolute bg-red-600 size-full rounded-full flex justify-center items-center">
-      <p className="text-sm">{list?.length}</p>
+    <div
+      className={`absolute ${bg} border border-white size-11/12 rounded-full flex justify-center items-center`}>
+      <p className={`text-sm ${text}`}>{list?.length}</p>
     </div>
   );
 };
