@@ -7,7 +7,7 @@ import type {
 } from "@/models/trophy";
 import type { Cheerio, CheerioAPI, Element } from "cheerio";
 import { load } from "cheerio";
-import { convertParsedDate, getDateKey } from "@/utils/date";
+import { convertParsedDate, getDateKeys } from "@/utils/date";
 import { toNumber } from "@/utils/number";
 import { cleanString } from "@/utils/string";
 
@@ -83,7 +83,7 @@ export const parsePlatinums = (content: string): PlatinumsResponse => {
   return { list, current_page, previous_page, next_page };
 };
 
-export const setGroupKey = (
+export const setGroupValue = (
   key: string,
   item: Platinum,
   result: GroupedPlatinums,
@@ -99,9 +99,8 @@ export const groupPlatinumList = (list: Platinum[]): GroupedPlatinums => {
   let result: GroupedPlatinums = {};
   for (const plat of list) {
     const { date } = plat;
-    const [monthKey, yearKey] = getDateKey(date);
-    setGroupKey(monthKey, plat, result);
-    setGroupKey(yearKey, plat, result);
+    const keys = Object.values(getDateKeys(date));
+    for (const key of keys) setGroupValue(key, plat, result);
   }
   return result;
 };

@@ -2,6 +2,7 @@ import { monthIndex, months } from "@/constants/calendar";
 import type { Platinum } from "@/models/trophy";
 import { useData } from "@/providers/data";
 import { createArray } from "@/utils/array";
+import { getDateKey } from "@/utils/date";
 import { memo, type FC } from "react";
 
 interface MonthProps {
@@ -49,7 +50,7 @@ const Mark: FC<MarkProps> = (props) => {
 const Day: FC<DayProps> = memo((props) => {
   const { month, day } = props;
   const { platinums } = useData();
-  const key = `${day}.${monthIndex[month]}`;
+  const key = getDateKey({ day, month: monthIndex[month] });
   const list = platinums ? platinums[key] : null;
   return (
     <div className="day size-8 flex outline outline-1 outline-white justify-center items-center relative">

@@ -1,4 +1,5 @@
 import { notFound } from "@/constants/messages";
+import type { DateKey, DateKeyParams } from "@/models/app";
 import { cleanString } from "@/utils/string";
 
 const months: Record<string, string> = {
@@ -47,10 +48,23 @@ export const convertParsedDate = (date: string): string => {
   return isoDate;
 };
 
-export const getDateKey = (value: string): [string, string] => {
+export const getDateKey = (params: DateKeyParams): string => {
+  const { day, month, year } = params;
+  const d = day ? day.toString() : "X";
+  const m = month ? month.toString() : "X";
+  const y = year ? year.toString() : "X";
+  return `${d}.${m}.${y}`;
+};
+
+export const getDateKeys = (value: string): Record<DateKey, string> => {
   const date = new Date(value);
   const day = date.getDate();
   const month = date.getMonth() + 1;
   const year = date.getFullYear();
-  return [`${day}.${month}`, `${day}.${month}.${year}`];
+  return {
+    fullDate: getDateKey({ day, month, year }),
+    dayAndMonth: getDateKey({ day, month }),
+    month: getDateKey({ month }),
+    monthAndYear: getDateKey({ month, year }),
+  };
 };
