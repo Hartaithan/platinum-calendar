@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Rubik } from "next/font/google";
 import type { FC, PropsWithChildren } from "react";
 import RootProviders from "@/providers/root";
 import "@/app/globals.css";
 
-const font = Inter({ subsets: ["latin"], fallback: ["Arial"] });
+const font = Rubik({ subsets: ["latin"], fallback: ["Arial"] });
 
 export const metadata: Metadata = {
   title: "Platinum Calendar",
