@@ -14,6 +14,7 @@ import { cleanString } from "@/utils/string";
 const select = {
   table: "table.zebra",
   rows: "tbody > tr",
+  link: (row: number) => `td:nth-child(${row}) > a`,
   image: (row: number) => `td:nth-child(${row}) > a > img`,
   content: "td:nth-child(3)",
   title: "a.title",
@@ -26,11 +27,20 @@ const select = {
   currentPage: "a.typo-button.active",
 };
 
+const getGameId = (url: string | undefined): string | null => {
+  if (!url) return null;
+  const regex = /\/trophies\/(\d+-[a-z0-9-]+)/;
+  const match = url.match(regex);
+  return match ? match[1] : null;
+};
+
 const getGame = (row: Cheerio<Element>): Game => {
+  const link = row.find(select.link(1));
   const image = row.find(select.image(1));
+  const id = getGameId(link.attr("href")) || notFound;
   const title = image.attr("title") || notFound;
   const image_url = image.attr("src") || notFound;
-  return { title, image_url };
+  return { id, title, image_url };
 };
 
 const getList = (cheerio: CheerioAPI): Platinum[] => {
@@ -41,6 +51,7 @@ const getList = (cheerio: CheerioAPI): Platinum[] => {
     const row = cheerio(element);
 
     const game = getGame(row);
+    const game_id = game.id;
 
     const content = row.find(select.content);
     const image_url = row.find(select.image(2)).attr("src") || notFound;
@@ -55,6 +66,7 @@ const getList = (cheerio: CheerioAPI): Platinum[] => {
 
     list.push({
       game,
+      game_id,
       image_url,
       title,
       description: cleanString(description),

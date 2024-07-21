@@ -7,11 +7,13 @@ export interface TrophyCounts {
 }
 
 export interface Game {
+  id: string;
   title: string;
   image_url: string;
 }
 
 export interface Platinum {
+  game_id: string;
   game: Game;
   image_url: string;
   title: string;
