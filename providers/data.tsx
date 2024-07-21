@@ -2,6 +2,7 @@
 
 import type { Status } from "@/models/app";
 import type { NullableProfile } from "@/models/profile";
+import { useLocalStorage } from "@/hooks/use-local-storage";
 import type { NullableGroupedPlatinums, Pagination } from "@/models/trophy";
 import type { Dispatch, FC, PropsWithChildren, SetStateAction } from "react";
 import { createContext, useContext, useMemo, useState } from "react";
@@ -33,8 +34,14 @@ const Context = createContext<Context>(initialValue);
 const DataProvider: FC<PropsWithChildren> = (props) => {
   const { children } = props;
   const [status, setStatus] = useState<Context["status"]>("idle");
-  const [profile, setProfile] = useState<Context["profile"]>(null);
-  const [platinums, setPlatinums] = useState<Context["platinums"]>(null);
+  const [profile, setProfile] = useLocalStorage<Context["profile"]>({
+    key: "plat-cal-profile",
+    defaultValue: null,
+  });
+  const [platinums, setPlatinums] = useLocalStorage<Context["platinums"]>({
+    key: "plat-cal-platinums",
+    defaultValue: null,
+  });
   const [pagination, setPagination] = useState<Context["pagination"]>(null);
 
   const exposed: Context = useMemo(
@@ -48,7 +55,7 @@ const DataProvider: FC<PropsWithChildren> = (props) => {
       pagination,
       setPagination,
     }),
-    [status, profile, platinums, pagination],
+    [status, profile, setProfile, platinums, setPlatinums, pagination],
   );
 
   return <Context.Provider value={exposed}>{children}</Context.Provider>;
