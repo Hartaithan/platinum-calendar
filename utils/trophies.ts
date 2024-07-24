@@ -1,6 +1,8 @@
 import { notFound } from "@/constants/messages";
 import type {
   Game,
+  GroupedPlatinumKeys,
+  GroupedPlatinumList,
   GroupedPlatinums,
   Platinum,
   PlatinumsResponse,
@@ -98,21 +100,25 @@ export const parsePlatinums = (content: string): PlatinumsResponse => {
 export const setGroupValue = (
   key: string,
   item: Platinum,
-  result: GroupedPlatinums,
+  result: GroupedPlatinumKeys,
 ) => {
   if (result[key] !== undefined) {
-    result[key].push(item);
+    result[key].push(item.game_id);
   } else {
-    result[key] = [item];
+    result[key] = [item.game_id];
   }
 };
 
-export const groupPlatinumList = (list: Platinum[]): GroupedPlatinums => {
-  let result: GroupedPlatinums = {};
+export const groupPlatinumList = (list: Platinum[]): GroupedPlatinumList => {
+  let groups: GroupedPlatinumKeys = {};
+  let platinums: GroupedPlatinums = {};
   for (const plat of list) {
-    const { date } = plat;
+    const { date, game_id } = plat;
+
     const keys = Object.values(getDateKeys(date));
-    for (const key of keys) setGroupValue(key, plat, result);
+    for (const key of keys) setGroupValue(key, plat, groups);
+
+    platinums[game_id] = plat;
   }
-  return result;
+  return { platinums, groups };
 };

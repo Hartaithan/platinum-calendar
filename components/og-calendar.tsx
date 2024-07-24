@@ -1,5 +1,4 @@
 import { monthIndex, months } from "@/constants/calendar";
-import type { Platinum } from "@/models/trophy";
 import { useData } from "@/providers/data";
 import { createArray } from "@/utils/array";
 import { getDateKey } from "@/utils/date";
@@ -12,7 +11,7 @@ interface MonthProps {
 }
 
 interface MarkProps {
-  list: Platinum[] | null;
+  list: string[] | null;
 }
 
 interface DayProps {
@@ -45,7 +44,7 @@ const columns: Record<number, string> = {
   7: "col-span-7",
 };
 
-const getColors = (list: Platinum[]): [string, string] => {
+const getColors = (list: string[]): [string, string] => {
   if (list.length === 0) return ["", ""];
   if (list.length > 7) return colors[7];
   return colors[list.length];
@@ -68,9 +67,9 @@ const Mark: FC<MarkProps> = (props) => {
 
 const Day: FC<DayProps> = memo((props) => {
   const { month, day } = props;
-  const { platinums } = useData();
+  const { groups } = useData();
   const key = getDateKey({ day, month: monthIndex[month] });
-  const list = platinums ? platinums[key] : null;
+  const list = groups ? groups[key] : null;
   return (
     <div className="day size-8 flex outline outline-1 outline-white justify-center items-center relative">
       <p>{day}</p>
@@ -81,9 +80,9 @@ const Day: FC<DayProps> = memo((props) => {
 
 const Total: FC<TotalProps> = memo((props) => {
   const { month, days } = props;
-  const { platinums } = useData();
+  const { groups } = useData();
   const key = getDateKey({ month: monthIndex[month] });
-  const total = platinums ? platinums[key] : null;
+  const total = groups ? groups[key] : null;
   if (!total || total.length === 0) return null;
   const cols = 35 - days;
   return (

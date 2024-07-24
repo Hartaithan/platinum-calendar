@@ -33,7 +33,14 @@ export interface PlatinumsResponse {
 }
 
 export type NullablePlatinums = Platinum[] | null;
-export type GroupedPlatinums = Record<string, Platinum[]>;
+export type GroupedPlatinums = Record<string, Platinum>;
 export type NullableGroupedPlatinums = GroupedPlatinums | null;
+export type GroupedPlatinumKeys = Record<string, string[]>;
+export type NullableGroupedPlatinumsKeys = GroupedPlatinumKeys | null;
+
+export interface GroupedPlatinumList {
+  groups: GroupedPlatinumKeys;
+  platinums: GroupedPlatinums;
+}
 
 export type Pagination = Omit<PlatinumsResponse, "list"> | null;

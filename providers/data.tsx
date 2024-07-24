@@ -3,7 +3,10 @@
 import type { Status } from "@/models/app";
 import type { NullableProfile } from "@/models/profile";
 import { useLocalStorage } from "@/hooks/use-local-storage";
-import type { NullableGroupedPlatinums } from "@/models/trophy";
+import type {
+  NullableGroupedPlatinums,
+  NullableGroupedPlatinumsKeys,
+} from "@/models/trophy";
 import type { Dispatch, FC, PropsWithChildren, SetStateAction } from "react";
 import { createContext, useContext, useMemo, useState } from "react";
 
@@ -12,6 +15,8 @@ interface Context {
   setStatus: Dispatch<SetStateAction<Status>>;
   profile: NullableProfile;
   setProfile: Dispatch<SetStateAction<NullableProfile>>;
+  groups: NullableGroupedPlatinumsKeys;
+  setGroups: Dispatch<SetStateAction<NullableGroupedPlatinumsKeys>>;
   platinums: NullableGroupedPlatinums;
   setPlatinums: Dispatch<SetStateAction<NullableGroupedPlatinums>>;
 }
@@ -21,6 +26,8 @@ const initialValue: Context = {
   setStatus: () => null,
   profile: null,
   setProfile: () => null,
+  groups: null,
+  setGroups: () => null,
   platinums: null,
   setPlatinums: () => null,
 };
@@ -34,6 +41,10 @@ const DataProvider: FC<PropsWithChildren> = (props) => {
     key: "plat-cal-profile",
     defaultValue: null,
   });
+  const [groups, setGroups] = useLocalStorage<Context["groups"]>({
+    key: "plat-cal-groups",
+    defaultValue: null,
+  });
   const [platinums, setPlatinums] = useLocalStorage<Context["platinums"]>({
     key: "plat-cal-platinums",
     defaultValue: null,
@@ -45,10 +56,12 @@ const DataProvider: FC<PropsWithChildren> = (props) => {
       setStatus,
       profile,
       setProfile,
+      groups,
+      setGroups,
       platinums,
       setPlatinums,
     }),
-    [status, profile, setProfile, platinums, setPlatinums],
+    [status, profile, setProfile, groups, setGroups, platinums, setPlatinums],
   );
 
   return <Context.Provider value={exposed}>{children}</Context.Provider>;

@@ -13,7 +13,8 @@ interface Form {
 }
 
 const MainSection: FC = () => {
-  const { profile, platinums, setProfile, setPlatinums } = useData();
+  const { profile, platinums, groups, setProfile, setGroups, setPlatinums } =
+    useData();
 
   const handleSubmit: FormEventHandler<HTMLFormElement> = useCallback(
     async (e) => {
@@ -35,14 +36,15 @@ const MainSection: FC = () => {
         for (const response of responses) {
           if (response?.list) list = list.concat(response.list);
         }
-        const grouped = groupPlatinumList(list);
-        setPlatinums(grouped);
+        const { groups, platinums } = groupPlatinumList(list);
+        setGroups(groups);
+        setPlatinums(platinums);
       } catch (error) {
         // TODO: handle errors
         console.info("error", error);
       }
     },
-    [setProfile, setPlatinums],
+    [setProfile, setGroups, setPlatinums],
   );
 
   return (
@@ -57,12 +59,15 @@ const MainSection: FC = () => {
       <div className="mt-6">
         <OGCalendar />
       </div>
-      <div className="w-[400px] absolute inset-y-1/2 -translate-y-1/2 left-4 overflow-auto h-[500px]">
+      <div className="w-[350px] absolute inset-y-1/2 -translate-y-1/2 left-4 overflow-auto h-[500px]">
         <pre className="text-[9px] whitespace-pre-wrap">
           profile: {JSON.stringify(profile, null, 2)}
         </pre>
       </div>
-      <div className="w-[400px] absolute inset-y-1/2 -translate-y-1/2 right-4 overflow-auto h-[500px]">
+      <div className="w-[350px] absolute inset-y-1/2 -translate-y-1/2 right-4 overflow-auto h-[90%]">
+        <pre className="text-[9px] whitespace-pre-wrap">
+          groups: {JSON.stringify(groups, null, 2)}
+        </pre>
         <pre className="text-[9px] whitespace-pre-wrap">
           platinums: {JSON.stringify(platinums, null, 2)}
         </pre>
