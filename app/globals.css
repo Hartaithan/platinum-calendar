@@ -4,12 +4,12 @@
 
 @layer base {
   :root[data-theme="og"] {
-    --color-background: 240 10% 4%;
-    --color-surface: 240 6% 10%;
-    --color-text: 0 0% 100%;
-    --color-border: 240 4% 16%;
-    --color-placeholder: 240 5% 34%;
-    --color-focus: 240 5% 34%;
+    --color-background: 0 0% 100%;
+    --color-surface: 240 5% 96%;
+    --color-text: 0 0% 0%;
+    --color-border: 240 5% 65%;
+    --color-placeholder: 0 0% 60%;
+    --color-focus: 240 4% 16%;
   }
   input {
     @apply focus-visible:outline-none;

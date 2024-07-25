@@ -57,7 +57,7 @@ const Mark: FC<MarkProps> = (props) => {
   return (
     <div
       className={twMerge(
-        "absolute border border-white size-11/12 rounded-full flex justify-center items-center",
+        "absolute size-11/12 rounded-full flex justify-center items-center",
         bg,
       )}>
       <p className={twMerge("text-sm", text)}>{list?.length}</p>
@@ -71,7 +71,7 @@ const Day: FC<DayProps> = memo((props) => {
   const key = getDateKey({ day, month: monthIndex[month] });
   const list = groups ? groups[key] : null;
   return (
-    <div className="day size-8 flex outline outline-1 outline-white justify-center items-center relative">
+    <div className="day size-8 flex outline outline-1 outline-black justify-center items-center relative">
       <p>{day}</p>
       <Mark list={list} />
     </div>
@@ -96,7 +96,7 @@ const Month: FC<MonthProps> = memo((props) => {
   const { month, days: count } = props;
   const days = createArray(count);
   return (
-    <div className="month flex flex-col border">
+    <div className="month flex flex-col border border-black">
       <div className="header h-8 flex items-center justify-center">
         <p className="font-semibold text-sm">{month}</p>
       </div>
