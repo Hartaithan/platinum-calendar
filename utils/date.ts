@@ -1,5 +1,5 @@
 import { notFound } from "@/constants/messages";
-import type { DateKey, DateKeyParams } from "@/models/app";
+import type { DateKey, DateKeyParams } from "@/models/date";
 import { cleanString } from "@/utils/string";
 
 const months: Record<string, string> = {
