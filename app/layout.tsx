@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 
 const MainLayout: FC<PropsWithChildren> = ({ children }) => {
   return (
-    <html lang="en">
+    <html lang="en" data-theme="og">
       <body className={font.className}>
         <RootProviders>{children}</RootProviders>
       </body>

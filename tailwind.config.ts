@@ -8,13 +8,17 @@ const config: Config = {
   ],
   theme: {
     extend: {
-      backgroundImage: {
-        "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
-        "gradient-conic":
-          "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
+      colors: {
+        background: "hsl(var(--color-background) / <alpha-value>)",
+        surface: "hsl(var(--color-surface) / <alpha-value>)",
+        text: "hsl(var(--color-text) / <alpha-value>)",
+        border: "hsl(var(--color-border) / <alpha-value>)",
+        placeholder: "hsl(var(--color-placeholder) / <alpha-value>)",
+        focus: "hsl(var(--color-focus) / <alpha-value>)",
       },
     },
   },
   plugins: [],
 };
+
 export default config;

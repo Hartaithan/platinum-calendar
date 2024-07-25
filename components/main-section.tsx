@@ -52,7 +52,7 @@ const MainSection: FC = () => {
       <form className="w-[500px]" onSubmit={handleSubmit}>
         <input
           name="id"
-          className="w-[500px] block text-sm rounded-md py-2 pl-3 ring-1 ring-inset bg-zinc-900 ring-zinc-800 placeholder:text-zinc-600 focus:ring-1 focus:ring-inset focus:ring-zinc-600"
+          className="w-[500px] block text-sm rounded-md py-2 pl-3 ring-1 ring-inset bg-surface ring-border placeholder:text-placeholder focus:ring-1 focus:ring-inset focus:ring-focus"
           placeholder="Enter your PSN ID"
         />
       </form>
