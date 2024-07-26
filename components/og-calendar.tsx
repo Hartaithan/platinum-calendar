@@ -24,7 +24,22 @@ interface TotalProps {
   days: number;
 }
 
-const colors: Record<number, [string, string]> = {
+const headerColors: Record<string, string> = {
+  January: "bg-[#99CCFF]",
+  February: "bg-[#CCFFFF]",
+  March: "bg-[#33CCCC]",
+  April: "bg-[#CCFFCC]",
+  May: "bg-[#99CC00]",
+  June: "bg-[#FFFD99]",
+  July: "bg-[#FFCC01]",
+  August: "bg-[#FF9901]",
+  September: "bg-[#FF6600]",
+  October: "bg-[#FF8080]",
+  November: "bg-[#CC99FF]",
+  December: "bg-[#CCCCFF]",
+};
+
+const markColors: Record<number, [string, string]> = {
   1: ["bg-[#C00001]", "text-white"],
   2: ["bg-[#FF0000]", "text-white"],
   3: ["bg-[#FEC000]", "text-black"],
@@ -46,8 +61,8 @@ const columns: Record<number, string> = {
 
 const getColors = (list: string[]): [string, string] => {
   if (list.length === 0) return ["", ""];
-  if (list.length > 7) return colors[7];
-  return colors[list.length];
+  if (list.length > 7) return markColors[7];
+  return markColors[list.length];
 };
 
 const Mark: FC<MarkProps> = (props) => {
@@ -57,10 +72,10 @@ const Mark: FC<MarkProps> = (props) => {
   return (
     <div
       className={twMerge(
-        "absolute size-11/12 rounded-full flex justify-center items-center",
+        "absolute size-11/12 rounded-full flex justify-center items-center border border-black",
         bg,
       )}>
-      <p className={twMerge("text-sm", text)}>{list?.length}</p>
+      <p className={twMerge("text-sm", text)}>{list.length}</p>
     </div>
   );
 };
@@ -97,7 +112,11 @@ const Month: FC<MonthProps> = memo((props) => {
   const days = createArray(count);
   return (
     <div className="month flex flex-col border border-black">
-      <div className="header h-8 flex items-center justify-center">
+      <div
+        className={twMerge(
+          "header h-8 flex items-center justify-center",
+          headerColors[month],
+        )}>
         <p className="font-semibold text-sm">{month}</p>
       </div>
       <div className="grid grid-cols-7 gap-[1px]">
