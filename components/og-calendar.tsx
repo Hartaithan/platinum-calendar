@@ -129,15 +129,35 @@ const Month: FC<MonthProps> = memo((props) => {
   );
 });
 
-const OGCalendar: FC = memo(() => {
-  const entries = Object.entries(months);
+const Legend: FC = () => {
+  const colors = Object.entries(markColors);
   return (
-    <div className="grid grid-cols-4 gap-4">
-      {entries.map(([month, days]) => (
-        <Month key={month} month={month} days={days} />
+    <div className="absolute inset-y-0 -right-48 w-44 flex flex-col gap-1">
+      {colors.map(([value, color]) => (
+        <div key={value} className="flex items-center">
+          <div
+            className={twMerge(
+              "size-8 rounded-full border border-black",
+              color[0],
+            )}
+          />
+          <p className="ml-3">{value}</p>
+        </div>
       ))}
     </div>
   );
-});
+};
+
+const OGCalendar: FC = () => {
+  const entries = Object.entries(months);
+  return (
+    <div className="relative grid grid-cols-4 gap-4">
+      {entries.map(([month, days]) => (
+        <Month key={month} month={month} days={days} />
+      ))}
+      <Legend />
+    </div>
+  );
+};
 
 export default OGCalendar;
