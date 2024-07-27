@@ -2,6 +2,7 @@ import { monthIndex, months } from "@/constants/calendar";
 import { useData } from "@/providers/data";
 import { createArray } from "@/utils/array";
 import { getDateKey } from "@/utils/date";
+import type { ComponentPropsWithoutRef } from "react";
 import { memo, type FC } from "react";
 import { twMerge } from "tailwind-merge";
 
@@ -11,7 +12,11 @@ interface MonthProps {
 }
 
 interface MarkProps {
-  list: string[] | null;
+  count: number;
+}
+
+interface MarkCircleProps extends ComponentPropsWithoutRef<"div"> {
+  color: string;
 }
 
 interface DayProps {
@@ -59,24 +64,36 @@ const columns: Record<number, string> = {
   7: "col-span-7",
 };
 
-const getColors = (list: string[]): [string, string] => {
-  if (list.length === 0) return ["", ""];
-  if (list.length > 7) return markColors[7];
-  return markColors[list.length];
+const getColors = (count: number): [string, string] => {
+  if (count === 0) return ["", ""];
+  if (count > 7) return markColors[7];
+  return markColors[count];
 };
 
-const Mark: FC<MarkProps> = (props) => {
-  const { list } = props;
-  if (!list || list.length === 0) return null;
-  const [bg, text] = getColors(list);
+const MarkCircle: FC<MarkCircleProps> = (props) => {
+  const { color, className, children } = props;
   return (
     <div
       className={twMerge(
-        "absolute size-11/12 rounded-full flex justify-center items-center border border-black",
-        bg,
+        "size-7 rounded-full border border-black",
+        className,
+        color,
       )}>
-      <p className={twMerge("text-sm", text)}>{list.length}</p>
+      {children}
     </div>
+  );
+};
+
+const Mark: FC<MarkProps> = (props) => {
+  const { count } = props;
+  if (count <= 0) return null;
+  const [bg, text] = getColors(count);
+  return (
+    <MarkCircle
+      color={bg}
+      className={twMerge("absolute flex justify-center items-center", bg)}>
+      <p className={twMerge("text-sm", text)}>{count}</p>
+    </MarkCircle>
   );
 };
 
@@ -88,7 +105,7 @@ const Day: FC<DayProps> = memo((props) => {
   return (
     <div className="day size-8 flex outline outline-1 outline-black justify-center items-center relative">
       <p>{day}</p>
-      <Mark list={list} />
+      <Mark count={list?.length || 0} />
     </div>
   );
 });
@@ -135,12 +152,7 @@ const Legend: FC = () => {
     <div className="absolute inset-y-0 -right-48 w-44 flex flex-col gap-1">
       {colors.map(([value, color]) => (
         <div key={value} className="flex items-center">
-          <div
-            className={twMerge(
-              "size-8 rounded-full border border-black",
-              color[0],
-            )}
-          />
+          <MarkCircle color={color[0]} />
           <p className="ml-3">{value}</p>
         </div>
       ))}
