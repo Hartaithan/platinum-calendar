@@ -1,4 +1,5 @@
 import type { TrophyCounts } from "@/models/trophy";
+import type { RouteResponse } from "@/models/app";
 
 export type ProfileCountry =
   | "ae"
@@ -90,3 +91,9 @@ export interface Profile {
 }
 
 export type NullableProfile = Profile | null;
+
+export interface ProfileResponseData {
+  profile: Profile;
+}
+
+export type ProfileResponse = RouteResponse<ProfileResponseData>;

@@ -1,15 +1,6 @@
 "use server";
 
-import { FETCH_URL } from "@/constants/variables";
-import { parseProfile } from "@/utils/profile";
-import { parsePlatinums } from "@/utils/trophies";
-import type { Profile } from "@/models/profile";
-import type { PlatinumsResponse } from "@/models/trophy";
-
-const FETCH_PROFILE_URL = FETCH_URL + "/default/fetchProfile";
-const FETCH_PLATINUMS_URL = FETCH_URL + "/fetchPlatinums";
-
-export const fetchData = async (url: URL): Promise<string | null> => {
+export const fetchPage = async (url: URL): Promise<string | null> => {
   try {
     const request = await fetch(url);
     const contentType = request.headers.get("content-type");
@@ -19,36 +10,6 @@ export const fetchData = async (url: URL): Promise<string | null> => {
     return response;
   } catch (error) {
     console.error("unable to fetch data", url.toString(), error);
-    return null;
-  }
-};
-
-export const fetchProfile = async (psnId: string): Promise<Profile | null> => {
-  try {
-    const url = new URL(FETCH_PROFILE_URL);
-    url.searchParams.set("psn_id", psnId);
-    const response = await fetchData(url);
-    if (!response) return null;
-    return parseProfile(response);
-  } catch (error) {
-    console.error("unable to fetch profile", psnId, error);
-    return null;
-  }
-};
-
-export const fetchPlatinums = async (
-  psnId: string,
-  page: number,
-): Promise<PlatinumsResponse | null> => {
-  const url = new URL(FETCH_PLATINUMS_URL);
-  url.searchParams.set("psn_id", psnId);
-  url.searchParams.set("page", page.toString());
-  try {
-    const response = await fetchData(url);
-    if (!response) return null;
-    return parsePlatinums(response);
-  } catch (error) {
-    console.error("unable to fetch platinums", url.toString(), error);
     return null;
   }
 };

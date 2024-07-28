@@ -5,7 +5,7 @@ import type {
   GroupedPlatinumList,
   GroupedPlatinums,
   Platinum,
-  PlatinumsResponse,
+  PlatinumsResponseData,
 } from "@/models/trophy";
 import type { Cheerio, CheerioAPI, Element } from "cheerio";
 import { load } from "cheerio";
@@ -82,7 +82,7 @@ const getList = (cheerio: CheerioAPI): Platinum[] => {
   return list;
 };
 
-export const parsePlatinums = (content: string): PlatinumsResponse => {
+export const parsePlatinums = (content: string): PlatinumsResponseData => {
   const cheerio = load(content);
 
   const list = getList(cheerio);

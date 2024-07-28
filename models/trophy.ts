@@ -1,3 +1,5 @@
+import type { RouteResponse } from "@/models/app";
+
 export interface TrophyCounts {
   total: number;
   platinum: number;
@@ -25,13 +27,6 @@ export interface Platinum {
   uncommon: number;
 }
 
-export interface PlatinumsResponse {
-  list: Platinum[];
-  current_page: number;
-  previous_page: number | null;
-  next_page: number | null;
-}
-
 export type NullablePlatinums = Platinum[] | null;
 export type GroupedPlatinums = Record<string, Platinum>;
 export type NullableGroupedPlatinums = GroupedPlatinums | null;
@@ -44,3 +39,12 @@ export interface GroupedPlatinumList {
 }
 
 export type Pagination = Omit<PlatinumsResponse, "list"> | null;
+
+export interface PlatinumsResponseData {
+  list: Platinum[];
+  current_page: number;
+  previous_page: number | null;
+  next_page: number | null;
+}
+
+export type PlatinumsResponse = RouteResponse<PlatinumsResponseData>;

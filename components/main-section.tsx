@@ -2,7 +2,6 @@
 
 import type { Platinum, PlatinumsResponse } from "@/models/trophy";
 import { useData } from "@/providers/data";
-import { fetchPlatinums, fetchProfile } from "@/utils/fetch";
 import type { FormEventHandler } from "react";
 import { useCallback, useState, type FC } from "react";
 import OGCalendar from "@/components/og-calendar";
@@ -10,6 +9,8 @@ import { groupPlatinumList } from "@/utils/trophies";
 import Spinner from "@/components/spinner";
 import IconCircleCheck from "@/icons/circle-check";
 import type { Pages } from "@/models/app";
+import { fetchAPI } from "@/utils/api";
+import type { ProfileResponse } from "@/models/profile";
 
 interface Form {
   id: { value: string };
@@ -37,7 +38,7 @@ const MainSection: FC = () => {
       const id = target.id.value;
       try {
         setStatus("profile-loading");
-        const profile = await fetchProfile(id);
+        const { profile } = await fetchAPI<ProfileResponse>("/profile", { id });
         if (!profile) {
           // TODO: handle errors
           setStatus("idle");
@@ -45,14 +46,15 @@ const MainSection: FC = () => {
         }
         setProfile(profile);
         const pages = Math.ceil(profile.counts.platinum / 50);
-        const requests: Promise<PlatinumsResponse | null>[] = [];
-        for (let i = 1; i <= pages; i++) requests.push(fetchPlatinums(id, i));
+        const requests: Promise<PlatinumsResponse>[] = [];
+        for (let i = 1; i <= pages; i++)
+          requests.push(fetchAPI("/platinums", { id, page: i }));
         setPages({ current: 1, total: pages });
         setStatus("platinums-loading");
         let list: Platinum[] = [];
         for (const request of requests) {
           const response = await request;
-          if (!response) continue;
+          if (!response.list) continue;
           list = list.concat(response.list);
           setPages((prev) => ({
             ...prev,
