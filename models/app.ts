@@ -5,3 +5,8 @@ export type Status =
   | "profile-loading"
   | "platinums-loading"
   | "completed";
+
+export interface Pages {
+  current: number;
+  total: number;
+}
