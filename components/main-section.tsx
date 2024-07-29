@@ -46,20 +46,20 @@ const MainSection: FC = () => {
         }
         setProfile(profile);
         const pages = Math.ceil(profile.counts.platinum / 50);
-        const requests: Promise<PlatinumsResponse>[] = [];
-        for (let i = 1; i <= pages; i++)
-          requests.push(fetchAPI("/platinums", { id, page: i }));
+        let list: Platinum[] = [];
         setPages({ current: 1, total: pages });
         setStatus("platinums-loading");
-        let list: Platinum[] = [];
-        for (const request of requests) {
-          const response = await request;
+        for (let i = 1; i <= pages; i++) {
+          const params = { id, page: i };
+          const response = await fetchAPI<PlatinumsResponse>(
+            "/platinums",
+            params,
+          );
           if (!response.list) continue;
           list = list.concat(response.list);
           setPages((prev) => ({
             ...prev,
-            current:
-              prev.current === prev.total ? prev.current : prev.current + 1,
+            current: response?.next_page ?? 0,
           }));
         }
         const { groups, platinums } = groupPlatinumList(list);
