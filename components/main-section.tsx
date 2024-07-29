@@ -3,7 +3,7 @@
 import type { Platinum, PlatinumsResponse } from "@/models/trophy";
 import { useData } from "@/providers/data";
 import type { FormEventHandler } from "react";
-import { useCallback, useState, type FC } from "react";
+import { useCallback, useRef, useState, type FC } from "react";
 import OGCalendar from "@/components/og-calendar";
 import { groupPlatinumList } from "@/utils/trophies";
 import Spinner from "@/components/spinner";
@@ -30,6 +30,7 @@ const MainSection: FC = () => {
     setGroups,
   } = useData();
   const [pages, setPages] = useState<Pages>(defaultPages);
+  const controller = useRef<AbortController | null>(null);
 
   const handleSubmit: FormEventHandler<HTMLFormElement> = useCallback(
     async (e) => {
@@ -38,7 +39,12 @@ const MainSection: FC = () => {
       const id = target.id.value;
       try {
         setStatus("profile-loading");
-        const { profile } = await fetchAPI<ProfileResponse>("/profile", { id });
+        controller.current = new AbortController();
+        const { profile } = await fetchAPI<ProfileResponse>(
+          "/profile",
+          { id },
+          controller.current.signal,
+        );
         if (!profile) {
           // TODO: handle errors
           setStatus("idle");
@@ -50,16 +56,20 @@ const MainSection: FC = () => {
         setPages({ current: 1, total: pages });
         setStatus("platinums-loading");
         for (let i = 1; i <= pages; i++) {
-          const params = { id, page: i };
+          if (controller.current.signal.aborted) {
+            throw new Error("The data loading has been canceled");
+          }
+          controller.current = new AbortController();
           const response = await fetchAPI<PlatinumsResponse>(
             "/platinums",
-            params,
+            { id, page: i },
+            controller.current.signal,
           );
           if (!response.list) continue;
           list = list.concat(response.list);
           setPages((prev) => ({
             ...prev,
-            current: response?.next_page ?? 0,
+            current: response?.next_page ?? prev.current,
           }));
         }
         const { groups, platinums } = groupPlatinumList(list);
@@ -70,11 +80,17 @@ const MainSection: FC = () => {
       } catch (error) {
         // TODO: handle errors
         setStatus("idle");
+        setPages(defaultPages);
         console.info("error", error);
       }
     },
     [setProfile, setStatus, setGroups, setPlatinums],
   );
+
+  const handleAbort = useCallback(() => {
+    if (!controller.current) return;
+    controller.current.abort("The loading has been canceled by the user");
+  }, []);
 
   return (
     <div className="flex flex-col justify-center items-center">
@@ -110,6 +126,11 @@ const MainSection: FC = () => {
                 )}
               </div>
             </div>
+            <button
+              className="mt-3 w-full bg-surface hover:bg-surface/50 rounded-md py-1"
+              onClick={handleAbort}>
+              Cancel
+            </button>
           </div>
         )}
         <OGCalendar />
