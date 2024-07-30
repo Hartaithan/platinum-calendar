@@ -19,16 +19,7 @@ interface Form {
 const defaultPages: Pages = { current: 0, total: 10 };
 
 const MainSection: FC = () => {
-  const {
-    profile,
-    setProfile,
-    status,
-    setStatus,
-    platinums,
-    setPlatinums,
-    groups,
-    setGroups,
-  } = useData();
+  const { setProfile, status, setStatus, setPlatinums, setGroups } = useData();
   const [pages, setPages] = useState<Pages>(defaultPages);
   const controller = useRef<AbortController | null>(null);
 
@@ -134,19 +125,6 @@ const MainSection: FC = () => {
           </div>
         )}
         <OGCalendar />
-      </div>
-      <div className="w-[350px] absolute inset-y-1/2 -translate-y-1/2 left-4 overflow-auto h-[500px]">
-        <pre className="text-[9px] whitespace-pre-wrap">
-          profile: {JSON.stringify(profile, null, 2)}
-        </pre>
-      </div>
-      <div className="w-[350px] absolute inset-y-1/2 -translate-y-1/2 right-4 overflow-auto h-[90%]">
-        <pre className="text-[9px] whitespace-pre-wrap">
-          groups: {JSON.stringify(groups, null, 2)}
-        </pre>
-        <pre className="text-[9px] whitespace-pre-wrap">
-          platinums: {JSON.stringify(platinums, null, 2)}
-        </pre>
       </div>
     </div>
   );
