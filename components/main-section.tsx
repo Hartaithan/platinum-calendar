@@ -3,24 +3,21 @@
 import type { Platinum, PlatinumsResponse } from "@/models/trophy";
 import { useData } from "@/providers/data";
 import type { FormEventHandler } from "react";
-import { useCallback, useRef, useState, type FC } from "react";
+import { useCallback, useRef, type FC } from "react";
 import OGCalendar from "@/components/og-calendar";
 import { groupPlatinumList } from "@/utils/trophies";
-import Spinner from "@/components/spinner";
-import IconCircleCheck from "@/icons/circle-check";
-import type { Pages } from "@/models/app";
 import { fetchAPI } from "@/utils/api";
 import type { ProfileResponse } from "@/models/profile";
+import type { DataLoadingPopupHandle } from "@/components/data-loading-popup";
+import DataLoadingPopup from "@/components/data-loading-popup";
 
 interface Form {
   id: { value: string };
 }
 
-const defaultPages: Pages = { current: 0, total: 10 };
-
 const MainSection: FC = () => {
-  const { setProfile, status, setStatus, setPlatinums, setGroups } = useData();
-  const [pages, setPages] = useState<Pages>(defaultPages);
+  const { setProfile, setStatus, setPlatinums, setGroups } = useData();
+  const popupRef = useRef<DataLoadingPopupHandle>(null);
   const controller = useRef<AbortController | null>(null);
 
   const handleSubmit: FormEventHandler<HTMLFormElement> = useCallback(
@@ -44,7 +41,7 @@ const MainSection: FC = () => {
         setProfile(profile);
         const pages = Math.ceil(profile.counts.platinum / 50);
         let list: Platinum[] = [];
-        setPages({ current: 1, total: pages });
+        popupRef.current?.setPages({ current: 1, total: pages });
         setStatus("platinums-loading");
         for (let i = 1; i <= pages; i++) {
           if (controller.current.signal.aborted) {
@@ -58,7 +55,7 @@ const MainSection: FC = () => {
           );
           if (!response.list) continue;
           list = list.concat(response.list);
-          setPages((prev) => ({
+          popupRef.current?.setPages((prev) => ({
             ...prev,
             current: response?.next_page ?? prev.current,
           }));
@@ -67,11 +64,11 @@ const MainSection: FC = () => {
         setGroups(groups);
         setPlatinums(platinums);
         setStatus("completed");
-        setPages(defaultPages);
+        popupRef.current?.reset();
       } catch (error) {
         // TODO: handle errors
         setStatus("idle");
-        setPages(defaultPages);
+        popupRef.current?.reset();
         console.info("error", error);
       }
     },
@@ -93,37 +90,7 @@ const MainSection: FC = () => {
         />
       </form>
       <div className="mt-6 relative">
-        {(status === "platinums-loading" || status === "profile-loading") && (
-          <div className="w-[240px] absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-xl bg-background shadow-2xl px-6 py-4 text-text z-10">
-            <h1 className="text-lg font-medium">Loading...</h1>
-            <div className="flex justify-between items-center w-full mt-2">
-              <p>Profile</p>
-              {status === "profile-loading" ? (
-                <Spinner className="size-5" />
-              ) : (
-                <IconCircleCheck className="size-5 stroke-focus" />
-              )}
-            </div>
-            <div className="flex justify-between items-center w-full mt-2">
-              <p>Platinums</p>
-              <div className="flex items-center">
-                {status === "platinums-loading" && (
-                  <p className="text-sm mr-2">
-                    {pages.current}/{pages.total}
-                  </p>
-                )}
-                {status === "platinums-loading" && pages.current > 0 && (
-                  <Spinner className="size-5" />
-                )}
-              </div>
-            </div>
-            <button
-              className="mt-3 w-full bg-surface hover:bg-surface/50 rounded-md py-1"
-              onClick={handleAbort}>
-              Cancel
-            </button>
-          </div>
-        )}
+        <DataLoadingPopup ref={popupRef} handleAbort={handleAbort} />
         <OGCalendar />
       </div>
     </div>
