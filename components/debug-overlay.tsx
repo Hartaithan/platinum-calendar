@@ -10,16 +10,16 @@ const DebugOverlay: FC = memo(() => {
   if (isProduction) return null;
   return (
     <>
-      <div className="w-[300px] absolute inset-y-1/2 -translate-y-1/2 left-3 overflow-auto h-[90%] flex flex-col justify-center items-center">
-        <pre className="text-[9px] whitespace-pre-wrap">
+      <div className="w-[250px] absolute inset-y-1/2 -translate-y-1/2 left-3 overflow-auto h-[90%] flex flex-col justify-center items-center">
+        <pre className="w-full text-[9px] whitespace-pre-wrap break-all">
           profile: {JSON.stringify(profile, null, 2)}
         </pre>
       </div>
-      <div className="w-[300px] absolute inset-y-1/2 -translate-y-1/2 right-3 overflow-auto h-[90%]">
-        <pre className="text-[9px] whitespace-pre-wrap">
+      <div className="w-[250px] absolute inset-y-1/2 -translate-y-1/2 right-3 overflow-auto h-[90%]">
+        <pre className="w-full text-[9px] whitespace-pre-wrap break-all">
           groups: {JSON.stringify(groups, null, 2)}
         </pre>
-        <pre className="text-[9px] whitespace-pre-wrap">
+        <pre className="w-full text-[9px] whitespace-pre-wrap break-all">
           platinums: {JSON.stringify(platinums, null, 2)}
         </pre>
       </div>
