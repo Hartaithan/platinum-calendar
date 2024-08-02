@@ -57,7 +57,8 @@ const ModalBody: FC<ModalBodyProps> = (props) => {
 };
 
 const Modal: FC<ModalProps> = (props) => {
-  const { children } = props;
+  const { isVisible, children } = props;
+  if (!isVisible) return;
   return (
     <>
       <ModalOverlay />
