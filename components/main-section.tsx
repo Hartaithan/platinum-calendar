@@ -3,13 +3,16 @@
 import type { Platinum, PlatinumsResponse } from "@/models/trophy";
 import { useData } from "@/providers/data";
 import type { FormEventHandler } from "react";
-import { useCallback, useRef, type FC } from "react";
+import { useCallback, useRef, useState, type FC } from "react";
 import OGCalendar from "@/components/og-calendar";
 import { groupPlatinumList } from "@/utils/trophies";
 import { fetchAPI } from "@/utils/api";
 import type { ProfileResponse } from "@/models/profile";
 import type { DataLoadingPopupHandle } from "@/components/data-loading-popup";
 import DataLoadingPopup from "@/components/data-loading-popup";
+import DateDetailsModal from "@/components/date-details-modal";
+import type { DateDetailsState } from "@/components/date-details-modal";
+import type { DayClickHandler } from "@/models/calendar";
 
 interface Form {
   id: { value: string };
@@ -19,6 +22,10 @@ const MainSection: FC = () => {
   const { setProfile, setStatus, setPlatinums, setGroups } = useData();
   const popupRef = useRef<DataLoadingPopupHandle>(null);
   const controller = useRef<AbortController | null>(null);
+  const [details, setDetails] = useState<DateDetailsState>({
+    isVisible: false,
+    details: null,
+  });
 
   const handleSubmit: FormEventHandler<HTMLFormElement> = useCallback(
     async (e) => {
@@ -80,6 +87,14 @@ const MainSection: FC = () => {
     controller.current.abort("The loading has been canceled by the user");
   }, []);
 
+  const handleDayClick: DayClickHandler = useCallback((details) => {
+    setDetails({ isVisible: true, details });
+  }, []);
+
+  const handleDetailsClose = useCallback(() => {
+    setDetails((prev) => ({ ...prev, isVisible: false }));
+  }, []);
+
   return (
     <div className="flex flex-col justify-center items-center">
       <form className="w-[500px]" onSubmit={handleSubmit}>
@@ -91,7 +106,12 @@ const MainSection: FC = () => {
       </form>
       <div className="mt-6 relative">
         <DataLoadingPopup ref={popupRef} handleAbort={handleAbort} />
-        <OGCalendar />
+        <OGCalendar onDayClick={handleDayClick} />
+        <DateDetailsModal
+          details={details.details}
+          isVisible={details.isVisible}
+          onClose={handleDetailsClose}
+        />
       </div>
     </div>
   );

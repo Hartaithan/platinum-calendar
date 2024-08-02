@@ -1,4 +1,6 @@
 import { monthIndex, months } from "@/constants/calendar";
+import type { CalendarProps, DayClickHandler } from "@/models/calendar";
+import type { DateKeyParams } from "@/models/date";
 import { useData } from "@/providers/data";
 import { createArray } from "@/utils/array";
 import { getDateKey } from "@/utils/date";
@@ -9,6 +11,7 @@ import { twMerge } from "tailwind-merge";
 interface MonthProps {
   month: string;
   days: number;
+  onDayClick: DayClickHandler;
 }
 
 interface MarkProps {
@@ -22,6 +25,7 @@ interface MarkCircleProps extends ComponentPropsWithoutRef<"div"> {
 interface DayProps {
   month: string;
   day: number;
+  onDayClick: DayClickHandler;
 }
 
 interface TotalProps {
@@ -98,15 +102,18 @@ const Mark: FC<MarkProps> = (props) => {
 };
 
 const Day: FC<DayProps> = memo((props) => {
-  const { month, day } = props;
+  const { month, day, onDayClick } = props;
   const { groups } = useData();
-  const key = getDateKey({ day, month: monthIndex[month] });
-  const list = groups ? groups[key] : null;
+  const date: DateKeyParams = { day, month: monthIndex[month] };
+  const key = getDateKey(date);
+  const platinums = groups ? groups[key] : null;
   return (
-    <div className="day size-8 flex outline outline-1 outline-black justify-center items-center relative">
+    <button
+      className="day size-8 flex outline outline-1 outline-black justify-center items-center relative"
+      onClick={() => onDayClick({ date, platinums })}>
       <p>{day}</p>
-      <Mark count={list?.length || 0} />
-    </div>
+      <Mark count={platinums?.length || 0} />
+    </button>
   );
 });
 
@@ -125,7 +132,7 @@ const Total: FC<TotalProps> = memo((props) => {
 });
 
 const Month: FC<MonthProps> = memo((props) => {
-  const { month, days: count } = props;
+  const { month, days: count, onDayClick } = props;
   const days = createArray(count);
   return (
     <div className="month flex flex-col border border-black">
@@ -138,7 +145,12 @@ const Month: FC<MonthProps> = memo((props) => {
       </div>
       <div className="grid grid-cols-7 gap-[1px]">
         {days.map((day) => (
-          <Day key={`month-${day}`} month={month} day={day} />
+          <Day
+            key={`month-${day}`}
+            month={month}
+            day={day}
+            onDayClick={onDayClick}
+          />
         ))}
         <Total days={count} month={month} />
       </div>
@@ -160,12 +172,13 @@ const Legend: FC = () => {
   );
 };
 
-const OGCalendar: FC = () => {
+const OGCalendar: FC<CalendarProps> = (props) => {
+  const { onDayClick } = props;
   const entries = Object.entries(months);
   return (
     <div className="relative grid grid-cols-4 gap-4">
       {entries.map(([month, days]) => (
-        <Month key={month} month={month} days={days} />
+        <Month key={month} month={month} days={days} onDayClick={onDayClick} />
       ))}
       <Legend />
     </div>
