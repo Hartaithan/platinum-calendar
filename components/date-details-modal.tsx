@@ -1,5 +1,5 @@
 import type { FC } from "react";
-import Modal from "@/components/modal";
+import Modal, { ModalCloseButton } from "@/components/modal";
 import type { ModalProps } from "@/components/modal";
 import type { DateDetails } from "@/models/calendar";
 
@@ -15,7 +15,11 @@ export interface DateDetailsProps extends ModalProps {
 const DateDetailsModal: FC<DateDetailsProps> = (props) => {
   const { isVisible, details, onClose } = props;
   return (
-    <Modal title="Date Details" isVisible={isVisible} onClose={onClose}>
+    <Modal isVisible={isVisible} onClose={onClose}>
+      <ModalCloseButton
+        className="float-none absolute top-3 right-3"
+        onClose={onClose}
+      />
       <pre>{JSON.stringify(details, null, 2)}</pre>
     </Modal>
   );

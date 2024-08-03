@@ -1,5 +1,6 @@
 import IconClose from "@/icons/close";
-import type { FC, PropsWithChildren } from "react";
+import type { ComponentPropsWithoutRef, FC, PropsWithChildren } from "react";
+import { twMerge } from "tailwind-merge";
 
 export interface ModalProps extends PropsWithChildren {
   isVisible: boolean;
@@ -8,7 +9,8 @@ export interface ModalProps extends PropsWithChildren {
 }
 
 export type ModalContainerProps = PropsWithChildren;
-export type ModalCloseButtonProps = Pick<ModalProps, "onClose">;
+export type ModalCloseButtonProps = Pick<ModalProps, "onClose"> &
+  ComponentPropsWithoutRef<"button">;
 export type ModalHeaderProps = Pick<ModalProps, "title" | "onClose">;
 export type ModalBodyProps = PropsWithChildren;
 
@@ -29,11 +31,14 @@ const ModalContainer: FC<ModalContainerProps> = (props) => {
   );
 };
 
-const ModalCloseButton: FC<ModalCloseButtonProps> = (props) => {
-  const { onClose } = props;
+export const ModalCloseButton: FC<ModalCloseButtonProps> = (props) => {
+  const { className, onClose } = props;
   return (
     <button
-      className="flex justify-center items-center p-1 ml-auto bg-transparent border-0 text-text float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
+      className={twMerge(
+        "flex justify-center items-center p-1 ml-auto bg-transparent border-0 text-text float-right text-3xl leading-none font-semibold outline-none focus:outline-none",
+        className,
+      )}
       onClick={onClose}>
       <IconClose className="size-4" />
     </button>
