@@ -107,12 +107,17 @@ const Day: FC<DayProps> = memo((props) => {
   const date: DateKeyParams = { day, month: monthIndex[month] };
   const key = getDateKey(date);
   const platinums = groups ? groups[key] : null;
+  const hasPlatinums = platinums && platinums.length > 0;
   return (
     <button
-      className="day size-8 flex outline outline-1 outline-black justify-center items-center relative"
-      onClick={() => onDayClick({ date, platinums })}>
+      className={twMerge(
+        "day size-8 flex outline outline-1 outline-black justify-center items-center relative",
+        !hasPlatinums && "cursor-default",
+      )}
+      onClick={() => onDayClick({ date, platinums })}
+      disabled={!hasPlatinums}>
       <p>{day}</p>
-      <Mark count={platinums?.length || 0} />
+      {hasPlatinums && <Mark count={platinums.length} />}
     </button>
   );
 });
