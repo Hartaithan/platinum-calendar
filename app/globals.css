@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --scrollbar-width: 8px;
+}
+
 @layer base {
   :root[data-theme="og"] {
     --color-background: 0 0% 100%;
@@ -10,9 +14,48 @@
     --color-border: 240 5% 65%;
     --color-placeholder: 0 0% 60%;
     --color-focus: 240 4% 16%;
+    --scrollbar-foreground: #d4d4d8;
+    --scrollbar-background: transparent;
+    --scrollbar-hover: #a1a1aa;
   }
+
+  ::-webkit-scrollbar {
+    width: var(--scrollbar-width);
+  }
+
+  ::-webkit-scrollbar-track {
+    background: var(--scrollbar-background);
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-color: var(--scrollbar-foreground);
+    border-radius: calc(var(--scrollbar-width) / 2);
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: var(--scrollbar-hover);
+  }
+
+  @-moz-document url-prefix() {
+    * {
+      scrollbar-width: thin;
+      scrollbar-color: var(--scrollbar-foreground) var(--scrollbar-background);
+    }
+  }
+
   input {
     @apply focus-visible:outline-none;
+  }
+}
+
+@layer utilities {
+  .scrollbar-gutter {
+    scrollbar-gutter: stable;
+  }
+
+  .w-full-scrollbar {
+    width: calc(100% + var(--scrollbar-width));
+    transform: translateX(calc(var(--scrollbar-width) / 2));
   }
 }
 
