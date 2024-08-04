@@ -1,3 +1,4 @@
+import { monthLabels } from "@/constants/calendar";
 import { notFound } from "@/constants/messages";
 import type { DateKey, DateKeyParams } from "@/models/date";
 import { cleanString } from "@/utils/string";
@@ -67,4 +68,14 @@ export const getDateKeys = (value: string): Record<DateKey, string> => {
     month: getDateKey({ month }),
     monthAndYear: getDateKey({ month, year }),
   };
+};
+
+export const getDateLabel = (params: DateKeyParams): string => {
+  const { day, month, year } = params;
+  const result: string[] = [];
+  if (day) result.push(day.toString());
+  if (month) result.push(monthLabels[month]);
+  if (year) result.push(year.toString());
+  if (result.length === 0) return "Date Not Found!";
+  return result.join(" ");
 };

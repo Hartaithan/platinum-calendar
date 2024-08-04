@@ -2,6 +2,8 @@ import type { FC } from "react";
 import Modal, { ModalCloseButton } from "@/components/modal";
 import type { ModalProps } from "@/components/modal";
 import type { DateDetails } from "@/models/calendar";
+import { getDateLabel } from "@/utils/date";
+import PlatinumItem from "@/components/platinum-item";
 
 export interface DateDetailsState {
   isVisible: boolean;
@@ -20,7 +22,16 @@ const DateDetailsModal: FC<DateDetailsProps> = (props) => {
         className="float-none absolute top-3 right-3"
         onClose={onClose}
       />
-      <pre>{JSON.stringify(details, null, 2)}</pre>
+      <div className="w-[600px] flex flex-col items-center">
+        {details?.date && <h1>{getDateLabel(details.date)}</h1>}
+        {details?.platinums && (
+          <div className="w-full-scrollbar flex flex-col gap-4 mt-3 max-h-[80vh] overflow-y-auto scrollbar-gutter">
+            {details.platinums.map((plat) => (
+              <PlatinumItem key={plat} platKey={plat} />
+            ))}
+          </div>
+        )}
+      </div>
     </Modal>
   );
 };
