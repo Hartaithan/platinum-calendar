@@ -70,7 +70,7 @@ const getCounty = (cheerio: CheerioAPI): string => {
 export const parseProfile = (content: string): Profile => {
   const cheerio = load(content);
 
-  const name = cheerio(select.name).text() || notFound;
+  const name = cheerio(select.name).text().trim() || notFound;
   const avatar_url = cheerio(select.avatar).first().attr("src") || notFound;
   const level = cheerio(select.level).first().text() || notFound;
   const country = getCounty(cheerio);
