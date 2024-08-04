@@ -14,6 +14,11 @@ export interface Game {
   image_url: string;
 }
 
+export interface Rarity {
+  value: number;
+  type: string;
+}
+
 export interface Platinum {
   game_id: string;
   game: Game;
@@ -24,7 +29,7 @@ export interface Platinum {
   date: string;
   achievers: number;
   owners: number;
-  uncommon: number;
+  rarity: Rarity;
 }
 
 export type NullablePlatinums = Platinum[] | null;

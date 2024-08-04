@@ -6,6 +6,7 @@ import type {
   GroupedPlatinums,
   Platinum,
   PlatinumsResponseData,
+  Rarity,
 } from "@/models/trophy";
 import type { Cheerio, CheerioAPI, Element } from "cheerio";
 import { load } from "cheerio";
@@ -24,7 +25,8 @@ const select = {
   date: "td:nth-child(6) > span",
   achievers: "td:nth-child(7) > span > span.typo-top",
   owners: "td:nth-child(8) > span > span.typo-top",
-  uncommon: "td:nth-child(9) > span > span.typo-top",
+  rarityValue: "td:nth-child(9) > span > span.typo-top",
+  rarityType: "td:nth-child(9) > span > span.typo-bottom",
   pagination: "ul.pagination",
   currentPage: "a.typo-button.active",
 };
@@ -43,6 +45,12 @@ const getGame = (row: Cheerio<Element>): Game => {
   const title = image.attr("title") || notFound;
   const image_url = image.attr("src") || notFound;
   return { id, title, image_url };
+};
+
+const getRarity = (row: Cheerio<Element>): Rarity => {
+  const value = row.find(select.rarityValue).text() || notFound;
+  const type = row.find(select.rarityType).text().toLowerCase() || notFound;
+  return { value: toNumber(value), type };
 };
 
 const getList = (cheerio: CheerioAPI): Platinum[] => {
@@ -64,7 +72,8 @@ const getList = (cheerio: CheerioAPI): Platinum[] => {
     const date = row.find(select.date).text() || notFound;
     const achievers = row.find(select.achievers).text() || notFound;
     const owners = row.find(select.owners).text() || notFound;
-    const uncommon = row.find(select.uncommon).text() || notFound;
+
+    const rarity = getRarity(row);
 
     list.push({
       game,
@@ -76,7 +85,7 @@ const getList = (cheerio: CheerioAPI): Platinum[] => {
       date: convertParsedDate(date),
       achievers: toNumber(achievers),
       owners: toNumber(owners),
-      uncommon: toNumber(uncommon),
+      rarity,
     });
   });
   return list;
