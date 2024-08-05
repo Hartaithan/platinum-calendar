@@ -46,8 +46,9 @@ const PlatinumItem: FC<Props> = (props) => {
       <div className="flex items-center gap-4">
         <Image
           className="rounded-md min-w-9 h-9 w-auto"
-          width={36}
-          height={36}
+          width="0"
+          height="0"
+          sizes="100vw"
           alt={platinum.game.title}
           src={platinum.game.image_url}
           unoptimized
