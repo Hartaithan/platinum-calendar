@@ -22,10 +22,10 @@ const DateDetailsModal: FC<DateDetailsProps> = (props) => {
         className="float-none absolute top-3 right-3"
         onClose={onClose}
       />
-      <div className="w-[600px] flex flex-col items-center">
+      <div className="w-[512px] flex flex-col items-center">
         {details?.date && <h1>{getDateLabel(details.date)}</h1>}
         {details?.platinums && (
-          <div className="w-full-scrollbar flex flex-col gap-4 mt-3 max-h-[80vh] overflow-y-auto scrollbar-gutter">
+          <div className="w-full-scrollbar flex flex-col gap-3 mt-3 max-h-[80vh] overflow-y-auto scrollbar-gutter">
             {details.platinums.map((plat) => (
               <PlatinumItem key={plat} platKey={plat} />
             ))}
