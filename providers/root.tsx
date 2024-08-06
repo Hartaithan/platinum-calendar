@@ -3,6 +3,7 @@
 import type { FC, PropsWithChildren } from "react";
 import DataProvider from "@/providers/data";
 import ThemeProvider from "@/providers/theme";
+import FiltersProvider from "@/providers/filters";
 import type { Theme } from "@/models/app";
 
 interface Props extends PropsWithChildren {
@@ -13,7 +14,9 @@ const RootProviders: FC<Props> = (props) => {
   const { defaultTheme, children } = props;
   return (
     <ThemeProvider defaultTheme={defaultTheme}>
-      <DataProvider>{children}</DataProvider>
+      <DataProvider>
+        <FiltersProvider>{children}</FiltersProvider>
+      </DataProvider>
     </ThemeProvider>
   );
 };
