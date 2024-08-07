@@ -2,7 +2,7 @@
 
 import type { Platinum, PlatinumsResponse } from "@/models/trophy";
 import { useData } from "@/providers/data";
-import type { FormEventHandler } from "react";
+import type { KeyboardEventHandler } from "react";
 import { useCallback, useRef, useState, type FC } from "react";
 import OGCalendar from "@/components/og-calendar";
 import { groupPlatinumList } from "@/utils/trophies";
@@ -14,10 +14,6 @@ import DateDetailsModal from "@/components/date-details-modal";
 import type { DateDetailsState } from "@/components/date-details-modal";
 import type { DayClickHandler } from "@/models/calendar";
 
-interface Form {
-  id: { value: string };
-}
-
 const MainSection: FC = () => {
   const { setProfile, setStatus, setPlatinums, setGroups } = useData();
   const popupRef = useRef<DataLoadingPopupHandle>(null);
@@ -27,11 +23,10 @@ const MainSection: FC = () => {
     details: null,
   });
 
-  const handleSubmit: FormEventHandler<HTMLFormElement> = useCallback(
+  const handleSubmit: KeyboardEventHandler<HTMLInputElement> = useCallback(
     async (e) => {
       e.preventDefault();
-      const target = e.target as typeof e.target & Form;
-      const id = target.id.value;
+      const id = e.currentTarget.value;
       try {
         setStatus("profile-loading");
         controller.current = new AbortController();
@@ -82,6 +77,13 @@ const MainSection: FC = () => {
     [setProfile, setStatus, setGroups, setPlatinums],
   );
 
+  const handleKeyDown: KeyboardEventHandler<HTMLInputElement> = useCallback(
+    (e) => {
+      if (e.key === "Enter") handleSubmit(e);
+    },
+    [handleSubmit],
+  );
+
   const handleAbort = useCallback(() => {
     if (!controller.current) return;
     controller.current.abort("The loading has been canceled by the user");
@@ -97,13 +99,11 @@ const MainSection: FC = () => {
 
   return (
     <div className="flex flex-col justify-center items-center">
-      <form className="w-[500px]" onSubmit={handleSubmit}>
-        <input
-          name="id"
-          className="w-[500px] block text-sm rounded-md py-2 pl-3 ring-1 ring-inset bg-surface ring-border placeholder:text-placeholder focus:ring-1 focus:ring-inset focus:ring-focus"
-          placeholder="Enter your PSN ID"
-        />
-      </form>
+      <input
+        className="w-[500px] block text-sm rounded-md py-2 pl-3 ring-1 ring-inset bg-surface ring-border placeholder:text-placeholder focus:ring-1 focus:ring-inset focus:ring-focus"
+        placeholder="Enter your PSN ID"
+        onKeyDown={handleKeyDown}
+      />
       <div className="mt-6 relative">
         <DataLoadingPopup ref={popupRef} handleAbort={handleAbort} />
         <OGCalendar onDayClick={handleDayClick} />
