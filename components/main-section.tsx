@@ -13,6 +13,7 @@ import DataLoadingPopup from "@/components/data-loading-popup";
 import DateDetailsModal from "@/components/date-details-modal";
 import type { DateDetailsState } from "@/components/date-details-modal";
 import type { DayClickHandler } from "@/models/calendar";
+import YearFilter from "@/components/year-filter";
 
 const MainSection: FC = () => {
   const { setProfile, setStatus, setPlatinums, setGroups } = useData();
@@ -99,11 +100,14 @@ const MainSection: FC = () => {
 
   return (
     <div className="flex flex-col justify-center items-center">
-      <input
-        className="w-[500px] block text-sm rounded-md py-2 pl-3 ring-1 ring-inset bg-surface ring-border placeholder:text-placeholder focus:ring-1 focus:ring-inset focus:ring-focus"
-        placeholder="Enter your PSN ID"
-        onKeyDown={handleKeyDown}
-      />
+      <div className="flex items-center gap-4">
+        <input
+          className="w-[500px] block text-sm rounded-md py-2 pl-3 ring-1 ring-inset bg-surface ring-border placeholder:text-placeholder focus:ring-1 focus:ring-inset focus:ring-focus"
+          placeholder="Enter your PSN ID"
+          onKeyDown={handleKeyDown}
+        />
+        <YearFilter />
+      </div>
       <div className="mt-6 relative">
         <DataLoadingPopup ref={popupRef} handleAbort={handleAbort} />
         <OGCalendar onDayClick={handleDayClick} />

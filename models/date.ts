@@ -1,7 +1,7 @@
 export interface DateKeyParams {
-  day?: number;
-  month?: number;
-  year?: number;
+  day?: number | null;
+  month?: number | null;
+  year?: number | null;
 }
 
 export type DateKey = "fullDate" | "dayAndMonth" | "month" | "monthAndYear";

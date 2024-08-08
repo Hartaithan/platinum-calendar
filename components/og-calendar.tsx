@@ -2,6 +2,7 @@ import { monthIndex, months } from "@/constants/calendar";
 import type { CalendarProps, DayClickHandler } from "@/models/calendar";
 import type { DateKeyParams } from "@/models/date";
 import { useData } from "@/providers/data";
+import { useFilters } from "@/providers/filters";
 import { createArray } from "@/utils/array";
 import { getDateKey } from "@/utils/date";
 import type { ComponentPropsWithoutRef } from "react";
@@ -103,8 +104,9 @@ const Mark: FC<MarkProps> = (props) => {
 
 const Day: FC<DayProps> = memo((props) => {
   const { month, day, onDayClick } = props;
+  const { year } = useFilters();
   const { groups } = useData();
-  const date: DateKeyParams = { day, month: monthIndex[month] };
+  const date: DateKeyParams = { day, month: monthIndex[month], year };
   const key = getDateKey(date);
   const platinums = groups ? groups[key] : null;
   const hasPlatinums = platinums && platinums.length > 0;
@@ -124,8 +126,9 @@ const Day: FC<DayProps> = memo((props) => {
 
 const Total: FC<TotalProps> = memo((props) => {
   const { month, days } = props;
+  const { year } = useFilters();
   const { groups } = useData();
-  const key = getDateKey({ month: monthIndex[month] });
+  const key = getDateKey({ month: monthIndex[month], year });
   const total = groups ? groups[key] : null;
   if (!total || total.length === 0) return null;
   const cols = 35 - days;
