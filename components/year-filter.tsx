@@ -1,5 +1,7 @@
 "use client";
 
+import IconArrow from "@/icons/arrow";
+import IconClose from "@/icons/close";
 import { useFilters } from "@/providers/filters";
 import { useCallback, type FC } from "react";
 
@@ -25,18 +27,23 @@ const YearFilter: FC = () => {
   }, [setYear]);
 
   return (
-    <div className="flex items-center">
+    <div className="flex items-center relative h-full rounded-md py-2 px-3 border border-border bg-surface">
       <button onClick={handlePreviousYear} className="rounded">
-        &larr;
+        <IconArrow className="size-3 rotate-180" />
       </button>
-      <div
-        onClick={handleReset}
-        className="w-16 text-center text-sm leading-[normal] cursor-pointer">
+      <p className="w-16 text-center text-sm leading-[normal] cursor-default">
         {year ?? "All"}
-      </div>
+      </p>
       <button onClick={handleNextYear} className="rounded">
-        &rarr;
+        <IconArrow className="size-3" />
       </button>
+      {year !== null && (
+        <button
+          className="absolute bg-surface border border-border/90 size-5 rounded-full -top-2 -right-2 flex justify-center items-center"
+          onClick={handleReset}>
+          <IconClose className="size-3" />
+        </button>
+      )}
     </div>
   );
 };

@@ -100,9 +100,9 @@ const MainSection: FC = () => {
 
   return (
     <div className="flex flex-col justify-center items-center">
-      <div className="flex items-center gap-4">
+      <div className="flex h-9 items-center gap-2">
         <input
-          className="w-[500px] block text-sm rounded-md py-2 pl-3 ring-1 ring-inset bg-surface ring-border placeholder:text-placeholder focus:ring-1 focus:ring-inset focus:ring-focus"
+          className="w-96 h-full block text-sm rounded-md py-2 pl-3 border border-border bg-surface placeholder:text-placeholder focus:border-focus"
           placeholder="Enter your PSN ID"
           onKeyDown={handleKeyDown}
         />
