@@ -14,9 +14,12 @@ import DateDetailsModal from "@/components/date-details-modal";
 import type { DateDetailsState } from "@/components/date-details-modal";
 import type { DayClickHandler } from "@/models/calendar";
 import YearFilter from "@/components/year-filter";
+import IconDeviceFloppy from "@/icons/device-floppy";
+import { toPng } from "html-to-image";
 
 const MainSection: FC = () => {
   const { setProfile, setStatus, setPlatinums, setGroups } = useData();
+  const calendarRef = useRef<HTMLDivElement | null>(null);
   const popupRef = useRef<DataLoadingPopupHandle>(null);
   const controller = useRef<AbortController | null>(null);
   const [details, setDetails] = useState<DateDetailsState>({
@@ -98,6 +101,22 @@ const MainSection: FC = () => {
     setDetails((prev) => ({ ...prev, isVisible: false }));
   }, []);
 
+  const handleSave = useCallback(() => {
+    if (!calendarRef.current) return;
+    toPng(calendarRef.current, { cacheBust: true })
+      .then((dataUrl) => {
+        const link = document.createElement("a");
+        link.href = dataUrl;
+        link.download = "calendar.png";
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  }, []);
+
   return (
     <div className="flex flex-col justify-center items-center">
       <div className="flex h-9 items-center gap-2">
@@ -107,8 +126,13 @@ const MainSection: FC = () => {
           onKeyDown={handleKeyDown}
         />
         <YearFilter />
+        <button
+          className="flex items-center relative h-full rounded-md py-2 px-3 border border-border bg-surface"
+          onClick={handleSave}>
+          <IconDeviceFloppy className="size-5" />
+        </button>
       </div>
-      <div className="mt-6 relative">
+      <div className="relative bg-background py-9 pl-9 pr-24" ref={calendarRef}>
         <DataLoadingPopup ref={popupRef} handleAbort={handleAbort} />
         <OGCalendar onDayClick={handleDayClick} />
         <DateDetailsModal
