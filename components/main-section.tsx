@@ -16,6 +16,7 @@ import type { DayClickHandler } from "@/models/calendar";
 import YearFilter from "@/components/year-filter";
 import IconDeviceFloppy from "@/icons/device-floppy";
 import { toPng } from "html-to-image";
+import Profile from "@/components/profile";
 
 const MainSection: FC = () => {
   const { setProfile, setStatus, setPlatinums, setGroups } = useData();
@@ -113,6 +114,7 @@ const MainSection: FC = () => {
         document.body.removeChild(link);
       })
       .catch((err) => {
+        // TODO: handle errors
         console.error(err);
       });
   }, []);
@@ -133,14 +135,15 @@ const MainSection: FC = () => {
         </button>
       </div>
       <div className="relative bg-background py-9 pl-9 pr-24" ref={calendarRef}>
+        <Profile />
         <DataLoadingPopup ref={popupRef} handleAbort={handleAbort} />
         <OGCalendar onDayClick={handleDayClick} />
-        <DateDetailsModal
-          details={details.details}
-          isVisible={details.isVisible}
-          onClose={handleDetailsClose}
-        />
       </div>
+      <DateDetailsModal
+        details={details.details}
+        isVisible={details.isVisible}
+        onClose={handleDetailsClose}
+      />
     </div>
   );
 };

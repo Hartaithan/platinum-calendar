@@ -1,12 +1,9 @@
 import type { RouteResponse } from "@/models/app";
 
-export interface TrophyCounts {
-  total: number;
-  platinum: number;
-  gold: number;
-  silver: number;
-  bronze: number;
-}
+export type TrophyType = "platinum" | "gold" | "silver" | "bronze";
+export type TrophyTypeAll = "total" | TrophyType;
+
+export type TrophyCounts = Record<TrophyTypeAll, number>;
 
 export interface Game {
   id: string;
