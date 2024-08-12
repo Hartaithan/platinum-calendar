@@ -19,7 +19,7 @@ import { toPng } from "html-to-image";
 import Profile from "@/components/profile";
 
 const MainSection: FC = () => {
-  const { setProfile, setStatus, setPlatinums, setGroups } = useData();
+  const { profile, setProfile, setStatus, setPlatinums, setGroups } = useData();
   const calendarRef = useRef<HTMLDivElement | null>(null);
   const popupRef = useRef<DataLoadingPopupHandle>(null);
   const controller = useRef<AbortController | null>(null);
@@ -108,7 +108,7 @@ const MainSection: FC = () => {
       .then((dataUrl) => {
         const link = document.createElement("a");
         link.href = dataUrl;
-        link.download = "calendar.png";
+        link.download = `${profile?.name ?? "calendar"}.png`;
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
@@ -117,7 +117,7 @@ const MainSection: FC = () => {
         // TODO: handle errors
         console.error(err);
       });
-  }, []);
+  }, [profile?.name]);
 
   return (
     <div className="flex flex-col justify-center items-center">
@@ -136,8 +136,8 @@ const MainSection: FC = () => {
       </div>
       <div className="relative bg-background py-9 pl-9 pr-24" ref={calendarRef}>
         <Profile />
-        <DataLoadingPopup ref={popupRef} handleAbort={handleAbort} />
         <OGCalendar onDayClick={handleDayClick} />
+        <DataLoadingPopup ref={popupRef} handleAbort={handleAbort} />
       </div>
       <DateDetailsModal
         details={details.details}
