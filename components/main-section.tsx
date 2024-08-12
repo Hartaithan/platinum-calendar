@@ -109,9 +109,8 @@ const MainSection: FC = () => {
         const link = document.createElement("a");
         link.href = dataUrl;
         link.download = `${profile?.name ?? "calendar"}.png`;
-        document.body.appendChild(link);
         link.click();
-        document.body.removeChild(link);
+        link.remove();
       })
       .catch((err) => {
         // TODO: handle errors
