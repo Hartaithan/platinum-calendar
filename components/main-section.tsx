@@ -17,6 +17,7 @@ import YearFilter from "@/components/year-filter";
 import IconDeviceFloppy from "@/icons/device-floppy";
 import { toPng } from "html-to-image";
 import Profile from "@/components/profile";
+import LinkMessage from "@/components/link-message";
 
 const MainSection: FC = () => {
   const { profile, setProfile, setStatus, setPlatinums, setGroups } = useData();
@@ -137,6 +138,7 @@ const MainSection: FC = () => {
         <Profile />
         <OGCalendar onDayClick={handleDayClick} />
         <DataLoadingPopup ref={popupRef} handleAbort={handleAbort} />
+        <LinkMessage />
       </div>
       <DateDetailsModal
         details={details.details}
