@@ -28,11 +28,22 @@ const PlatinumItem: FC<Props> = (props) => {
         </div>
       </div>
       <div className="flex flex-col gap-2">
-        <div>
-          <span className="font-medium">Earned:&nbsp;</span>
-          <span>{new Date(platinum.date).toLocaleString()}</span>
+        <div className="flex gap-4">
+          <div>
+            <span>#{platinum.number}</span>
+          </div>
+          <div>
+            <span className="font-medium">Earned:&nbsp;</span>
+            <span>{new Date(platinum.date).toLocaleString()}</span>
+          </div>
         </div>
         <div className="flex gap-4">
+          <div>
+            <span className="font-medium capitalize">
+              {platinum.rarity.type}:&nbsp;
+            </span>
+            <span>{platinum.rarity.value}%</span>
+          </div>
           <div>
             <span className="font-medium">Achievers:&nbsp;</span>
             <span>{platinum.achievers.toLocaleString()}</span>
