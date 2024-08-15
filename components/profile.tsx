@@ -15,9 +15,23 @@ const trophyColors: Record<TrophyTypeAll | string, [string, string]> = {
   bronze: ["fill-[#bf6a3a]", "text-[#bf6a3a]"],
 };
 
+const EmptyProfile: FC = () => {
+  return (
+    <div className="flex flex-col flex-1 justify-center items-center h-[50px] mb-4">
+      <h1 className="font-medium leading-[normal]">
+        Enter your PSN ID to create your personalized Platinum Trophy Calendar!
+      </h1>
+      <p className="text-sm">
+        Just make sure your profile is up-to-date on PSNProfiles before you
+        start!
+      </p>
+    </div>
+  );
+};
+
 const Profile: FC = () => {
   const { profile } = useData();
-  if (!profile) return <div className="flex mb-4">empty</div>;
+  if (!profile) return <EmptyProfile />;
   const { avatar_url, name, level, counts } = profile;
   return (
     <div className="flex mb-4">
