@@ -1,5 +1,5 @@
 import { notFound } from "@/constants/messages";
-import type { Profile } from "@/models/profile";
+import type { Profile, ProfileLevel } from "@/models/profile";
 import type { TrophyCounts } from "@/models/trophy";
 import type { AnyNode, CheerioAPI } from "cheerio";
 import { load } from "cheerio";
@@ -9,6 +9,7 @@ const select = {
   name: "span.username",
   avatar: "div.avatar img",
   level: "div.level-box span",
+  progress: "div.level-box div.level > div",
   stats: "div.stats > span.stat",
   total: "li.total",
   platinum: "li.platinum",
@@ -60,6 +61,14 @@ const getStats = (cheerio: CheerioAPI): Record<string, string> => {
   return stats;
 };
 
+const getLevel = (cheerio: CheerioAPI): ProfileLevel => {
+  const value = cheerio(select.level).first().text() || notFound;
+  const progressStyle = cheerio(select.progress).attr("style");
+  const progressMatch = progressStyle?.match(/width:\s*(\d+)%/);
+  const progress = progressMatch ? progressMatch[1] : notFound;
+  return { value: toNumber(value), progress: toNumber(progress) };
+};
+
 const getCounty = (cheerio: CheerioAPI): string => {
   const element = cheerio(select.country).first();
   const classes = element.attr("class");
@@ -72,7 +81,7 @@ export const parseProfile = (content: string): Profile => {
 
   const name = cheerio(select.name).text().trim() || notFound;
   const avatar_url = cheerio(select.avatar).first().attr("src") || notFound;
-  const level = cheerio(select.level).first().text() || notFound;
+  const level = getLevel(cheerio);
   const country = getCounty(cheerio);
   const plus = cheerio(select.plus).length > 0;
 
@@ -103,7 +112,7 @@ export const parseProfile = (content: string): Profile => {
   return {
     name,
     avatar_url,
-    level: toNumber(level),
+    level,
     counts,
     games_played: toNumber(games_played),
     completed_games: toNumber(completed_games),

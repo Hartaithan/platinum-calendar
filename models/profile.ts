@@ -73,10 +73,15 @@ export type ProfileCountry =
   | "uy"
   | "za";
 
+export interface ProfileLevel {
+  value: number;
+  progress: number;
+}
+
 export interface Profile {
   name: string;
   avatar_url: string;
-  level: number;
+  level: ProfileLevel;
   counts: TrophyCounts;
   games_played: number;
   completed_games: number;

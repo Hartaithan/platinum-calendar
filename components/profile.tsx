@@ -45,7 +45,7 @@ const Profile: FC = () => {
       />
       <div className="ml-3 flex flex-col justify-center">
         <h1 className="font-medium leading-[normal]">{name}</h1>
-        <p className="leading-[normal]">Level: {level}</p>
+        <p className="leading-[normal]">Level: {level.value}</p>
       </div>
       <div className="ml-auto flex items-center gap-4">
         {Object.entries(counts).map(([key, value]) => (
