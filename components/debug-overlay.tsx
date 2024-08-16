@@ -5,7 +5,7 @@ import { memo, type FC } from "react";
 
 const isProduction = process.env.NODE_ENV === "production";
 
-const DebugOverlay: FC = memo(() => {
+const DebugOverlay: FC = () => {
   const { profile, platinums, groups } = useData();
   if (isProduction) return null;
   return (
@@ -25,6 +25,6 @@ const DebugOverlay: FC = memo(() => {
       </div>
     </>
   );
-});
+};
 
-export default DebugOverlay;
+export default memo(DebugOverlay);

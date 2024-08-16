@@ -1,22 +1,7 @@
-import { monthLabels } from "@/constants/calendar";
+import { monthKeys, monthLabels } from "@/constants/calendar";
 import { notFound } from "@/constants/messages";
 import type { DateKey, DateKeyParams } from "@/models/date";
 import { cleanString } from "@/utils/string";
-
-const months: Record<string, string> = {
-  Jan: "01",
-  Feb: "02",
-  Mar: "03",
-  Apr: "04",
-  May: "05",
-  Jun: "06",
-  Jul: "07",
-  Aug: "08",
-  Sep: "09",
-  Oct: "10",
-  Nov: "11",
-  Dec: "12",
-};
 
 const datePattern =
   /(\d{1,2})(st|nd|rd|th)\s(\w{3})\s(\d{4})(\d{1,2}:\d{2}:\d{2})\s(AM|PM)/;
@@ -33,9 +18,9 @@ export const convertParsedDate = (date: string): string => {
 
   const [, day, , month, year, time, period] = match;
   const dayFormatted = pad(day);
-  const monthFormatted = months[month];
+  const monthKey = monthKeys[month];
 
-  if (!monthFormatted) return notFound;
+  if (!monthKey) return notFound;
 
   let [hours, minutes, seconds] = time.split(":");
   if (period === "PM" && hours !== "12") {
@@ -45,7 +30,7 @@ export const convertParsedDate = (date: string): string => {
   }
 
   const timeFormatted = `${pad(hours)}:${pad(minutes)}:${pad(seconds)}`;
-  const isoDate = `${year}-${monthFormatted}-${dayFormatted}T${timeFormatted}Z`;
+  const isoDate = `${year}-${monthKey}-${dayFormatted}T${timeFormatted}Z`;
   return isoDate;
 };
 

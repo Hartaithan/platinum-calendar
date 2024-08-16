@@ -1,4 +1,4 @@
-import { monthIndex, months } from "@/constants/calendar";
+import { monthIndex, monthLength } from "@/constants/calendar";
 import type { CalendarProps, DayClickHandler } from "@/models/calendar";
 import type { DateKeyParams } from "@/models/date";
 import { useData } from "@/providers/data";
@@ -182,10 +182,10 @@ const Legend: FC = () => {
 
 const OGCalendar: FC<CalendarProps> = (props) => {
   const { onDayClick } = props;
-  const entries = Object.entries(months);
+  const months = Object.entries(monthLength);
   return (
     <div className="relative grid grid-cols-4 gap-4">
-      {entries.map(([month, days]) => (
+      {months.map(([month, days]) => (
         <Month key={month} month={month} days={days} onDayClick={onDayClick} />
       ))}
       <Legend />
