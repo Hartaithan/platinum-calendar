@@ -36,10 +36,10 @@ const MainSection: FC = () => {
       try {
         setStatus("profile-loading");
         controller.current = new AbortController();
-        const { profile } = await fetchAPI<ProfileResponse>(
+        const { profile } = await fetchAPI.get<ProfileResponse>(
           "/profile",
           { id },
-          controller.current.signal,
+          { signal: controller.current.signal },
         );
         if (!profile) {
           // TODO: handle errors
@@ -56,10 +56,10 @@ const MainSection: FC = () => {
             throw new Error("The data loading has been canceled");
           }
           controller.current = new AbortController();
-          const response = await fetchAPI<PlatinumsResponse>(
+          const response = await fetchAPI.get<PlatinumsResponse>(
             "/platinums",
             { id, page: i },
-            controller.current.signal,
+            { signal: controller.current.signal },
           );
           if (!response.list) continue;
           list = list.concat(response.list);
@@ -106,9 +106,9 @@ const MainSection: FC = () => {
   const handleSave = useCallback(() => {
     if (!calendarRef.current) return;
     toPng(calendarRef.current, { cacheBust: true })
-      .then((dataUrl) => {
+      .then((image) => {
         const link = document.createElement("a");
-        link.href = dataUrl;
+        link.href = image;
         link.download = `${profile?.name ?? "calendar"}.png`;
         link.click();
         link.remove();
