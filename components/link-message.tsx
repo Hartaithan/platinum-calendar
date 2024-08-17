@@ -1,17 +1,17 @@
-import { URL } from "@/constants/variables";
-import { cleanUrl } from "@/utils/string";
 import type { FC } from "react";
+import { getLinkMessage } from "@/utils/link";
 
 const LinkMessage: FC = () => {
+  const { message, href, link } = getLinkMessage();
   return (
     <div className="flex justify-end pt-3 text-sm">
       <span>
-        Generate your own calendar at&nbsp;
+        {message}&nbsp;
         <a
           className="font-medium hover:text-text visited:text-text"
           target="_blank"
-          href={URL}>
-          {cleanUrl(URL)}
+          href={href}>
+          {link}
         </a>
       </span>
     </div>
