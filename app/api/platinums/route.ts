@@ -14,7 +14,7 @@ export const GET = async (
   const id = searchParams.get("id");
   const page = searchParams.get("page");
 
-  if (id === null) {
+  if (!id) {
     console.error("param id not found", searchParams);
     return NextResponse.json(
       { message: "Missing required parameter: id" },
@@ -22,7 +22,7 @@ export const GET = async (
     );
   }
 
-  if (page === null) {
+  if (!page) {
     console.error("param page not found", searchParams);
     return NextResponse.json(
       { message: "Missing required parameter: page" },

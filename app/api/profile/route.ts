@@ -13,7 +13,7 @@ export const GET = async (
   const { searchParams } = new URL(req.url);
   const id = searchParams.get("id");
 
-  if (id === null) {
+  if (!id) {
     console.error("param id not found", searchParams);
     return NextResponse.json(
       { message: "Missing required parameter: id" },
