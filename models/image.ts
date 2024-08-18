@@ -44,8 +44,8 @@ export interface ImageSuccessResponse {
 
 export interface ImageErrorResponse {
   status: 200;
-  success: true;
-  data: ImageUploadData;
+  success: false;
+  data: ImageErrorData;
 }
 
 export type ImageUploadResponse = ImageSuccessResponse | ImageErrorResponse;

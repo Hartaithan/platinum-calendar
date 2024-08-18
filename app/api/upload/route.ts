@@ -25,6 +25,7 @@ export const POST = async (req: NextRequest): Promise<NextResponse> => {
     });
     const response: ImageUploadResponse = await request.json();
     if (!request.ok) throw Error(JSON.stringify(response));
+    if (!response.success) throw Error(response.data.error);
 
     return NextResponse.json({
       message: "Image successfully uploaded!",
