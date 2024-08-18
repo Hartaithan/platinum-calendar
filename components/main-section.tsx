@@ -18,6 +18,7 @@ import IconDeviceFloppy from "@/icons/device-floppy";
 import { toBlob } from "html-to-image";
 import Profile from "@/components/profile";
 import LinkMessage from "@/components/link-message";
+import ImageUploadPopup from "@/components/image-upload-popup";
 
 const MainSection: FC = () => {
   const { profile, setProfile, setStatus, setPlatinums, setGroups } = useData();
@@ -107,8 +108,8 @@ const MainSection: FC = () => {
     if (!calendarRef.current) return;
     try {
       const image = await toBlob(calendarRef.current, { cacheBust: true });
-      const link = document.createElement("a");
       if (!image) throw new Error("Unable to generate image");
+      const link = document.createElement("a");
       link.href = URL.createObjectURL(image);
       link.download = `${profile?.name ?? "calendar"}.png`;
       link.click();
@@ -131,8 +132,9 @@ const MainSection: FC = () => {
         <button
           className="flex items-center relative h-full rounded-md py-2 px-3 border border-border bg-surface"
           onClick={handleSave}>
-          <IconDeviceFloppy className="size-5" />
+          <IconDeviceFloppy className="size-5 stroke-1" />
         </button>
+        <ImageUploadPopup calendarRef={calendarRef} />
       </div>
       <div className="relative bg-background py-9 pl-9 pr-24" ref={calendarRef}>
         <Profile />

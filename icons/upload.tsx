@@ -1,6 +1,6 @@
 import type { ComponentPropsWithoutRef, FC } from "react";
 
-const IconDeviceFloppy: FC<ComponentPropsWithoutRef<"svg">> = (props) => {
+const IconUpload: FC<ComponentPropsWithoutRef<"svg">> = (props) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -14,10 +14,9 @@ const IconDeviceFloppy: FC<ComponentPropsWithoutRef<"svg">> = (props) => {
       viewBox="2 2 20 20"
       {...props}>
       <path stroke="none" d="M0 0h24v24H0z" />
-      <path d="M6 4h10l4 4v10a2 2 0 01-2 2H6a2 2 0 01-2-2V6a2 2 0 012-2" />
-      <path d="M10 14a2 2 0 104 0 2 2 0 10-4 0M14 4v4H8V4" />
+      <path d="M4 17v2a2 2 0 002 2h12a2 2 0 002-2v-2M7 9l5-5 5 5M12 4v12" />
     </svg>
   );
 };
 
-export default IconDeviceFloppy;
+export default IconUpload;

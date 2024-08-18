@@ -1,4 +1,4 @@
-export interface ImageUploadData {
+export interface ImageData {
   id: string;
   deletehash: string;
   account_id: unknown | null;
@@ -39,7 +39,7 @@ export interface ImageErrorData {
 export interface ImageSuccessResponse {
   status: 200;
   success: true;
-  data: ImageUploadData;
+  data: ImageData;
 }
 
 export interface ImageErrorResponse {
@@ -48,9 +48,4 @@ export interface ImageErrorResponse {
   data: ImageErrorData;
 }
 
-export type ImageUploadResponse = ImageSuccessResponse | ImageErrorResponse;
-
-export interface ImageUploadBody {
-  image: Blob;
-  psnId: string;
-}
+export type ImageResponse = ImageSuccessResponse | ImageErrorResponse;
