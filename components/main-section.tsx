@@ -15,7 +15,7 @@ import type { DateDetailsState } from "@/components/date-details-modal";
 import type { DayClickHandler } from "@/models/calendar";
 import YearFilter from "@/components/year-filter";
 import IconDeviceFloppy from "@/icons/device-floppy";
-import { toPng } from "html-to-image";
+import { toBlob } from "html-to-image";
 import Profile from "@/components/profile";
 import LinkMessage from "@/components/link-message";
 
@@ -103,20 +103,20 @@ const MainSection: FC = () => {
     setDetails((prev) => ({ ...prev, isVisible: false }));
   }, []);
 
-  const handleSave = useCallback(() => {
+  const handleSave = useCallback(async () => {
     if (!calendarRef.current) return;
-    toPng(calendarRef.current, { cacheBust: true })
-      .then((image) => {
-        const link = document.createElement("a");
-        link.href = image;
-        link.download = `${profile?.name ?? "calendar"}.png`;
-        link.click();
-        link.remove();
-      })
-      .catch((err) => {
-        // TODO: handle errors
-        console.error(err);
-      });
+    try {
+      const image = await toBlob(calendarRef.current, { cacheBust: true });
+      const link = document.createElement("a");
+      if (!image) throw new Error("Unable to generate image");
+      link.href = URL.createObjectURL(image);
+      link.download = `${profile?.name ?? "calendar"}.png`;
+      link.click();
+      link.remove();
+    } catch (error) {
+      // TODO: handle errors
+      console.error(error);
+    }
   }, [profile?.name]);
 
   return (
