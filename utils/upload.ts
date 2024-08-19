@@ -13,7 +13,7 @@ export const getUploadFormData = (
   const { full } = getLinkMessage();
   const formData = new FormData();
   formData.append("type", "file");
-  formData.append("title", `${psnId}'s Platinum Calendar`);
+  formData.append("title", `${psnId}’s Platinum Calendar`);
   formData.append("description", full);
   formData.append("image", image);
   return formData;
