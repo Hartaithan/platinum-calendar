@@ -32,11 +32,11 @@ const ImageUploadPopup: FC<Props> = (props) => {
   const handleUpload = useCallback(async () => {
     if (!calendarRef.current) return;
     try {
+      setUpload({ isLoading: true, isVisible: true, response: null });
       const image = await toBlob(calendarRef.current, { cacheBust: true });
       if (!image) throw new Error("Unable to generate image");
       const psnId = profile?.name ?? "Platinum Calendar";
       const formData = getUploadFormData(image, psnId);
-      setUpload((prev) => ({ ...prev, isLoading: true, isVisible: true }));
       const response = await fetchAPI.post<UploadResponse>("/upload", {
         body: formData,
       });
