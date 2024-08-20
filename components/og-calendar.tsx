@@ -143,7 +143,7 @@ const Month: FC<MonthProps> = memo((props) => {
   const { month, days: count, onDayClick } = props;
   const days = createArray(count);
   return (
-    <div className="month flex flex-col border border-black">
+    <div className="month w-fit flex flex-col border border-black">
       <div
         className={twMerge(
           "header h-8 flex items-center justify-center",
@@ -184,7 +184,7 @@ const OGCalendar: FC<CalendarProps> = (props) => {
   const { onDayClick } = props;
   const months = Object.entries(monthLength);
   return (
-    <div className="relative grid grid-cols-4 gap-4">
+    <div className="relative grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 justify-items-center">
       {months.map(([month, days]) => (
         <Month key={month} month={month} days={days} onDayClick={onDayClick} />
       ))}
