@@ -6,6 +6,7 @@ import { load } from "cheerio";
 import { toNumber } from "@/utils/number";
 
 const select = {
+  link: "li.active a",
   name: "span.username",
   avatar: "div.avatar img",
   level: "div.level-box span",
@@ -76,8 +77,13 @@ const getCounty = (cheerio: CheerioAPI): string => {
   return country ?? notFound;
 };
 
-export const parseProfile = (content: string): Profile => {
+export const parseProfile = (content: string): Profile | null => {
   const cheerio = load(content);
+
+  const link = cheerio(select.link).first().text().trim();
+  const isProfileExists = link === "Profile";
+
+  if (!isProfileExists) return null;
 
   const name = cheerio(select.name).text().trim() || notFound;
   const avatar_url = cheerio(select.avatar).first().attr("src") || notFound;

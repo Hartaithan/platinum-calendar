@@ -32,9 +32,16 @@ export const GET = async (
         { status: 400 },
       );
     }
+    const parsed = parseProfile(response);
+    if (!parsed) {
+      return NextResponse.json(
+        { message: "Profile doesn't exist" },
+        { status: 400 },
+      );
+    }
     return NextResponse.json({
       message: "Profile successfully fetched!",
-      profile: parseProfile(response),
+      profile: parsed,
     });
   } catch (error) {
     console.error("unable to fetch profile", id, url.toString(), error);
