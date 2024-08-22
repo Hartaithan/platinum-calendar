@@ -14,19 +14,25 @@ const getURL = (path: string, params?: Params) => {
   return url;
 };
 
-const get = <T>(
+const get = async <T>(
   path: string,
   params: Params,
   init?: RequestInit,
 ): Promise<T> => {
   const url = getURL(path, params);
-  return fetch(url, init).then((res) => res.json());
+  const response = await fetch(url, init);
+  const data = await response.json();
+  if (!response.ok) throw Error(data?.message ?? "Unknown error");
+  return data;
 };
 
-const post = <T>(path: string, init?: RequestInit): Promise<T> => {
+const post = async <T>(path: string, init?: RequestInit): Promise<T> => {
   const url = getURL(path);
   const reqInit = { ...init, method: "POST" };
-  return fetch(url, reqInit).then((res) => res.json());
+  const response = await fetch(url, reqInit);
+  const data = await response.json();
+  if (!response.ok) throw Error(data?.message ?? "Unknown error");
+  return data;
 };
 
 export const fetchAPI = {

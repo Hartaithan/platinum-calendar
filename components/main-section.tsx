@@ -19,12 +19,14 @@ import { toBlob } from "html-to-image";
 import Profile from "@/components/profile";
 import LinkMessage from "@/components/link-message";
 import ImageUploadPopup from "@/components/image-upload-popup";
+import { readError } from "@/utils/error";
 
 const MainSection: FC = () => {
   const { profile, setProfile, setStatus, setPlatinums, setGroups } = useData();
   const calendarRef = useRef<HTMLDivElement | null>(null);
   const popupRef = useRef<DataLoadingPopupHandle>(null);
   const controller = useRef<AbortController | null>(null);
+  const [error, setError] = useState<string | null>(null);
   const [details, setDetails] = useState<DateDetailsState>({
     isVisible: false,
     details: null,
@@ -43,7 +45,7 @@ const MainSection: FC = () => {
           { signal: controller.current.signal },
         );
         if (!profile) {
-          // TODO: handle errors
+          setError("Unable to fetch profile");
           setStatus("idle");
           return;
         }
@@ -75,10 +77,11 @@ const MainSection: FC = () => {
         setStatus("completed");
         popupRef.current?.reset();
       } catch (error) {
-        // TODO: handle errors
+        console.error("submit error", error);
         setStatus("idle");
         popupRef.current?.reset();
-        console.info("error", error);
+        const message = readError(error);
+        setError(message);
       }
     },
     [setProfile, setStatus, setGroups, setPlatinums],
@@ -115,13 +118,17 @@ const MainSection: FC = () => {
       link.click();
       link.remove();
     } catch (error) {
-      // TODO: handle errors
-      console.error(error);
+      console.error("save error", error);
+      const message = readError(error);
+      setError(message);
     }
   }, [profile?.name]);
 
   return (
     <div className="flex flex-col justify-center items-center">
+      {error && (
+        <pre className="absolute top-3 left-3 text-sm">Error: {error}</pre>
+      )}
       <div className="flex h-9 items-center gap-2">
         <input
           className="w-96 h-full block text-sm rounded-md py-2 pl-3 border border-border bg-surface placeholder:text-placeholder focus:border-focus"
