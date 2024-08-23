@@ -20,13 +20,14 @@ import Profile from "@/components/profile";
 import LinkMessage from "@/components/link-message";
 import ImageUploadPopup from "@/components/image-upload-popup";
 import { readError } from "@/utils/error";
+import { useErrors } from "@/providers/errors";
 
 const MainSection: FC = () => {
   const { profile, setProfile, setStatus, setPlatinums, setGroups } = useData();
+  const { addError } = useErrors();
   const calendarRef = useRef<HTMLDivElement | null>(null);
   const popupRef = useRef<DataLoadingPopupHandle>(null);
   const controller = useRef<AbortController | null>(null);
-  const [error, setError] = useState<string | null>(null);
   const [details, setDetails] = useState<DateDetailsState>({
     isVisible: false,
     details: null,
@@ -45,7 +46,7 @@ const MainSection: FC = () => {
           { signal: controller.current.signal },
         );
         if (!profile) {
-          setError("Unable to fetch profile");
+          addError("Unable to fetch profile");
           setStatus("idle");
           return;
         }
@@ -81,10 +82,10 @@ const MainSection: FC = () => {
         setStatus("idle");
         popupRef.current?.reset();
         const message = readError(error);
-        setError(message);
+        addError(message);
       }
     },
-    [setProfile, setStatus, setGroups, setPlatinums],
+    [setProfile, setStatus, setGroups, setPlatinums, addError],
   );
 
   const handleKeyDown: KeyboardEventHandler<HTMLInputElement> = useCallback(
@@ -120,15 +121,12 @@ const MainSection: FC = () => {
     } catch (error) {
       console.error("save error", error);
       const message = readError(error);
-      setError(message);
+      addError(message);
     }
-  }, [profile?.name]);
+  }, [profile?.name, addError]);
 
   return (
     <div className="flex flex-col justify-center items-center">
-      {error && (
-        <pre className="absolute top-3 left-3 text-sm">Error: {error}</pre>
-      )}
       <div className="flex h-9 items-center gap-2">
         <input
           className="w-96 h-full block text-sm rounded-md py-2 pl-3 border border-border bg-surface placeholder:text-placeholder focus:border-focus"

@@ -8,6 +8,8 @@ import type { MutableRefObject } from "react";
 import { useCallback, useState, type FC } from "react";
 import Spinner from "@/components/spinner";
 import { ModalCloseButton } from "@/components/modal";
+import { useErrors } from "@/providers/errors";
+import { readError } from "@/utils/error";
 
 interface Props {
   calendarRef: MutableRefObject<HTMLDivElement | null>;
@@ -22,6 +24,7 @@ interface UploadState {
 const ImageUploadPopup: FC<Props> = (props) => {
   const { calendarRef } = props;
   const { profile } = useData();
+  const { addError } = useErrors();
   const [upload, setUpload] = useState<UploadState>({
     isVisible: false,
     isLoading: false,
@@ -42,11 +45,12 @@ const ImageUploadPopup: FC<Props> = (props) => {
       });
       setUpload((prev) => ({ ...prev, isLoading: false, response }));
     } catch (error) {
-      // TODO: handle errors
+      console.error("upload error", error);
       setUpload((prev) => ({ ...prev, isLoading: false, response: null }));
-      console.error(error);
+      const message = readError(error);
+      addError(message);
     }
-  }, [calendarRef, profile?.name]);
+  }, [calendarRef, profile?.name, addError]);
 
   const handleClose = useCallback(() => {
     setUpload((prev) => ({ ...prev, isVisible: false }));

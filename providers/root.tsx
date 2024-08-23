@@ -1,10 +1,11 @@
 "use client";
 
 import type { FC, PropsWithChildren } from "react";
+import type { Theme } from "@/models/app";
 import DataProvider from "@/providers/data";
 import ThemeProvider from "@/providers/theme";
 import FiltersProvider from "@/providers/filters";
-import type { Theme } from "@/models/app";
+import ErrorsProvider from "@/providers/errors";
 
 interface Props extends PropsWithChildren {
   defaultTheme: Theme;
@@ -15,7 +16,9 @@ const RootProviders: FC<Props> = (props) => {
   return (
     <ThemeProvider defaultTheme={defaultTheme}>
       <DataProvider>
-        <FiltersProvider>{children}</FiltersProvider>
+        <FiltersProvider>
+          <ErrorsProvider>{children}</ErrorsProvider>
+        </FiltersProvider>
       </DataProvider>
     </ThemeProvider>
   );
