@@ -4,8 +4,8 @@ import { getLinkMessage } from "@/utils/link";
 const LinkMessage: FC = () => {
   const { message, href, link } = getLinkMessage();
   return (
-    <div className="flex justify-end pt-3 text-sm">
-      <span>
+    <div className="flex w-full justify-end pt-6 md:pt-3 text-sm">
+      <span className="text-right">
         {message}&nbsp;
         <a
           className="font-medium hover:text-text visited:text-text"

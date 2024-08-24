@@ -133,21 +133,25 @@ const MainSection: FC = () => {
 
   return (
     <div className="flex flex-col justify-center items-center">
-      <div className="flex h-9 items-center gap-2">
+      <div className="flex flex-col lg:flex-row w-4/5 lg:w-auto items-center gap-2">
         <input
-          className="w-96 h-full block text-sm rounded-md py-2 pl-3 border border-border bg-surface placeholder:text-placeholder focus:border-focus"
+          className="w-full lg:w-96 h-9 block text-sm rounded-md py-2 pl-3 border border-border bg-surface placeholder:text-placeholder focus:border-focus"
           placeholder="Enter your PSN ID"
           onKeyDown={handleKeyDown}
         />
-        <YearFilter />
-        <button
-          className="flex items-center relative h-full rounded-md py-2 px-3 border border-border bg-surface"
-          onClick={handleSave}>
-          <IconDeviceFloppy className="size-5 stroke-1" />
-        </button>
-        <ImageUploadPopup calendarRef={calendarRef} />
+        <div className="flex h-9 gap-2">
+          <YearFilter />
+          <button
+            className="flex items-center relative h-full rounded-md py-2 px-3 border border-border bg-surface"
+            onClick={handleSave}>
+            <IconDeviceFloppy className="size-5 stroke-1" />
+          </button>
+          <ImageUploadPopup calendarRef={calendarRef} />
+        </div>
       </div>
-      <div className="relative bg-background py-9 pl-9 pr-24" ref={calendarRef}>
+      <div
+        className="flex flex-col items-center relative bg-background py-9 pl-9 pr-9 lg:pr-24"
+        ref={calendarRef}>
         <Profile />
         <OGCalendar onDayClick={handleDayClick} />
         <DataLoadingPopup ref={popupRef} handleAbort={handleAbort} />
