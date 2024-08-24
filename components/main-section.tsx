@@ -26,6 +26,7 @@ const MainSection: FC = () => {
   const { profile, setProfile, setStatus, setPlatinums, setGroups } = useData();
   const { addError } = useErrors();
   const calendarRef = useRef<HTMLDivElement | null>(null);
+  const hiddenRef = useRef<HTMLDivElement | null>(null);
   const popupRef = useRef<DataLoadingPopupHandle>(null);
   const controller = useRef<AbortController | null>(null);
   const [details, setDetails] = useState<DateDetailsState>({
@@ -109,15 +110,20 @@ const MainSection: FC = () => {
   }, []);
 
   const handleSave = useCallback(async () => {
-    if (!calendarRef.current) return;
+    const calendar = calendarRef.current;
+    const hidden = hiddenRef.current;
+    if (!calendar || !hidden) return;
     try {
-      const image = await toBlob(calendarRef.current, { cacheBust: true });
+      hidden.innerHTML = "";
+      hidden.appendChild(calendar.cloneNode(true));
+      const image = await toBlob(hidden, { cacheBust: true });
       if (!image) throw new Error("Unable to generate image");
       const link = document.createElement("a");
       link.href = URL.createObjectURL(image);
       link.download = `${profile?.name ?? "calendar"}.png`;
       link.click();
       link.remove();
+      hidden.innerHTML = "";
     } catch (error) {
       console.error("save error", error);
       const message = readError(error);
@@ -146,6 +152,9 @@ const MainSection: FC = () => {
         <OGCalendar onDayClick={handleDayClick} />
         <DataLoadingPopup ref={popupRef} handleAbort={handleAbort} />
         <LinkMessage />
+      </div>
+      <div className="absolute top-0 left-0 w-full h-full overflow-hidden -z-50">
+        <div className="w-[1200px] h-[800px]" ref={hiddenRef} />
       </div>
       <DateDetailsModal
         details={details.details}
