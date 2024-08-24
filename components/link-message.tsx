@@ -4,7 +4,7 @@ import { getLinkMessage } from "@/utils/link";
 const LinkMessage: FC = () => {
   const { message, href, link } = getLinkMessage();
   return (
-    <div className="flex w-full justify-end pt-6 md:pt-3 text-sm">
+    <div className="flex w-full justify-end pt-6 md:pt-3 @save:pt-3 text-sm">
       <span className="text-right">
         {message}&nbsp;
         <a

@@ -1,4 +1,5 @@
 import type { Config } from "tailwindcss";
+import containerQueries from "@tailwindcss/container-queries";
 
 const config: Config = {
   content: [
@@ -16,9 +17,12 @@ const config: Config = {
         placeholder: "hsl(var(--color-placeholder) / <alpha-value>)",
         focus: "hsl(var(--color-focus) / <alpha-value>)",
       },
+      containers: {
+        save: "1200px",
+      },
     },
   },
-  plugins: [],
+  plugins: [containerQueries],
 };
 
 export default config;
