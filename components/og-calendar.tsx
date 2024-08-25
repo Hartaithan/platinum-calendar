@@ -169,7 +169,7 @@ const Month: FC<MonthProps> = memo((props) => {
 const Legend: FC = () => {
   const colors = Object.entries(markColors);
   return (
-    <div className="relative sm:absolute @save:absolute inset-auto sm:inset-y-0 @save:inset-y-0 right-auto sm:-right-48 @save:-right-48 w-auto sm:w-44 @save:w-44 flex flex-row sm:flex-col @save:flex-col gap-1">
+    <div className="relative sm:absolute @save:absolute inset-auto sm:inset-y-0 @save:inset-y-0 right-auto sm:-right-20 @save:-right-20 w-auto sm:w-16 @save:w-16 flex flex-row sm:flex-col @save:flex-col gap-1">
       {colors.map(([value, color]) => (
         <div
           key={value}

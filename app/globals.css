@@ -64,5 +64,5 @@ html {
 }
 
 body {
-  @apply flex flex-col text-text bg-background w-full min-h-full py-6 xl:py-0;
+  @apply flex flex-col text-text bg-background w-full min-h-full py-6;
 }
