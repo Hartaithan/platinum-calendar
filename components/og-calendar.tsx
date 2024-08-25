@@ -186,7 +186,7 @@ const OGCalendar: FC<CalendarProps> = (props) => {
   const { onDayClick } = props;
   const months = Object.entries(monthLength);
   return (
-    <div className="relative grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 @save:grid-cols-4 gap-4 justify-items-center ">
+    <div className="relative grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 @save:grid-cols-4 gap-4 justify-items-center">
       <Legend />
       {months.map(([month, days]) => (
         <Month key={month} month={month} days={days} onDayClick={onDayClick} />

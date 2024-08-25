@@ -34,7 +34,7 @@ const Profile: FC = () => {
   if (!profile) return <EmptyProfile />;
   const { avatar_url, name, level, counts } = profile;
   return (
-    <div className="flex flex-col lg:flex-row @save:flex-row w-full mb-4 gap-3 lg:gap-0 @save:gap-0 items-center lg:items-normal @save:items-normal">
+    <div className="flex flex-col lg:flex-row @save:flex-row justify-between w-full mb-4 gap-3 lg:gap-0 @save:gap-0 items-center lg:items-normal @save:items-normal">
       <div className="flex justify-center lg:justify-normal @save:justify-normal">
         <Image
           className="rounded-full"
@@ -49,7 +49,7 @@ const Profile: FC = () => {
           <p className="leading-[normal]">Level: {level.value}</p>
         </div>
       </div>
-      <div className="ml-0 lg:ml-auto @save:ml-auto w-4/5 md:w-10/12 lg:w-auto @save:w-auto flex items-center justify-center lg:justify-normal @save:justify-normal gap-4 flex-wrap">
+      <div className="w-4/5 md:w-10/12 lg:w-auto @save:w-auto flex items-center justify-center lg:justify-normal @save:justify-normal gap-4 flex-wrap @save:flex-nowrap">
         {Object.entries(counts).map(([key, value]) => (
           <div key={key} className="flex gap-2 items-center">
             <IconTrophy className={twMerge("size-5", trophyColors[key][0])} />
