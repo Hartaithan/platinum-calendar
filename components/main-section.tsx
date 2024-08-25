@@ -21,6 +21,7 @@ import LinkMessage from "@/components/link-message";
 import ImageUploadPopup from "@/components/image-upload-popup";
 import { readError } from "@/utils/error";
 import { useErrors } from "@/providers/errors";
+import { imageOptions } from "@/constants/image";
 
 const MainSection: FC = () => {
   const { profile, setProfile, setStatus, setPlatinums, setGroups } = useData();
@@ -116,7 +117,7 @@ const MainSection: FC = () => {
     try {
       hidden.innerHTML = "";
       hidden.appendChild(calendar.cloneNode(true));
-      const image = await toBlob(hidden, { cacheBust: true });
+      const image = await toBlob(hidden, imageOptions);
       if (!image) throw new Error("Unable to generate image");
       const link = document.createElement("a");
       link.href = URL.createObjectURL(image);

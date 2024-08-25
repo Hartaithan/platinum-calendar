@@ -10,6 +10,7 @@ import Spinner from "@/components/spinner";
 import { ModalCloseButton } from "@/components/modal";
 import { useErrors } from "@/providers/errors";
 import { readError } from "@/utils/error";
+import { imageOptions } from "@/constants/image";
 
 interface Props {
   calendarRef: MutableRefObject<HTMLDivElement | null>;
@@ -36,7 +37,7 @@ const ImageUploadPopup: FC<Props> = (props) => {
     if (!calendarRef.current) return;
     try {
       setUpload({ isLoading: true, isVisible: true, response: null });
-      const image = await toBlob(calendarRef.current, { cacheBust: true });
+      const image = await toBlob(calendarRef.current, imageOptions);
       if (!image) throw new Error("Unable to generate image");
       const psnId = profile?.name ?? "Platinum Calendar";
       const formData = getUploadFormData(image, psnId);
