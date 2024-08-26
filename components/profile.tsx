@@ -18,10 +18,10 @@ const trophyColors: Record<TrophyTypeAll | string, [string, string]> = {
 const EmptyProfile: FC = () => {
   return (
     <div className="flex flex-col flex-1 justify-center items-center h-[50px] mb-4">
-      <h1 className="font-medium leading-[normal]">
+      <h1 className="text-sm md:text-md font-medium text-center leading-[normal]">
         Enter your PSN ID to create your personalized Platinum Trophy Calendar!
       </h1>
-      <p className="text-sm">
+      <p className="text-xs md:text-sm text-center mt-1 md:mt-0">
         Just make sure your profile is up-to-date on PSNProfiles before you
         start!
       </p>
