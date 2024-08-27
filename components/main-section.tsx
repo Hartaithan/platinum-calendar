@@ -158,7 +158,7 @@ const MainSection: FC = () => {
         <DataLoadingPopup ref={popupRef} handleAbort={handleAbort} />
         <LinkMessage />
       </div>
-      <div className="absolute top-0 left-0 w-full h-full overflow-hidden -z-50">
+      <div className="fixed top-0 left-0 w-full h-full overflow-hidden -z-50">
         <div className="w-[1200px] h-[800px] @container" ref={hiddenRef} />
       </div>
       <DateDetailsModal

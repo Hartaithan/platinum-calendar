@@ -65,7 +65,7 @@ const ImageUploadPopup: FC<Props> = (props) => {
         <IconUpload className="size-4" />
       </button>
       {isVisible && (
-        <div className="w-[360px] min-h-16 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-xl bg-background shadow-2xl px-6 py-4 text-text z-10">
+        <div className="w-[360px] min-h-16 fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-xl bg-background shadow-2xl px-6 py-4 text-text z-10">
           {!isLoading && (
             <ModalCloseButton
               className="float-none absolute top-3 right-3"
