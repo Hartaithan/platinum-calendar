@@ -4,17 +4,15 @@ import { getLinkMessage } from "@/utils/link";
 const LinkMessage: FC = () => {
   const { message, href, link } = getLinkMessage();
   return (
-    <div className="flex w-full justify-end pt-6 md:pt-3 @save:pt-3 text-sm">
-      <span className="text-right">
-        {message}&nbsp;
-        <a
-          className="font-medium hover:text-text visited:text-text"
-          target="_blank"
-          href={href}>
-          {link}
-        </a>
-      </span>
-    </div>
+    <span className="hidden @save:block w-full text-sm text-center lg:text-right @save:text-right pt-6 md:pt-3 @save:pt-3">
+      {message}&nbsp;
+      <a
+        className="font-medium hover:text-text visited:text-text"
+        target="_blank"
+        href={href}>
+        {link}
+      </a>
+    </span>
   );
 };
 

@@ -36,18 +36,18 @@ const Context = createContext<Context>(initialValue);
 
 const DataProvider: FC<PropsWithChildren> = (props) => {
   const { children } = props;
-  const [status, setStatus] = useState<Context["status"]>("idle");
+  const [status, setStatus] = useState<Context["status"]>(initialValue.status);
   const [profile, setProfile] = useLocalStorage<Context["profile"]>({
     key: "plat-cal-profile",
-    defaultValue: null,
+    defaultValue: initialValue.profile,
   });
   const [groups, setGroups] = useLocalStorage<Context["groups"]>({
     key: "plat-cal-groups",
-    defaultValue: null,
+    defaultValue: initialValue.groups,
   });
   const [platinums, setPlatinums] = useLocalStorage<Context["platinums"]>({
     key: "plat-cal-platinums",
-    defaultValue: null,
+    defaultValue: initialValue.platinums,
   });
 
   const exposed: Context = useMemo(
