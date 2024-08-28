@@ -96,7 +96,10 @@ const Mark: FC<MarkProps> = (props) => {
   return (
     <MarkCircle
       color={bg}
-      className={twMerge("absolute flex justify-center items-center", bg)}>
+      className={twMerge(
+        "absolute inset-0 m-auto flex justify-center items-center",
+        bg,
+      )}>
       <p className={twMerge("text-sm", text)}>{count}</p>
     </MarkCircle>
   );
@@ -113,7 +116,7 @@ const Day: FC<DayProps> = memo((props) => {
   return (
     <button
       className={twMerge(
-        "day size-8 flex outline outline-1 outline-black justify-center items-center relative",
+        "day size-8 flex box-content border-r border-r-black border-b border-b-black justify-center items-center relative",
         !hasPlatinums && "cursor-default",
       )}
       onClick={() => onDayClick({ date, platinums })}
@@ -130,11 +133,14 @@ const Total: FC<TotalProps> = memo((props) => {
   const { groups } = useData();
   const key = getDateKey({ month: monthIndex[month], year });
   const total = groups ? groups[key] : null;
-  if (!total || total.length === 0) return null;
   const cols = 35 - days;
   return (
-    <div className={twMerge(columns[cols], "flex justify-center items-center")}>
-      <p>{total.length} plats</p>
+    <div
+      className={twMerge(
+        columns[cols],
+        "flex justify-center items-center box-content border-r border-r-black border-b border-b-black",
+      )}>
+      {total && total.length > 0 && <p>{total.length} plats</p>}
     </div>
   );
 });
@@ -143,15 +149,15 @@ const Month: FC<MonthProps> = memo((props) => {
   const { month, days: count, onDayClick } = props;
   const days = createArray(count);
   return (
-    <div className="month w-fit flex flex-col border border-black">
+    <div className="month w-fit flex flex-col box-content border-l border-l-black border-t border-t-black">
       <div
         className={twMerge(
-          "header h-8 flex items-center justify-center",
+          "header h-8 flex items-center justify-center box-content border-r border-r-black border-b border-b-black",
           headerColors[month],
         )}>
         <p className="font-semibold text-sm">{month}</p>
       </div>
-      <div className="grid grid-cols-7 gap-[1px]">
+      <div className="grid grid-cols-7">
         {days.map((day) => (
           <Day
             key={`month-${day}`}
