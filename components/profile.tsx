@@ -17,7 +17,7 @@ const trophyColors: Record<TrophyTypeAll | string, [string, string]> = {
 
 const EmptyProfile: FC = () => {
   return (
-    <div className="flex flex-col flex-1 justify-center items-center h-[50px] mb-4">
+    <div className="flex flex-col flex-1 justify-center items-center min-h-[50px] mb-4">
       <h1 className="text-sm md:text-md font-medium text-center leading-[normal]">
         Enter your PSN ID to create your personalized Platinum Trophy Calendar!
       </h1>
