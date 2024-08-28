@@ -3,17 +3,14 @@ import type { UploadResponse } from "@/models/upload";
 import { useData } from "@/providers/data";
 import { fetchAPI } from "@/utils/api";
 import { getUploadFormData } from "@/utils/upload";
-import { toBlob } from "html-to-image";
-import type { MutableRefObject } from "react";
 import { useCallback, useState, type FC } from "react";
 import Spinner from "@/components/spinner";
 import { ModalCloseButton } from "@/components/modal";
 import { useErrors } from "@/providers/errors";
 import { readError } from "@/utils/error";
-import { imageOptions } from "@/constants/image";
 
 interface Props {
-  calendarRef: MutableRefObject<HTMLDivElement | null>;
+  generateImage: () => Promise<Blob | null>;
 }
 
 interface UploadState {
@@ -23,7 +20,7 @@ interface UploadState {
 }
 
 const ImageUploadPopup: FC<Props> = (props) => {
-  const { calendarRef } = props;
+  const { generateImage } = props;
   const { profile } = useData();
   const { addError } = useErrors();
   const [upload, setUpload] = useState<UploadState>({
@@ -34,10 +31,9 @@ const ImageUploadPopup: FC<Props> = (props) => {
   const { isVisible, isLoading, response } = upload;
 
   const handleUpload = useCallback(async () => {
-    if (!calendarRef.current) return;
     try {
       setUpload({ isLoading: true, isVisible: true, response: null });
-      const image = await toBlob(calendarRef.current, imageOptions);
+      const image = await generateImage();
       if (!image) throw new Error("Unable to generate image");
       const psnId = profile?.name ?? "Platinum Calendar";
       const formData = getUploadFormData(image, psnId);
@@ -51,7 +47,7 @@ const ImageUploadPopup: FC<Props> = (props) => {
       const message = readError(error);
       addError(message);
     }
-  }, [calendarRef, profile?.name, addError]);
+  }, [profile?.name, generateImage, addError]);
 
   const handleClose = useCallback(() => {
     setUpload((prev) => ({ ...prev, isVisible: false }));

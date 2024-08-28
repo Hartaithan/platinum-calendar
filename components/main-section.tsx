@@ -110,27 +110,40 @@ const MainSection: FC = () => {
     setDetails((prev) => ({ ...prev, isVisible: false }));
   }, []);
 
-  const handleSave = useCallback(async () => {
+  const generateImage = useCallback(async (): Promise<Blob | null> => {
     const calendar = calendarRef.current;
     const hidden = hiddenRef.current;
-    if (!calendar || !hidden) return;
+    if (!calendar || !hidden) return null;
     try {
       hidden.innerHTML = "";
       hidden.appendChild(calendar.cloneNode(true));
       const image = await toBlob(hidden, imageOptions);
+      if (!image) throw new Error("Unable to generate image");
+      hidden.innerHTML = "";
+      return image;
+    } catch (error) {
+      console.error("generate image error", error);
+      const message = readError(error);
+      addError(message);
+      return null;
+    }
+  }, [addError]);
+
+  const handleSave = useCallback(async () => {
+    try {
+      const image = await generateImage();
       if (!image) throw new Error("Unable to generate image");
       const link = document.createElement("a");
       link.href = URL.createObjectURL(image);
       link.download = `${profile?.name ?? "calendar"}.png`;
       link.click();
       link.remove();
-      hidden.innerHTML = "";
     } catch (error) {
       console.error("save error", error);
       const message = readError(error);
       addError(message);
     }
-  }, [profile?.name, addError]);
+  }, [profile?.name, generateImage, addError]);
 
   return (
     <div className="flex flex-col justify-center items-center">
@@ -147,7 +160,7 @@ const MainSection: FC = () => {
             onClick={handleSave}>
             <IconDeviceFloppy className="size-5 stroke-1" />
           </button>
-          <ImageUploadPopup calendarRef={calendarRef} />
+          <ImageUploadPopup generateImage={generateImage} />
         </div>
       </div>
       <div
