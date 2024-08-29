@@ -23,12 +23,12 @@ const PlatinumItem: FC<Props> = (props) => {
           unoptimized
         />
         <div>
-          <h3 className="text-lg font-semibold">{platinum.title}</h3>
-          <p className="text-sm">{platinum.description}</p>
+          <h3 className="text-sm md:text-lg font-semibold">{platinum.title}</h3>
+          <p className="text-xs md:text-sm">{platinum.description}</p>
         </div>
       </div>
-      <div className="flex flex-col gap-2">
-        <div className="flex gap-4">
+      <div className="flex flex-col gap-2 text-sm md:text-base">
+        <div className="flex flex-wrap gap-x-4 gap-y-1">
           <div>
             <span>#{platinum.number}</span>
           </div>
@@ -37,7 +37,7 @@ const PlatinumItem: FC<Props> = (props) => {
             <span>{new Date(platinum.date).toLocaleString()}</span>
           </div>
         </div>
-        <div className="flex gap-4">
+        <div className="flex flex-wrap gap-x-4 gap-y-1">
           <div>
             <span className="font-medium capitalize">
               {platinum.rarity.type}:&nbsp;
@@ -64,7 +64,9 @@ const PlatinumItem: FC<Props> = (props) => {
           src={platinum.game.image_url}
           unoptimized
         />
-        <h1 className="text-md font-medium">{platinum.game.title}</h1>
+        <h1 className="text-sm md:text-base font-medium">
+          {platinum.game.title}
+        </h1>
       </div>
     </div>
   );

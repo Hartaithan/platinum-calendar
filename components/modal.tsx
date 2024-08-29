@@ -73,7 +73,7 @@ const ModalHeader: FC<ModalHeaderProps> = (props) => {
         className,
       )}
       {...rest}>
-      <h1 className="text-sm md:text-md font-semibold">{title}</h1>
+      <h1 className="text-sm md:text-base font-semibold">{title}</h1>
       <ModalCloseButton onClose={onClose} />
     </div>
   );
