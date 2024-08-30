@@ -33,7 +33,7 @@ const ModalOverlay: FC<ModalOverlayProps> = (props) => {
 const ModalContainer: FC<ModalContainerProps> = (props) => {
   const { className, children, ...rest } = props;
   return (
-    <div className="flex justify-center items-center overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
+    <div className="flex justify-center items-center overflow-hidden fixed inset-0 z-50 outline-none focus:outline-none">
       <div
         className={twMerge(
           "relative w-[95%] sm:w-auto min-w-[none] sm:min-w-96 max-w-[none] sm:max-w-3xl my-6 mx-auto",
