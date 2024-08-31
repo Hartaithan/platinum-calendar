@@ -4,10 +4,11 @@ import type { DateKeyParams } from "@/models/date";
 import { useData } from "@/providers/data";
 import { useFilters } from "@/providers/filters";
 import { createArray } from "@/utils/array";
-import { getDateKey } from "@/utils/date";
+import { getDateKey, getDateLabel } from "@/utils/date";
 import type { ComponentPropsWithoutRef } from "react";
 import { memo, type FC } from "react";
 import { twMerge } from "tailwind-merge";
+import Popover from "@/components/popover";
 
 interface MonthProps {
   month: string;
@@ -111,6 +112,7 @@ const Day: FC<DayProps> = memo((props) => {
   const { groups } = useData();
   const date: DateKeyParams = { day, month: monthIndex[month], year };
   const key = getDateKey(date);
+  const label = getDateLabel(date);
   const platinums = groups ? groups[key] : null;
   const hasPlatinums = platinums && platinums.length > 0;
   return (
@@ -122,7 +124,11 @@ const Day: FC<DayProps> = memo((props) => {
       onClick={() => onDayClick({ date, platinums })}
       disabled={!hasPlatinums}>
       <p>{day}</p>
-      {hasPlatinums && <Mark count={platinums.length} />}
+      {hasPlatinums && (
+        <Popover className="absolute inset-0 mx-auto" content={label}>
+          <Mark count={platinums.length} />
+        </Popover>
+      )}
     </button>
   );
 });
