@@ -3,12 +3,12 @@ import type { CalendarProps, DayClickHandler } from "@/models/calendar";
 import type { DateKeyParams } from "@/models/date";
 import { useData } from "@/providers/data";
 import { useFilters } from "@/providers/filters";
+import { useDisclosure } from "@/hooks/use-disclosure";
 import { createArray } from "@/utils/array";
 import { getDateKey, getDateLabel } from "@/utils/date";
 import type { ComponentPropsWithoutRef } from "react";
 import { memo, type FC } from "react";
 import { twMerge } from "tailwind-merge";
-import Popover from "@/components/popover";
 
 interface MonthProps {
   month: string;
@@ -18,6 +18,7 @@ interface MonthProps {
 
 interface MarkProps {
   count: number;
+  label: string;
 }
 
 interface MarkCircleProps extends ComponentPropsWithoutRef<"div"> {
@@ -77,32 +78,43 @@ const getColors = (count: number): [string, string] => {
 };
 
 const MarkCircle: FC<MarkCircleProps> = (props) => {
-  const { color, className, children } = props;
+  const { color, className, children, ...rest } = props;
   return (
     <div
       className={twMerge(
         "size-7 rounded-full border border-black",
         className,
         color,
-      )}>
+      )}
+      {...rest}>
       {children}
     </div>
   );
 };
 
 const Mark: FC<MarkProps> = (props) => {
-  const { count } = props;
+  const { count, label } = props;
+  const [opened, { open, close }] = useDisclosure(false);
   if (count <= 0) return null;
   const [bg, text] = getColors(count);
   return (
-    <MarkCircle
-      color={bg}
-      className={twMerge(
-        "absolute inset-0 m-auto flex justify-center items-center",
-        bg,
-      )}>
-      <p className={twMerge("text-sm", text)}>{count}</p>
-    </MarkCircle>
+    <>
+      <MarkCircle
+        color={bg}
+        className={twMerge(
+          "absolute inset-0 m-auto flex justify-center items-center",
+          bg,
+        )}
+        onMouseEnter={open}
+        onMouseLeave={close}>
+        <p className={twMerge("text-sm", text)}>{count}</p>
+      </MarkCircle>
+      {opened && (
+        <div className="absolute -top-[105%] left-[50%] -translate-x-[50%] z-10 p-2 bg-background rounded shadow-lg w-auto">
+          <p className="text-xs text-text text-nowrap">{label}</p>
+        </div>
+      )}
+    </>
   );
 };
 
@@ -124,11 +136,7 @@ const Day: FC<DayProps> = memo((props) => {
       onClick={() => onDayClick({ date, platinums })}
       disabled={!hasPlatinums}>
       <p>{day}</p>
-      {hasPlatinums && (
-        <Popover className="absolute inset-0 mx-auto" content={label}>
-          <Mark count={platinums.length} />
-        </Popover>
-      )}
+      {hasPlatinums && <Mark count={platinums.length} label={label} />}
     </button>
   );
 });
