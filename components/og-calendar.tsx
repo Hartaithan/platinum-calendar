@@ -3,12 +3,12 @@ import type { CalendarProps, DayClickHandler } from "@/models/calendar";
 import type { DateKeyParams } from "@/models/date";
 import { useData } from "@/providers/data";
 import { useFilters } from "@/providers/filters";
-import { useDisclosure } from "@/hooks/use-disclosure";
 import { createArray } from "@/utils/array";
 import { getDateKey, getDateLabel } from "@/utils/date";
-import type { ComponentPropsWithoutRef } from "react";
-import { memo, type FC } from "react";
+import type { ComponentPropsWithRef } from "react";
+import { forwardRef, memo, type FC } from "react";
 import { twMerge } from "tailwind-merge";
+import { useHover } from "@/hooks/use-hover";
 
 interface MonthProps {
   month: string;
@@ -21,7 +21,7 @@ interface MarkProps {
   label: string;
 }
 
-interface MarkCircleProps extends ComponentPropsWithoutRef<"div"> {
+interface MarkCircleProps extends ComponentPropsWithRef<"div"> {
   color: string;
 }
 
@@ -77,7 +77,7 @@ const getColors = (count: number): [string, string] => {
   return markColors[count];
 };
 
-const MarkCircle: FC<MarkCircleProps> = (props) => {
+const MarkCircle = forwardRef<HTMLDivElement, MarkCircleProps>((props, ref) => {
   const { color, className, children, ...rest } = props;
   return (
     <div
@@ -86,30 +86,30 @@ const MarkCircle: FC<MarkCircleProps> = (props) => {
         className,
         color,
       )}
-      {...rest}>
+      {...rest}
+      ref={ref}>
       {children}
     </div>
   );
-};
+});
 
 const Mark: FC<MarkProps> = (props) => {
   const { count, label } = props;
-  const [opened, { open, close }] = useDisclosure(false);
+  const { hovered, ref } = useHover();
   if (count <= 0) return null;
   const [bg, text] = getColors(count);
   return (
     <>
       <MarkCircle
+        ref={ref}
         color={bg}
         className={twMerge(
           "absolute inset-0 m-auto flex justify-center items-center",
           bg,
-        )}
-        onMouseEnter={open}
-        onMouseLeave={close}>
+        )}>
         <p className={twMerge("text-sm", text)}>{count}</p>
       </MarkCircle>
-      {opened && (
+      {hovered && (
         <div className="absolute -top-[105%] left-[50%] -translate-x-[50%] z-10 p-2 bg-background rounded shadow-lg w-auto">
           <p className="text-xs text-text text-nowrap">{label}</p>
         </div>
