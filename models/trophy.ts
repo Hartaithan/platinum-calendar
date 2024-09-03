@@ -50,3 +50,8 @@ export interface PlatinumsResponseData {
 }
 
 export type PlatinumsResponse = RouteResponse<PlatinumsResponseData>;
+
+export interface FetchPlatinumsParams {
+  id: string;
+  page: string;
+}

@@ -102,3 +102,7 @@ export interface ProfileResponseData {
 }
 
 export type ProfileResponse = RouteResponse<ProfileResponseData>;
+
+export interface FetchProfileParams {
+  id: string;
+}

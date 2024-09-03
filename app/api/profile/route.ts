@@ -1,11 +1,8 @@
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
-import { FETCH_URL } from "@/constants/variables";
-import { fetchPage } from "@/utils/fetch";
+import { fetchProfile } from "@/utils/fetch";
 import { parseProfile } from "@/utils/profile";
 import type { ProfileResponse } from "@/models/profile";
-
-const FETCH_PROFILE_URL = FETCH_URL + "/default/fetchProfile";
 
 export const GET = async (
   req: NextRequest,
@@ -21,11 +18,8 @@ export const GET = async (
     );
   }
 
-  const url = new URL(FETCH_PROFILE_URL);
-  url.searchParams.set("psn_id", id);
-
   try {
-    const response = await fetchPage(url);
+    const response = await fetchProfile({ id });
     if (!response) {
       return NextResponse.json(
         { message: "Unable to fetch profile data" },
@@ -44,7 +38,7 @@ export const GET = async (
       profile: parsed,
     });
   } catch (error) {
-    console.error("unable to fetch profile", id, url.toString(), error);
+    console.error("unable to fetch profile", id, error);
     return NextResponse.json(
       { message: "Unable to fetch profile" },
       { status: 400 },
