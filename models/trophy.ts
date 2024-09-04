@@ -1,4 +1,5 @@
 import type { RouteResponse } from "@/models/app";
+import type { FetchParams } from "@/models/fetch";
 
 export type TrophyType = "platinum" | "gold" | "silver" | "bronze";
 export type TrophyTypeAll = "total" | TrophyType;
@@ -51,7 +52,6 @@ export interface PlatinumsResponseData {
 
 export type PlatinumsResponse = RouteResponse<PlatinumsResponseData>;
 
-export interface FetchPlatinumsParams {
-  id: string;
+export interface FetchPlatinumsParams extends FetchParams {
   page: string;
 }

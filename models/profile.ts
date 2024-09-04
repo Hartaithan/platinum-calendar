@@ -1,5 +1,6 @@
 import type { TrophyCounts } from "@/models/trophy";
 import type { RouteResponse } from "@/models/app";
+import type { FetchParams } from "@/models/fetch";
 
 export type ProfileCountry =
   | "ae"
@@ -103,6 +104,4 @@ export interface ProfileResponseData {
 
 export type ProfileResponse = RouteResponse<ProfileResponseData>;
 
-export interface FetchProfileParams {
-  id: string;
-}
+export type FetchProfileParams = FetchParams;
