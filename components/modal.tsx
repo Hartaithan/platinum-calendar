@@ -3,9 +3,7 @@ import type { ComponentPropsWithoutRef, FC, PropsWithChildren } from "react";
 import { twMerge } from "tailwind-merge";
 import { useScrollLock } from "@/hooks/use-scroll-lock";
 
-export interface ModalProps extends PropsWithChildren {
-  isVisible: boolean;
-  onClose: () => void;
+export interface ModalStyles {
   title?: string;
   container?: string;
   overlay?: string;
@@ -13,12 +11,20 @@ export interface ModalProps extends PropsWithChildren {
   body?: string;
 }
 
+export interface ModalProps extends PropsWithChildren {
+  isVisible: boolean;
+  onClose: () => void;
+  title?: string;
+  styles?: ModalStyles;
+}
+
 export type ModalOverlayProps = ComponentPropsWithoutRef<"div">;
 export type ModalContainerProps = ComponentPropsWithoutRef<"div">;
 export type ModalCloseButtonProps = Pick<ModalProps, "onClose"> &
   ComponentPropsWithoutRef<"button">;
-export type ModalHeaderProps = Pick<ModalProps, "title" | "onClose"> &
+export type ModalHeaderProps = Pick<ModalProps, "onClose"> &
   ComponentPropsWithoutRef<"div">;
+export type ModalTitleProps = ComponentPropsWithoutRef<"h1">;
 export type ModalBodyProps = ComponentPropsWithoutRef<"div">;
 
 const ModalOverlay: FC<ModalOverlayProps> = (props) => {
@@ -65,18 +71,31 @@ export const ModalCloseButton: FC<ModalCloseButtonProps> = (props) => {
 };
 
 const ModalHeader: FC<ModalHeaderProps> = (props) => {
-  const { title, className, onClose, ...rest } = props;
-  if (!title) return null;
+  const { className, onClose, children, ...rest } = props;
   return (
     <div
       className={twMerge(
-        "flex items-center justify-between px-4 pt-3 pb-2 border-b border-solid border-border/50 rounded-t",
+        "flex items-center justify-center px-4 pt-3",
         className,
       )}
       {...rest}>
-      <h1 className="text-sm md:text-base font-semibold">{title}</h1>
-      <ModalCloseButton onClose={onClose} />
+      {children}
+      <ModalCloseButton
+        className="float-none absolute top-3 right-3"
+        onClose={onClose}
+      />
     </div>
+  );
+};
+
+const ModalTitle: FC<ModalTitleProps> = (props) => {
+  const { className, children, ...rest } = props;
+  return (
+    <h1
+      className={twMerge("text-sm md:text-base font-medium", className)}
+      {...rest}>
+      {children}
+    </h1>
   );
 };
 
@@ -92,24 +111,19 @@ const ModalBody: FC<ModalBodyProps> = (props) => {
 };
 
 const Modal: FC<ModalProps> = (props) => {
-  const {
-    isVisible,
-    overlay,
-    container,
-    header,
-    body,
-    title,
-    onClose,
-    children,
-  } = props;
+  const { isVisible, title, styles, onClose, children } = props;
   useScrollLock(isVisible);
   if (!isVisible) return;
   return (
     <>
-      <ModalOverlay className={overlay} />
-      <ModalContainer className={container}>
-        <ModalHeader className={header} title={title} onClose={onClose} />
-        <ModalBody className={body}>{children}</ModalBody>
+      <ModalOverlay className={styles?.overlay} />
+      <ModalContainer className={styles?.container}>
+        {title && (
+          <ModalHeader className={styles?.header} onClose={onClose}>
+            <ModalTitle className={styles?.title}>{title}</ModalTitle>
+          </ModalHeader>
+        )}
+        <ModalBody className={styles?.body}>{children}</ModalBody>
       </ModalContainer>
     </>
   );

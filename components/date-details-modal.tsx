@@ -1,6 +1,6 @@
 import type { FC } from "react";
-import Modal, { ModalCloseButton } from "@/components/modal";
-import type { ModalProps } from "@/components/modal";
+import Modal from "@/components/modal";
+import type { ModalProps, ModalStyles } from "@/components/modal";
 import type { DateDetails } from "@/models/calendar";
 import { getDateLabel } from "@/utils/date";
 import PlatinumItem from "@/components/platinum-item";
@@ -14,23 +14,22 @@ export interface DateDetailsProps extends ModalProps {
   details: DateDetails | null;
 }
 
+const modalStyles: ModalStyles = {
+  container: "min-w-[none] sm:min-w-[512px]",
+};
+
 const DateDetailsModal: FC<DateDetailsProps> = (props) => {
   const { isVisible, details, onClose } = props;
+  const label = details?.date ? getDateLabel(details.date) : "Details";
   return (
     <Modal
+      title={label}
       isVisible={isVisible}
       onClose={onClose}
-      container="min-w-[none] sm:min-w-[512px]">
-      <ModalCloseButton
-        className="float-none absolute top-3 right-3"
-        onClose={onClose}
-      />
+      styles={modalStyles}>
       <div className="flex flex-col items-center">
-        {details?.date && (
-          <h1 className="text-sm md:text-base">{getDateLabel(details.date)}</h1>
-        )}
         {details?.platinums && (
-          <div className="w-full-scrollbar flex flex-col gap-3 mt-3 max-h-[80vh] overflow-y-auto scrollbar-gutter">
+          <div className="w-full-scrollbar flex flex-col gap-3 max-h-[80vh] overflow-y-auto scrollbar-gutter">
             {details.platinums.map((plat) => (
               <PlatinumItem key={plat} platKey={plat} />
             ))}
