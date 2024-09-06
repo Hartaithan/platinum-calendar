@@ -22,6 +22,8 @@ import ImageUploadPopup from "@/components/image-upload-popup";
 import { readError } from "@/utils/error";
 import { useErrors } from "@/providers/errors";
 import { imageOptions } from "@/constants/image";
+import IconSettings from "@/icons/settings";
+import SettingsModal from "@/components/settings-modal";
 
 const MainSection: FC = () => {
   const { profile, setProfile, setStatus, setPlatinums, setGroups } = useData();
@@ -34,6 +36,7 @@ const MainSection: FC = () => {
     isVisible: false,
     details: null,
   });
+  const [settings, setSettings] = useState(false);
 
   const handleSubmit: KeyboardEventHandler<HTMLInputElement> = useCallback(
     async (e) => {
@@ -161,6 +164,11 @@ const MainSection: FC = () => {
             <IconDeviceFloppy className="size-5 stroke-1" />
           </button>
           <ImageUploadPopup generateImage={generateImage} />
+          <button
+            className="flex items-center relative h-full rounded-md py-2 px-3 border border-border bg-surface"
+            onClick={() => setSettings(true)}>
+            <IconSettings className="size-5 stroke-[1.5]" />
+          </button>
         </div>
       </div>
       <div
@@ -179,6 +187,7 @@ const MainSection: FC = () => {
         isVisible={details.isVisible}
         onClose={handleDetailsClose}
       />
+      <SettingsModal isVisible={settings} onClose={() => setSettings(false)} />
     </div>
   );
 };
