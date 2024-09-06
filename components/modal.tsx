@@ -11,8 +11,12 @@ export interface ModalStyles {
   body?: string;
 }
 
-export interface ModalProps extends PropsWithChildren {
+export interface ModalState<T = null> {
+  data?: T;
   isVisible: boolean;
+}
+
+export interface ModalProps<T = null> extends PropsWithChildren, ModalState<T> {
   onClose: () => void;
   title?: string;
   styles?: ModalStyles;

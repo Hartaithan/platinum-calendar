@@ -3,7 +3,7 @@
 import type { Platinum, PlatinumsResponse } from "@/models/trophy";
 import { useData } from "@/providers/data";
 import type { KeyboardEventHandler } from "react";
-import { useCallback, useRef, useState, type FC } from "react";
+import { useCallback, useRef, type FC } from "react";
 import OGCalendar from "@/components/og-calendar";
 import { groupPlatinumList } from "@/utils/trophies";
 import { fetchAPI } from "@/utils/api";
@@ -11,7 +11,7 @@ import type { ProfileResponse } from "@/models/profile";
 import type { DataLoadingPopupHandle } from "@/components/data-loading-popup";
 import DataLoadingPopup from "@/components/data-loading-popup";
 import DateDetailsModal from "@/components/date-details-modal";
-import type { DateDetailsState } from "@/components/date-details-modal";
+import type { DetailsModalData } from "@/components/date-details-modal";
 import type { DayClickHandler } from "@/models/calendar";
 import YearFilter from "@/components/year-filter";
 import IconDeviceFloppy from "@/icons/device-floppy";
@@ -24,6 +24,7 @@ import { useErrors } from "@/providers/errors";
 import { imageOptions } from "@/constants/image";
 import IconSettings from "@/icons/settings";
 import SettingsModal from "@/components/settings-modal";
+import { useModal } from "@/hooks/use-modal";
 
 const MainSection: FC = () => {
   const { profile, setProfile, setStatus, setPlatinums, setGroups } = useData();
@@ -32,11 +33,8 @@ const MainSection: FC = () => {
   const hiddenRef = useRef<HTMLDivElement | null>(null);
   const popupRef = useRef<DataLoadingPopupHandle>(null);
   const controller = useRef<AbortController | null>(null);
-  const [details, setDetails] = useState<DateDetailsState>({
-    isVisible: false,
-    details: null,
-  });
-  const [settings, setSettings] = useState(false);
+  const [details, openDetails, closeDetails] = useModal<DetailsModalData>();
+  const [settings, openSettings, closeSettings] = useModal();
 
   const handleSubmit: KeyboardEventHandler<HTMLInputElement> = useCallback(
     async (e) => {
@@ -105,13 +103,10 @@ const MainSection: FC = () => {
     controller.current.abort("The loading has been canceled by the user");
   }, []);
 
-  const handleDayClick: DayClickHandler = useCallback((details) => {
-    setDetails({ isVisible: true, details });
-  }, []);
-
-  const handleDetailsClose = useCallback(() => {
-    setDetails((prev) => ({ ...prev, isVisible: false }));
-  }, []);
+  const handleDayClick: DayClickHandler = useCallback(
+    (details) => openDetails(details),
+    [openDetails],
+  );
 
   const generateImage = useCallback(async (): Promise<Blob | null> => {
     const calendar = calendarRef.current;
@@ -166,7 +161,7 @@ const MainSection: FC = () => {
           <ImageUploadPopup generateImage={generateImage} />
           <button
             className="flex items-center relative h-full rounded-md py-2 px-3 border border-border bg-surface"
-            onClick={() => setSettings(true)}>
+            onClick={openSettings}>
             <IconSettings className="size-5 stroke-[1.5]" />
           </button>
         </div>
@@ -183,11 +178,11 @@ const MainSection: FC = () => {
         <div className="w-[1200px] h-[800px] @container" ref={hiddenRef} />
       </div>
       <DateDetailsModal
-        details={details.details}
+        data={details.data}
         isVisible={details.isVisible}
-        onClose={handleDetailsClose}
+        onClose={closeDetails}
       />
-      <SettingsModal isVisible={settings} onClose={() => setSettings(false)} />
+      <SettingsModal isVisible={settings.isVisible} onClose={closeSettings} />
     </div>
   );
 };

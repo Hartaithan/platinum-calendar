@@ -5,22 +5,15 @@ import type { DateDetails } from "@/models/calendar";
 import { getDateLabel } from "@/utils/date";
 import PlatinumItem from "@/components/platinum-item";
 
-export interface DateDetailsState {
-  isVisible: boolean;
-  details: DateDetails | null;
-}
-
-export interface DateDetailsProps extends ModalProps {
-  details: DateDetails | null;
-}
+export type DetailsModalData = DateDetails | null;
 
 const modalStyles: ModalStyles = {
   container: "min-w-[none] sm:min-w-[512px]",
 };
 
-const DateDetailsModal: FC<DateDetailsProps> = (props) => {
-  const { isVisible, details, onClose } = props;
-  const label = details?.date ? getDateLabel(details.date) : "Details";
+const DateDetailsModal: FC<ModalProps<DetailsModalData>> = (props) => {
+  const { isVisible, data, onClose } = props;
+  const label = data?.date ? getDateLabel(data.date) : "Details";
   return (
     <Modal
       title={label}
@@ -28,9 +21,9 @@ const DateDetailsModal: FC<DateDetailsProps> = (props) => {
       onClose={onClose}
       styles={modalStyles}>
       <div className="flex flex-col items-center">
-        {details?.platinums && (
+        {data?.platinums && (
           <div className="w-full-scrollbar flex flex-col gap-3 max-h-[80vh] overflow-y-auto scrollbar-gutter">
-            {details.platinums.map((plat) => (
+            {data.platinums.map((plat) => (
               <PlatinumItem key={plat} platKey={plat} />
             ))}
           </div>
