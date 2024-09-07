@@ -1,7 +1,8 @@
 import { notFound } from "@/constants/messages";
 import type { Profile, ProfileLevel } from "@/models/profile";
 import type { TrophyCounts } from "@/models/trophy";
-import type { AnyNode, CheerioAPI } from "cheerio";
+import type { CheerioAPI } from "cheerio";
+import type { AnyNode } from "domhandler";
 import { load } from "cheerio";
 import { toNumber } from "@/utils/number";
 

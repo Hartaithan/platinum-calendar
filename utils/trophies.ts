@@ -8,7 +8,8 @@ import type {
   PlatinumsResponseData,
   Rarity,
 } from "@/models/trophy";
-import type { Cheerio, CheerioAPI, Element } from "cheerio";
+import type { Cheerio, CheerioAPI } from "cheerio";
+import type { Element } from "domhandler";
 import { load } from "cheerio";
 import { convertParsedDate, getDateKeys } from "@/utils/date";
 import { toNumber } from "@/utils/number";
