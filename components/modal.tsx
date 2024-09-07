@@ -1,6 +1,6 @@
 import IconClose from "@/icons/close";
 import type { ComponentPropsWithoutRef, FC, PropsWithChildren } from "react";
-import { twMerge } from "tailwind-merge";
+import { cn } from "@/utils/styles";
 import { useScrollLock } from "@/hooks/use-scroll-lock";
 
 export interface ModalStyles {
@@ -35,7 +35,7 @@ const ModalOverlay: FC<ModalOverlayProps> = (props) => {
   const { className, ...rest } = props;
   return (
     <div
-      className={twMerge("opacity-25 fixed inset-0 z-40 bg-black", className)}
+      className={cn("opacity-25 fixed inset-0 z-40 bg-black", className)}
       {...rest}
     />
   );
@@ -46,7 +46,7 @@ const ModalContainer: FC<ModalContainerProps> = (props) => {
   return (
     <div className="flex justify-center items-center overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
       <div
-        className={twMerge(
+        className={cn(
           "relative w-[95%] sm:w-auto min-w-[none] sm:min-w-96 max-w-[none] sm:max-w-3xl my-6 mx-auto",
           className,
         )}
@@ -63,8 +63,8 @@ export const ModalCloseButton: FC<ModalCloseButtonProps> = (props) => {
   const { className, onClose, ...rest } = props;
   return (
     <button
-      className={twMerge(
-        "flex justify-center items-center p-1 ml-auto bg-transparent border-0 text-text float-right text-3xl leading-none font-semibold outline-none focus:outline-none",
+      className={cn(
+        "flex justify-center items-center p-1 ml-auto bg-transparent border-0 float-right text-3xl leading-none font-semibold outline-none focus:outline-none",
         className,
       )}
       onClick={onClose}
@@ -78,10 +78,7 @@ const ModalHeader: FC<ModalHeaderProps> = (props) => {
   const { className, onClose, children, ...rest } = props;
   return (
     <div
-      className={twMerge(
-        "flex items-center justify-center px-4 pt-3",
-        className,
-      )}
+      className={cn("flex items-center justify-center px-4 pt-3", className)}
       {...rest}>
       {children}
       <ModalCloseButton
@@ -95,9 +92,7 @@ const ModalHeader: FC<ModalHeaderProps> = (props) => {
 const ModalTitle: FC<ModalTitleProps> = (props) => {
   const { className, children, ...rest } = props;
   return (
-    <h1
-      className={twMerge("text-sm md:text-base font-medium", className)}
-      {...rest}>
+    <h1 className={cn("text-sm md:text-base font-medium", className)} {...rest}>
       {children}
     </h1>
   );
@@ -106,9 +101,7 @@ const ModalTitle: FC<ModalTitleProps> = (props) => {
 const ModalBody: FC<ModalBodyProps> = (props) => {
   const { className, children, ...rest } = props;
   return (
-    <div
-      className={twMerge("relative px-4 py-3 flex-auto", className)}
-      {...rest}>
+    <div className={cn("relative px-4 py-3 flex-auto", className)} {...rest}>
       {children}
     </div>
   );

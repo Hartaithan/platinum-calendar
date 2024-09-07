@@ -24,7 +24,7 @@ export const Error: FC<ErrorProps> = memo((props) => {
         onClose={() => removeError(index)}
       />
       <h1 className="text-xs font-medium text-red-600">Error:</h1>
-      <p className="text-text text-sm pr-5">{error ?? "Unknown error"}</p>
+      <p className="text-sm pr-5">{error ?? "Unknown error"}</p>
     </div>
   );
 });

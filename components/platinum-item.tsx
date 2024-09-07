@@ -12,7 +12,7 @@ const PlatinumItem: FC<Props> = (props) => {
   const platinum = platinums ? platinums[platKey] : null;
   if (!platinum) return null;
   return (
-    <div className="flex flex-col rounded-lg border border-border/25 text-card-foreground shadow-sm w-full p-3 gap-3">
+    <div className="flex flex-col rounded-lg border border-input/25 text-card-foreground shadow-sm w-full p-3 gap-3">
       <div className="flex items-center gap-4">
         <Image
           className="rounded-md min-w-12 h-auto"

@@ -2,18 +2,38 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --scrollbar-width: 8px;
-}
-
 @layer base {
+  :root {
+    --scrollbar-width: 8px;
+  }
+
   :root[data-theme="og"] {
-    --color-background: 0 0% 100%;
-    --color-surface: 240 5% 96%;
-    --color-text: 0 0% 0%;
-    --color-border: 240 5% 65%;
-    --color-placeholder: 0 0% 60%;
-    --color-focus: 240 4% 16%;
+    --background: 0 0% 100%;
+    --foreground: 0 0% 3.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 3.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 3.9%;
+    --primary: 0 0% 9%;
+    --primary-foreground: 0 0% 98%;
+    --secondary: 0 0% 96.1%;
+    --secondary-foreground: 0 0% 9%;
+    --muted: 0 0% 96.1%;
+    --muted-foreground: 0 0% 45.1%;
+    --accent: 0 0% 96.1%;
+    --accent-foreground: 0 0% 9%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 0 0% 89.8%;
+    --input: 240 5% 65%;
+    --ring: 240 4% 16%;
+    --chart-1: 12 76% 61%;
+    --chart-2: 173 58% 39%;
+    --chart-3: 197 37% 24%;
+    --chart-4: 43 74% 66%;
+    --chart-5: 27 87% 67%;
+    --radius: 0.5rem;
+    --surface: 240 5% 96%;
     --scrollbar-foreground: #d4d4d8;
     --scrollbar-background: transparent;
     --scrollbar-hover: #a1a1aa;
@@ -43,6 +63,18 @@
     }
   }
 
+  * {
+    @apply border-border;
+  }
+
+  html {
+    @apply h-full w-full;
+  }
+
+  body {
+    @apply bg-background text-foreground flex flex-col w-full min-h-full py-6;
+  }
+
   input {
     @apply focus-visible:outline-none;
   }
@@ -57,12 +89,4 @@
     width: calc(100% + var(--scrollbar-width));
     transform: translateX(calc(var(--scrollbar-width) / 2));
   }
-}
-
-html {
-  @apply h-full w-full;
-}
-
-body {
-  @apply flex flex-col text-text bg-background w-full min-h-full py-6;
 }

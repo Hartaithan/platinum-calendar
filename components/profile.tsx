@@ -5,7 +5,7 @@ import type { TrophyTypeAll } from "@/models/trophy";
 import { useData } from "@/providers/data";
 import Image from "next/image";
 import type { FC } from "react";
-import { twMerge } from "tailwind-merge";
+import { cn } from "@/utils/styles";
 
 const trophyColors: Record<TrophyTypeAll | string, [string, string]> = {
   total: ["fill-[#27272a]", "text-[#27272a]"],
@@ -52,8 +52,8 @@ const Profile: FC = () => {
       <div className="w-4/5 md:w-10/12 lg:w-auto @save:w-auto flex items-center justify-center lg:justify-normal @save:justify-normal gap-4 flex-wrap @save:flex-nowrap">
         {Object.entries(counts).map(([key, value]) => (
           <div key={key} className="flex gap-2 items-center">
-            <IconTrophy className={twMerge("size-5", trophyColors[key][0])} />
-            <p className={twMerge("text-sm font-medium", trophyColors[key][1])}>
+            <IconTrophy className={cn("size-5", trophyColors[key][0])} />
+            <p className={cn("text-sm font-medium", trophyColors[key][1])}>
               {value.toLocaleString()}
             </p>
           </div>

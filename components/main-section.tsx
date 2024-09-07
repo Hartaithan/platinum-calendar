@@ -10,8 +10,8 @@ import { fetchAPI } from "@/utils/api";
 import type { ProfileResponse } from "@/models/profile";
 import type { DataLoadingPopupHandle } from "@/components/data-loading-popup";
 import DataLoadingPopup from "@/components/data-loading-popup";
-import DateDetailsModal from "@/components/date-details-modal";
-import type { DetailsModalData } from "@/components/date-details-modal";
+import DateDetailsModal from "@/components/modals/date-details-modal";
+import type { DetailsModalData } from "@/components/modals/date-details-modal";
 import type { DayClickHandler } from "@/models/calendar";
 import YearFilter from "@/components/year-filter";
 import IconDeviceFloppy from "@/icons/device-floppy";
@@ -23,8 +23,9 @@ import { readError } from "@/utils/error";
 import { useErrors } from "@/providers/errors";
 import { imageOptions } from "@/constants/image";
 import IconSettings from "@/icons/settings";
-import SettingsModal from "@/components/settings-modal";
+import SettingsModal from "@/components/modals/settings-modal";
 import { useModal } from "@/hooks/use-modal";
+import { Input } from "@/components/ui/input";
 
 const MainSection: FC = () => {
   const { profile, setProfile, setStatus, setPlatinums, setGroups } = useData();
@@ -146,21 +147,21 @@ const MainSection: FC = () => {
   return (
     <div className="flex flex-col justify-center items-center">
       <div className="flex flex-col lg:flex-row w-4/5 lg:w-auto items-center gap-2">
-        <input
-          className="w-full lg:w-96 h-9 block text-sm rounded-md py-2 pl-3 border border-border bg-surface placeholder:text-placeholder focus:border-focus"
+        <Input
+          className="w-full lg:w-96 h-9"
           placeholder="Enter your PSN ID"
           onKeyDown={handleKeyDown}
         />
         <div className="flex h-9 gap-2">
           <YearFilter />
           <button
-            className="flex items-center relative h-full rounded-md py-2 px-3 border border-border bg-surface"
+            className="flex items-center relative h-full rounded-md py-2 px-3 border border-input bg-surface"
             onClick={handleSave}>
             <IconDeviceFloppy className="size-5 stroke-1" />
           </button>
           <ImageUploadPopup generateImage={generateImage} />
           <button
-            className="flex items-center relative h-full rounded-md py-2 px-3 border border-border bg-surface"
+            className="flex items-center relative h-full rounded-md py-2 px-3 border border-input bg-surface"
             onClick={openSettings}>
             <IconSettings className="size-5 stroke-[1.5]" />
           </button>

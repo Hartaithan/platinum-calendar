@@ -2,7 +2,7 @@
 
 import type { Dispatch, ForwardRefRenderFunction, SetStateAction } from "react";
 import { forwardRef, useCallback, useImperativeHandle, useState } from "react";
-import Spinner from "@/components/spinner";
+import { Spinner } from "@/components/ui/spinner";
 import IconCircleCheck from "@/icons/circle-check";
 import { useData } from "@/providers/data";
 import type { Pages } from "@/models/app";
@@ -39,14 +39,14 @@ const DataLoadingPopup: ForwardRefRenderFunction<
   if (status === "completed") return null;
 
   return (
-    <div className="w-[240px] fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-xl bg-background shadow-2xl px-6 py-4 text-text z-10">
+    <div className="w-[240px] fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-xl bg-background shadow-2xl px-6 py-4 z-10">
       <h1 className="text-lg font-medium">Loading...</h1>
       <div className="flex justify-between items-center w-full mt-2">
         <p>Profile</p>
         {status === "profile-loading" ? (
           <Spinner className="size-5" />
         ) : (
-          <IconCircleCheck className="size-5 stroke-focus" />
+          <IconCircleCheck className="size-5 stroke-ring" />
         )}
       </div>
       <div className="flex justify-between items-center w-full mt-2">

@@ -7,7 +7,7 @@ import { createArray } from "@/utils/array";
 import { getDateKey, getDateLabel } from "@/utils/date";
 import type { ComponentPropsWithRef } from "react";
 import { forwardRef, memo, type FC } from "react";
-import { twMerge } from "tailwind-merge";
+import { cn } from "@/utils/styles";
 import { useHover } from "@/hooks/use-hover";
 
 interface MonthProps {
@@ -81,7 +81,7 @@ const MarkCircle = forwardRef<HTMLDivElement, MarkCircleProps>((props, ref) => {
   const { color, className, children, ...rest } = props;
   return (
     <div
-      className={twMerge(
+      className={cn(
         "size-7 rounded-full border border-black",
         className,
         color,
@@ -103,15 +103,15 @@ const Mark: FC<MarkProps> = (props) => {
       <MarkCircle
         ref={ref}
         color={bg}
-        className={twMerge(
+        className={cn(
           "absolute inset-0 m-auto flex justify-center items-center",
           bg,
         )}>
-        <p className={twMerge("text-sm", text)}>{count}</p>
+        <p className={cn("text-sm", text)}>{count}</p>
       </MarkCircle>
       {hovered && (
         <div className="absolute -top-[105%] left-[50%] -translate-x-[50%] z-10 p-2 bg-background rounded shadow-lg w-auto">
-          <p className="text-xs text-text text-nowrap">{label}</p>
+          <p className="text-xs text-nowrap">{label}</p>
         </div>
       )}
     </>
@@ -129,7 +129,7 @@ const Day: FC<DayProps> = memo((props) => {
   const hasPlatinums = platinums && platinums.length > 0;
   return (
     <button
-      className={twMerge(
+      className={cn(
         "day size-8 flex box-content border-r border-r-black border-b border-b-black justify-center items-center relative",
         !hasPlatinums && "cursor-default",
       )}
@@ -150,7 +150,7 @@ const Total: FC<TotalProps> = memo((props) => {
   const cols = 35 - days;
   return (
     <div
-      className={twMerge(
+      className={cn(
         columns[cols],
         "flex justify-center items-center box-content border-r border-r-black border-b border-b-black",
       )}>
@@ -165,7 +165,7 @@ const Month: FC<MonthProps> = memo((props) => {
   return (
     <div className="month w-fit flex flex-col box-content border-l border-l-black border-t border-t-black">
       <div
-        className={twMerge(
+        className={cn(
           "header h-8 flex items-center justify-center box-content border-r border-r-black border-b border-b-black",
           headerColors[month],
         )}>
