@@ -2,6 +2,7 @@ import IconClose from "@/icons/close";
 import type { ComponentPropsWithoutRef, FC, PropsWithChildren } from "react";
 import { cn } from "@/utils/styles";
 import { useScrollLock } from "@/hooks/use-scroll-lock";
+import { Button } from "@/components/ui/button";
 
 export interface ModalStyles {
   title?: string;
@@ -62,7 +63,8 @@ const ModalContainer: FC<ModalContainerProps> = (props) => {
 export const ModalCloseButton: FC<ModalCloseButtonProps> = (props) => {
   const { className, onClose, ...rest } = props;
   return (
-    <button
+    <Button
+      variant="unstyled"
       className={cn(
         "flex justify-center items-center p-1 ml-auto bg-transparent border-0 float-right text-3xl leading-none font-semibold outline-none focus:outline-none",
         className,
@@ -70,7 +72,7 @@ export const ModalCloseButton: FC<ModalCloseButtonProps> = (props) => {
       onClick={onClose}
       {...rest}>
       <IconClose className="size-4" />
-    </button>
+    </Button>
   );
 };
 

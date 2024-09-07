@@ -26,6 +26,7 @@ import IconSettings from "@/icons/settings";
 import SettingsModal from "@/components/modals/settings-modal";
 import { useModal } from "@/hooks/use-modal";
 import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 
 const MainSection: FC = () => {
   const { profile, setProfile, setStatus, setPlatinums, setGroups } = useData();
@@ -154,17 +155,19 @@ const MainSection: FC = () => {
         />
         <div className="flex h-9 gap-2">
           <YearFilter />
-          <button
+          <Button
+            variant="unstyled"
             className="flex items-center relative h-full rounded-md py-2 px-3 border border-input bg-surface"
             onClick={handleSave}>
             <IconDeviceFloppy className="size-5 stroke-1" />
-          </button>
+          </Button>
           <ImageUploadPopup generateImage={generateImage} />
-          <button
+          <Button
+            variant="unstyled"
             className="flex items-center relative h-full rounded-md py-2 px-3 border border-input bg-surface"
             onClick={openSettings}>
             <IconSettings className="size-5 stroke-[1.5]" />
-          </button>
+          </Button>
         </div>
       </div>
       <div
@@ -172,12 +175,12 @@ const MainSection: FC = () => {
         ref={calendarRef}>
         <Profile />
         <OGCalendar onDayClick={handleDayClick} />
-        <DataLoadingPopup ref={popupRef} handleAbort={handleAbort} />
         <LinkMessage />
       </div>
       <div className="fixed top-0 left-0 w-full h-full overflow-hidden -z-50">
         <div className="w-[1200px] h-[800px] @container" ref={hiddenRef} />
       </div>
+      <DataLoadingPopup ref={popupRef} handleAbort={handleAbort} />
       <DateDetailsModal
         data={details.data}
         isVisible={details.isVisible}

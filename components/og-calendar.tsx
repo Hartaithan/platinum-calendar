@@ -9,6 +9,7 @@ import type { ComponentPropsWithRef } from "react";
 import { forwardRef, memo, type FC } from "react";
 import { cn } from "@/utils/styles";
 import { useHover } from "@/hooks/use-hover";
+import { Button } from "@/components/ui/button";
 
 interface MonthProps {
   month: string;
@@ -128,7 +129,8 @@ const Day: FC<DayProps> = memo((props) => {
   const platinums = groups ? groups[key] : null;
   const hasPlatinums = platinums && platinums.length > 0;
   return (
-    <button
+    <Button
+      variant="unstyled"
       className={cn(
         "day size-8 flex box-content border-r border-r-black border-b border-b-black justify-center items-center relative",
         !hasPlatinums && "cursor-default",
@@ -137,7 +139,7 @@ const Day: FC<DayProps> = memo((props) => {
       disabled={!hasPlatinums}>
       <p>{day}</p>
       {hasPlatinums && <Mark count={platinums.length} label={label} />}
-    </button>
+    </Button>
   );
 });
 

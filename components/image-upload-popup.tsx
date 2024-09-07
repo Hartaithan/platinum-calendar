@@ -5,6 +5,7 @@ import { fetchAPI } from "@/utils/api";
 import { getUploadFormData } from "@/utils/upload";
 import { useCallback, useState, type FC } from "react";
 import { Spinner } from "@/components/ui/spinner";
+import { Button } from "@/components/ui/button";
 import { ModalCloseButton } from "@/components/modal";
 import { useErrors } from "@/providers/errors";
 import { readError } from "@/utils/error";
@@ -55,11 +56,12 @@ const ImageUploadPopup: FC<Props> = (props) => {
 
   return (
     <>
-      <button
+      <Button
+        variant="unstyled"
         className="flex items-center relative h-full rounded-md py-2 px-3 border border-input bg-surface"
         onClick={handleUpload}>
         <IconUpload className="size-4" />
-      </button>
+      </Button>
       {isVisible && (
         <div className="w-[360px] min-h-16 fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-xl bg-background shadow-2xl px-6 py-4 z-10">
           {!isLoading && (

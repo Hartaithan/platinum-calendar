@@ -3,6 +3,7 @@
 import type { Dispatch, ForwardRefRenderFunction, SetStateAction } from "react";
 import { forwardRef, useCallback, useImperativeHandle, useState } from "react";
 import { Spinner } from "@/components/ui/spinner";
+import { Button } from "@/components/ui/button";
 import IconCircleCheck from "@/icons/circle-check";
 import { useData } from "@/providers/data";
 import type { Pages } from "@/models/app";
@@ -62,11 +63,12 @@ const DataLoadingPopup: ForwardRefRenderFunction<
           )}
         </div>
       </div>
-      <button
+      <Button
+        variant="unstyled"
         className="mt-3 w-full bg-surface hover:bg-surface/50 rounded-md py-1"
         onClick={handleAbort}>
         Cancel
-      </button>
+      </Button>
     </div>
   );
 };
