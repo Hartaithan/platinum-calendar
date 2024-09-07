@@ -157,14 +157,14 @@ const MainSection: FC = () => {
           <YearFilter />
           <Button
             variant="unstyled"
-            className="flex items-center relative h-full rounded-md py-2 px-3 border border-input bg-surface"
+            className="flex items-center relative h-full rounded-md py-2 px-3 border border-input bg-primary"
             onClick={handleSave}>
             <IconDeviceFloppy className="size-5 stroke-1" />
           </Button>
           <ImageUploadPopup generateImage={generateImage} />
           <Button
             variant="unstyled"
-            className="flex items-center relative h-full rounded-md py-2 px-3 border border-input bg-surface"
+            className="flex items-center relative h-full rounded-md py-2 px-3 border border-input bg-primary"
             onClick={openSettings}>
             <IconSettings className="size-5 stroke-[1.5]" />
           </Button>

@@ -58,7 +58,7 @@ const ImageUploadPopup: FC<Props> = (props) => {
     <>
       <Button
         variant="unstyled"
-        className="flex items-center relative h-full rounded-md py-2 px-3 border border-input bg-surface"
+        className="flex items-center relative h-full rounded-md py-2 px-3 border border-input bg-primary"
         onClick={handleUpload}>
         <IconUpload className="size-4" />
       </Button>
