@@ -132,7 +132,7 @@ const Day: FC<DayProps> = memo((props) => {
     <Button
       variant="unstyled"
       className={cn(
-        "day size-8 flex box-content border-r border-r-black border-b border-b-black justify-center items-center relative",
+        "day size-day flex border-r border-r-black border-b border-b-black justify-center items-center relative",
         !hasPlatinums && "cursor-default",
       )}
       onClick={() => onDayClick({ date, platinums })}
@@ -154,7 +154,7 @@ const Total: FC<TotalProps> = memo((props) => {
     <div
       className={cn(
         columns[cols],
-        "flex justify-center items-center box-content border-r border-r-black border-b border-b-black",
+        "flex justify-center items-center border-r border-r-black border-b border-b-black",
       )}>
       {total && total.length > 0 && <p>{total.length} plats</p>}
     </div>
@@ -165,10 +165,10 @@ const Month: FC<MonthProps> = memo((props) => {
   const { month, days: count, onDayClick } = props;
   const days = createArray(count);
   return (
-    <div className="month w-fit flex flex-col box-content border-l border-l-black border-t border-t-black">
+    <div className="month w-fit flex flex-col border-l border-l-black border-t border-t-black">
       <div
         className={cn(
-          "header h-8 flex items-center justify-center box-content border-r border-r-black border-b border-b-black",
+          "header h-day flex items-center justify-center border-r border-r-black border-b border-b-black",
           headerColors[month],
         )}>
         <p className="font-semibold text-sm">{month}</p>
