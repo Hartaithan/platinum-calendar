@@ -24,7 +24,6 @@ const Spinner: FC<SpinnerProps> = (props) => {
     </svg>
   );
 };
-
 Spinner.displayName = "Spinner";
 
 export { Spinner };

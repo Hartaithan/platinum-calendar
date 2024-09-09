@@ -43,7 +43,6 @@ const SelectTrigger = forwardRef<
     </Icon>
   </Trigger>
 ));
-
 SelectTrigger.displayName = Trigger.displayName;
 
 const SelectScrollUpButton = forwardRef<
@@ -60,7 +59,6 @@ const SelectScrollUpButton = forwardRef<
     <ChevronUp className="h-4 w-4" />
   </ScrollUpButton>
 ));
-
 SelectScrollUpButton.displayName = ScrollUpButton.displayName;
 
 const SelectScrollDownButton = forwardRef<
@@ -77,7 +75,6 @@ const SelectScrollDownButton = forwardRef<
     <ChevronDown className="h-4 w-4" />
   </ScrollDownButton>
 ));
-
 SelectScrollDownButton.displayName = ScrollDownButton.displayName;
 
 const SelectContent = forwardRef<
@@ -108,7 +105,6 @@ const SelectContent = forwardRef<
     </Content>
   </Portal>
 ));
-
 SelectContent.displayName = Content.displayName;
 
 const SelectLabel = forwardRef<
@@ -121,7 +117,6 @@ const SelectLabel = forwardRef<
     {...props}
   />
 ));
-
 SelectLabel.displayName = Label.displayName;
 
 const SelectItem = forwardRef<
@@ -144,7 +139,6 @@ const SelectItem = forwardRef<
     <ItemText>{children}</ItemText>
   </Item>
 ));
-
 SelectItem.displayName = Item.displayName;
 
 const SelectSeparator = forwardRef<
@@ -157,7 +151,6 @@ const SelectSeparator = forwardRef<
     {...props}
   />
 ));
-
 SelectSeparator.displayName = Separator.displayName;
 
 export {
