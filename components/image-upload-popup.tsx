@@ -6,7 +6,7 @@ import { getUploadFormData } from "@/utils/upload";
 import { useCallback, useState, type FC } from "react";
 import { Spinner } from "@/components/ui/spinner";
 import { Button } from "@/components/ui/button";
-import { ModalCloseButton } from "@/components/modal";
+import { ModalCloseButton } from "@/components/ui/modal";
 import { useErrors } from "@/providers/errors";
 import { readError } from "@/utils/error";
 
@@ -67,7 +67,7 @@ const ImageUploadPopup: FC<Props> = (props) => {
           {!isLoading && (
             <ModalCloseButton
               className="float-none absolute top-3 right-3"
-              onClose={handleClose}
+              onClick={handleClose}
             />
           )}
           {isLoading && <Spinner className="w-full my-4" />}

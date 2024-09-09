@@ -1,7 +1,7 @@
 "use client";
 
 import { memo, type FC } from "react";
-import { ModalCloseButton } from "@/components/modal";
+import { ModalCloseButton } from "@/components/ui/modal";
 import { useErrors } from "@/providers/errors";
 
 interface ErrorProps {
@@ -21,7 +21,7 @@ export const Error: FC<ErrorProps> = memo((props) => {
     <div className="relative min-w-36 rounded-xl bg-background shadow-xl px-4 py-2">
       <ModalCloseButton
         className="float-none absolute top-2 right-2"
-        onClose={() => removeError(index)}
+        onClick={() => removeError(index)}
       />
       <h1 className="text-xs font-medium text-red-600">Error:</h1>
       <p className="text-sm pr-5">{error ?? "Unknown error"}</p>

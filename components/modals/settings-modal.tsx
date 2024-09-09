@@ -1,6 +1,6 @@
 import type { FC } from "react";
-import type { ModalProps } from "@/components/modal";
-import Modal from "@/components/modal";
+import { Modal } from "@/components/ui/modal";
+import type { ModalProps } from "@/components/ui/modal";
 
 const SettingsModal: FC<ModalProps> = (props) => {
   const { isVisible, onClose } = props;
