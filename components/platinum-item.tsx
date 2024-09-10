@@ -13,7 +13,7 @@ const PlatinumItem: FC<Props> = (props) => {
   if (!platinum) return null;
   return (
     <div className="flex flex-col rounded-lg border border-input/25 text-card-foreground shadow-sm w-full p-3 gap-3">
-      <div className="flex items-center gap-4">
+      <div className="flex items-center gap-4 text-left">
         <Image
           className="rounded-md min-w-12 h-auto"
           width={48}
@@ -27,7 +27,7 @@ const PlatinumItem: FC<Props> = (props) => {
           <p className="text-xs md:text-sm">{platinum.description}</p>
         </div>
       </div>
-      <div className="flex flex-col gap-2 text-sm md:text-base">
+      <div className="flex flex-col gap-2 text-sm md:text-base text-left">
         <div className="flex flex-wrap gap-x-4 gap-y-1">
           <div>
             <span>#{platinum.number}</span>
@@ -54,7 +54,7 @@ const PlatinumItem: FC<Props> = (props) => {
           </div>
         </div>
       </div>
-      <div className="flex items-center gap-4">
+      <div className="flex items-center gap-3 md:gap-4 text-left">
         <Image
           className="rounded-md min-w-9 h-9 w-auto"
           width="0"
