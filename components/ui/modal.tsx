@@ -24,7 +24,7 @@ const Modal: FC<ModalProps> = (props) => {
   const { isVisible, title, children, onClose } = props;
   return (
     <Dialog open={isVisible} onOpenChange={onClose}>
-      <DialogContent className="px-4 py-3">
+      <DialogContent className="px-4 py-3 w-[calc(100%-1.5rem)] md:w-full rounded-lg">
         <DialogHeader className="space-y-3">
           {title && (
             <DialogTitle className="w-full text-center text-sm md:text-base font-medium">
