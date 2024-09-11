@@ -24,6 +24,13 @@ const DialogTrigger = Trigger;
 const DialogPortal = Portal;
 const DialogClose = Close;
 
+const DialogCloseStyles = {
+  button:
+    "rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none",
+  icon: "h-4 w-4",
+  sr: "sr-only",
+};
+
 const DialogOverlay = forwardRef<
   ElementRef<typeof Overlay>,
   ComponentPropsWithoutRef<typeof Overlay>
@@ -53,9 +60,13 @@ const DialogContent = forwardRef<
       )}
       {...props}>
       {children}
-      <Close className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground">
-        <X className="h-4 w-4" />
-        <span className="sr-only">Close</span>
+      <Close
+        className={cn(
+          "absolute right-4 top-4 data-[state=open]:bg-accent data-[state=open]:text-muted-foreground",
+          DialogCloseStyles.button,
+        )}>
+        <X className={DialogCloseStyles.icon} />
+        <span className={DialogCloseStyles.sr}>Close</span>
       </Close>
     </Content>
   </DialogPortal>
@@ -122,6 +133,7 @@ export {
   DialogPortal,
   DialogOverlay,
   DialogClose,
+  DialogCloseStyles,
   DialogTrigger,
   DialogContent,
   DialogHeader,

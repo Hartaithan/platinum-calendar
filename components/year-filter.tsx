@@ -1,7 +1,7 @@
 "use client";
 
 import IconArrow from "@/icons/arrow";
-import IconClose from "@/icons/close";
+import { X } from "lucide-react";
 import { useFilters } from "@/providers/filters";
 import type { FC } from "react";
 import { Button } from "@/components/ui/button";
@@ -30,7 +30,7 @@ const YearFilter: FC = () => {
           variant="unstyled"
           className="absolute bg-primary border border-input/90 size-5 rounded-full -top-2 -right-2 flex justify-center items-center"
           onClick={() => setYear(null)}>
-          <IconClose className="size-3" />
+          <X className="size-3" />
         </Button>
       )}
     </div>

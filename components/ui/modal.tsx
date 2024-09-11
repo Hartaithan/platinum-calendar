@@ -1,13 +1,14 @@
 import type { FC, PropsWithChildren } from "react";
 import {
   Dialog,
+  DialogCloseStyles,
   DialogContent,
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
 import type { ButtonProps } from "@/components/ui/button";
 import { Button } from "@/components/ui/button";
-import IconClose from "@/icons/close";
+import { X } from "lucide-react";
 import { cn } from "@/utils/styles";
 
 export interface ModalState<T = null> {
@@ -44,12 +45,10 @@ export const ModalCloseButton: FC<ButtonProps> = (props) => {
   return (
     <Button
       variant="unstyled"
-      className={cn(
-        "flex justify-center items-center p-1 ml-auto bg-transparent border-0 float-right text-3xl leading-none font-semibold outline-none focus:outline-none",
-        className,
-      )}
+      className={cn(DialogCloseStyles.button, className)}
       {...rest}>
-      <IconClose className="size-4" />
+      <X className={DialogCloseStyles.icon} />
+      <span className={DialogCloseStyles.sr}>Close</span>
     </Button>
   );
 };
