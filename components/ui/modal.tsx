@@ -3,6 +3,7 @@ import {
   Dialog,
   DialogCloseStyles,
   DialogContent,
+  DialogDescription,
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
@@ -19,10 +20,11 @@ export interface ModalState<T = null> {
 export interface ModalProps<T = null> extends PropsWithChildren, ModalState<T> {
   onClose: (value: boolean) => void;
   title?: string;
+  description?: string;
 }
 
 const Modal: FC<ModalProps> = (props) => {
-  const { isVisible, title, children, onClose } = props;
+  const { isVisible, title, description, children, onClose } = props;
   return (
     <Dialog open={isVisible} onOpenChange={onClose}>
       <DialogContent className="px-4 py-3 w-[calc(100%-1.5rem)] md:w-full rounded-lg">
@@ -32,6 +34,9 @@ const Modal: FC<ModalProps> = (props) => {
               {title}
             </DialogTitle>
           )}
+          <DialogDescription className="hidden">
+            {description ?? "Modal"}
+          </DialogDescription>
           {children}
         </DialogHeader>
       </DialogContent>

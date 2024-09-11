@@ -11,7 +11,11 @@ const DateDetailsModal: FC<ModalProps<DetailsModalData>> = (props) => {
   const { isVisible, data, onClose } = props;
   const label = data?.date ? getDateLabel(data.date) : "Details";
   return (
-    <Modal title={label} isVisible={isVisible} onClose={onClose}>
+    <Modal
+      title={label}
+      description="Date details modal"
+      isVisible={isVisible}
+      onClose={onClose}>
       <div className="flex flex-col items-center">
         {data?.platinums && (
           <div className="w-full-scrollbar flex flex-col gap-3 max-h-[80vh] overflow-y-auto scrollbar-gutter">

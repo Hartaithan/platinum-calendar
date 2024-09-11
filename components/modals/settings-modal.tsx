@@ -5,7 +5,11 @@ import type { ModalProps } from "@/components/ui/modal";
 const SettingsModal: FC<ModalProps> = (props) => {
   const { isVisible, onClose } = props;
   return (
-    <Modal title="Settings" isVisible={isVisible} onClose={onClose}>
+    <Modal
+      title="Settings"
+      description="Settings modal"
+      isVisible={isVisible}
+      onClose={onClose}>
       <div className="flex flex-col items-center">Hello World!</div>
     </Modal>
   );
