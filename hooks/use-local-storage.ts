@@ -14,7 +14,7 @@ export interface StorageProperties<T> {
 function serializeJSON<T>(value: T, hookName = "use-local-storage") {
   try {
     return JSON.stringify(value);
-  } catch (error) {
+  } catch (_error) {
     throw new Error(`${hookName}: Failed to serialize the value`);
   }
 }
@@ -31,7 +31,7 @@ function createStorageHandler(type: StorageType) {
   const getItem = (key: string) => {
     try {
       return window[type].getItem(key);
-    } catch (error) {
+    } catch (_error) {
       console.warn(
         "use-local-storage: Failed to get value from storage, localStorage is blocked",
       );
@@ -42,7 +42,7 @@ function createStorageHandler(type: StorageType) {
   const setItem = (key: string, value: string) => {
     try {
       window[type].setItem(key, value);
-    } catch (error) {
+    } catch (_error) {
       console.warn(
         "use-local-storage: Failed to set value to storage, localStorage is blocked",
       );
@@ -52,7 +52,7 @@ function createStorageHandler(type: StorageType) {
   const removeItem = (key: string) => {
     try {
       window[type].removeItem(key);
-    } catch (error) {
+    } catch (_error) {
       console.warn(
         "use-local-storage: Failed to remove value from storage, localStorage is blocked",
       );

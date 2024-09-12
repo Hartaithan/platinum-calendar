@@ -6,6 +6,7 @@ import DataProvider from "@/providers/data";
 import ThemeProvider from "@/providers/theme";
 import FiltersProvider from "@/providers/filters";
 import ErrorsProvider from "@/providers/errors";
+import SettingsProvider from "@/providers/settings";
 
 interface Props extends PropsWithChildren {
   defaultTheme: Theme;
@@ -17,7 +18,9 @@ const RootProviders: FC<Props> = (props) => {
     <ThemeProvider defaultTheme={defaultTheme}>
       <DataProvider>
         <FiltersProvider>
-          <ErrorsProvider>{children}</ErrorsProvider>
+          <ErrorsProvider>
+            <SettingsProvider>{children}</SettingsProvider>
+          </ErrorsProvider>
         </FiltersProvider>
       </DataProvider>
     </ThemeProvider>
