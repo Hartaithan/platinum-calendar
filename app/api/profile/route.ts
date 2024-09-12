@@ -3,12 +3,14 @@ import { NextResponse } from "next/server";
 import { fetchProfile } from "@/utils/fetch";
 import { parseProfile } from "@/utils/profile";
 import type { ProfileResponse } from "@/models/profile";
+import type { FetchTarget } from "@/models/fetch";
 
 export const GET = async (
   req: NextRequest,
 ): Promise<NextResponse<ProfileResponse>> => {
   const { searchParams } = new URL(req.url);
   const id = searchParams.get("id");
+  const target = (searchParams.get("target") as FetchTarget) ?? "alpha";
 
   if (!id) {
     console.error("param id not found", searchParams);
@@ -19,7 +21,7 @@ export const GET = async (
   }
 
   try {
-    const response = await fetchProfile({ id });
+    const response = await fetchProfile({ id, target });
     if (!response) {
       return NextResponse.json(
         { message: "Unable to fetch profile data" },

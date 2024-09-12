@@ -27,6 +27,7 @@ import SettingsModal from "@/components/modals/settings-modal";
 import { useModal } from "@/hooks/use-modal";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { useSettings } from "@/providers/settings";
 
 const MainSection: FC = () => {
   const { profile, setProfile, setStatus, setPlatinums, setGroups } = useData();
@@ -37,6 +38,9 @@ const MainSection: FC = () => {
   const controller = useRef<AbortController | null>(null);
   const [details, openDetails, closeDetails] = useModal<DetailsModalData>();
   const [settings, openSettings, closeSettings] = useModal();
+  const {
+    settings: { target },
+  } = useSettings();
 
   const handleSubmit: KeyboardEventHandler<HTMLInputElement> = useCallback(
     async (e) => {
@@ -47,7 +51,7 @@ const MainSection: FC = () => {
         controller.current = new AbortController();
         const { profile } = await fetchAPI.get<ProfileResponse>(
           "/profile",
-          { id },
+          { id, target },
           { signal: controller.current.signal },
         );
         if (!profile) {
@@ -67,7 +71,7 @@ const MainSection: FC = () => {
           controller.current = new AbortController();
           const response = await fetchAPI.get<PlatinumsResponse>(
             "/platinums",
-            { id, page: i },
+            { id, page: i, target },
             { signal: controller.current.signal },
           );
           if (!response.list) continue;
@@ -90,7 +94,7 @@ const MainSection: FC = () => {
         addError(message);
       }
     },
-    [setProfile, setStatus, setGroups, setPlatinums, addError],
+    [target, setStatus, setProfile, setGroups, setPlatinums, addError],
   );
 
   const handleKeyDown: KeyboardEventHandler<HTMLInputElement> = useCallback(
