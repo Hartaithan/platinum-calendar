@@ -1,26 +1,26 @@
 "use client";
 
 import { useLocalStorage } from "@/hooks/use-local-storage";
-import type { FetchTarget } from "@/models/fetch";
+import type { FetchSource } from "@/models/fetch";
 import type { FC, PropsWithChildren } from "react";
 import { createContext, useCallback, useContext, useMemo } from "react";
 
 interface Settings {
-  target: FetchTarget;
+  source: FetchSource;
 }
 
 interface Context {
   settings: Settings;
-  handleTargetChange: (value: FetchTarget) => void;
+  handleSourceChange: (value: FetchSource) => void;
 }
 
 const defaultValue: Settings = {
-  target: "alpha",
+  source: "alpha",
 };
 
 const initialValue: Context = {
   settings: defaultValue,
-  handleTargetChange: () => null,
+  handleSourceChange: () => null,
 };
 
 const Context = createContext<Context>(initialValue);
@@ -32,16 +32,16 @@ const SettingsProvider: FC<PropsWithChildren> = (props) => {
     defaultValue,
   });
 
-  const handleTargetChange = useCallback(
-    (value: FetchTarget) => {
-      setSettings((prev) => ({ ...prev, target: value }));
+  const handleSourceChange = useCallback(
+    (value: FetchSource) => {
+      setSettings((prev) => ({ ...prev, source: value }));
     },
     [setSettings],
   );
 
   const exposed: Context = useMemo(
-    () => ({ settings, handleTargetChange }),
-    [settings, handleTargetChange],
+    () => ({ settings, handleSourceChange }),
+    [settings, handleSourceChange],
   );
 
   return <Context.Provider value={exposed}>{children}</Context.Provider>;

@@ -39,7 +39,7 @@ const MainSection: FC = () => {
   const [details, openDetails, closeDetails] = useModal<DetailsModalData>();
   const [settings, openSettings, closeSettings] = useModal();
   const {
-    settings: { target },
+    settings: { source },
   } = useSettings();
 
   const handleSubmit: KeyboardEventHandler<HTMLInputElement> = useCallback(
@@ -51,7 +51,7 @@ const MainSection: FC = () => {
         controller.current = new AbortController();
         const { profile } = await fetchAPI.get<ProfileResponse>(
           "/profile",
-          { id, target },
+          { id, source },
           { signal: controller.current.signal },
         );
         if (!profile) {
@@ -71,7 +71,7 @@ const MainSection: FC = () => {
           controller.current = new AbortController();
           const response = await fetchAPI.get<PlatinumsResponse>(
             "/platinums",
-            { id, page: i, target },
+            { id, page: i, source },
             { signal: controller.current.signal },
           );
           if (!response.list) continue;
@@ -94,7 +94,7 @@ const MainSection: FC = () => {
         addError(message);
       }
     },
-    [target, setStatus, setProfile, setGroups, setPlatinums, addError],
+    [source, setStatus, setProfile, setGroups, setPlatinums, addError],
   );
 
   const handleKeyDown: KeyboardEventHandler<HTMLInputElement> = useCallback(

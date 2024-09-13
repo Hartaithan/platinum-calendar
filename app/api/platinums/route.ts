@@ -1,4 +1,4 @@
-import type { FetchTarget } from "@/models/fetch";
+import type { FetchSource } from "@/models/fetch";
 import type { PlatinumsResponse } from "@/models/trophy";
 import { fetchPlatinums } from "@/utils/fetch";
 import { parsePlatinums } from "@/utils/trophies";
@@ -11,7 +11,7 @@ export const GET = async (
   const { searchParams } = new URL(req.url);
   const id = searchParams.get("id");
   const page = searchParams.get("page");
-  const target = (searchParams.get("target") as FetchTarget) ?? "alpha";
+  const source = (searchParams.get("source") as FetchSource) ?? "alpha";
 
   if (!id) {
     console.error("param id not found", searchParams);
@@ -30,7 +30,7 @@ export const GET = async (
   }
 
   try {
-    const response = await fetchPlatinums({ id, page, target });
+    const response = await fetchPlatinums({ id, page, source });
     if (!response) {
       return NextResponse.json(
         { message: "Unable to fetch platinums data" },

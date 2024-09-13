@@ -1,6 +1,6 @@
-export type FetchTarget = "alpha" | "bravo";
+export type FetchSource = "alpha" | "bravo";
 
 export interface FetchParams {
   id: string;
-  target?: FetchTarget;
+  source?: FetchSource;
 }

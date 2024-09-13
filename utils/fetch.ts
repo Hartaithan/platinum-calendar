@@ -1,14 +1,14 @@
 "use server";
 
-import { FETCH_URL, defaultFetchTarget } from "@/constants/fetch";
+import { FETCH_URL, defaultFetchSource } from "@/constants/fetch";
 import { SERVICE_URL } from "@/constants/variables";
-import type { FetchTarget } from "@/models/fetch";
+import type { FetchSource } from "@/models/fetch";
 import type { FetchProfileParams } from "@/models/profile";
 import type { FetchPlatinumsParams } from "@/models/trophy";
 
 export const fetchPage = async (
   url: URL,
-  target: FetchTarget,
+  source: FetchSource,
 ): Promise<string | null> => {
   try {
     const request = await fetch(url);
@@ -16,14 +16,14 @@ export const fetchPage = async (
     const isJSON = contentType && contentType.includes("application/json");
     const response = isJSON ? await request.json() : await request.text();
     if (!request.ok) throw Error(response?.message ?? "Unknown error");
-    switch (target) {
+    switch (source) {
       case "bravo":
         return response?.body || response;
       default:
         return response;
     }
   } catch (error) {
-    console.error("unable to fetch data", url.toString(), target, error);
+    console.error("unable to fetch data", url.toString(), source, error);
     return null;
   }
 };
@@ -31,22 +31,22 @@ export const fetchPage = async (
 export const fetchProfile = async (
   params: FetchProfileParams,
 ): Promise<string | null> => {
-  const { id, target = defaultFetchTarget } = params;
+  const { id, source = defaultFetchSource } = params;
   let url: URL;
-  switch (target) {
+  switch (source) {
     case "bravo": {
       const pageUrl = SERVICE_URL + "/" + id;
-      url = new URL(FETCH_URL[target]);
+      url = new URL(FETCH_URL[source]);
       url.searchParams.set("url", pageUrl);
       break;
     }
     default: {
-      url = new URL(FETCH_URL[target] + "/default/fetchProfile");
+      url = new URL(FETCH_URL[source] + "/default/fetchProfile");
       url.searchParams.set("psn_id", id);
       break;
     }
   }
-  const response = await fetchPage(url, target);
+  const response = await fetchPage(url, source);
   if (!response) return null;
   return response;
 };
@@ -54,25 +54,25 @@ export const fetchProfile = async (
 export const fetchPlatinums = async (
   params: FetchPlatinumsParams,
 ): Promise<string | null> => {
-  const { id, page, target = defaultFetchTarget } = params;
+  const { id, page, source = defaultFetchSource } = params;
   let url: URL;
-  switch (target) {
+  switch (source) {
     case "bravo": {
       const pageUrl = new URL(`${SERVICE_URL}/${id}/log`);
       pageUrl.searchParams.set("type", "platinum");
       pageUrl.searchParams.set("page", page);
-      url = new URL(FETCH_URL[target]);
+      url = new URL(FETCH_URL[source]);
       url.searchParams.set("url", pageUrl.toString());
       break;
     }
     default: {
-      url = new URL(FETCH_URL[target] + "/fetchPlatinums");
+      url = new URL(FETCH_URL[source] + "/fetchPlatinums");
       url.searchParams.set("psn_id", id);
       url.searchParams.set("page", page);
       break;
     }
   }
-  const response = await fetchPage(url, target);
+  const response = await fetchPage(url, source);
   if (!response) return null;
   return response;
 };

@@ -9,9 +9,9 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useSettings } from "@/providers/settings";
-import type { FetchTarget } from "@/models/fetch";
+import type { FetchSource } from "@/models/fetch";
 
-const fetchTargetDescription: Record<FetchTarget, string> = {
+const sourceDescription: Record<FetchSource, string> = {
   alpha:
     "more stable, but there may be issues retrieving profiles with over 1000+ platinums",
   bravo:
@@ -19,13 +19,13 @@ const fetchTargetDescription: Record<FetchTarget, string> = {
 };
 
 const SettingsForm: FC = () => {
-  const { settings, handleTargetChange } = useSettings();
+  const { settings, handleSourceChange } = useSettings();
   return (
     <div className="flex flex-col">
-      <label className="text-sm font-semibold mb-1">Fetch Target</label>
-      <Select value={settings.target} onValueChange={handleTargetChange}>
+      <label className="text-sm font-semibold mb-1">Fetch Source</label>
+      <Select value={settings.source} onValueChange={handleSourceChange}>
         <SelectTrigger>
-          <SelectValue placeholder="Select fetch target" />
+          <SelectValue placeholder="Select fetch source" />
         </SelectTrigger>
         <SelectContent>
           <SelectItem value="alpha">Alpha</SelectItem>
@@ -33,7 +33,7 @@ const SettingsForm: FC = () => {
         </SelectContent>
       </Select>
       <p className="text-xs text-left text-neutral-500 mt-2">
-        {fetchTargetDescription[settings.target]}
+        {sourceDescription[settings.source]}
       </p>
     </div>
   );
