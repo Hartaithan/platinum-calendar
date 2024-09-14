@@ -1,7 +1,6 @@
 "use client";
 
-import IconArrow from "@/icons/arrow";
-import { X } from "lucide-react";
+import { ArrowLeft, ArrowRight, X } from "lucide-react";
 import { useFilters } from "@/providers/filters";
 import type { FC } from "react";
 import { Button } from "@/components/ui/button";
@@ -14,7 +13,7 @@ const YearFilter: FC = () => {
         variant="unstyled"
         className="rounded"
         onClick={() => handleYear("prev")}>
-        <IconArrow className="size-3 rotate-180" />
+        <ArrowLeft className="size-4" />
       </Button>
       <p className="w-16 text-center text-sm leading-[normal] cursor-default">
         {year ?? "All"}
@@ -23,7 +22,7 @@ const YearFilter: FC = () => {
         variant="unstyled"
         className="rounded"
         onClick={() => handleYear("next")}>
-        <IconArrow className="size-3" />
+        <ArrowRight className="size-4" />
       </Button>
       {year !== null && (
         <Button

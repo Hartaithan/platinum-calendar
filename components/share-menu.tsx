@@ -5,8 +5,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import IconDeviceFloppy from "@/icons/device-floppy";
-import IconUpload from "@/icons/upload";
+import { Save, Share2, Upload } from "lucide-react";
 import { useData } from "@/providers/data";
 import { useErrors } from "@/providers/errors";
 import { readError } from "@/utils/error";
@@ -66,19 +65,16 @@ const ShareMenu: FC<Props> = (props) => {
     <>
       <DropdownMenu>
         <DropdownMenuTrigger className="flex items-center relative h-full rounded-md py-2 px-3 border border-input bg-primary text-sm">
-          Share
+          <Share2 className="size-4 mr-3" />
+          <span>Share</span>
         </DropdownMenuTrigger>
         <DropdownMenuContent>
           <DropdownMenuItem onClick={handleSave}>
-            <div className="flex justify-center items-center size-4 mr-2">
-              <IconDeviceFloppy className="size-4 stroke-1" />
-            </div>
+            <Save className="size-4 mr-2" />
             <span>Save as PNG</span>
           </DropdownMenuItem>
           <DropdownMenuItem onClick={handleUpload}>
-            <div className="flex justify-center items-center size-4 mr-2">
-              <IconUpload className="size-3" />
-            </div>
+            <Upload className="size-4 mr-2" />
             <span>Upload on Imgur</span>
           </DropdownMenuItem>
         </DropdownMenuContent>

@@ -1,18 +1,18 @@
 "use client";
 
-import IconTrophy from "@/icons/trophy";
 import type { TrophyTypeAll } from "@/models/trophy";
 import { useData } from "@/providers/data";
 import Image from "next/image";
 import type { FC } from "react";
 import { cn } from "@/utils/styles";
+import { Trophy } from "lucide-react";
 
 const trophyColors: Record<TrophyTypeAll | string, [string, string]> = {
-  total: ["fill-[#27272a]", "text-[#27272a]"],
-  platinum: ["fill-[#7a96d1]", "text-[#7a96d1]"],
-  gold: ["fill-[#cd9a46]", "text-[#cd9a46]"],
-  silver: ["fill-[#9b9b9b]", "text-[#9b9b9b]"],
-  bronze: ["fill-[#bf6a3a]", "text-[#bf6a3a]"],
+  total: ["bg-[#27272a]", "text-[#27272a]"],
+  platinum: ["bg-[#7a96d1]", "text-[#7a96d1]"],
+  gold: ["bg-[#cd9a46]", "text-[#cd9a46]"],
+  silver: ["bg-[#9b9b9b]", "text-[#9b9b9b]"],
+  bronze: ["bg-[#bf6a3a]", "text-[#bf6a3a]"],
 };
 
 const EmptyProfile: FC = () => {
@@ -52,7 +52,13 @@ const Profile: FC = () => {
       <div className="w-4/5 md:w-10/12 lg:w-auto @save:w-auto flex items-center justify-center lg:justify-normal @save:justify-normal gap-4 flex-wrap @save:flex-nowrap">
         {Object.entries(counts).map(([key, value]) => (
           <div key={key} className="flex gap-2 items-center">
-            <IconTrophy className={cn("size-5", trophyColors[key][0])} />
+            <div
+              className={cn(
+                "size-6 rounded-full flex justify-center items-center",
+                trophyColors[key][0],
+              )}>
+              <Trophy className="size-[14px] stroke-white" />
+            </div>
             <p className={cn("text-sm font-medium", trophyColors[key][1])}>
               {value.toLocaleString()}
             </p>

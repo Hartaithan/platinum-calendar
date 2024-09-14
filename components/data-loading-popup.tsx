@@ -4,7 +4,7 @@ import type { Dispatch, ForwardRefRenderFunction, SetStateAction } from "react";
 import { forwardRef, useCallback, useImperativeHandle, useState } from "react";
 import { Spinner } from "@/components/ui/spinner";
 import { Button } from "@/components/ui/button";
-import IconCircleCheck from "@/icons/circle-check";
+import { CircleCheck } from "lucide-react";
 import { useData } from "@/providers/data";
 import type { Pages } from "@/models/app";
 
@@ -47,7 +47,7 @@ const DataLoadingPopup: ForwardRefRenderFunction<
         {status === "profile-loading" ? (
           <Spinner className="size-5" />
         ) : (
-          <IconCircleCheck className="size-5 stroke-ring" />
+          <CircleCheck className="size-5 stroke-ring" />
         )}
       </div>
       <div className="flex justify-between items-center w-full mt-2">
