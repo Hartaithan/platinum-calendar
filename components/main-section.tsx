@@ -14,11 +14,9 @@ import DateDetailsModal from "@/components/modals/date-details-modal";
 import type { DetailsModalData } from "@/components/modals/date-details-modal";
 import type { DayClickHandler } from "@/models/calendar";
 import YearFilter from "@/components/year-filter";
-import IconDeviceFloppy from "@/icons/device-floppy";
 import { toBlob } from "html-to-image";
 import Profile from "@/components/profile";
 import LinkMessage from "@/components/link-message";
-import ImageUploadPopup from "@/components/image-upload-popup";
 import { readError } from "@/utils/error";
 import { useErrors } from "@/providers/errors";
 import { imageOptions } from "@/constants/image";
@@ -28,9 +26,10 @@ import { useModal } from "@/hooks/use-modal";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useSettings } from "@/providers/settings";
+import ShareMenu from "@/components/share-menu";
 
 const MainSection: FC = () => {
-  const { profile, setProfile, setStatus, setPlatinums, setGroups } = useData();
+  const { setProfile, setStatus, setPlatinums, setGroups } = useData();
   const { addError } = useErrors();
   const calendarRef = useRef<HTMLDivElement | null>(null);
   const hiddenRef = useRef<HTMLDivElement | null>(null);
@@ -133,22 +132,6 @@ const MainSection: FC = () => {
     }
   }, [addError]);
 
-  const handleSave = useCallback(async () => {
-    try {
-      const image = await generateImage();
-      if (!image) throw new Error("Unable to generate image");
-      const link = document.createElement("a");
-      link.href = URL.createObjectURL(image);
-      link.download = `${profile?.name ?? "calendar"}.png`;
-      link.click();
-      link.remove();
-    } catch (error) {
-      console.error("save error", error);
-      const message = readError(error);
-      addError(message);
-    }
-  }, [profile?.name, generateImage, addError]);
-
   return (
     <div className="flex flex-col justify-center items-center">
       <div className="flex flex-col lg:flex-row w-4/5 lg:w-auto items-center gap-2">
@@ -159,13 +142,7 @@ const MainSection: FC = () => {
         />
         <div className="flex h-9 gap-2">
           <YearFilter />
-          <Button
-            variant="unstyled"
-            className="flex items-center relative h-full rounded-md py-2 px-3 border border-input bg-primary"
-            onClick={handleSave}>
-            <IconDeviceFloppy className="size-5 stroke-1" />
-          </Button>
-          <ImageUploadPopup generateImage={generateImage} />
+          <ShareMenu generateImage={generateImage} />
           <Button
             variant="unstyled"
             className="flex items-center relative h-full rounded-md py-2 px-3 border border-input bg-primary"
