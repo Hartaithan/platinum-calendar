@@ -1,14 +1,10 @@
 import { monthKeys, monthLabels } from "@/constants/calendar";
 import { notFound } from "@/constants/messages";
 import type { DateKey, DateKeyParams } from "@/models/date";
-import { cleanString } from "@/utils/string";
+import { cleanString, pad } from "@/utils/string";
 
 const datePattern =
   /(\d{1,2})(st|nd|rd|th)\s(\w{3})\s(\d{4})(\d{1,2}:\d{2}:\d{2})\s(AM|PM)/;
-
-export const pad = (value: string): string => {
-  return value.padStart(2, "0");
-};
 
 export const convertParsedDate = (date: string): string => {
   const cleaned = cleanString(date);

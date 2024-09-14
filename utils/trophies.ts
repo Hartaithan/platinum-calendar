@@ -34,8 +34,7 @@ const select = {
 
 const getGameId = (url: string | undefined): string | null => {
   if (!url) return null;
-  const regex = /\/trophies\/(\d+-[a-z0-9-]+)/;
-  const match = url.match(regex);
+  const match = url.match(/\/trophies\/([^\/]+)/);
   return match ? match[1] : null;
 };
 
