@@ -2,7 +2,7 @@
 
 import type { Platinum, PlatinumsResponse } from "@/models/trophy";
 import { useData } from "@/providers/data";
-import type { KeyboardEventHandler } from "react";
+import type { FormEventHandler } from "react";
 import { useCallback, useRef, type FC } from "react";
 import OGCalendar from "@/components/og-calendar";
 import { groupPlatinumList } from "@/utils/trophies";
@@ -23,10 +23,14 @@ import { imageOptions } from "@/constants/image";
 import { Settings } from "lucide-react";
 import SettingsModal from "@/components/modals/settings-modal";
 import { useModal } from "@/hooks/use-modal";
-import { Input } from "@/components/ui/input";
+import SubmitForm from "@/components/submit-form";
 import { Button } from "@/components/ui/button";
 import { useSettings } from "@/providers/settings";
 import ShareMenu from "@/components/share-menu";
+
+interface Form extends HTMLFormControlsCollection {
+  id: { value: string };
+}
 
 const MainSection: FC = () => {
   const { setProfile, setStatus, setPlatinums, setGroups } = useData();
@@ -41,10 +45,12 @@ const MainSection: FC = () => {
     settings: { source },
   } = useSettings();
 
-  const handleSubmit: KeyboardEventHandler<HTMLInputElement> = useCallback(
+  const handleSubmit: FormEventHandler<HTMLFormElement> = useCallback(
     async (e) => {
       e.preventDefault();
-      const id = e.currentTarget.value;
+      const form = e.currentTarget;
+      const elements = form.elements as Form;
+      const id = elements.id.value;
       try {
         setStatus("profile-loading");
         controller.current = new AbortController();
@@ -96,13 +102,6 @@ const MainSection: FC = () => {
     [source, setStatus, setProfile, setGroups, setPlatinums, addError],
   );
 
-  const handleKeyDown: KeyboardEventHandler<HTMLInputElement> = useCallback(
-    (e) => {
-      if (e.key === "Enter") handleSubmit(e);
-    },
-    [handleSubmit],
-  );
-
   const handleAbort = useCallback(() => {
     if (!controller.current) return;
     controller.current.abort("The loading has been canceled by the user");
@@ -135,11 +134,7 @@ const MainSection: FC = () => {
   return (
     <div className="flex flex-col justify-center items-center">
       <div className="flex flex-col lg:flex-row w-4/5 lg:w-auto items-center gap-2">
-        <Input
-          className="w-full lg:w-96 h-9"
-          placeholder="Enter your PSN ID"
-          onKeyDown={handleKeyDown}
-        />
+        <SubmitForm onSubmit={handleSubmit} />
         <div className="flex h-9 gap-2">
           <YearFilter />
           <ShareMenu generateImage={generateImage} />
@@ -147,7 +142,7 @@ const MainSection: FC = () => {
             variant="unstyled"
             className="flex items-center relative h-full rounded-md py-2 px-3 border border-input bg-primary"
             onClick={openSettings}>
-            <Settings className="size-5" />
+            <Settings className="size-5 stroke-[1.5]" />
           </Button>
         </div>
       </div>
