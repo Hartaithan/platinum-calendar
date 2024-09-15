@@ -1,6 +1,7 @@
+import type { FC } from "react";
 import { useData } from "@/providers/data";
 import Image from "next/image";
-import type { FC } from "react";
+import GameImage from "@/components/game-image";
 
 interface Props {
   platKey: string;
@@ -55,15 +56,7 @@ const PlatinumItem: FC<Props> = (props) => {
         </div>
       </div>
       <div className="flex items-center gap-3 md:gap-4 text-left">
-        <Image
-          className="rounded-md min-w-9 h-9 w-auto"
-          width="0"
-          height="0"
-          sizes="100vw"
-          alt={platinum.game.title}
-          src={platinum.game.image_url}
-          unoptimized
-        />
+        <GameImage src={platinum.game.image_url} alt={platinum.game.title} />
         <h1 className="text-sm md:text-base font-medium">
           {platinum.game.title}
         </h1>
