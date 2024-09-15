@@ -13,9 +13,9 @@ import type { FetchSource } from "@/models/fetch";
 
 const sourceDescription: Record<FetchSource, string> = {
   alpha:
-    "more stable, but there may be issues retrieving profiles with over 1000+ platinums",
+    "more stable, but may encounter issues retrieving profiles with over 1000+ platinums",
   bravo:
-    "slower, but has no limitations. should only be used if you encounter issues with Alpha",
+    "slower, but without limitations. use only if you experience issues with Alpha",
 };
 
 const SettingsForm: FC = () => {
