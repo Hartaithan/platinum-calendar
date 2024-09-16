@@ -77,6 +77,10 @@
   input {
     @apply focus-visible:outline-none;
   }
+
+  button:focus-visible {
+    outline: none;
+  }
 }
 
 @layer utilities {
