@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/dialog";
 import type { ButtonProps } from "@/components/ui/button";
 import { Button } from "@/components/ui/button";
-import { X } from "lucide-react";
+import { XIcon } from "lucide-react";
 import { cn } from "@/utils/styles";
 
 export interface ModalState<T = null> {
@@ -52,7 +52,7 @@ export const ModalCloseButton: FC<ButtonProps> = (props) => {
       variant="unstyled"
       className={cn(DialogCloseStyles.button, className)}
       {...rest}>
-      <X className={DialogCloseStyles.icon} />
+      <XIcon className={DialogCloseStyles.icon} />
       <span className={DialogCloseStyles.sr}>Close</span>
     </Button>
   );

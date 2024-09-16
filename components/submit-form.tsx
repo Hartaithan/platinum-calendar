@@ -1,7 +1,7 @@
 import type { ComponentPropsWithoutRef, FC } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { SendHorizontal } from "lucide-react";
+import { SendHorizontalIcon } from "lucide-react";
 
 type Props = ComponentPropsWithoutRef<"form">;
 
@@ -20,7 +20,7 @@ const SubmitForm: FC<Props> = (props) => {
         type="submit"
         className="h-full absolute right-0 !ml-0 hover:opacity-80 px-2"
         variant="unstyled">
-        <SendHorizontal className="size-5 stroke-1" />
+        <SendHorizontalIcon className="size-5 stroke-1" />
       </Button>
     </form>
   );

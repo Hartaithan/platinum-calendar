@@ -16,7 +16,7 @@ import {
   Title,
   Trigger,
 } from "@radix-ui/react-dialog";
-import { X } from "lucide-react";
+import { XIcon } from "lucide-react";
 import { cn } from "@/utils/styles";
 
 const Dialog = Root;
@@ -65,7 +65,7 @@ const DialogContent = forwardRef<
           "absolute right-4 top-4 data-[state=open]:bg-accent data-[state=open]:text-muted-foreground",
           DialogCloseStyles.button,
         )}>
-        <X className={DialogCloseStyles.icon} />
+        <XIcon className={DialogCloseStyles.icon} />
         <span className={DialogCloseStyles.sr}>Close</span>
       </Close>
     </Content>

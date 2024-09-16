@@ -5,7 +5,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Save, Share2, Upload } from "lucide-react";
+import { SaveIcon, Share2Icon, UploadIcon } from "lucide-react";
 import { useData } from "@/providers/data";
 import { useErrors } from "@/providers/errors";
 import { readError } from "@/utils/error";
@@ -65,16 +65,16 @@ const ShareMenu: FC<Props> = (props) => {
     <>
       <DropdownMenu>
         <DropdownMenuTrigger className="flex items-center relative h-full rounded-md py-2 px-3 border border-input bg-primary text-sm">
-          <Share2 className="size-5 stroke-[1.5] mr-3" />
+          <Share2Icon className="size-5 stroke-[1.5] mr-3" />
           <span>Share</span>
         </DropdownMenuTrigger>
         <DropdownMenuContent>
           <DropdownMenuItem onClick={handleSave}>
-            <Save className="size-4 mr-2" />
+            <SaveIcon className="size-4 mr-2" />
             <span>Save as PNG</span>
           </DropdownMenuItem>
           <DropdownMenuItem onClick={handleUpload}>
-            <Upload className="size-4 mr-2" />
+            <UploadIcon className="size-4 mr-2" />
             <span>Upload on Imgur</span>
           </DropdownMenuItem>
         </DropdownMenuContent>

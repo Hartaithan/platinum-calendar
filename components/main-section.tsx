@@ -20,7 +20,7 @@ import LinkMessage from "@/components/link-message";
 import { readError } from "@/utils/error";
 import { useErrors } from "@/providers/errors";
 import { imageOptions } from "@/constants/image";
-import { Settings } from "lucide-react";
+import { SettingsIcon } from "lucide-react";
 import SettingsModal from "@/components/modals/settings-modal";
 import { useModal } from "@/hooks/use-modal";
 import SubmitForm from "@/components/submit-form";
@@ -142,7 +142,7 @@ const MainSection: FC = () => {
             variant="unstyled"
             className="flex items-center relative h-full rounded-md py-2 px-3 border border-input bg-primary"
             onClick={openSettings}>
-            <Settings className="size-5 stroke-[1.5]" />
+            <SettingsIcon className="size-5 stroke-[1.5]" />
           </Button>
         </div>
       </div>
