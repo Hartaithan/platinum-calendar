@@ -1,6 +1,6 @@
-import type { FetchSource } from "@/models/fetch";
 import type { PlatinumsResponse } from "@/models/trophy";
 import { fetchPlatinums } from "@/utils/fetch";
+import { readParams } from "@/utils/params";
 import { parsePlatinums } from "@/utils/trophies";
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
@@ -8,13 +8,10 @@ import { NextResponse } from "next/server";
 export const GET = async (
   req: NextRequest,
 ): Promise<NextResponse<PlatinumsResponse>> => {
-  const { searchParams } = new URL(req.url);
-  const id = searchParams.get("id");
-  const page = searchParams.get("page");
-  const source = (searchParams.get("source") as FetchSource) ?? "alpha";
+  const { id, page, source, params } = readParams(req);
 
   if (!id) {
-    console.error("param id not found", searchParams);
+    console.error("param id not found", params);
     return NextResponse.json(
       { message: "Missing required parameter: id" },
       { status: 400 },
@@ -22,7 +19,7 @@ export const GET = async (
   }
 
   if (!page) {
-    console.error("param page not found", searchParams);
+    console.error("param page not found", params);
     return NextResponse.json(
       { message: "Missing required parameter: page" },
       { status: 400 },

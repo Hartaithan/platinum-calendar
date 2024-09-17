@@ -3,17 +3,15 @@ import { NextResponse } from "next/server";
 import { fetchProfile } from "@/utils/fetch";
 import { parseProfile } from "@/utils/profile";
 import type { ProfileResponse } from "@/models/profile";
-import type { FetchSource } from "@/models/fetch";
+import { readParams } from "@/utils/params";
 
 export const GET = async (
   req: NextRequest,
 ): Promise<NextResponse<ProfileResponse>> => {
-  const { searchParams } = new URL(req.url);
-  const id = searchParams.get("id");
-  const source = (searchParams.get("source") as FetchSource) ?? "alpha";
+  const { id, source, params } = readParams(req);
 
   if (!id) {
-    console.error("param id not found", searchParams);
+    console.error("param id not found", params);
     return NextResponse.json(
       { message: "Missing required parameter: id" },
       { status: 400 },

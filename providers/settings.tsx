@@ -1,5 +1,6 @@
 "use client";
 
+import { defaultFetchSource } from "@/constants/fetch";
 import { useLocalStorage } from "@/hooks/use-local-storage";
 import type { FetchSource } from "@/models/fetch";
 import type { FC, PropsWithChildren } from "react";
@@ -15,7 +16,7 @@ interface Context {
 }
 
 const defaultValue: Settings = {
-  source: "alpha",
+  source: defaultFetchSource,
 };
 
 const initialValue: Context = {
