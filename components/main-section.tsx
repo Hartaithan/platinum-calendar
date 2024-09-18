@@ -147,7 +147,7 @@ const MainSection: FC = () => {
         </div>
       </div>
       <div
-        className="flex flex-col items-center relative py-9 pl-9 pr-9 lg:pr-24"
+        className="flex flex-col items-center relative py-9 pl-9 pr-9 lg:pr-24 @save:pr-24"
         ref={calendarRef}>
         <Profile />
         <OGCalendar onDayClick={handleDayClick} />
