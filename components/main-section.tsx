@@ -139,15 +139,15 @@ const MainSection: FC = () => {
           <YearFilter />
           <ShareMenu generateImage={generateImage} />
           <Button
-            variant="unstyled"
-            className="flex items-center relative h-full rounded-md py-2 px-3 border border-input bg-primary"
+            variant="secondary"
+            className="border border-input"
             onClick={openSettings}>
             <SettingsIcon className="size-5 stroke-[1.5]" />
           </Button>
         </div>
       </div>
       <div
-        className="flex flex-col items-center relative bg-background py-9 pl-9 pr-9 lg:pr-24"
+        className="flex flex-col items-center relative py-9 pl-9 pr-9 lg:pr-24"
         ref={calendarRef}>
         <Profile />
         <OGCalendar onDayClick={handleDayClick} />

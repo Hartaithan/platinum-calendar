@@ -13,13 +13,13 @@ const SubmitForm: FC<Props> = (props) => {
       onSubmit={onSubmit}>
       <Input
         name="id"
-        className="w-full lg:w-96 h-9 pr-8"
+        className="w-full lg:w-96 h-9 pr-8 bg-secondary"
         placeholder="Enter your PSN ID"
       />
       <Button
-        type="submit"
+        unstyled
         className="h-full absolute right-0 !ml-0 hover:opacity-80 px-2"
-        variant="unstyled">
+        type="submit">
         <SendHorizontalIcon className="size-5 stroke-1" />
       </Button>
     </form>

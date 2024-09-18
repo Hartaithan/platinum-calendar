@@ -14,6 +14,7 @@ import { getUploadFormData } from "@/utils/upload";
 import { fetchAPI } from "@/utils/api";
 import type { ImageUploadPopupHandle } from "@/components/image-upload-popup";
 import ImageUploadPopup from "@/components/image-upload-popup";
+import { Button } from "@/components/ui/button";
 
 interface Props {
   generateImage: () => Promise<Blob | null>;
@@ -64,9 +65,13 @@ const ShareMenu: FC<Props> = (props) => {
   return (
     <>
       <DropdownMenu>
-        <DropdownMenuTrigger className="flex items-center relative h-full rounded-md py-2 px-3 border border-input bg-primary text-sm">
-          <Share2Icon className="size-5 stroke-[1.5] mr-3" />
-          <span>Share</span>
+        <DropdownMenuTrigger asChild>
+          <Button
+            variant="secondary"
+            className="border border-input font-normal">
+            <Share2Icon className="size-5 stroke-[1.5] mr-3" />
+            <span>Share</span>
+          </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent>
           <DropdownMenuItem onClick={handleSave}>

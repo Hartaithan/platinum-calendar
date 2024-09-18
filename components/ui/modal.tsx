@@ -1,4 +1,4 @@
-import type { FC, PropsWithChildren } from "react";
+import * as React from "react";
 import {
   Dialog,
   DialogCloseStyles,
@@ -10,6 +10,7 @@ import {
 import type { ButtonProps } from "@/components/ui/button";
 import { Button } from "@/components/ui/button";
 import { XIcon } from "lucide-react";
+
 import { cn } from "@/utils/styles";
 
 export interface ModalState<T = null> {
@@ -17,13 +18,15 @@ export interface ModalState<T = null> {
   isVisible: boolean;
 }
 
-export interface ModalProps<T = null> extends PropsWithChildren, ModalState<T> {
+export interface ModalProps<T = null>
+  extends React.PropsWithChildren,
+    ModalState<T> {
   onClose: (value: boolean) => void;
   title?: string;
   description?: string;
 }
 
-const Modal: FC<ModalProps> = (props) => {
+const Modal: React.FC<ModalProps> = (props) => {
   const { isVisible, title, description, children, onClose } = props;
   return (
     <Dialog open={isVisible} onOpenChange={onClose}>
@@ -45,11 +48,11 @@ const Modal: FC<ModalProps> = (props) => {
 };
 Modal.displayName = "Modal";
 
-export const ModalCloseButton: FC<ButtonProps> = (props) => {
+export const ModalCloseButton: React.FC<ButtonProps> = (props) => {
   const { className, ...rest } = props;
   return (
     <Button
-      variant="unstyled"
+      unstyled
       className={cn(DialogCloseStyles.button, className)}
       {...rest}>
       <XIcon className={DialogCloseStyles.icon} />

@@ -1,11 +1,12 @@
-import type { ComponentPropsWithoutRef, FC } from "react";
+import * as React from "react";
+
 import { cn } from "@/utils/styles";
 
-export interface SpinnerProps extends ComponentPropsWithoutRef<"svg"> {
+export interface SpinnerProps extends React.ComponentPropsWithoutRef<"svg"> {
   pathClassName?: string;
 }
 
-const Spinner: FC<SpinnerProps> = (props) => {
+const Spinner: React.FC<SpinnerProps> = (props) => {
   const { className, pathClassName, ...rest } = props;
   return (
     <svg

@@ -5,4 +5,5 @@ export const imageOptions: Options = {
   quality: 1,
   type: "image/png",
   cacheBust: true,
+  backgroundColor: "#FFFFFF",
 };

@@ -64,8 +64,8 @@ const DataLoadingPopup: ForwardRefRenderFunction<
         </div>
       </div>
       <Button
-        variant="unstyled"
-        className="mt-3 w-full bg-primary hover:bg-primary/50 rounded-md py-1"
+        variant="secondary"
+        className="mt-3 h-8 w-full"
         onClick={handleAbort}>
         Cancel
       </Button>

@@ -130,7 +130,7 @@ const Day: FC<DayProps> = memo((props) => {
   const hasPlatinums = platinums && platinums.length > 0;
   return (
     <Button
-      variant="unstyled"
+      unstyled
       className={cn(
         "day size-day flex border-r border-r-black border-b border-b-black justify-center items-center relative",
         !hasPlatinums && "cursor-default",
