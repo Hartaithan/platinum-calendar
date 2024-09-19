@@ -40,8 +40,8 @@ const Modal: React.FC<ModalProps> = (props) => {
           <DialogDescription className="hidden">
             {description ?? "Modal"}
           </DialogDescription>
-          {children}
         </DialogHeader>
+        {children}
       </DialogContent>
     </Dialog>
   );
