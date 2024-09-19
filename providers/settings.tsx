@@ -8,20 +8,24 @@ import { createContext, useCallback, useContext, useMemo } from "react";
 
 interface Settings {
   source: FetchSource;
+  link: boolean;
 }
 
 interface Context {
   settings: Settings;
   handleSourceChange: (value: FetchSource) => void;
+  handleLinkChange: (value: boolean) => void;
 }
 
 const defaultValue: Settings = {
   source: defaultFetchSource,
+  link: true,
 };
 
 const initialValue: Context = {
   settings: defaultValue,
   handleSourceChange: () => null,
+  handleLinkChange: () => null,
 };
 
 const Context = createContext<Context>(initialValue);
@@ -34,15 +38,18 @@ const SettingsProvider: FC<PropsWithChildren> = (props) => {
   });
 
   const handleSourceChange = useCallback(
-    (value: FetchSource) => {
-      setSettings((prev) => ({ ...prev, source: value }));
-    },
+    (value: FetchSource) => setSettings((prev) => ({ ...prev, source: value })),
     [setSettings],
   );
 
-  const exposed: Context = useMemo(
-    () => ({ settings, handleSourceChange }),
-    [settings, handleSourceChange],
+  const handleLinkChange = useCallback(
+    (value: boolean) => setSettings((prev) => ({ ...prev, link: value })),
+    [setSettings],
+  );
+
+  const exposed = useMemo<Context>(
+    () => ({ settings, handleSourceChange, handleLinkChange }),
+    [settings, handleSourceChange, handleLinkChange],
   );
 
   return <Context.Provider value={exposed}>{children}</Context.Provider>;

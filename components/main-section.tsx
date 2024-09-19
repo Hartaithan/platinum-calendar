@@ -42,7 +42,7 @@ const MainSection: FC = () => {
   const [details, openDetails, closeDetails] = useModal<DetailsModalData>();
   const [settings, openSettings, closeSettings] = useModal();
   const {
-    settings: { source },
+    settings: { source, link },
   } = useSettings();
 
   const handleSubmit: FormEventHandler<HTMLFormElement> = useCallback(
@@ -151,7 +151,7 @@ const MainSection: FC = () => {
         ref={calendarRef}>
         <Profile />
         <OGCalendar onDayClick={handleDayClick} />
-        <LinkMessage />
+        {link && <LinkMessage />}
       </div>
       <div className="fixed top-0 left-0 w-full h-full overflow-hidden -z-50">
         <div className="w-[1200px] h-[800px] @container" ref={hiddenRef} />
