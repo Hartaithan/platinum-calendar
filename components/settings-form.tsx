@@ -26,9 +26,9 @@ const SettingsForm: FC = () => {
     <div className="flex flex-col space-y-4">
       <div className="flex items-center space-x-2">
         <Label htmlFor="link" className="w-full">
-          <Label>Show Link on Image</Label>
+          <p className="text-sm font-semibold">Show Link on Image</p>
           <p className="text-[11px] md:text-xs font-normal text-neutral-500 mt-1">
-            determine whether a link should be displayed on top of the image
+            determine whether a link should be displayed in the generated image
           </p>
         </Label>
         <Switch
