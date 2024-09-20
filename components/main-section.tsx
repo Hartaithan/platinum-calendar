@@ -71,7 +71,7 @@ const MainSection: FC = () => {
         setStatus("platinums-loading");
         for (let i = 1; i <= pages; i++) {
           if (controller.current.signal.aborted) {
-            throw new Error("The data loading has been canceled");
+            throw new Error(controller.current.signal.reason);
           }
           controller.current = new AbortController();
           const response = await fetchAPI.get<PlatinumsResponse>(
@@ -104,7 +104,7 @@ const MainSection: FC = () => {
 
   const handleAbort = useCallback(() => {
     if (!controller.current) return;
-    controller.current.abort("The loading has been canceled by the user");
+    controller.current.abort("The user canceled the data download");
   }, []);
 
   const handleDayClick: DayClickHandler = useCallback(
