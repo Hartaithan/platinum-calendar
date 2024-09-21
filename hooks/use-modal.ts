@@ -18,7 +18,7 @@ export const useModal = <T = null>() => {
 
   const handleClose = useCallback((value: boolean) => {
     if (value) setState((prev) => ({ ...prev, isVisible: value }));
-    else setState((prev) => ({ ...prev, isVisible: false, data: null as T }));
+    else setState((prev) => ({ ...prev, isVisible: false }));
   }, []);
 
   return [state, handleOpen, handleClose] as const;
