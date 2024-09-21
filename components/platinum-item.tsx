@@ -4,13 +4,13 @@ import Image from "next/image";
 import GameImage from "@/components/game-image";
 
 interface Props {
-  platKey: string;
+  platinumId: string;
 }
 
 const PlatinumItem: FC<Props> = (props) => {
+  const { platinumId: key } = props;
   const { platinums } = useData();
-  const { platKey } = props;
-  const platinum = platinums ? platinums[platKey] : null;
+  const platinum = platinums ? platinums[key] : null;
   if (!platinum) return null;
   return (
     <div className="flex flex-col rounded-lg border border-input/25 text-card-foreground shadow-sm w-full p-3 gap-3">
