@@ -62,10 +62,6 @@
     }
   }
 
-  * {
-    @apply border-border;
-  }
-
   html {
     @apply h-full w-full;
   }

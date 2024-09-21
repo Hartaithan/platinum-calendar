@@ -8,8 +8,11 @@ import { getDateKey, getDateLabel } from "@/utils/date";
 import type { ComponentPropsWithRef } from "react";
 import { forwardRef, memo, type FC } from "react";
 import { cn } from "@/utils/styles";
-import { useHover } from "@/hooks/use-hover";
-import { Button } from "@/components/ui/button";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 interface MonthProps {
   month: string;
@@ -19,7 +22,6 @@ interface MonthProps {
 
 interface MarkProps {
   count: number;
-  label: string;
 }
 
 interface MarkCircleProps extends ComponentPropsWithRef<"div"> {
@@ -95,29 +97,23 @@ const MarkCircle = forwardRef<HTMLDivElement, MarkCircleProps>((props, ref) => {
 });
 
 const Mark: FC<MarkProps> = (props) => {
-  const { count, label } = props;
-  const { hovered, ref } = useHover();
+  const { count } = props;
   if (count <= 0) return null;
   const [bg, text] = getColors(count);
   return (
-    <>
-      <MarkCircle
-        ref={ref}
-        color={bg}
-        className={cn(
-          "absolute inset-0 m-auto flex justify-center items-center",
-          bg,
-        )}>
-        <p className={cn("text-sm", text)}>{count}</p>
-      </MarkCircle>
-      {hovered && (
-        <div className="absolute -top-[105%] left-[50%] -translate-x-[50%] z-10 p-2 bg-background rounded shadow-lg w-auto">
-          <p className="text-xs text-nowrap">{label}</p>
-        </div>
-      )}
-    </>
+    <MarkCircle
+      color={bg}
+      className={cn(
+        "absolute inset-0 m-auto flex justify-center items-center",
+        bg,
+      )}>
+      <p className={cn("text-sm", text)}>{count}</p>
+    </MarkCircle>
   );
 };
+
+const dayStyles =
+  "day size-day flex border-r border-r-black border-b border-b-black justify-center items-center relative";
 
 const Day: FC<DayProps> = memo((props) => {
   const { month, day, onDayClick } = props;
@@ -125,21 +121,28 @@ const Day: FC<DayProps> = memo((props) => {
   const { groups } = useData();
   const date: DateKeyParams = { day, month: monthIndex[month], year };
   const key = getDateKey(date);
-  const label = getDateLabel(date);
   const platinums = groups ? groups[key] : null;
-  const hasPlatinums = platinums && platinums.length > 0;
+  const hasPlatinums = !!platinums && platinums.length > 0;
+
+  if (!hasPlatinums) {
+    return (
+      <div className={dayStyles}>
+        <p>{day}</p>
+      </div>
+    );
+  }
+
   return (
-    <Button
-      unstyled
-      className={cn(
-        "day size-day flex border-r border-r-black border-b border-b-black justify-center items-center relative",
-        !hasPlatinums && "cursor-default",
-      )}
-      onClick={() => onDayClick({ date, platinums })}
-      disabled={!hasPlatinums}>
-      <p>{day}</p>
-      {hasPlatinums && <Mark count={platinums.length} label={label} />}
-    </Button>
+    <Tooltip delayDuration={100}>
+      <TooltipTrigger
+        className={dayStyles}
+        onClick={() => onDayClick({ date, platinums })}>
+        <Mark count={platinums.length} />
+      </TooltipTrigger>
+      <TooltipContent>
+        <p>{getDateLabel(date)}</p>
+      </TooltipContent>
+    </Tooltip>
   );
 });
 
