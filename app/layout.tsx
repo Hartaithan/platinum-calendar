@@ -4,6 +4,7 @@ import type { FC, PropsWithChildren } from "react";
 import RootProviders from "@/providers/root";
 import "@/app/globals.css";
 import type { Theme } from "@/models/app";
+import { Toaster } from "@/components/ui/sonner";
 
 const defaultTheme: Theme = "og";
 
@@ -19,6 +20,7 @@ const MainLayout: FC<PropsWithChildren> = ({ children }) => {
     <html lang="en" data-theme={defaultTheme}>
       <body className={font.className}>
         <RootProviders defaultTheme={defaultTheme}>{children}</RootProviders>
+        <Toaster theme="light" position="top-right" richColors closeButton />
       </body>
     </html>
   );

@@ -7,7 +7,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { SaveIcon, Share2Icon, UploadIcon } from "lucide-react";
 import { useData } from "@/providers/data";
-import { useErrors } from "@/providers/errors";
+import { toast } from "sonner";
 import { readError } from "@/utils/error";
 import type { UploadResponse } from "@/models/upload";
 import { getUploadFormData } from "@/utils/upload";
@@ -23,7 +23,6 @@ interface Props {
 const ShareMenu: FC<Props> = (props) => {
   const { generateImage } = props;
   const { profile } = useData();
-  const { addError } = useErrors();
   const popupRef = useRef<ImageUploadPopupHandle>(null);
   const { setUpload } = popupRef.current ?? {};
 
@@ -39,9 +38,9 @@ const ShareMenu: FC<Props> = (props) => {
     } catch (error) {
       console.error("save error", error);
       const message = readError(error);
-      addError(message);
+      toast.error(message);
     }
-  }, [profile?.name, generateImage, addError]);
+  }, [profile?.name, generateImage]);
 
   const handleUpload = useCallback(async () => {
     try {
@@ -58,9 +57,9 @@ const ShareMenu: FC<Props> = (props) => {
       console.error("upload error", error);
       setUpload?.((prev) => ({ ...prev, isLoading: false, response: null }));
       const message = readError(error);
-      addError(message);
+      toast.error(message);
     }
-  }, [profile?.name, generateImage, setUpload, addError]);
+  }, [profile?.name, generateImage, setUpload]);
 
   return (
     <>

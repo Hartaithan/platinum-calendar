@@ -18,7 +18,7 @@ import { toBlob } from "html-to-image";
 import Profile from "@/components/profile";
 import LinkMessage from "@/components/link-message";
 import { readError } from "@/utils/error";
-import { useErrors } from "@/providers/errors";
+import { toast } from "sonner";
 import { imageOptions } from "@/constants/image";
 import { SettingsIcon } from "lucide-react";
 import SettingsModal from "@/components/modals/settings-modal";
@@ -34,7 +34,6 @@ interface Form extends HTMLFormControlsCollection {
 
 const MainSection: FC = () => {
   const { setProfile, setStatus, setPlatinums, setGroups } = useData();
-  const { addError } = useErrors();
   const calendarRef = useRef<HTMLDivElement | null>(null);
   const hiddenRef = useRef<HTMLDivElement | null>(null);
   const popupRef = useRef<DataLoadingPopupHandle>(null);
@@ -60,7 +59,7 @@ const MainSection: FC = () => {
           { signal: controller.current.signal },
         );
         if (!profile) {
-          addError("Unable to fetch profile");
+          toast.error("Unable to fetch profile");
           setStatus("idle");
           return;
         }
@@ -96,10 +95,10 @@ const MainSection: FC = () => {
         setStatus("idle");
         popupRef.current?.reset();
         const message = readError(error);
-        addError(message);
+        toast.error(message);
       }
     },
-    [source, setStatus, setProfile, setGroups, setPlatinums, addError],
+    [source, setStatus, setProfile, setGroups, setPlatinums],
   );
 
   const handleAbort = useCallback(() => {
@@ -126,10 +125,10 @@ const MainSection: FC = () => {
     } catch (error) {
       console.error("generate image error", error);
       const message = readError(error);
-      addError(message);
+      toast.error(message);
       return null;
     }
-  }, [addError]);
+  }, []);
 
   return (
     <div className="flex flex-col justify-center items-center">
