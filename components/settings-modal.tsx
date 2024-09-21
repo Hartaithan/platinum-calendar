@@ -1,3 +1,5 @@
+"use client";
+
 import type { FC } from "react";
 import { Modal } from "@/components/ui/modal";
 import type { ModalProps } from "@/components/ui/modal";

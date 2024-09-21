@@ -1,3 +1,5 @@
+"use client";
+
 import type { FC } from "react";
 import { useData } from "@/providers/data";
 import Image from "next/image";

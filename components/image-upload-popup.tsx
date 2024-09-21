@@ -1,3 +1,5 @@
+"use client";
+
 import type { UploadResponse } from "@/models/upload";
 import type { Dispatch, ForwardRefRenderFunction, SetStateAction } from "react";
 import { forwardRef, useCallback, useImperativeHandle, useState } from "react";

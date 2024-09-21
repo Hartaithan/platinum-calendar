@@ -1,3 +1,5 @@
+"use client";
+
 import { monthIndex, monthLength } from "@/constants/calendar";
 import type { CalendarProps, DayClickHandler } from "@/models/calendar";
 import type { DateKeyParams } from "@/models/date";
