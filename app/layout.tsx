@@ -1,12 +1,10 @@
+import "@/app/globals.css";
 import type { Metadata } from "next";
 import { Rubik } from "next/font/google";
 import type { FC, PropsWithChildren } from "react";
 import RootProviders from "@/providers/root";
-import "@/app/globals.css";
-import type { Theme } from "@/models/app";
 import { Toaster } from "@/components/ui/sonner";
-
-const defaultTheme: Theme = "og";
+import { defaultTheme } from "@/constants/app";
 
 const font = Rubik({ subsets: ["latin"], fallback: ["Arial"] });
 
@@ -17,7 +15,7 @@ export const metadata: Metadata = {
 
 const MainLayout: FC<PropsWithChildren> = ({ children }) => {
   return (
-    <html lang="en" data-theme={defaultTheme}>
+    <html lang="en" suppressHydrationWarning>
       <body className={font.className}>
         <RootProviders defaultTheme={defaultTheme}>{children}</RootProviders>
         <Toaster theme="light" position="top-right" richColors closeButton />
