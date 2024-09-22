@@ -63,11 +63,11 @@
   }
 
   html {
-    @apply h-full w-full;
+    @apply h-full;
   }
 
   body {
-    @apply bg-background text-foreground flex flex-col w-full min-h-full !py-6;
+    @apply bg-background text-foreground h-full flex flex-col !py-6;
   }
 
   input {
