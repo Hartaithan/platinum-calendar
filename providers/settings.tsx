@@ -28,6 +28,11 @@ const initialValue: Context = {
   handleLinkChange: () => null,
 };
 
+const merge = (stored: Partial<Settings> | null): Settings => ({
+  ...defaultValue,
+  ...(stored || {}),
+});
+
 const Context = createContext<Context>(initialValue);
 
 const SettingsProvider: FC<PropsWithChildren> = (props) => {
@@ -48,7 +53,7 @@ const SettingsProvider: FC<PropsWithChildren> = (props) => {
   );
 
   const exposed = useMemo<Context>(
-    () => ({ settings, handleSourceChange, handleLinkChange }),
+    () => ({ settings: merge(settings), handleSourceChange, handleLinkChange }),
     [settings, handleSourceChange, handleLinkChange],
   );
 
