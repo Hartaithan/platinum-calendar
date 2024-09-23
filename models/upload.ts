@@ -6,7 +6,7 @@ export interface UploadBody {
 export interface UploadSuccessResponse {
   success: true;
   message: string;
-  link: string | undefined;
+  link: string;
 }
 
 export interface UploadErrorResponse {

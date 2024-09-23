@@ -11,12 +11,13 @@ import { SaveIcon, Share2Icon, UploadIcon } from "lucide-react";
 import { useData } from "@/providers/data";
 import { toast } from "sonner";
 import { readError } from "@/utils/error";
-import type { UploadResponse } from "@/models/upload";
-import { getUploadFormData } from "@/utils/upload";
-import { fetchAPI } from "@/utils/api";
 import type { ImageUploadPopupHandle } from "@/components/image-upload-popup";
 import ImageUploadPopup from "@/components/image-upload-popup";
 import { Button } from "@/components/ui/button";
+import RedditIcon from "@/icons/reddit";
+import { uploadImage } from "@/utils/upload";
+import { getRedditLink } from "@/utils/share";
+import { redirectTo } from "@/utils/navigation";
 
 interface Props {
   generateImage: () => Promise<Blob | null>;
@@ -49,14 +50,28 @@ const ShareMenu: FC<Props> = (props) => {
       setUpload?.({ isLoading: true, isVisible: true, response: null });
       const image = await generateImage();
       if (!image) throw new Error("Unable to generate image");
-      const psnId = profile?.name ?? "Platinum Calendar";
-      const formData = getUploadFormData(image, psnId);
-      const response = await fetchAPI.post<UploadResponse>("/upload", {
-        body: formData,
-      });
+      const response = await uploadImage(image, profile?.name);
       setUpload?.((prev) => ({ ...prev, isLoading: false, response }));
     } catch (error) {
       console.error("upload error", error);
+      setUpload?.((prev) => ({ ...prev, isLoading: false, response: null }));
+      const message = readError(error);
+      toast.error(message);
+    }
+  }, [profile?.name, generateImage, setUpload]);
+
+  const handleReddit = useCallback(async () => {
+    try {
+      setUpload?.({ isLoading: true, isVisible: true, response: null });
+      const image = await generateImage();
+      if (!image) throw new Error("Unable to generate image");
+      const response = await uploadImage(image, profile?.name);
+      if (!response.success) throw Error(response.message);
+      setUpload?.((prev) => ({ ...prev, isLoading: false, response }));
+      const link = getRedditLink(response.link, profile?.name);
+      redirectTo(link.toString(), "_blank");
+    } catch (error) {
+      console.error("reddit upload error", error);
       setUpload?.((prev) => ({ ...prev, isLoading: false, response: null }));
       const message = readError(error);
       toast.error(message);
@@ -82,6 +97,10 @@ const ShareMenu: FC<Props> = (props) => {
           <DropdownMenuItem onClick={handleUpload}>
             <UploadIcon className="size-4 mr-2" />
             <span>Upload on Imgur</span>
+          </DropdownMenuItem>
+          <DropdownMenuItem onClick={handleReddit}>
+            <RedditIcon className="size-4 mr-2" />
+            <span>Share on Reddit</span>
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
