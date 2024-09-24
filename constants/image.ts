@@ -1,9 +1,10 @@
-import type { Options } from "html-to-image/lib/types";
+import type { Options } from "modern-screenshot";
 
 export const imageOptions: Options = {
-  pixelRatio: 2,
+  scale: 2,
   quality: 1,
   type: "image/png",
-  cacheBust: true,
+  drawImageInterval: 500,
   backgroundColor: "#FFFFFF",
+  fetch: { bypassingCache: true },
 };

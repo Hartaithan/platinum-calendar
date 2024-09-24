@@ -14,7 +14,7 @@ import DateDetailsModal from "@/components/date-details-modal";
 import type { DetailsModalData } from "@/components/date-details-modal";
 import type { DayClickHandler } from "@/models/calendar";
 import YearFilter from "@/components/year-filter";
-import { toBlob } from "html-to-image";
+import { domToBlob } from "modern-screenshot";
 import Profile from "@/components/profile";
 import LinkMessage from "@/components/link-message";
 import { readError } from "@/utils/error";
@@ -118,7 +118,7 @@ const MainSection: FC = () => {
     try {
       hidden.innerHTML = "";
       hidden.appendChild(calendar.cloneNode(true));
-      const image = await toBlob(hidden, imageOptions);
+      const image = await domToBlob(hidden, imageOptions);
       if (!image) throw new Error("Unable to generate image");
       hidden.innerHTML = "";
       return image;
