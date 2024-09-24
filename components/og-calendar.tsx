@@ -15,6 +15,8 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { Button } from "@/components/ui/button";
+import { useMediaQuery } from "@/hooks/use-media-query";
 
 interface MonthProps {
   month: string;
@@ -76,6 +78,10 @@ const columns: Record<number, string> = {
   7: "col-span-7",
 };
 
+const styles = {
+  day: "day size-day flex border-r border-r-black border-b border-b-black justify-center items-center relative",
+};
+
 const getColors = (count: number): [string, string] => {
   if (count === 0) return ["", ""];
   if (count > 7) return markColors[7];
@@ -114,9 +120,6 @@ const Mark: FC<MarkProps> = (props) => {
   );
 };
 
-const dayStyles =
-  "day size-day flex border-r border-r-black border-b border-b-black justify-center items-center relative";
-
 const Day: FC<DayProps> = memo((props) => {
   const { month, day, onDayClick } = props;
   const { year } = useFilters();
@@ -125,19 +128,31 @@ const Day: FC<DayProps> = memo((props) => {
   const key = getDateKey(date);
   const platinums = groups ? groups[key] : null;
   const hasPlatinums = !!platinums && platinums.length > 0;
+  const isTouchDevice = useMediaQuery("(pointer: coarse)");
 
   if (!hasPlatinums) {
     return (
-      <div className={dayStyles}>
+      <div className={styles.day}>
         <p>{day}</p>
       </div>
+    );
+  }
+
+  if (isTouchDevice) {
+    return (
+      <Button
+        unstyled
+        className={styles.day}
+        onClick={() => onDayClick({ date, platinums })}>
+        <Mark count={platinums.length} />
+      </Button>
     );
   }
 
   return (
     <Tooltip delayDuration={100}>
       <TooltipTrigger
-        className={dayStyles}
+        className={styles.day}
         onClick={() => onDayClick({ date, platinums })}>
         <Mark count={platinums.length} />
       </TooltipTrigger>
