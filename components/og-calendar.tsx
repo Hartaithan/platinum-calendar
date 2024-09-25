@@ -115,7 +115,7 @@ const Mark: FC<MarkProps> = (props) => {
         "absolute inset-0 m-auto flex justify-center items-center",
         bg,
       )}>
-      <p className={cn("text-sm", text)}>{count}</p>
+      <p className={cn(count > 100 ? "text-xs" : "text-sm", text)}>{count}</p>
     </MarkCircle>
   );
 };
