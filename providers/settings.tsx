@@ -15,6 +15,7 @@ interface Context {
   settings: Settings;
   handleSourceChange: (value: FetchSource) => void;
   handleLinkChange: (value: boolean) => void;
+  resetSettings: () => void;
 }
 
 const defaultValue: Settings = {
@@ -26,6 +27,7 @@ const initialValue: Context = {
   settings: defaultValue,
   handleSourceChange: () => null,
   handleLinkChange: () => null,
+  resetSettings: () => null,
 };
 
 const merge = (stored: Partial<Settings> | null): Settings => ({
@@ -52,9 +54,19 @@ const SettingsProvider: FC<PropsWithChildren> = (props) => {
     [setSettings],
   );
 
+  const resetSettings = useCallback(
+    () => setSettings(defaultValue),
+    [setSettings],
+  );
+
   const exposed = useMemo<Context>(
-    () => ({ settings: merge(settings), handleSourceChange, handleLinkChange }),
-    [settings, handleSourceChange, handleLinkChange],
+    () => ({
+      settings: merge(settings),
+      handleSourceChange,
+      handleLinkChange,
+      resetSettings,
+    }),
+    [settings, handleSourceChange, handleLinkChange, resetSettings],
   );
 
   return <Context.Provider value={exposed}>{children}</Context.Provider>;

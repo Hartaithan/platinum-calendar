@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
+import { Button } from "@/components/ui/button";
 import { useSettings } from "@/providers/settings";
 import type { FetchSource } from "@/models/fetch";
 
@@ -24,7 +25,8 @@ const sourceDescription: Record<FetchSource, string> = {
 
 const SettingsModal: FC<ModalProps> = (props) => {
   const { isVisible, onClose } = props;
-  const { settings, handleSourceChange, handleLinkChange } = useSettings();
+  const { settings, handleSourceChange, handleLinkChange, resetSettings } =
+    useSettings();
   return (
     <Modal
       title="Settings"
@@ -61,6 +63,7 @@ const SettingsModal: FC<ModalProps> = (props) => {
             {sourceDescription[settings.source]}
           </p>
         </div>
+        <Button onClick={resetSettings}>Reset settings</Button>
       </div>
     </Modal>
   );
