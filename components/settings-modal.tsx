@@ -15,6 +15,8 @@ import { Switch } from "@/components/ui/switch";
 import { Button } from "@/components/ui/button";
 import { useSettings } from "@/providers/settings";
 import type { FetchSource } from "@/models/fetch";
+import { themes, themesLabels } from "@/constants/app";
+import { useTheme } from "next-themes";
 
 const sourceDescription: Record<FetchSource, string> = {
   alpha:
@@ -27,6 +29,7 @@ const SettingsModal: FC<ModalProps> = (props) => {
   const { isVisible, onClose } = props;
   const { settings, handleSourceChange, handleLinkChange, resetSettings } =
     useSettings();
+  const { theme, setTheme } = useTheme();
   return (
     <Modal
       title="Settings"
@@ -47,6 +50,21 @@ const SettingsModal: FC<ModalProps> = (props) => {
             checked={settings.link}
             onCheckedChange={handleLinkChange}
           />
+        </div>
+        <div className="flex flex-col">
+          <Label className="text-sm font-semibold mb-1">Theme</Label>
+          <Select value={theme} onValueChange={setTheme}>
+            <SelectTrigger>
+              <SelectValue placeholder="Select theme" />
+            </SelectTrigger>
+            <SelectContent>
+              {themes.map((theme) => (
+                <SelectItem key={theme} value={theme}>
+                  {themesLabels[theme]}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
         </div>
         <div className="flex flex-col">
           <Label className="text-sm font-semibold mb-1">Fetch Source</Label>
