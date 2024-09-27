@@ -5,6 +5,7 @@ import { useData } from "@/providers/data";
 import type { FormEventHandler } from "react";
 import { useCallback, useRef, type FC } from "react";
 import OGCalendar from "@/components/og-calendar";
+import HeatMapCalendar from "@/components/heatmap-calendar";
 import { groupPlatinumList } from "@/utils/trophies";
 import { fetchAPI } from "@/utils/api";
 import type { ProfileResponse } from "@/models/profile";
@@ -12,7 +13,7 @@ import type { DataLoadingPopupHandle } from "@/components/data-loading-popup";
 import DataLoadingPopup from "@/components/data-loading-popup";
 import DateDetailsModal from "@/components/date-details-modal";
 import type { DetailsModalData } from "@/components/date-details-modal";
-import type { DayClickHandler } from "@/models/calendar";
+import type { CalendarProps, DayClickHandler } from "@/models/calendar";
 import YearFilter from "@/components/year-filter";
 import { domToBlob } from "modern-screenshot";
 import Profile from "@/components/profile";
@@ -27,10 +28,17 @@ import SubmitForm from "@/components/submit-form";
 import { Button } from "@/components/ui/button";
 import { useSettings } from "@/providers/settings";
 import ShareMenu from "@/components/share-menu";
+import { useTheme } from "next-themes";
+import { defaultTheme } from "@/constants/app";
 
 interface Form extends HTMLFormControlsCollection {
   id: { value: string };
 }
+
+const calendars: Record<string, FC<CalendarProps>> = {
+  og: OGCalendar,
+  heatmap: HeatMapCalendar,
+};
 
 const MainSection: FC = () => {
   const { setProfile, setStatus, setPlatinums, setGroups } = useData();
@@ -43,6 +51,8 @@ const MainSection: FC = () => {
   const {
     settings: { source, link },
   } = useSettings();
+  const { theme } = useTheme();
+  const Calendar = calendars[theme || defaultTheme];
 
   const handleSubmit: FormEventHandler<HTMLFormElement> = useCallback(
     async (e) => {
@@ -149,7 +159,7 @@ const MainSection: FC = () => {
         className="flex flex-col items-center relative py-9 pl-9 pr-9 lg:pr-24 @save:pr-24"
         ref={calendarRef}>
         <Profile />
-        <OGCalendar onDayClick={handleDayClick} />
+        <Calendar onDayClick={handleDayClick} />
         {link && <LinkMessage />}
       </div>
       <div className="fixed top-0 left-0 w-full h-full overflow-hidden -z-50">
