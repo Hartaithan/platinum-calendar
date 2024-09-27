@@ -1,16 +1,18 @@
-export const monthLength: Record<string, number> = {
-  January: 31,
-  February: 29,
-  March: 31,
-  April: 30,
-  May: 31,
-  June: 30,
-  July: 31,
-  August: 31,
-  September: 30,
-  October: 31,
-  November: 30,
-  December: 31,
+import type { DayLabel } from "@/models/calendar";
+
+export const monthLength: Record<number, number> = {
+  1: 31,
+  2: 29,
+  3: 31,
+  4: 30,
+  5: 31,
+  6: 30,
+  7: 31,
+  8: 31,
+  9: 30,
+  10: 31,
+  11: 30,
+  12: 31,
 };
 
 export const monthKeys: Record<string, string> = {
@@ -28,32 +30,19 @@ export const monthKeys: Record<string, string> = {
   Dec: "12",
 };
 
-export const monthIndex: Record<string, number> = {
-  January: 1,
-  February: 2,
-  March: 3,
-  April: 4,
-  May: 5,
-  June: 6,
-  July: 7,
-  August: 8,
-  September: 9,
-  October: 10,
-  November: 11,
-  December: 12,
-};
+export const monthIndex = Array.from({ length: 12 }, (_, i) => i + 1);
 
-export const monthLabels: Record<number, string> = {
-  1: "January",
-  2: "February",
-  3: "March",
-  4: "April",
-  5: "May",
-  6: "June",
-  7: "July",
-  8: "August",
-  9: "September",
-  10: "October",
-  11: "November",
-  12: "December",
+export const monthLabels: Record<number, DayLabel> = {
+  1: { long: "January", short: "Jan" },
+  2: { long: "February", short: "Feb" },
+  3: { long: "March", short: "Mar" },
+  4: { long: "April", short: "Apr" },
+  5: { long: "May", short: "May" },
+  6: { long: "June", short: "Jun" },
+  7: { long: "July", short: "Jul" },
+  8: { long: "August", short: "Aug" },
+  9: { long: "September", short: "Sep" },
+  10: { long: "October", short: "Oct" },
+  11: { long: "November", short: "Nov" },
+  12: { long: "December", short: "Dec" },
 };

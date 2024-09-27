@@ -1,7 +1,11 @@
 "use client";
 
-import { monthIndex, monthLength } from "@/constants/calendar";
-import type { CalendarProps, DayClickHandler } from "@/models/calendar";
+import { monthIndex, monthLabels, monthLength } from "@/constants/calendar";
+import type {
+  BaseMonthProps,
+  CalendarProps,
+  DayClickHandler,
+} from "@/models/calendar";
 import type { DateKeyParams } from "@/models/date";
 import { useData } from "@/providers/data";
 import { useFilters } from "@/providers/filters";
@@ -18,9 +22,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { useMediaQuery } from "@/hooks/use-media-query";
 
-interface MonthProps {
-  month: string;
-  days: number;
+interface MonthProps extends BaseMonthProps {
   onDayClick: DayClickHandler;
 }
 
@@ -32,30 +34,28 @@ interface MarkCircleProps extends ComponentPropsWithRef<"div"> {
   color: string;
 }
 
-interface DayProps {
-  month: string;
+interface DayProps extends BaseMonthProps {
   day: number;
   onDayClick: DayClickHandler;
 }
 
-interface TotalProps {
-  month: string;
+interface TotalProps extends BaseMonthProps {
   days: number;
 }
 
-const headerColors: Record<string, string> = {
-  January: "bg-[#99CCFF]",
-  February: "bg-[#CCFFFF]",
-  March: "bg-[#33CCCC]",
-  April: "bg-[#CCFFCC]",
-  May: "bg-[#99CC00]",
-  June: "bg-[#FFFD99]",
-  July: "bg-[#FFCC01]",
-  August: "bg-[#FF9901]",
-  September: "bg-[#FF6600]",
-  October: "bg-[#FF8080]",
-  November: "bg-[#CC99FF]",
-  December: "bg-[#CCCCFF]",
+const headerColors: Record<number, string> = {
+  1: "bg-[#99CCFF]",
+  2: "bg-[#CCFFFF]",
+  3: "bg-[#33CCCC]",
+  4: "bg-[#CCFFCC]",
+  5: "bg-[#99CC00]",
+  6: "bg-[#FFFD99]",
+  7: "bg-[#FFCC01]",
+  8: "bg-[#FF9901]",
+  9: "bg-[#FF6600]",
+  10: "bg-[#FF8080]",
+  11: "bg-[#CC99FF]",
+  12: "bg-[#CCCCFF]",
 };
 
 const markColors: Record<number, [string, string]> = {
@@ -124,7 +124,7 @@ const Day: FC<DayProps> = memo((props) => {
   const { month, day, onDayClick } = props;
   const { year } = useFilters();
   const { groups } = useData();
-  const date: DateKeyParams = { day, month: monthIndex[month], year };
+  const date: DateKeyParams = { day, month, year };
   const key = getDateKey(date);
   const platinums = groups ? groups[key] : null;
   const hasPlatinums = !!platinums && platinums.length > 0;
@@ -167,7 +167,7 @@ const Total: FC<TotalProps> = memo((props) => {
   const { month, days } = props;
   const { year } = useFilters();
   const { groups } = useData();
-  const key = getDateKey({ month: monthIndex[month], year });
+  const key = getDateKey({ month, year });
   const total = groups ? groups[key] : null;
   const cols = 35 - days;
   return (
@@ -182,7 +182,8 @@ const Total: FC<TotalProps> = memo((props) => {
 });
 
 const Month: FC<MonthProps> = memo((props) => {
-  const { month, days: count, onDayClick } = props;
+  const { month, onDayClick } = props;
+  const count = monthLength[month];
   const days = createArray(count);
   return (
     <div className="month w-fit flex flex-col border-l border-l-black border-t border-t-black">
@@ -191,7 +192,7 @@ const Month: FC<MonthProps> = memo((props) => {
           "header h-day flex items-center justify-center border-r border-r-black border-b border-b-black",
           headerColors[month],
         )}>
-        <p className="font-semibold text-sm">{month}</p>
+        <p className="font-semibold text-sm">{monthLabels[month].long}</p>
       </div>
       <div className="grid grid-cols-7">
         {days.map((day) => (
@@ -226,12 +227,11 @@ const Legend: FC = () => {
 
 const OGCalendar: FC<CalendarProps> = (props) => {
   const { onDayClick } = props;
-  const months = Object.entries(monthLength);
   return (
     <div className="relative grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 @save:grid-cols-4 gap-4 justify-items-center">
       <Legend />
-      {months.map(([month, days]) => (
-        <Month key={month} month={month} days={days} onDayClick={onDayClick} />
+      {monthIndex.map((month) => (
+        <Month key={month} month={month} onDayClick={onDayClick} />
       ))}
     </div>
   );
