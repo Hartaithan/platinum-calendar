@@ -3,17 +3,15 @@
 import { cookies } from "next/headers";
 import type { Theme } from "@/models/app";
 import { getCookieExpires } from "@/utils/cookies";
-import { defaultTheme } from "@/constants/app";
-
-const key = "plat-cal-theme";
+import { defaultTheme, themeKey } from "@/constants/app";
 
 export const setTheme = async (value: Theme) => {
-  cookies().set(key, value, {
+  cookies().set(themeKey, value, {
     expires: getCookieExpires(),
   });
 };
 
 export const getTheme = async (): Promise<Theme> => {
-  const value = cookies().get(key)?.value as Theme | undefined;
+  const value = cookies().get(themeKey)?.value as Theme | undefined;
   return value || defaultTheme;
 };

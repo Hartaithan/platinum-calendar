@@ -8,3 +8,5 @@ export const themesLabels: Record<Theme, string> = {
 };
 
 export const defaultTheme: Theme = "og";
+
+export const themeKey = "plat-cal-theme";
