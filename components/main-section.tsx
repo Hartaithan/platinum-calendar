@@ -28,7 +28,7 @@ import SubmitForm from "@/components/submit-form";
 import { Button } from "@/components/ui/button";
 import { useSettings } from "@/providers/settings";
 import ShareMenu from "@/components/share-menu";
-import { useTheme } from "next-themes";
+import { useTheme } from "@/providers/theme";
 import { defaultTheme } from "@/constants/app";
 
 interface Form extends HTMLFormControlsCollection {
