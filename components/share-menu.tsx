@@ -18,10 +18,34 @@ import RedditIcon from "@/icons/reddit";
 import { uploadImage } from "@/utils/upload";
 import { getRedditLink } from "@/utils/share";
 import { redirectTo } from "@/utils/navigation";
+import type {
+  UploadErrorResponse,
+  UploadSuccessResponse,
+} from "@/models/upload";
 
 interface Props {
   generateImage: () => Promise<Blob | null>;
 }
+
+const uploadResponseWithContent = (
+  res: UploadSuccessResponse,
+  link: URL,
+): UploadSuccessResponse => {
+  const content = (
+    <>
+      <p className="text-sm text-center mt-1">
+        If the redirect does not happen within 3 seconds, please use the link
+        below
+      </p>
+      <Button asChild variant="secondary" className="w-full mt-1" size="sm">
+        <a href={link.toString()} target="_blank">
+          Redirect to Reddit
+        </a>
+      </Button>
+    </>
+  );
+  return { ...res, content };
+};
 
 const ShareMenu: FC<Props> = (props) => {
   const { generateImage } = props;
@@ -67,14 +91,19 @@ const ShareMenu: FC<Props> = (props) => {
       if (!image) throw new Error("Unable to generate image");
       const response = await uploadImage(image, profile?.name);
       if (!response.success) throw Error(response.message);
-      setUpload?.((prev) => ({ ...prev, isLoading: false, response }));
       const link = getRedditLink(response.link, profile?.name);
       redirectTo(link.toString(), "_blank");
+      setUpload?.((prev) => ({
+        ...prev,
+        isLoading: false,
+        response: uploadResponseWithContent(response, link),
+      }));
     } catch (error) {
       console.error("reddit upload error", error);
-      setUpload?.((prev) => ({ ...prev, isLoading: false, response: null }));
       const message = readError(error);
       toast.error(message);
+      const response: UploadErrorResponse = { success: false, message };
+      setUpload?.((prev) => ({ ...prev, isLoading: false, response }));
     }
   }, [profile?.name, generateImage, setUpload]);
 
@@ -96,7 +125,7 @@ const ShareMenu: FC<Props> = (props) => {
           </DropdownMenuItem>
           <DropdownMenuItem onClick={handleUpload}>
             <UploadIcon className="size-4 mr-2" />
-            <span>Upload on Imgur</span>
+            <span>Upload to Imgur</span>
           </DropdownMenuItem>
           <DropdownMenuItem onClick={handleReddit}>
             <RedditIcon className="size-4 mr-2" />

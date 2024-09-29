@@ -38,7 +38,7 @@ const ImageUploadPopup: ForwardRefRenderFunction<ImageUploadPopupHandle> = (
   if (!isVisible) return null;
 
   return (
-    <div className="w-[360px] min-h-16 fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-xl bg-background shadow-2xl px-6 py-4 z-10">
+    <div className="w-[360px] min-h-16 fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-xl bg-background shadow-2xl p-4 z-10">
       {!isLoading && (
         <ModalCloseButton
           className="float-none absolute top-3 right-3"
@@ -52,11 +52,13 @@ const ImageUploadPopup: ForwardRefRenderFunction<ImageUploadPopupHandle> = (
           <a href={response.link} target="_blank">
             {response.link}
           </a>
+          {response.content && response.content}
         </div>
       )}
       {response && !response.success && (
         <div className="w-full flex flex-col items-center justify-center">
-          <p className="font-medium">{response.message}</p>
+          <p className="font-medium">Something went wrong!</p>
+          <p className="mt-1 text-sm text-center">{response.message}</p>
         </div>
       )}
     </div>
