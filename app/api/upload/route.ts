@@ -7,6 +7,8 @@ import { NextResponse } from "next/server";
 
 const UPLOAD_URL = UPLOAD_API_URL + "/image";
 
+const defaultError = "Unable to upload image";
+
 export const POST = async (
   req: NextRequest,
 ): Promise<NextResponse<UploadResponse>> => {
@@ -38,9 +40,20 @@ export const POST = async (
     });
   } catch (error) {
     console.error("unable to upload image", error);
-    return NextResponse.json(
-      { message: "Unable to upload image", success: false },
-      { status: 400 },
-    );
+    let message = null;
+    if (error instanceof Error) {
+      try {
+        const parsed = JSON.parse(error?.message);
+        if (parsed?.data?.error) message = parsed?.data?.error;
+      } catch (err) {
+        console.error("unable to read upload error", err);
+        message = defaultError;
+      }
+    } else if (typeof error === "string") {
+      message = error;
+    } else {
+      message = defaultError;
+    }
+    return NextResponse.json({ message, success: false }, { status: 400 });
   }
 };
