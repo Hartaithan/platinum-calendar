@@ -15,7 +15,7 @@ interface Props extends PropsWithChildren {
 const RootProviders: FC<Props> = (props) => {
   const { defaultTheme, children } = props;
   return (
-    <ThemeProvider defaultTheme={defaultTheme}>
+    <ThemeProvider defaultValue={defaultTheme}>
       <TooltipProvider>
         <DataProvider>
           <FiltersProvider>

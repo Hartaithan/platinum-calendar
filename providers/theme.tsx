@@ -1,6 +1,7 @@
 "use client";
 
 import { setTheme as setThemeAction } from "@/actions/theme";
+import { defaultTheme } from "@/constants/app";
 import type { Theme } from "@/models/app";
 import type { Dispatch, FC, PropsWithChildren, SetStateAction } from "react";
 import {
@@ -12,7 +13,7 @@ import {
 } from "react";
 
 interface Props extends PropsWithChildren {
-  defaultTheme?: Theme;
+  defaultValue?: Theme;
 }
 
 interface Context {
@@ -22,7 +23,7 @@ interface Context {
 }
 
 const initialValue: Context = {
-  theme: "og",
+  theme: defaultTheme,
   setTheme: () => null,
   changeTheme: () => null,
 };
@@ -30,8 +31,8 @@ const initialValue: Context = {
 const Context = createContext<Context>(initialValue);
 
 const ThemeProvider: FC<Props> = (props) => {
-  const { defaultTheme = "og", children } = props;
-  const [theme, setTheme] = useState<Context["theme"]>(defaultTheme);
+  const { defaultValue = initialValue.theme, children } = props;
+  const [theme, setTheme] = useState<Context["theme"]>(defaultValue);
 
   const changeTheme: Context["changeTheme"] = useCallback((value) => {
     setTheme(value);
