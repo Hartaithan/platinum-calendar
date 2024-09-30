@@ -17,7 +17,6 @@ import { Button } from "@/components/ui/button";
 import RedditIcon from "@/icons/reddit";
 import { uploadImage } from "@/utils/upload";
 import { getRedditLink } from "@/utils/share";
-import { redirectTo } from "@/utils/navigation";
 import type {
   UploadErrorResponse,
   UploadSuccessResponse,
@@ -85,6 +84,7 @@ const ShareMenu: FC<Props> = (props) => {
   }, [profile?.name, generateImage, setUpload]);
 
   const handleReddit = useCallback(async () => {
+    const redirect = window.open("/redirect", "_blank");
     try {
       setUpload?.({ isLoading: true, isVisible: true, response: null });
       const image = await generateImage();
@@ -92,7 +92,7 @@ const ShareMenu: FC<Props> = (props) => {
       const response = await uploadImage(image, profile?.name);
       if (!response.success) throw Error(response.message);
       const link = getRedditLink(response.link, profile?.name);
-      redirectTo(link.toString(), "_blank");
+      if (redirect) redirect.location.href = link.toString();
       setUpload?.((prev) => ({
         ...prev,
         isLoading: false,
@@ -104,6 +104,7 @@ const ShareMenu: FC<Props> = (props) => {
       toast.error(message);
       const response: UploadErrorResponse = { success: false, message };
       setUpload?.((prev) => ({ ...prev, isLoading: false, response }));
+      redirect?.close();
     }
   }, [profile?.name, generateImage, setUpload]);
 
