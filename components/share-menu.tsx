@@ -21,6 +21,7 @@ import type {
   UploadErrorResponse,
   UploadSuccessResponse,
 } from "@/models/upload";
+import { redirect } from "@/utils/navigation";
 
 interface Props {
   generateImage: () => Promise<Blob | null>;
@@ -84,7 +85,6 @@ const ShareMenu: FC<Props> = (props) => {
   }, [profile?.name, generateImage, setUpload]);
 
   const handleReddit = useCallback(async () => {
-    const redirect = window.open("/redirect", "_blank");
     try {
       setUpload?.({ isLoading: true, isVisible: true, response: null });
       const image = await generateImage();
@@ -92,19 +92,18 @@ const ShareMenu: FC<Props> = (props) => {
       const response = await uploadImage(image, profile?.name);
       if (!response.success) throw Error(response.message);
       const link = getRedditLink(response.link, profile?.name);
-      if (redirect) redirect.location.href = link.toString();
       setUpload?.((prev) => ({
         ...prev,
         isLoading: false,
         response: uploadResponseWithContent(response, link),
       }));
+      redirect(link.toString(), "_blank");
     } catch (error) {
       console.error("reddit upload error", error);
       const message = readError(error);
       toast.error(message);
       const response: UploadErrorResponse = { success: false, message };
       setUpload?.((prev) => ({ ...prev, isLoading: false, response }));
-      redirect?.close();
     }
   }, [profile?.name, generateImage, setUpload]);
 

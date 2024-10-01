@@ -1,6 +1,13 @@
+"use client";
+
 import type { ComponentProps } from "react";
 
-export const redirectTo = (
+const isSafari = () => {
+  const agent = navigator.userAgent;
+  return agent.indexOf("Safari") !== -1 && agent.indexOf("Chrome") === -1;
+};
+
+export const redirect = (
   url: string,
   target: ComponentProps<"a">["target"] = "_self",
 ) => {
@@ -9,6 +16,7 @@ export const redirectTo = (
   link.style.display = "none";
   link.target = target;
   document.body.appendChild(link);
-  link.click();
+  if (isSafari()) confirm("Open the link in a new tab?") && link.click();
+  else link.click();
   document.body.removeChild(link);
 };
