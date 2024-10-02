@@ -1,38 +1,71 @@
 "use client";
 
-import type { UploadResponse } from "@/models/upload";
-import type { Dispatch, ForwardRefRenderFunction, SetStateAction } from "react";
-import { forwardRef, useCallback, useImperativeHandle, useState } from "react";
+import type { ForwardRefRenderFunction } from "react";
+import {
+  forwardRef,
+  useCallback,
+  useImperativeHandle,
+  useMemo,
+  useState,
+} from "react";
 import { Spinner } from "@/components/ui/spinner";
 import { ModalCloseButton } from "@/components/ui/modal";
+import { Button } from "@/components/ui/button";
+
+export type UploadStatus = "generate" | "upload" | "complete" | "error";
 
 interface UploadState {
   isVisible: boolean;
-  isLoading: boolean;
-  response: UploadResponse | null;
+  status: UploadStatus;
+  error: string | null;
+  image: string | null;
+  redirect: URL | null;
+}
+
+type StatusHandler = (params: Partial<UploadState>) => void;
+
+interface UploadHandler {
+  open: () => void;
+  close: () => void;
+  set: StatusHandler;
 }
 
 export interface ImageUploadPopupHandle {
-  setUpload: Dispatch<SetStateAction<UploadState>>;
+  upload: UploadHandler;
 }
+
+const defaultState: UploadState = {
+  isVisible: false,
+  status: "generate",
+  error: null,
+  image: null,
+  redirect: null,
+};
 
 const ImageUploadPopup: ForwardRefRenderFunction<ImageUploadPopupHandle> = (
   _props,
   ref,
 ) => {
-  const [upload, setUpload] = useState<UploadState>({
-    isVisible: false,
-    isLoading: false,
-    response: null,
-  });
-  const { isVisible, isLoading, response } = upload;
+  const [state, setState] = useState<UploadState>(defaultState);
+  const { isVisible, status, error, image, redirect } = state;
+  const isLoading = status === "generate" || status === "upload";
 
-  const handleClose = useCallback(() => {
-    setUpload((prev) => ({ ...prev, isVisible: false }));
+  const open = useCallback(() => {
+    setState((prev) => ({ ...prev, isVisible: true }));
   }, []);
 
+  const close = useCallback(() => {
+    setState(defaultState);
+  }, []);
+
+  const set: StatusHandler = useCallback((params) => {
+    setState((prev) => ({ ...prev, ...params }));
+  }, []);
+
+  const upload = useMemo(() => ({ open, close, set }), [close, open, set]);
+
   useImperativeHandle(ref, () => ({
-    setUpload,
+    upload,
   }));
 
   if (!isVisible) return null;
@@ -42,25 +75,48 @@ const ImageUploadPopup: ForwardRefRenderFunction<ImageUploadPopupHandle> = (
       {!isLoading && (
         <ModalCloseButton
           className="float-none absolute top-3 right-3"
-          onClick={handleClose}
+          onClick={close}
         />
       )}
-      {isLoading && <Spinner className="w-full my-4" />}
-      {response && response.success && (
-        <div className="w-full flex flex-col items-center justify-center gap-1">
-          <p className="font-medium">{response.message}</p>
-          <a href={response.link} target="_blank">
-            {response.link}
+      <div className="w-full flex flex-col items-center justify-center gap-1">
+        <div className="flex items-center">
+          {isLoading && <Spinner className="size-4 mr-2" />}
+          <p className="font-medium">
+            {status === "generate" && "Generating..."}
+            {status === "upload" && "Uploading..."}
+            {status === "complete" && "Ready!"}
+            {status === "error" && "Oops!"}
+          </p>
+        </div>
+        <p className="mt-1 text-sm text-center">
+          {status === "generate" && "The image is being created..."}
+          {status === "upload" && "The image is uploading..."}
+          {status === "complete" && "All done! Your link should be below."}
+          {status === "error" && (error || "Something went wrong.")}
+        </p>
+        {image && (
+          <a className="font-medium" href={image} target="_blank">
+            {image}
           </a>
-          {response.content && response.content}
-        </div>
-      )}
-      {response && !response.success && (
-        <div className="w-full flex flex-col items-center justify-center">
-          <p className="font-medium">Something went wrong!</p>
-          <p className="mt-1 text-sm text-center">{response.message}</p>
-        </div>
-      )}
+        )}
+        {redirect && (
+          <>
+            <p className="text-sm text-center mt-1">
+              If you&apos;re not redirected within 3 seconds, please click the
+              link below.
+            </p>
+            <Button
+              asChild
+              variant="secondary"
+              className="w-full mt-1"
+              size="sm">
+              <a href={redirect.toString()} target="_blank">
+                Redirect
+              </a>
+            </Button>
+          </>
+        )}
+      </div>
     </div>
   );
 };

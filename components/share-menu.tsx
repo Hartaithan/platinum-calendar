@@ -17,41 +17,17 @@ import { Button } from "@/components/ui/button";
 import RedditIcon from "@/icons/reddit";
 import { uploadImage } from "@/utils/upload";
 import { getRedditLink } from "@/utils/share";
-import type {
-  UploadErrorResponse,
-  UploadSuccessResponse,
-} from "@/models/upload";
 import { redirect } from "@/utils/navigation";
 
 interface Props {
   generateImage: () => Promise<Blob | null>;
 }
 
-const uploadResponseWithContent = (
-  res: UploadSuccessResponse,
-  link: URL,
-): UploadSuccessResponse => {
-  const content = (
-    <>
-      <p className="text-sm text-center mt-1">
-        If the redirect does not happen within 3 seconds, please use the link
-        below
-      </p>
-      <Button asChild variant="secondary" className="w-full mt-1" size="sm">
-        <a href={link.toString()} target="_blank">
-          Redirect to Reddit
-        </a>
-      </Button>
-    </>
-  );
-  return { ...res, content };
-};
-
 const ShareMenu: FC<Props> = (props) => {
   const { generateImage } = props;
   const { profile } = useData();
   const popupRef = useRef<ImageUploadPopupHandle>(null);
-  const { setUpload } = popupRef.current ?? {};
+  const { upload } = popupRef.current ?? {};
 
   const handleSave = useCallback(async () => {
     try {
@@ -71,41 +47,39 @@ const ShareMenu: FC<Props> = (props) => {
 
   const handleUpload = useCallback(async () => {
     try {
-      setUpload?.({ isLoading: true, isVisible: true, response: null });
+      upload?.open();
       const image = await generateImage();
       if (!image) throw new Error("Unable to generate image");
+      upload?.set({ status: "upload" });
       const response = await uploadImage(image, profile?.name);
-      setUpload?.((prev) => ({ ...prev, isLoading: false, response }));
+      if (!response.success) throw new Error(response.message);
+      upload?.set({ status: "complete", image: response.link });
     } catch (error) {
       console.error("upload error", error);
-      setUpload?.((prev) => ({ ...prev, isLoading: false, response: null }));
       const message = readError(error);
+      upload?.set({ status: "error", error: message });
       toast.error(message);
     }
-  }, [profile?.name, generateImage, setUpload]);
+  }, [profile?.name, generateImage, upload]);
 
   const handleReddit = useCallback(async () => {
     try {
-      setUpload?.({ isLoading: true, isVisible: true, response: null });
+      upload?.open();
       const image = await generateImage();
       if (!image) throw new Error("Unable to generate image");
+      upload?.set({ status: "upload" });
       const response = await uploadImage(image, profile?.name);
       if (!response.success) throw Error(response.message);
       const link = getRedditLink(response.link, profile?.name);
-      setUpload?.((prev) => ({
-        ...prev,
-        isLoading: false,
-        response: uploadResponseWithContent(response, link),
-      }));
+      upload?.set({ status: "complete", image: response.link, redirect: link });
       redirect(link.toString(), "_blank");
     } catch (error) {
       console.error("reddit upload error", error);
       const message = readError(error);
+      upload?.set({ status: "error", error: message });
       toast.error(message);
-      const response: UploadErrorResponse = { success: false, message };
-      setUpload?.((prev) => ({ ...prev, isLoading: false, response }));
     }
-  }, [profile?.name, generateImage, setUpload]);
+  }, [profile?.name, generateImage, upload]);
 
   return (
     <>
