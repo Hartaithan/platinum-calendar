@@ -212,7 +212,7 @@ const Month: FC<MonthProps> = memo((props) => {
 const Legend: FC = () => {
   const colors = Object.entries(markColors);
   return (
-    <div className="relative sm:absolute @save:absolute inset-auto sm:inset-y-0 @save:inset-y-0 right-auto sm:-right-20 @save:-right-20 w-auto sm:w-16 @save:w-16 flex flex-row sm:flex-col @save:flex-col gap-1">
+    <div className="relative ml-4 w-auto sm:w-16 @save:w-16 flex flex-row sm:flex-col @save:flex-col gap-1">
       {colors.map(([value, color]) => (
         <div
           key={value}
@@ -228,11 +228,13 @@ const Legend: FC = () => {
 const OGCalendar: FC<CalendarProps> = (props) => {
   const { onDayClick } = props;
   return (
-    <div className="relative grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 @save:grid-cols-4 gap-4 justify-items-center">
+    <div className="flex">
+      <div className="relative grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 @save:grid-cols-4 gap-4 justify-items-center">
+        {monthIndex.map((month) => (
+          <Month key={month} month={month} onDayClick={onDayClick} />
+        ))}
+      </div>
       <Legend />
-      {monthIndex.map((month) => (
-        <Month key={month} month={month} onDayClick={onDayClick} />
-      ))}
     </div>
   );
 };
