@@ -29,16 +29,16 @@ interface DayProps extends BaseMonthProps {
 }
 
 const dayColors = [
-  "bg-gray-100",
-  "bg-emerald-200",
-  "bg-emerald-300",
-  "bg-emerald-400",
-  "bg-emerald-500",
-  "bg-emerald-600",
-  "bg-emerald-700",
-  "bg-emerald-800",
-  "bg-emerald-900",
-  "bg-emerald-950",
+  ["bg-gray-100", "text-neutral-600"],
+  ["bg-emerald-200", "text-neutral-600"],
+  ["bg-emerald-300", "text-neutral-600"],
+  ["bg-emerald-400", "text-neutral-600"],
+  ["bg-emerald-500", "text-neutral-100"],
+  ["bg-emerald-600", "text-neutral-100"],
+  ["bg-emerald-700", "text-neutral-100"],
+  ["bg-emerald-800", "text-neutral-100"],
+  ["bg-emerald-900", "text-neutral-100"],
+  ["bg-emerald-950", "text-neutral-100"],
 ];
 
 const styles = {
@@ -105,8 +105,14 @@ const Legend: FC = () => {
       <div className="mt-6 flex items-center justify-end">
         <span className="text-sm mr-2">Less</span>
         <div className="flex gap-1">
-          {dayColors.map((color) => (
-            <div key={color} className={cn("size-5", color)} />
+          {dayColors.map(([bg, fg], index) => (
+            <div
+              key={`legend-${index}`}
+              className={cn("size-5 flex justify-center items-center", bg)}>
+              <p className={cn("text-white text-[12px] leading-[normal]", fg)}>
+                {index}
+              </p>
+            </div>
           ))}
         </div>
         <span className="text-sm ml-2">More</span>
