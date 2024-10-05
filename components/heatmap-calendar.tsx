@@ -29,16 +29,16 @@ interface DayProps extends BaseMonthProps {
 }
 
 const dayColors = [
-  ["bg-gray-100", "text-neutral-600"],
-  ["bg-emerald-200", "text-neutral-600"],
-  ["bg-emerald-300", "text-neutral-600"],
-  ["bg-emerald-400", "text-neutral-600"],
-  ["bg-emerald-500", "text-neutral-100"],
-  ["bg-emerald-600", "text-neutral-100"],
-  ["bg-emerald-700", "text-neutral-100"],
-  ["bg-emerald-800", "text-neutral-100"],
-  ["bg-emerald-900", "text-neutral-100"],
-  ["bg-emerald-950", "text-neutral-100"],
+  ["bg-gray-100", "text-black"],
+  ["bg-emerald-200", "text-black"],
+  ["bg-emerald-300", "text-black"],
+  ["bg-emerald-400", "text-black"],
+  ["bg-emerald-500", "text-black"],
+  ["bg-emerald-600", "text-white"],
+  ["bg-emerald-700", "text-white"],
+  ["bg-emerald-800", "text-white"],
+  ["bg-emerald-900", "text-white"],
+  ["bg-emerald-950", "text-white"],
 ];
 
 const styles = {
@@ -46,6 +46,7 @@ const styles = {
 };
 
 const getDayColor = (count: number) => {
+  if (count > 9) return dayColors.at(-1);
   const color = dayColors[count];
   if (!color) return dayColors[0];
   return color;
