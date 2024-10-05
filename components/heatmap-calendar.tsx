@@ -42,7 +42,7 @@ const dayColors = [
 ];
 
 const styles = {
-  day: "day size-7",
+  day: "day size-6",
 };
 
 const getDayColor = (count: number) => {
@@ -101,7 +101,7 @@ const Month: FC<MonthProps> = memo((props) => {
 
 const Legend: FC = () => {
   return (
-    <div className="flex-grow flex items-end">
+    <div className="w-full flex items-end">
       <div className="mt-6 flex items-center justify-end">
         <span className="text-sm mr-2">Less</span>
         <div className="flex gap-1">
@@ -124,7 +124,7 @@ const Legend: FC = () => {
 const HeatMapCalendar: FC<CalendarProps> = (props) => {
   const { onDayClick } = props;
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col flex-1 justify-center">
       <div className="grid grid-cols-4 gap-4">
         {monthIndex.map((month) => (
           <Month key={month} month={month} onDayClick={onDayClick} />

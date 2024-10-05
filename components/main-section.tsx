@@ -156,14 +156,17 @@ const MainSection: FC = () => {
         </div>
       </div>
       <div
-        className="flex flex-col items-center relative p-9"
+        className="flex flex-grow flex-col items-center relative px-10 py-9"
         ref={calendarRef}>
         <Profile />
         <Calendar onDayClick={handleDayClick} />
         {link && <LinkMessage />}
       </div>
       <div className="fixed top-0 left-0 w-full h-full overflow-hidden -z-50">
-        <div className="w-[1200px] h-[800px] @container" ref={hiddenRef} />
+        <div
+          className="flex flex-col w-[1200px] h-[800px] @container"
+          ref={hiddenRef}
+        />
       </div>
       <DataLoadingPopup ref={popupRef} handleAbort={handleAbort} />
       <DateDetailsModal
