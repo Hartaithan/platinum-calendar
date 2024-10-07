@@ -10,7 +10,7 @@ import type { DateKeyParams } from "@/models/date";
 import { useData } from "@/providers/data";
 import { useFilters } from "@/providers/filters";
 import { createArray } from "@/utils/array";
-import { getDateKey, getDateLabel } from "@/utils/date";
+import { getDateKey, getDateLabelWithCount } from "@/utils/date";
 import { cn } from "@/utils/styles";
 import { memo, type FC } from "react";
 import {
@@ -85,7 +85,7 @@ const Day: FC<DayProps> = memo((props) => {
         onClick={() => onDayClick({ date, platinums })}
       />
       <TooltipContent>
-        <p>{getDateLabel(date)}</p>
+        <p>{getDateLabelWithCount({ date }, count)}</p>
       </TooltipContent>
     </Tooltip>
   );

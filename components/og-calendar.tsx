@@ -157,7 +157,7 @@ const Day: FC<DayProps> = memo((props) => {
         <Mark count={platinums.length} />
       </TooltipTrigger>
       <TooltipContent>
-        <p>{getDateLabel(date)}</p>
+        <p>{getDateLabel({ date })}</p>
       </TooltipContent>
     </Tooltip>
   );

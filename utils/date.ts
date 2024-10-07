@@ -52,15 +52,27 @@ export const getDateKeys = (value: string): Record<DateKey, string> => {
   };
 };
 
-export const getDateLabel = (
-  params: DateKeyParams,
-  key: DayLabelKey = "long",
-): string => {
-  const { day, month, year } = params;
+interface DateLabelParams {
+  date: DateKeyParams;
+  key?: DayLabelKey;
+}
+
+export const getDateLabel = (params: DateLabelParams): string => {
+  const { date, key = "long" } = params;
+  const { day, month, year } = date;
   const result: string[] = [];
   if (day) result.push(day.toString());
   if (month) result.push(monthLabels[month][key]);
   if (year) result.push(year.toString());
   if (result.length === 0) return "Date Not Found!";
   return result.join(" ");
+};
+
+export const getDateLabelWithCount = (
+  params: DateLabelParams,
+  count?: number,
+): string => {
+  const label = getDateLabel(params);
+  if (count) return `${label}, ${count} plats`;
+  return label;
 };

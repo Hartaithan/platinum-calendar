@@ -2,14 +2,16 @@ import type { FC } from "react";
 import { Modal } from "@/components/ui/modal";
 import type { ModalProps } from "@/components/ui/modal";
 import type { DateDetails } from "@/models/calendar";
-import { getDateLabel } from "@/utils/date";
+import { getDateLabelWithCount } from "@/utils/date";
 import PlatinumList from "@/components/platinum-list";
 
 export type DetailsModalData = DateDetails | null;
 
 const DateDetailsModal: FC<ModalProps<DetailsModalData>> = (props) => {
   const { isVisible, data, onClose } = props;
-  const label = data?.date ? getDateLabel(data.date) : "Details";
+  const label = data
+    ? getDateLabelWithCount({ date: data?.date }, data?.platinums?.length)
+    : "Details";
   return (
     <Modal
       title={label}
