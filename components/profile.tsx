@@ -46,7 +46,9 @@ const Profile: FC = () => {
         />
         <div className="ml-3 flex flex-col justify-center">
           <h1 className="font-medium leading-[normal]">{name}</h1>
-          <p className="leading-[normal]">Level: {level.value}</p>
+          <p className="leading-[normal]">
+            Level: {level.value.toLocaleString()}
+          </p>
         </div>
       </div>
       <div className="w-4/5 md:w-10/12 lg:w-auto @save:w-auto flex items-center justify-center lg:justify-normal @save:justify-normal gap-4 flex-wrap @save:flex-nowrap">
