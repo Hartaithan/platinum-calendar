@@ -228,13 +228,15 @@ const Legend: FC = () => {
 const OGCalendar: FC<CalendarProps> = (props) => {
   const { onDayClick } = props;
   return (
-    <div className="flex flex-1 flex-col lg:flex-row @save:flex-row items-center">
-      <div className="relative grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 @save:grid-cols-4 gap-4 justify-items-center order-1">
-        {monthIndex.map((month) => (
-          <Month key={month} month={month} onDayClick={onDayClick} />
-        ))}
+    <div className="flex flex-1 items-center">
+      <div className="flex flex-col lg:flex-row @save:flex-row">
+        <div className="relative grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 @save:grid-cols-4 gap-4 justify-items-center order-1">
+          {monthIndex.map((month) => (
+            <Month key={month} month={month} onDayClick={onDayClick} />
+          ))}
+        </div>
+        <Legend />
       </div>
-      <Legend />
     </div>
   );
 };
