@@ -59,7 +59,10 @@ const Profile: FC = () => {
                 "size-6 rounded-full flex justify-center items-center",
                 trophyColors[key][0],
               )}>
-              <TrophyIcon className={cn("size-5", trophyColors[key][0])} />
+              <TrophyIcon
+                className={cn("size-5", trophyColors[key][0])}
+                total={key === "total"}
+              />
             </div>
             <p className={cn("text-sm font-medium", trophyColors[key][1])}>
               {value.toLocaleString()}

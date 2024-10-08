@@ -98,11 +98,11 @@ export const parseProfile = (content: string): Profile | null => {
   const silver = cheerio(select.silver).first().text().trim() || notFound;
   const bronze = cheerio(select.bronze).first().text().trim() || notFound;
   const counts: TrophyCounts = {
-    total: toNumber(total),
     platinum: toNumber(platinum),
     gold: toNumber(gold),
     silver: toNumber(silver),
     bronze: toNumber(bronze),
+    total: toNumber(total),
   };
 
   const {

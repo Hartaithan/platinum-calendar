@@ -1,6 +1,11 @@
+import { cn } from "@/utils/styles";
 import type { ComponentPropsWithoutRef, FC } from "react";
 
-const TrophyIcon: FC<ComponentPropsWithoutRef<"svg">> = (props) => {
+interface Props extends ComponentPropsWithoutRef<"svg"> {
+  total?: boolean;
+}
+
+const Icon: FC<ComponentPropsWithoutRef<"svg">> = (props) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -18,6 +23,24 @@ const TrophyIcon: FC<ComponentPropsWithoutRef<"svg">> = (props) => {
       <path d="M2.268 4.512a1.003 1.003 0 011.135.848l.07.489a3.165 3.165 0 002.62 2.667l-.328 1.968a5.168 5.168 0 01-4.277-4.356l-.07-.488a.997.997 0 01.85-1.128zM14.579 5.5a1 1 0 001 1h2.01a1 1 0 100-2h-2.01a1 1 0 00-1 1z" />
       <path d="M17.732 4.512a1.003 1.003 0 00-1.135.848l-.07.489a3.166 3.166 0 01-2.62 2.667l.328 1.968a5.168 5.168 0 004.277-4.356l.07-.488a.997.997 0 00-.85-1.128z" />
     </svg>
+  );
+};
+
+const TrophyIcon: FC<Props> = (props) => {
+  const { total = false, className, ...rest } = props;
+  if (!total) return <Icon className={className} {...rest} />;
+  return (
+    <div className="relative">
+      <Icon
+        className={cn(className, "absolute top-0 -left-1.5 scale-75")}
+        {...rest}
+      />
+      <Icon className={className} {...rest} />
+      <Icon
+        className={cn(className, "absolute top-0 -right-1.5 scale-75")}
+        {...rest}
+      />
+    </div>
   );
 };
 
