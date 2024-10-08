@@ -4,7 +4,7 @@ export const imageOptions: Options = {
   scale: 2,
   quality: 1,
   type: "image/png",
-  drawImageInterval: 500,
+  drawImageInterval: 1000,
   backgroundColor: "#FFFFFF",
   fetch: { bypassingCache: true },
 };
