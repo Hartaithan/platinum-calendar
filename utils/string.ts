@@ -11,3 +11,7 @@ export const pad = (value: string | number, start = 2): string => {
   if (typeof value === "string") return value.padStart(start, "0");
   return value.toString().padStart(start, "0");
 };
+
+export const pluralize = (count: number, noun: string, suffix = "s") => {
+  return `${count} ${noun}${count !== 1 ? suffix : ""}`;
+};

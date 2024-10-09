@@ -21,6 +21,7 @@ import {
 } from "@/components/ui/tooltip";
 import { Button } from "@/components/ui/button";
 import { useMediaQuery } from "@/hooks/use-media-query";
+import { pluralize } from "@/utils/string";
 
 interface MonthProps extends BaseMonthProps {
   onDayClick: DayClickHandler;
@@ -176,7 +177,7 @@ const Total: FC<TotalProps> = memo((props) => {
         columns[cols],
         "flex justify-center items-center border-r border-r-black border-b border-b-black",
       )}>
-      {total && total.length > 0 && <p>{total.length} plats</p>}
+      {total && total.length > 0 && <p>{pluralize(total.length, "plat")}</p>}
     </div>
   );
 });

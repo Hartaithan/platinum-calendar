@@ -2,7 +2,7 @@ import { monthKeys, monthLabels } from "@/constants/calendar";
 import { notFound } from "@/constants/messages";
 import type { DayLabelKey } from "@/models/calendar";
 import type { DateKey, DateKeyParams } from "@/models/date";
-import { cleanString, pad } from "@/utils/string";
+import { cleanString, pad, pluralize } from "@/utils/string";
 
 const datePattern =
   /(\d{1,2})(st|nd|rd|th)\s(\w{3})\s(\d{4})(\d{1,2}:\d{2}:\d{2})\s(AM|PM)/;
@@ -73,6 +73,6 @@ export const getDateLabelWithCount = (
   count?: number,
 ): string => {
   const label = getDateLabel(params);
-  if (count) return `${label}, ${count} plats`;
+  if (count) return `${label}, ${pluralize(count, "plat")}`;
   return label;
 };
