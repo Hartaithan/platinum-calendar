@@ -65,6 +65,8 @@ const Day: FC<DayProps> = memo((props) => {
   const hasPlatinums = !!platinums && platinums.length > 0;
   const isTouchDevice = useMediaQuery("(pointer: coarse)");
   const dayStyles = cn(styles.day, getDayColor(count));
+  const label = getDateLabelWithCount({ date }, count);
+  const ariaLabel = `${label}: Show details`;
 
   if (!hasPlatinums) return <div className={dayStyles} />;
 
@@ -72,6 +74,7 @@ const Day: FC<DayProps> = memo((props) => {
     return (
       <Button
         unstyled
+        aria-label={ariaLabel}
         className={dayStyles}
         onClick={() => onDayClick({ date, platinums })}
       />
@@ -81,11 +84,12 @@ const Day: FC<DayProps> = memo((props) => {
   return (
     <Tooltip delayDuration={100}>
       <TooltipTrigger
+        aria-label={ariaLabel}
         className={dayStyles}
         onClick={() => onDayClick({ date, platinums })}
       />
       <TooltipContent>
-        <p>{getDateLabelWithCount({ date }, count)}</p>
+        <p>{label}</p>
       </TooltipContent>
     </Tooltip>
   );

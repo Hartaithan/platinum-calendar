@@ -107,6 +107,7 @@ const ImageUploadPopup: ForwardRefRenderFunction<ImageUploadPopupHandle> = (
             </p>
             <Button
               asChild
+              aria-label="Redirect to generated link"
               variant="secondary"
               className="w-full mt-1"
               size="sm">

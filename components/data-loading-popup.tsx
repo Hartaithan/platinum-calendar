@@ -66,6 +66,7 @@ const DataLoadingPopup: ForwardRefRenderFunction<
       <Button
         variant="secondary"
         className="mt-3 h-8 w-full"
+        aria-label="Cancel data loading"
         onClick={handleAbort}>
         Cancel
       </Button>

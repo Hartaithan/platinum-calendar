@@ -81,7 +81,9 @@ const SettingsModal: FC<ModalProps> = (props) => {
             {sourceDescription[settings.source]}
           </p>
         </div>
-        <Button onClick={resetSettings}>Reset settings</Button>
+        <Button aria-label="Reset settings" onClick={resetSettings}>
+          Reset settings
+        </Button>
       </div>
     </Modal>
   );

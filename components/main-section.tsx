@@ -149,6 +149,7 @@ const MainSection: FC = () => {
           <ShareMenu generateImage={generateImage} />
           <Button
             variant="secondary"
+            aria-label="Open settings"
             className="border border-input"
             onClick={openSettings}>
             <SettingsIcon className="size-5 stroke-[1.5]" />

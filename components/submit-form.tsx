@@ -25,6 +25,7 @@ const SubmitForm: FC<Props> = (props) => {
       />
       <Button
         unstyled
+        aria-label="Submit"
         className="h-full absolute right-0 !ml-0 hover:opacity-80 px-2"
         type="submit"
         disabled={isLoading}>

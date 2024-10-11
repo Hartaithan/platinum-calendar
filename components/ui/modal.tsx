@@ -53,6 +53,7 @@ export const ModalCloseButton: React.FC<ButtonProps> = (props) => {
   return (
     <Button
       unstyled
+      aria-label="Close modal"
       className={cn(DialogCloseStyles.button, className)}
       {...rest}>
       <XIcon className={DialogCloseStyles.icon} />

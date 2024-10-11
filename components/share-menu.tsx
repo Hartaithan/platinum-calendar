@@ -87,21 +87,22 @@ const ShareMenu: FC<Props> = (props) => {
         <DropdownMenuTrigger asChild>
           <Button
             variant="secondary"
+            aria-label="Share"
             className="border border-input font-normal">
             <Share2Icon className="size-5 stroke-[1.5] mr-3" />
             <span>Share</span>
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent>
-          <DropdownMenuItem onClick={handleSave}>
+          <DropdownMenuItem onClick={handleSave} aria-label="Save as PNG">
             <SaveIcon className="size-4 mr-2" />
             <span>Save as PNG</span>
           </DropdownMenuItem>
-          <DropdownMenuItem onClick={handleUpload}>
+          <DropdownMenuItem onClick={handleUpload} aria-label="Upload to Imgur">
             <UploadIcon className="size-4 mr-2" />
             <span>Upload to Imgur</span>
           </DropdownMenuItem>
-          <DropdownMenuItem onClick={handleReddit}>
+          <DropdownMenuItem onClick={handleReddit} aria-label="Share on Reddit">
             <RedditIcon className="size-4 mr-2" />
             <span>Share on Reddit</span>
           </DropdownMenuItem>
