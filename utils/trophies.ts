@@ -1,9 +1,6 @@
 import { notFound } from "@/constants/messages";
 import type {
   Game,
-  GroupedPlatinumKeys,
-  GroupedPlatinumList,
-  GroupedPlatinums,
   Platinum,
   PlatinumsResponseData,
   Rarity,
@@ -11,7 +8,7 @@ import type {
 import type { Cheerio, CheerioAPI } from "cheerio";
 import type { Element } from "domhandler";
 import { load } from "cheerio";
-import { convertParsedDate, getDateKeys } from "@/utils/date";
+import { convertParsedDate } from "@/utils/date";
 import { toNumber } from "@/utils/number";
 import { cleanString } from "@/utils/string";
 
@@ -104,30 +101,4 @@ export const parsePlatinums = (content: string): PlatinumsResponseData => {
   const next_page = Number(currentPageParent.next().text()) || null;
 
   return { list, current_page, previous_page, next_page };
-};
-
-export const setGroupValue = (
-  key: string,
-  item: Platinum,
-  result: GroupedPlatinumKeys,
-) => {
-  if (result[key] !== undefined) {
-    result[key].push(item.game_id);
-  } else {
-    result[key] = [item.game_id];
-  }
-};
-
-export const groupPlatinumList = (list: Platinum[]): GroupedPlatinumList => {
-  let groups: GroupedPlatinumKeys = {};
-  let platinums: GroupedPlatinums = {};
-  for (const plat of list) {
-    const { date, game_id } = plat;
-
-    const keys = Object.values(getDateKeys(date));
-    for (const key of keys) setGroupValue(key, plat, groups);
-
-    platinums[game_id] = plat;
-  }
-  return { platinums, groups };
 };

@@ -6,7 +6,7 @@ import type { FormEventHandler } from "react";
 import { useCallback, useRef, type FC } from "react";
 import OGCalendar from "@/components/og-calendar";
 import HeatMapCalendar from "@/components/heatmap-calendar";
-import { groupPlatinumList } from "@/utils/trophies";
+import { groupPlatinumList } from "@/utils/group";
 import { fetchAPI } from "@/utils/api";
 import type { ProfileResponse } from "@/models/profile";
 import type { DataLoadingPopupHandle } from "@/components/data-loading-popup";
