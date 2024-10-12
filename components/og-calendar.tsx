@@ -114,9 +114,11 @@ const Mark: FC<MarkProps> = (props) => {
       color={bg}
       className={cn(
         "absolute inset-0 m-auto flex justify-center items-center",
+        count > 100 ? "text-xs" : "text-sm",
+        text,
         bg,
       )}>
-      <p className={cn(count > 100 ? "text-xs" : "text-sm", text)}>{count}</p>
+      {count}
     </MarkCircle>
   );
 };
@@ -134,11 +136,7 @@ const Day: FC<DayProps> = memo((props) => {
   const ariaLabel = `${label}: Show details`;
 
   if (!hasPlatinums) {
-    return (
-      <div className={styles.day}>
-        <p>{day}</p>
-      </div>
-    );
+    return <div className={styles.day}>{day}</div>;
   }
 
   if (isTouchDevice) {
@@ -161,9 +159,7 @@ const Day: FC<DayProps> = memo((props) => {
         onClick={() => onDayClick({ date, platinums })}>
         <Mark count={platinums.length} />
       </TooltipTrigger>
-      <TooltipContent>
-        <p>{label}</p>
-      </TooltipContent>
+      <TooltipContent>{label}</TooltipContent>
     </Tooltip>
   );
 });
@@ -181,7 +177,7 @@ const Total: FC<TotalProps> = memo((props) => {
         columns[cols],
         "flex justify-center items-center border-r border-r-black border-b border-b-black",
       )}>
-      {total && total.length > 0 && <p>{pluralize(total.length, "plat")}</p>}
+      {total && total.length > 0 && pluralize(total.length, "plat")}
     </div>
   );
 });
@@ -194,10 +190,10 @@ const Month: FC<MonthProps> = memo((props) => {
     <div className="month w-fit flex flex-col border-l border-l-black border-t border-t-black">
       <div
         className={cn(
-          "header h-day flex items-center justify-center border-r border-r-black border-b border-b-black",
+          "header h-day flex items-center justify-center border-r border-r-black border-b border-b-black font-semibold text-sm",
           headerColors[month],
         )}>
-        <p className="font-semibold text-sm">{monthLabels[month].long}</p>
+        {monthLabels[month].long}
       </div>
       <div className="grid grid-cols-7">
         {days.map((day) => (

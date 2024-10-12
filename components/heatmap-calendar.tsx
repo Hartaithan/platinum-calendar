@@ -88,9 +88,7 @@ const Day: FC<DayProps> = memo((props) => {
         className={dayStyles}
         onClick={() => onDayClick({ date, platinums })}
       />
-      <TooltipContent>
-        <p>{label}</p>
-      </TooltipContent>
+      <TooltipContent>{label}</TooltipContent>
     </Tooltip>
   );
 });
@@ -127,10 +125,12 @@ const Legend: FC = () => {
           {dayColors.map(([bg, fg], index) => (
             <div
               key={`legend-${index}`}
-              className={cn("size-5 flex justify-center items-center", bg)}>
-              <p className={cn("text-white text-[12px] leading-[normal]", fg)}>
-                {index}
-              </p>
+              className={cn(
+                "size-5 flex justify-center items-center text-white text-[12px] leading-[normal]",
+                bg,
+                fg,
+              )}>
+              {index}
             </div>
           ))}
         </div>
