@@ -31,7 +31,7 @@ const EmptyProfile: FC = () => {
 
 const Profile: FC = () => {
   const { profile } = useData();
-  if (!profile) return <EmptyProfile />;
+  if (!profile || Object.keys(profile).length === 0) return <EmptyProfile />;
   const { avatar_url, name, level, counts } = profile;
   return (
     <div className="flex flex-col lg:flex-row @save:flex-row justify-between w-full mb-4 gap-3 lg:gap-0 @save:gap-0 items-center lg:items-normal @save:items-normal">
