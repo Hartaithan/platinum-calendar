@@ -15,12 +15,11 @@ import DateDetailsModal from "@/components/date-details-modal";
 import type { DetailsModalData } from "@/components/date-details-modal";
 import type { CalendarProps, DayClickHandler } from "@/models/calendar";
 import YearFilter from "@/components/year-filter";
-import { domToBlob } from "modern-screenshot";
 import Profile from "@/components/profile";
 import LinkMessage from "@/components/link-message";
 import { readError } from "@/utils/error";
 import { toast } from "sonner";
-import { imageOptions } from "@/constants/image";
+import { drawImage } from "@/constants/image";
 import { SettingsIcon } from "lucide-react";
 import SettingsModal from "@/components/settings-modal";
 import { useModal } from "@/hooks/use-modal";
@@ -128,7 +127,7 @@ const MainSection: FC = () => {
     try {
       hidden.innerHTML = "";
       hidden.appendChild(calendar.cloneNode(true));
-      const image = await domToBlob(hidden, imageOptions);
+      const image = await drawImage(hidden);
       if (!image) throw new Error("Unable to generate image");
       hidden.innerHTML = "";
       return image;

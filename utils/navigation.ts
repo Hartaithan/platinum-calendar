@@ -1,11 +1,7 @@
 "use client";
 
 import type { ComponentProps } from "react";
-
-const isSafari = () => {
-  const agent = navigator.userAgent;
-  return agent.indexOf("Safari") !== -1 && agent.indexOf("Chrome") === -1;
-};
+import { isSafari } from "@/utils/device";
 
 export const redirect = (
   url: string,
