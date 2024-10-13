@@ -13,12 +13,7 @@ export const metadata: Metadata = {
   title: "Platinum Calendar",
   description: "Generate a calendar of your PlayStation platinum trophies",
   applicationName: "Platinum Calendar",
-  twitter: {
-    card: "summary_large_image",
-  },
-  appleWebApp: {
-    title: "Platinum Calendar",
-  },
+  twitter: { card: "summary_large_image" },
   keywords: [
     "calendar",
     "platinum calendar",
