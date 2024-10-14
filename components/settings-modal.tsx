@@ -17,6 +17,7 @@ import { useSettings } from "@/providers/settings";
 import type { FetchSource } from "@/models/fetch";
 import { themes, themesLabels } from "@/constants/app";
 import { useTheme } from "@/providers/theme";
+import { useSearchParams } from "next/navigation";
 
 const sourceDescription: Record<FetchSource, string> = {
   alpha:
@@ -30,6 +31,10 @@ const SettingsModal: FC<ModalProps> = (props) => {
   const { settings, handleSourceChange, handleLinkChange, resetSettings } =
     useSettings();
   const { theme, changeTheme } = useTheme();
+  const searchParams = useSearchParams();
+
+  const isDev = searchParams.get("dev") !== null;
+
   return (
     <Modal
       title="Settings"
@@ -37,20 +42,22 @@ const SettingsModal: FC<ModalProps> = (props) => {
       isVisible={isVisible}
       onClose={onClose}>
       <div className="flex flex-col space-y-4">
-        <div className="flex items-center space-x-2">
-          <Label htmlFor="link" className="w-full">
-            <p className="text-sm font-semibold">Show Link on Image</p>
-            <p className="text-[11px] md:text-xs font-normal text-neutral-500 mt-1">
-              determine whether a link should be displayed in the generated
-              image
-            </p>
-          </Label>
-          <Switch
-            id="link"
-            checked={settings.link}
-            onCheckedChange={handleLinkChange}
-          />
-        </div>
+        {isDev && (
+          <div className="flex items-center space-x-2">
+            <Label htmlFor="link" className="w-full">
+              <p className="text-sm font-semibold">Show Link on Image</p>
+              <p className="text-[11px] md:text-xs font-normal text-neutral-500 mt-1">
+                determine whether a link should be displayed in the generated
+                image
+              </p>
+            </Label>
+            <Switch
+              id="link"
+              checked={settings.link}
+              onCheckedChange={handleLinkChange}
+            />
+          </div>
+        )}
         <div className="flex flex-col">
           <Label className="text-sm font-semibold mb-1">Theme</Label>
           <Select value={theme} onValueChange={changeTheme}>

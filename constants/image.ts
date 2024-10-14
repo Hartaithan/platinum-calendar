@@ -30,7 +30,7 @@ export const drawImage = async (
     const image = await domToBlob(element, options.final);
     return image;
   } catch (error) {
-    console.error("generate image error", error);
+    console.error("draw image error", error);
     return null;
   }
 };
