@@ -2,16 +2,16 @@
 
 import { FETCH_URL, defaultFetchSource } from "@/constants/fetch";
 import { SERVICE_URL } from "@/constants/variables";
-import type { FetchSource } from "@/models/fetch";
+import type { FetchPageParams, FetchWithInit } from "@/models/fetch";
 import type { FetchProfileParams } from "@/models/profile";
 import type { FetchPlatinumsParams } from "@/models/trophy";
 
 export const fetchPage = async (
-  url: URL,
-  source: FetchSource,
+  params: FetchPageParams,
 ): Promise<string | null> => {
+  const { url, source, init } = params;
   try {
-    const request = await fetch(url);
+    const request = await fetch(url, init);
     const contentType = request.headers.get("content-type");
     const isJSON = contentType && contentType.includes("application/json");
     const response = isJSON ? await request.json() : await request.text();
@@ -28,9 +28,10 @@ export const fetchPage = async (
   }
 };
 
-export const fetchProfile = async (
-  params: FetchProfileParams,
-): Promise<string | null> => {
+export const fetchProfile: FetchWithInit<
+  FetchProfileParams,
+  string | null
+> = async (params, init) => {
   const { id, source = defaultFetchSource } = params;
   let url: URL;
   switch (source) {
@@ -46,14 +47,15 @@ export const fetchProfile = async (
       break;
     }
   }
-  const response = await fetchPage(url, source);
+  const response = await fetchPage({ url, source, init });
   if (!response) return null;
   return response;
 };
 
-export const fetchPlatinums = async (
-  params: FetchPlatinumsParams,
-): Promise<string | null> => {
+export const fetchPlatinums: FetchWithInit<
+  FetchPlatinumsParams,
+  string | null
+> = async (params, init) => {
   const { id, page, source = defaultFetchSource } = params;
   let url: URL;
   switch (source) {
@@ -72,7 +74,7 @@ export const fetchPlatinums = async (
       break;
     }
   }
-  const response = await fetchPage(url, source);
+  const response = await fetchPage({ url, source, init });
   if (!response) return null;
   return response;
 };
