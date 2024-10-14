@@ -146,7 +146,7 @@ const HeatMapCalendar: FC<CalendarProps> = (props) => {
   const { onDayClick } = props;
   return (
     <div className="flex flex-col flex-1 justify-center">
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 @save:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 @save:grid-cols-4 gap-x-8 gap-y-4">
         {monthIndex.map((month) => (
           <Month key={month} month={month} onDayClick={onDayClick} />
         ))}
