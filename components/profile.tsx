@@ -3,10 +3,11 @@
 import type { TrophyTypeAll } from "@/models/trophy";
 import { useData } from "@/providers/data";
 import Image from "next/image";
-import type { FC } from "react";
+import { memo, type FC } from "react";
 import { cn } from "@/utils/styles";
 import TrophyIcon from "@/icons/trophy";
 import CalendarProgress from "@/components/calendar-progress";
+import type { Profile as ProfileInfo } from "@/models/profile";
 
 const trophyColors: Record<TrophyTypeAll | string, [string, string]> = {
   total: ["fill-[#27272a]", "text-[#27272a]"],
@@ -30,48 +31,66 @@ const EmptyProfile: FC = () => {
   );
 };
 
+type InfoProps = Pick<ProfileInfo, "avatar_url" | "name" | "level">;
+
+const Info: FC<InfoProps> = memo((props) => {
+  const { avatar_url, name, level } = props;
+  return (
+    <div className="flex justify-center lg:justify-normal @save:justify-normal">
+      <Image
+        className="rounded-full"
+        width={50}
+        height={50}
+        src={avatar_url}
+        alt={name}
+        unoptimized
+      />
+      <div className="ml-3 flex flex-col justify-center">
+        <h1 className="font-medium leading-[normal]">{name}</h1>
+        <p className="leading-[normal]">
+          Level: {level.value.toLocaleString()}
+        </p>
+      </div>
+    </div>
+  );
+});
+
+type CountsProps = Pick<ProfileInfo, "counts">;
+
+const Counts: FC<CountsProps> = memo((props) => {
+  const { counts } = props;
+  return (
+    <div className="w-4/5 md:w-10/12 lg:w-auto @save:w-auto flex items-center justify-center lg:justify-normal @save:justify-normal gap-x-4 gap-y-2 flex-wrap @save:flex-nowrap ml-[none] lg:ml-auto @save:ml-auto">
+      {Object.entries(counts).map(([key, value]) => (
+        <div key={key} className="flex gap-2 items-center">
+          <div
+            className={cn(
+              "size-6 rounded-full flex justify-center items-center",
+              trophyColors[key][0],
+            )}>
+            <TrophyIcon
+              className={cn("size-5", trophyColors[key][0])}
+              total={key === "total"}
+            />
+          </div>
+          <p className={cn("text-sm font-medium", trophyColors[key][1])}>
+            {value.toLocaleString()}
+          </p>
+        </div>
+      ))}
+    </div>
+  );
+});
+
 const Profile: FC = () => {
   const { profile } = useData();
   if (!profile || Object.keys(profile).length === 0) return <EmptyProfile />;
   const { avatar_url, name, level, counts } = profile;
   return (
     <div className="flex flex-col lg:flex-row @save:flex-row w-full mb-4 gap-3 lg:gap-0 @save:gap-0 items-center lg:items-normal @save:items-normal">
-      <div className="flex justify-center lg:justify-normal @save:justify-normal">
-        <Image
-          className="rounded-full"
-          width={50}
-          height={50}
-          src={avatar_url}
-          alt={name}
-          unoptimized
-        />
-        <div className="ml-3 flex flex-col justify-center">
-          <h1 className="font-medium leading-[normal]">{name}</h1>
-          <p className="leading-[normal]">
-            Level: {level.value.toLocaleString()}
-          </p>
-        </div>
-      </div>
+      <Info avatar_url={avatar_url} name={name} level={level} />
       <CalendarProgress />
-      <div className="w-4/5 md:w-10/12 lg:w-auto @save:w-auto flex items-center justify-center lg:justify-normal @save:justify-normal gap-x-4 gap-y-2 flex-wrap @save:flex-nowrap ml-[none] lg:ml-auto @save:ml-auto">
-        {Object.entries(counts).map(([key, value]) => (
-          <div key={key} className="flex gap-2 items-center">
-            <div
-              className={cn(
-                "size-6 rounded-full flex justify-center items-center",
-                trophyColors[key][0],
-              )}>
-              <TrophyIcon
-                className={cn("size-5", trophyColors[key][0])}
-                total={key === "total"}
-              />
-            </div>
-            <p className={cn("text-sm font-medium", trophyColors[key][1])}>
-              {value.toLocaleString()}
-            </p>
-          </div>
-        ))}
-      </div>
+      <Counts counts={counts} />
     </div>
   );
 };
