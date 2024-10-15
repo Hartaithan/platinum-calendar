@@ -1,6 +1,6 @@
 "use client";
 
-import { setTheme as setThemeAction } from "@/actions/theme";
+import { extendTheme, setTheme as setThemeAction } from "@/actions/theme";
 import { defaultTheme } from "@/constants/app";
 import type { Theme } from "@/models/app";
 import type { Dispatch, FC, PropsWithChildren, SetStateAction } from "react";
@@ -8,6 +8,7 @@ import {
   createContext,
   useCallback,
   useContext,
+  useEffect,
   useMemo,
   useState,
 } from "react";
@@ -53,6 +54,11 @@ const ThemeProvider: FC<Props> = (props) => {
     }),
     [theme, changeTheme],
   );
+
+  useEffect(() => {
+    const runExtendTheme = async () => await extendTheme();
+    runExtendTheme();
+  }, []);
 
   return <Context.Provider value={exposed}>{children}</Context.Provider>;
 };
