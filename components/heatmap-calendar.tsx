@@ -64,7 +64,11 @@ const Day: FC<DayProps> = memo((props) => {
   const count = platinums?.length || 0;
   const hasPlatinums = !!platinums && platinums.length > 0;
   const isTouchDevice = useMediaQuery("(pointer: coarse)");
-  const dayStyles = cn(styles.day, getDayColor(count));
+  const dayStyles = cn(
+    styles.day,
+    getDayColor(count),
+    hasPlatinums && "completed-day",
+  );
   const label = getDateLabelWithCount({ date }, count);
   const ariaLabel = `${label}: Show details`;
 

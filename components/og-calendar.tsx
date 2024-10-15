@@ -134,17 +134,16 @@ const Day: FC<DayProps> = memo((props) => {
   const isTouchDevice = useMediaQuery("(pointer: coarse)");
   const label = getDateLabel({ date });
   const ariaLabel = `${label}: Show details`;
+  const dayStyles = cn(styles.day, hasPlatinums && "completed-day");
 
-  if (!hasPlatinums) {
-    return <div className={styles.day}>{day}</div>;
-  }
+  if (!hasPlatinums) return <div className={dayStyles}>{day}</div>;
 
   if (isTouchDevice) {
     return (
       <Button
         unstyled
         aria-label={ariaLabel}
-        className={styles.day}
+        className={dayStyles}
         onClick={() => onDayClick({ date, platinums })}>
         <Mark count={platinums.length} />
       </Button>
@@ -155,7 +154,7 @@ const Day: FC<DayProps> = memo((props) => {
     <Tooltip delayDuration={100}>
       <TooltipTrigger
         aria-label={ariaLabel}
-        className={styles.day}
+        className={dayStyles}
         onClick={() => onDayClick({ date, platinums })}>
         <Mark count={platinums.length} />
       </TooltipTrigger>
