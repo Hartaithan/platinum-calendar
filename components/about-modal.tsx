@@ -10,9 +10,14 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { cn } from "@/utils/styles";
 
 const styles = {
   trigger: "text-left text-sm",
+  heading: "text-center font-medium mt-4",
+  group: "flex flex-col gap-y-2",
+  content: "text-sm",
+  link: "font-bold",
 };
 
 const HelpTab: FC = () => {
@@ -57,7 +62,49 @@ const HelpTab: FC = () => {
 const AboutTab: FC = () => {
   return (
     <TabsContent value="about">
-      <pre>Hello World</pre>
+      <h1 className={styles.heading}>About</h1>
+      <div className={styles.group}>
+        <p className={cn(styles.content, "mt-2")}>
+          This web app allows you to visualize your progress by&nbsp;
+          <b>generating a custom calendar</b> that displays the exact days you
+          earned your platinum trophies throughout the year
+        </p>
+        <p className={styles.content}>
+          <b>Track</b> how many platinum trophies you&apos;ve collected day by
+          day, and <b>watch</b> your calendar fill up as you progress toward
+          completing it
+        </p>
+        <p className={styles.content}>
+          Whether you&apos;re aiming for <b>a full year of platinum trophies</b>
+          &nbsp;or just want to review your trophy milestones, this app helps
+          you stay motivated on your journey to trophy mastery
+        </p>
+      </div>
+      <h1 className={cn(styles.heading, "mb-2")}>Special Thanks</h1>
+      <ul>
+        <li className={styles.content}>
+          <a
+            className={styles.link}
+            href="https://www.reddit.com/user/Colinaaron250/"
+            target="_blank">
+            Colinaaron250
+          </a>
+          &nbsp;- for providing the fantastic idea
+        </li>
+        <li className={styles.content}>
+          <a
+            className={styles.link}
+            href="https://github.com/TheYuriG/"
+            target="_blank">
+            TheYuriG
+          </a>
+          &nbsp;- for valuable feedback
+        </li>
+        <li className={styles.content}>
+          <b>Han_the_Dragon, disorderly</b> - for assistance with testing
+        </li>
+      </ul>
+      <h1 className={cn(styles.heading, "mb-2")}>Happy hunting!</h1>
     </TabsContent>
   );
 };
@@ -65,8 +112,12 @@ const AboutTab: FC = () => {
 const AboutModal: FC<ModalProps> = (props) => {
   const { isVisible, onClose } = props;
   return (
-    <Modal description="About modal" isVisible={isVisible} onClose={onClose}>
-      <Tabs defaultValue="help" className="mt-4">
+    <Modal
+      title="Platinum Calendar"
+      description="About modal"
+      isVisible={isVisible}
+      onClose={onClose}>
+      <Tabs defaultValue="help">
         <TabsList className="grid w-full grid-cols-2">
           <TabsTrigger value="help">Help</TabsTrigger>
           <TabsTrigger value="about">About</TabsTrigger>
