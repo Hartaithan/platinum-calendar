@@ -24,15 +24,52 @@ const HelpTab: FC = () => {
   return (
     <TabsContent value="help">
       <Accordion type="single" collapsible>
+        <AccordionItem value="ps-account">
+          <AccordionTrigger className={styles.trigger}>
+            Do I need a PlayStation account to use this app?
+          </AccordionTrigger>
+          <AccordionContent>
+            Yes, you need a PlayStation account. Additionally,&nbsp;
+            <b>you must be registered on PSNProfiles</b>, as the app pulls data
+            from there
+          </AccordionContent>
+        </AccordionItem>
         <AccordionItem value="fetch-error">
           <AccordionTrigger className={styles.trigger}>
             I got the error &apos;Unable to fetch platinums data&apos;. What
             happened?
           </AccordionTrigger>
           <AccordionContent>
-            <b>The fetch source Alpha</b> (which can be changed in the settings)
-            may not work with profiles that have 1000+ platinum trophies. Try
-            changing the fetch source in the settings and give it another shot.
+            <b>The fetch source Alpha</b>
+            &nbsp;may not work with profiles that have 1000+ platinum trophies.
+            Try changing the fetch source in the settings and give it another
+            shot
+          </AccordionContent>
+        </AccordionItem>
+        <AccordionItem value="artifacts">
+          <AccordionTrigger className={styles.trigger}>
+            The generated image contains artifacts. How can I fix this?
+          </AccordionTrigger>
+          <AccordionContent>
+            This can happen if you&apos;re using an <b>mobile browser</b>. Try
+            generating the image again from desktop mode, and if the issue
+            persists, feel free to email me at&nbsp;
+            <a
+              className={styles.link}
+              href="mailto:hartaithan@gmail.com"
+              target="_blank">
+              hartaithan@gmail.com
+            </a>
+          </AccordionContent>
+        </AccordionItem>
+        <AccordionItem value="outdated-data">
+          <AccordionTrigger className={styles.trigger}>
+            I see outdated data in the calendar
+          </AccordionTrigger>
+          <AccordionContent>
+            This likely happens because you <b>haven&apos;t updated</b> your
+            profile on PSNProfiles. To view the most up-to-date data, make sure
+            your profile is updated on PSNProfiles
           </AccordionContent>
         </AccordionItem>
         <AccordionItem value="legend">
@@ -41,17 +78,30 @@ const HelpTab: FC = () => {
           </AccordionTrigger>
           <AccordionContent>
             That&apos;s <b>a legend</b>, indicating which color corresponds to
-            the number of platinum trophies.
+            the number of platinum trophies
           </AccordionContent>
         </AccordionItem>
-        <AccordionItem value="outdated-data">
+        <AccordionItem value="non-platinum">
           <AccordionTrigger className={styles.trigger}>
-            I see outdated data in the calendar.
+            Can I track non-platinum trophies with this app?
           </AccordionTrigger>
           <AccordionContent>
-            This likely happens because you <b>haven&apos;t updated</b> your
-            profile on PSNProfiles. To view the most up-to-date data, make sure
-            your profile is updated on PSNProfiles.
+            No, this app <b>only tracks platinum trophies</b>
+          </AccordionContent>
+        </AccordionItem>
+        <AccordionItem value="report">
+          <AccordionTrigger className={styles.trigger}>
+            I found a bug or issue. How do I report it?
+          </AccordionTrigger>
+          <AccordionContent>
+            You can contact me via Discord <b>@hartaithan</b> or by email
+            at&nbsp;
+            <a
+              className={styles.link}
+              href="mailto:hartaithan@gmail.com"
+              target="_blank">
+              hartaithan@gmail.com
+            </a>
           </AccordionContent>
         </AccordionItem>
       </Accordion>
