@@ -20,7 +20,7 @@ import LinkMessage from "@/components/link-message";
 import { readError } from "@/utils/error";
 import { toast } from "sonner";
 import { drawImage } from "@/constants/image";
-import { SettingsIcon } from "lucide-react";
+import { CircleHelpIcon, SettingsIcon } from "lucide-react";
 import SettingsModal from "@/components/settings-modal";
 import { useModal } from "@/hooks/use-modal";
 import SubmitForm from "@/components/submit-form";
@@ -29,6 +29,7 @@ import { useSettings } from "@/providers/settings";
 import ShareMenu from "@/components/share-menu";
 import { useTheme } from "@/providers/theme";
 import { defaultTheme } from "@/constants/app";
+import AboutModal from "@/components/about-modal";
 
 interface Form extends HTMLFormControlsCollection {
   id: { value: string };
@@ -47,6 +48,7 @@ const MainSection: FC = () => {
   const controller = useRef<AbortController | null>(null);
   const [details, openDetails, closeDetails] = useModal<DetailsModalData>();
   const [settings, openSettings, closeSettings] = useModal();
+  const [about, openAbout, closeAbout] = useModal();
   const {
     settings: { source, link },
   } = useSettings();
@@ -148,6 +150,13 @@ const MainSection: FC = () => {
           <ShareMenu generateImage={generateImage} />
           <Button
             variant="secondary"
+            aria-label="Open about modal"
+            className="border border-input"
+            onClick={openAbout}>
+            <CircleHelpIcon className="size-5 stroke-[1.5]" />
+          </Button>
+          <Button
+            variant="secondary"
             aria-label="Open settings"
             className="border border-input"
             onClick={openSettings}>
@@ -175,6 +184,7 @@ const MainSection: FC = () => {
         onClose={closeDetails}
       />
       <SettingsModal isVisible={settings.isVisible} onClose={closeSettings} />
+      <AboutModal isVisible={about.isVisible} onClose={closeAbout} />
     </div>
   );
 };

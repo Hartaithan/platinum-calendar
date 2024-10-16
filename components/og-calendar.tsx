@@ -218,7 +218,10 @@ const Legend: FC = () => {
           key={value}
           className="flex flex-col lg:flex-row @save:flex-row justify-center lg:justify-normal @save:justify-normal items-center">
           <MarkCircle color={color[0]} />
-          <p className="ml-0 lg:ml-3 @save:ml-3">{value}</p>
+          <p className="ml-0 lg:ml-3 @save:ml-3">
+            {value}
+            {value === "7" && "+"}
+          </p>
         </div>
       ))}
     </div>
