@@ -27,10 +27,7 @@ export const GET = async (
   }
 
   try {
-    const response = await fetchPlatinums(
-      { id, page, source },
-      { next: { revalidate: 600 } },
-    );
+    const response = await fetchPlatinums({ id, page, source });
     if (!response) {
       return NextResponse.json(
         { message: "Unable to fetch platinums data" },

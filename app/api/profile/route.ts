@@ -19,10 +19,7 @@ export const GET = async (
   }
 
   try {
-    const response = await fetchProfile(
-      { id, source },
-      { next: { revalidate: 600 } },
-    );
+    const response = await fetchProfile({ id, source });
     if (!response) {
       return NextResponse.json(
         { message: "Unable to fetch profile data" },
