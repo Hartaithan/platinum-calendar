@@ -13,8 +13,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { cn } from "@/utils/styles";
 
 const styles = {
-  trigger: "text-left text-sm",
-  heading: "text-center font-medium mt-4",
+  trigger: "text-left text-sm pr-2",
+  heading: "text-center font-medium",
   group: "flex flex-col gap-y-2",
   content: "text-sm",
   link: "font-bold",
@@ -22,8 +22,10 @@ const styles = {
 
 const HelpTab: FC = () => {
   return (
-    <TabsContent value="help">
-      <Accordion type="single" collapsible>
+    <TabsContent
+      value="help"
+      className="w-full-scrollbar-base flex flex-col gap-3 max-h-[80vh] overflow-y-auto overflow-x-hidden scrollbar-gutter">
+      <Accordion type="multiple">
         <AccordionItem value="ps-account">
           <AccordionTrigger className={styles.trigger}>
             Do I need a PlayStation account to use this app?
@@ -130,7 +132,7 @@ const AboutTab: FC = () => {
           you stay motivated on your journey to trophy mastery
         </p>
       </div>
-      <h1 className={cn(styles.heading, "mb-2")}>Special Thanks</h1>
+      <h1 className={cn(styles.heading, "mt-4 mb-2")}>Special Thanks</h1>
       <ul>
         <li className={styles.content}>
           <a
@@ -154,7 +156,7 @@ const AboutTab: FC = () => {
           <b>Han_the_Dragon, disorderly</b> - for assistance with testing
         </li>
       </ul>
-      <h1 className={cn(styles.heading, "mb-2")}>Happy hunting!</h1>
+      <h1 className={cn(styles.heading, "mt-4 mb-2")}>Happy hunting!</h1>
     </TabsContent>
   );
 };

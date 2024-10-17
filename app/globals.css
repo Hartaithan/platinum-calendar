@@ -121,8 +121,12 @@
     scrollbar-gutter: stable;
   }
 
-  .w-full-scrollbar {
+  .w-full-scrollbar-base {
     width: calc(100% + var(--scrollbar-width));
+  }
+
+  .w-full-scrollbar {
+    @apply w-full-scrollbar-base;
     transform: translateX(calc(var(--scrollbar-width) / 2));
   }
 }
