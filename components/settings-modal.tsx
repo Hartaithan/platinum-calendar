@@ -28,8 +28,13 @@ const sourceDescription: Record<FetchSource, string> = {
 
 const SettingsModal: FC<ModalProps> = (props) => {
   const { isVisible, onClose } = props;
-  const { settings, handleSourceChange, handleLinkChange, resetSettings } =
-    useSettings();
+  const {
+    settings,
+    handleSourceChange,
+    handleLinkChange,
+    handleLeapChange,
+    resetSettings,
+  } = useSettings();
   const { theme, changeTheme } = useTheme();
   const searchParams = useSearchParams();
 
@@ -58,6 +63,20 @@ const SettingsModal: FC<ModalProps> = (props) => {
             />
           </div>
         )}
+        <div className="flex items-center space-x-2">
+          <Label htmlFor="link" className="w-full">
+            <p className="text-sm font-semibold">Show Leap Day</p>
+            <p className="text-[11px] md:text-xs font-normal text-neutral-500 mt-1">
+              determine whether the leap day should be shown and included in
+              progress tracking calculations for your calendar
+            </p>
+          </Label>
+          <Switch
+            id="link"
+            checked={settings.leap}
+            onCheckedChange={handleLeapChange}
+          />
+        </div>
         <div className="flex flex-col">
           <Label className="text-sm font-semibold mb-1">Theme</Label>
           <Select value={theme} onValueChange={changeTheme}>

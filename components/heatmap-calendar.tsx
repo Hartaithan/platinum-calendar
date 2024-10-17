@@ -20,6 +20,8 @@ import {
 } from "@/components/ui/tooltip";
 import { Button } from "@/components/ui/button";
 import { useMediaQuery } from "@/hooks/use-media-query";
+import { useSettings } from "@/providers/settings";
+import { checkLeapDay } from "@/utils/calendar";
 
 interface MonthProps extends BaseMonthProps {
   onDayClick: DayClickHandler;
@@ -56,21 +58,25 @@ const getDayColor = (count: number) => {
 
 const Day: FC<DayProps> = memo((props) => {
   const { month, day, onDayClick } = props;
-  const { year } = useFilters();
   const { groups } = useData();
+  const { year } = useFilters();
+  const { settings } = useSettings();
   const date: DateKeyParams = { day, month, year };
   const key = getDateKey(date);
   const platinums = groups ? groups[key] : null;
   const count = platinums?.length || 0;
   const hasPlatinums = !!platinums && platinums.length > 0;
   const isTouchDevice = useMediaQuery("(pointer: coarse)");
+  const label = getDateLabelWithCount({ date }, count);
+  const { isDayVisible } = checkLeapDay({ ...date, settings });
+  const ariaLabel = `${label}: Show details`;
   const dayStyles = cn(
     styles.day,
     getDayColor(count),
     hasPlatinums && "completed-day",
   );
-  const label = getDateLabelWithCount({ date }, count);
-  const ariaLabel = `${label}: Show details`;
+
+  if (isDayVisible) return null;
 
   if (!hasPlatinums) return <div className={dayStyles} />;
 

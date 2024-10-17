@@ -2,31 +2,30 @@
 
 import { defaultFetchSource } from "@/constants/fetch";
 import { useLocalStorage } from "@/hooks/use-local-storage";
+import type { Settings } from "@/models/app";
 import type { FetchSource } from "@/models/fetch";
 import type { FC, PropsWithChildren } from "react";
 import { createContext, useCallback, useContext, useMemo } from "react";
-
-interface Settings {
-  source: FetchSource;
-  link: boolean;
-}
 
 interface Context {
   settings: Settings;
   handleSourceChange: (value: FetchSource) => void;
   handleLinkChange: (value: boolean) => void;
+  handleLeapChange: (value: boolean) => void;
   resetSettings: () => void;
 }
 
 const defaultValue: Settings = {
   source: defaultFetchSource,
   link: true,
+  leap: true,
 };
 
 const initialValue: Context = {
   settings: defaultValue,
   handleSourceChange: () => null,
   handleLinkChange: () => null,
+  handleLeapChange: () => null,
   resetSettings: () => null,
 };
 
@@ -54,6 +53,11 @@ const SettingsProvider: FC<PropsWithChildren> = (props) => {
     [setSettings],
   );
 
+  const handleLeapChange = useCallback(
+    (value: boolean) => setSettings((prev) => ({ ...prev, leap: value })),
+    [setSettings],
+  );
+
   const resetSettings = useCallback(
     () => setSettings(defaultValue),
     [setSettings],
@@ -64,9 +68,16 @@ const SettingsProvider: FC<PropsWithChildren> = (props) => {
       settings: merge(settings),
       handleSourceChange,
       handleLinkChange,
+      handleLeapChange,
       resetSettings,
     }),
-    [settings, handleSourceChange, handleLinkChange, resetSettings],
+    [
+      settings,
+      handleSourceChange,
+      handleLinkChange,
+      handleLeapChange,
+      resetSettings,
+    ],
   );
 
   return <Context.Provider value={exposed}>{children}</Context.Provider>;

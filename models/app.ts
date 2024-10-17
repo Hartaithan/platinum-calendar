@@ -1,3 +1,5 @@
+import type { FetchSource } from "@/models/fetch";
+
 export type Theme = "og" | "heatmap";
 
 export type Status =
@@ -16,3 +18,9 @@ interface ResponseBase {
 }
 
 export type RouteResponse<T = undefined> = ResponseBase & Partial<T>;
+
+export interface Settings {
+  source: FetchSource;
+  link: boolean;
+  leap: boolean;
+}

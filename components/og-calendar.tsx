@@ -22,6 +22,8 @@ import {
 import { Button } from "@/components/ui/button";
 import { useMediaQuery } from "@/hooks/use-media-query";
 import { pluralize } from "@/utils/string";
+import { useSettings } from "@/providers/settings";
+import { checkLeapDay } from "@/utils/calendar";
 
 interface MonthProps extends BaseMonthProps {
   onDayClick: DayClickHandler;
@@ -125,16 +127,20 @@ const Mark: FC<MarkProps> = (props) => {
 
 const Day: FC<DayProps> = memo((props) => {
   const { month, day, onDayClick } = props;
-  const { year } = useFilters();
   const { groups } = useData();
+  const { year } = useFilters();
+  const { settings } = useSettings();
   const date: DateKeyParams = { day, month, year };
   const key = getDateKey(date);
   const platinums = groups ? groups[key] : null;
   const hasPlatinums = !!platinums && platinums.length > 0;
   const isTouchDevice = useMediaQuery("(pointer: coarse)");
   const label = getDateLabel({ date });
+  const { isDayVisible } = checkLeapDay({ ...date, settings });
   const ariaLabel = `${label}: Show details`;
   const dayStyles = cn(styles.day, hasPlatinums && "completed-day");
+
+  if (isDayVisible) return null;
 
   if (!hasPlatinums) return <div className={dayStyles}>{day}</div>;
 
@@ -167,14 +173,16 @@ const Total: FC<TotalProps> = memo((props) => {
   const { month, days } = props;
   const { year } = useFilters();
   const { groups } = useData();
+  const { settings } = useSettings();
   const key = getDateKey({ month, year });
+  const { isTotalVisible } = checkLeapDay({ month, settings });
   const total = groups ? groups[key] : null;
   const cols = 35 - days;
   return (
     <div
       className={cn(
-        columns[cols],
-        "flex justify-center items-center border-r border-r-black border-b border-b-black",
+        columns[isTotalVisible ? cols + 1 : cols],
+        "h-day flex justify-center items-center border-r border-r-black border-b border-b-black",
       )}>
       {total && total.length > 0 && pluralize(total.length, "plat")}
     </div>
