@@ -8,7 +8,9 @@ import { Button } from "@/components/ui/button";
 const YearFilter: FC = () => {
   const { year, setYear, handleYear } = useFilters();
   return (
-    <div className="flex items-center relative h-full rounded-md py-2 px-3 border border-input bg-secondary">
+    <div
+      id="year-filter"
+      className="flex items-center justify-center relative h-full rounded-md py-2 px-3 border border-input bg-secondary">
       <Button
         unstyled
         className="rounded"

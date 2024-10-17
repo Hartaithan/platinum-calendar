@@ -86,6 +86,7 @@ const ShareMenu: FC<Props> = (props) => {
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button
+            id="share-menu"
             variant="secondary"
             aria-label="Share"
             className="border border-input font-normal">

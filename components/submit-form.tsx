@@ -15,7 +15,7 @@ const SubmitForm: FC<Props> = (props) => {
     status === "platinums-loading" || status === "profile-loading";
   return (
     <form
-      className="relative flex w-full max-w-sm items-center space-x-2"
+      className="relative flex w-full max-w-[auto] lg:max-w-sm items-center space-x-2"
       onSubmit={onSubmit}>
       <Input
         name="id"

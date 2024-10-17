@@ -30,12 +30,13 @@ import ShareMenu from "@/components/share-menu";
 import { useTheme } from "@/providers/theme";
 import { defaultTheme } from "@/constants/app";
 import AboutModal from "@/components/about-modal";
+import type { Theme } from "@/models/app";
 
 interface Form extends HTMLFormControlsCollection {
   id: { value: string };
 }
 
-const calendars: Record<string, FC<CalendarProps>> = {
+const calendars: Record<Theme, FC<CalendarProps>> = {
   og: OGCalendar,
   heatmap: HeatMapCalendar,
 };
@@ -145,10 +146,11 @@ const MainSection: FC = () => {
     <div className="flex flex-col justify-center items-center">
       <div className="flex flex-col lg:flex-row w-4/5 lg:w-auto items-center gap-2">
         <SubmitForm onSubmit={handleSubmit} />
-        <div className="flex h-9 gap-2">
+        <div className="filter-group flex flex-wrap h-auto lg:h-9 gap-2">
           <YearFilter />
           <ShareMenu generateImage={generateImage} />
           <Button
+            id="about-modal"
             variant="secondary"
             aria-label="Open about modal"
             className="border border-input"
@@ -156,6 +158,7 @@ const MainSection: FC = () => {
             <CircleHelpIcon className="size-5 stroke-[1.5]" />
           </Button>
           <Button
+            id="settings-modal"
             variant="secondary"
             aria-label="Open settings"
             className="border border-input"
