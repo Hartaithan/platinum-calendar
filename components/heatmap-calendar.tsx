@@ -22,6 +22,7 @@ import { Button } from "@/components/ui/button";
 import { useMediaQuery } from "@/hooks/use-media-query";
 import { useSettings } from "@/providers/settings";
 import { checkLeapDay } from "@/utils/calendar";
+import { pluralize } from "@/utils/string";
 
 interface MonthProps extends BaseMonthProps {
   onDayClick: DayClickHandler;
@@ -108,11 +109,22 @@ const Day: FC<DayProps> = memo((props) => {
 
 const Month: FC<MonthProps> = memo((props) => {
   const { month, onDayClick } = props;
+  const { groups } = useData();
+  const { year } = useFilters();
   const count = monthLength[month];
   const days = createArray(count);
+  const key = getDateKey({ month, year });
+  const total = groups ? groups[key] : null;
   return (
     <div className="flex flex-col w-fit justify-self-center">
-      <h3 className="font-semibold mb-2">{monthLabels[month].long}</h3>
+      <div className="flex justify-between items-center mb-2">
+        <h3 className="font-semibold">{monthLabels[month].long}</h3>
+        {total && total.length > 0 && (
+          <p className="font-medium text-xs">
+            {pluralize(total.length, "plat")}
+          </p>
+        )}
+      </div>
       <div className="grid grid-cols-7 gap-1.5">
         {days.map((day) => (
           <Day
