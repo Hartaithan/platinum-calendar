@@ -83,9 +83,19 @@ const HelpTab: FC = () => {
             the number of platinum trophies
           </AccordionContent>
         </AccordionItem>
+        <AccordionItem value="wrong-dates">
+          <AccordionTrigger className={styles.trigger}>
+            I noticed incorrect dates in the calendar
+          </AccordionTrigger>
+          <AccordionContent>
+            Since the calendar is generated on <b>the client side</b>, the dates
+            are formatted based on your system settings. Please&nbsp;
+            <b>ensure that the correct time zone</b> is set on your device
+          </AccordionContent>
+        </AccordionItem>
         <AccordionItem value="non-platinum">
           <AccordionTrigger className={styles.trigger}>
-            Can I track non-platinum trophies with this app?
+            Can I track 100% completions with this app?
           </AccordionTrigger>
           <AccordionContent>
             No, this app <b>only tracks platinum trophies</b>
