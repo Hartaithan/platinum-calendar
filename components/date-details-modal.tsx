@@ -10,7 +10,10 @@ export type DetailsModalData = DateDetails | null;
 const DateDetailsModal: FC<ModalProps<DetailsModalData>> = (props) => {
   const { isVisible, data, onClose } = props;
   const label = data
-    ? getDateLabelWithCount({ date: data?.date }, data?.platinums?.length)
+    ? getDateLabelWithCount({
+        date: data?.date,
+        count: data?.platinums?.length,
+      })
     : "Details";
   return (
     <Modal

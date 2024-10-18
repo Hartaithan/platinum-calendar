@@ -10,7 +10,7 @@ import type { DateKeyParams } from "@/models/date";
 import { useData } from "@/providers/data";
 import { useFilters } from "@/providers/filters";
 import { createArray } from "@/utils/array";
-import { getDateKey, getDateLabelWithCount } from "@/utils/date";
+import { getDateKey, getDateLabel } from "@/utils/date";
 import { cn } from "@/utils/styles";
 import { memo, type FC } from "react";
 import {
@@ -46,7 +46,7 @@ const dayColors = [
 ];
 
 const styles = {
-  day: "day size-6",
+  day: "day size-6 flex justify-center items-center text-sm",
 };
 
 const getDayColor = (count: number) => {
@@ -67,7 +67,7 @@ const Day: FC<DayProps> = memo((props) => {
   const count = platinums?.length || 0;
   const hasPlatinums = !!platinums && platinums.length > 0;
   const isTouchDevice = useMediaQuery("(pointer: coarse)");
-  const label = getDateLabelWithCount({ date }, count);
+  const label = getDateLabel({ date });
   const { isDayVisible } = checkLeapDay({ ...date, settings });
   const ariaLabel = `${label}: Show details`;
   const dayStyles = cn(
@@ -78,7 +78,8 @@ const Day: FC<DayProps> = memo((props) => {
 
   if (isDayVisible) return null;
 
-  if (!hasPlatinums) return <div className={dayStyles} />;
+  if (!hasPlatinums)
+    return <div className={cn(dayStyles, "text-gray-400")}>{day}</div>;
 
   if (isTouchDevice) {
     return (
@@ -86,8 +87,9 @@ const Day: FC<DayProps> = memo((props) => {
         unstyled
         aria-label={ariaLabel}
         className={dayStyles}
-        onClick={() => onDayClick({ date, platinums })}
-      />
+        onClick={() => onDayClick({ date, platinums })}>
+        {count}
+      </Button>
     );
   }
 
@@ -96,8 +98,9 @@ const Day: FC<DayProps> = memo((props) => {
       <TooltipTrigger
         aria-label={ariaLabel}
         className={dayStyles}
-        onClick={() => onDayClick({ date, platinums })}
-      />
+        onClick={() => onDayClick({ date, platinums })}>
+        {count}
+      </TooltipTrigger>
       <TooltipContent>{label}</TooltipContent>
     </Tooltip>
   );

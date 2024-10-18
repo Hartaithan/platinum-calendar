@@ -55,6 +55,7 @@ export const getDateKeys = (value: string): Record<DateKey, string> => {
 interface DateLabelParams {
   date: DateKeyParams;
   key?: DayLabelKey;
+  count?: number;
 }
 
 export const getDateLabel = (params: DateLabelParams): string => {
@@ -68,10 +69,8 @@ export const getDateLabel = (params: DateLabelParams): string => {
   return result.join(" ");
 };
 
-export const getDateLabelWithCount = (
-  params: DateLabelParams,
-  count?: number,
-): string => {
+export const getDateLabelWithCount = (params: DateLabelParams): string => {
+  const { count } = params;
   const label = getDateLabel(params);
   if (count) return `${label}, ${pluralize(count, "plat")}`;
   return label;
