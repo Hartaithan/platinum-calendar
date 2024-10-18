@@ -6,6 +6,9 @@ import RootProviders from "@/providers/root";
 import { Toaster } from "@/components/ui/sonner";
 import { getTheme } from "@/actions/theme";
 import { URL as BASE_URL } from "@/constants/variables";
+import dynamic from "next/dynamic";
+
+const Promo = dynamic(() => import("@/components/promo"), { ssr: false });
 
 const font = Rubik({ subsets: ["latin"], fallback: ["Arial"] });
 
@@ -62,6 +65,7 @@ const MainLayout: FC<PropsWithChildren> = async ({ children }) => {
       <body className={font.className}>
         <RootProviders defaultTheme={defaultTheme}>{children}</RootProviders>
         <Toaster theme="light" position="top-right" richColors closeButton />
+        <Promo />
       </body>
     </html>
   );
