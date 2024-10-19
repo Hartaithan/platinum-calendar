@@ -19,7 +19,7 @@ import Profile from "@/components/profile";
 import LinkMessage from "@/components/link-message";
 import { readError } from "@/utils/error";
 import { toast } from "sonner";
-import { drawImage } from "@/constants/image";
+import { drawImage } from "@/utils/image";
 import { CircleHelpIcon, SettingsIcon } from "lucide-react";
 import SettingsModal from "@/components/settings-modal";
 import { useModal } from "@/hooks/use-modal";

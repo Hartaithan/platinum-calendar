@@ -1,6 +1,5 @@
 "use client";
 
-import { isSafari } from "@/utils/device";
 import type { Options } from "modern-screenshot";
 import { domToBlob } from "modern-screenshot";
 
@@ -26,7 +25,7 @@ export const drawImage = async (
 ): Promise<Blob | null> => {
   if (!element) return null;
   try {
-    if (isSafari()) await domToBlob(element, options.pre);
+    await domToBlob(element, options.pre);
     const image = await domToBlob(element, options.final);
     return image;
   } catch (error) {
