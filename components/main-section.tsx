@@ -146,7 +146,7 @@ const MainSection: FC = () => {
     <div className="flex flex-col justify-center items-center">
       <div className="flex flex-col lg:flex-row w-4/5 lg:w-auto items-center gap-2">
         <SubmitForm onSubmit={handleSubmit} />
-        <div className="filter-group flex flex-wrap h-auto lg:h-9 gap-2">
+        <div className="flex flex-wrap h-auto lg:h-9 w-full lg:w-[auto] gap-2 [&>*]:flex-1">
           <YearFilter />
           <ShareMenu generateImage={generateImage} />
           <Button

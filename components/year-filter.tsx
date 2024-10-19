@@ -10,7 +10,7 @@ const YearFilter: FC = () => {
   return (
     <div
       id="year-filter"
-      className="flex items-center justify-center relative h-full rounded-md py-2 px-3 border border-input bg-secondary">
+      className="flex items-center justify-center relative h-full min-w-full md:min-w-[auto] rounded-md py-2 px-3 border border-input bg-secondary">
       <Button
         unstyled
         className="rounded"
