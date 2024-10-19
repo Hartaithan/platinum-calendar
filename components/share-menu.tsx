@@ -18,6 +18,8 @@ import RedditIcon from "@/icons/reddit";
 import { uploadImage } from "@/utils/upload";
 import { getRedditLink } from "@/utils/share";
 import { redirect } from "@/utils/navigation";
+import posthog from "posthog-js";
+import { withTheme } from "@/utils/analytics";
 
 interface Props {
   generateImage: () => Promise<Blob | null>;
@@ -31,6 +33,7 @@ const ShareMenu: FC<Props> = (props) => {
 
   const handleSave = useCallback(async () => {
     try {
+      posthog.capture("save-start", withTheme({ id: profile?.name }));
       const image = await generateImage();
       if (!image) throw new Error("Unable to generate image");
       const link = document.createElement("a");
@@ -38,15 +41,18 @@ const ShareMenu: FC<Props> = (props) => {
       link.download = `${profile?.name ?? "calendar"}.png`;
       link.click();
       link.remove();
+      posthog.capture("save-complete", withTheme({ id: profile?.name }));
     } catch (error) {
       console.error("save error", error);
       const message = readError(error);
       toast.error(message);
+      posthog.capture("save-error", withTheme({ id: profile?.name, message }));
     }
   }, [profile?.name, generateImage]);
 
   const handleUpload = useCallback(async () => {
     try {
+      posthog.capture("upload-start", withTheme({ id: profile?.name }));
       upload?.open();
       const image = await generateImage();
       if (!image) throw new Error("Unable to generate image");
@@ -54,16 +60,28 @@ const ShareMenu: FC<Props> = (props) => {
       const response = await uploadImage(image, profile?.name);
       if (!response.success) throw new Error(response.message);
       upload?.set({ status: "complete", image: response.link });
+      posthog.capture(
+        "upload-complete",
+        withTheme({
+          id: profile?.name,
+          link: response.link,
+        }),
+      );
     } catch (error) {
       console.error("upload error", error);
       const message = readError(error);
       upload?.set({ status: "error", error: message });
       toast.error(message);
+      posthog.capture(
+        "upload-error",
+        withTheme({ id: profile?.name, message }),
+      );
     }
   }, [profile?.name, generateImage, upload]);
 
   const handleReddit = useCallback(async () => {
     try {
+      posthog.capture("reddit-start", withTheme({ id: profile?.name }));
       upload?.open();
       const image = await generateImage();
       if (!image) throw new Error("Unable to generate image");
@@ -73,11 +91,22 @@ const ShareMenu: FC<Props> = (props) => {
       const link = getRedditLink(response.link, profile?.name);
       upload?.set({ status: "complete", image: response.link, redirect: link });
       redirect(link.toString(), "_blank");
+      posthog.capture(
+        "reddit-complete",
+        withTheme({
+          id: profile?.name,
+          link: response.link,
+        }),
+      );
     } catch (error) {
       console.error("reddit upload error", error);
       const message = readError(error);
       upload?.set({ status: "error", error: message });
       toast.error(message);
+      posthog.capture(
+        "reddit-error",
+        withTheme({ id: profile?.name, message }),
+      );
     }
   }, [profile?.name, generateImage, upload]);
 

@@ -4,6 +4,7 @@ import { defaultFetchSource } from "@/constants/fetch";
 import { useLocalStorage } from "@/hooks/use-local-storage";
 import type { Settings } from "@/models/app";
 import type { FetchSource } from "@/models/fetch";
+import posthog from "posthog-js";
 import type { FC, PropsWithChildren } from "react";
 import { createContext, useCallback, useContext, useMemo } from "react";
 
@@ -44,24 +45,33 @@ const SettingsProvider: FC<PropsWithChildren> = (props) => {
   });
 
   const handleSourceChange = useCallback(
-    (value: FetchSource) => setSettings((prev) => ({ ...prev, source: value })),
+    (value: FetchSource) => {
+      posthog.capture("settings-source", { value });
+      setSettings((prev) => ({ ...prev, source: value }));
+    },
     [setSettings],
   );
 
   const handleLinkChange = useCallback(
-    (value: boolean) => setSettings((prev) => ({ ...prev, link: value })),
+    (value: boolean) => {
+      posthog.capture("settings-link", { value });
+      setSettings((prev) => ({ ...prev, link: value }));
+    },
     [setSettings],
   );
 
   const handleLeapChange = useCallback(
-    (value: boolean) => setSettings((prev) => ({ ...prev, leap: value })),
+    (value: boolean) => {
+      posthog.capture("settings-leap", { value });
+      setSettings((prev) => ({ ...prev, leap: value }));
+    },
     [setSettings],
   );
 
-  const resetSettings = useCallback(
-    () => setSettings(defaultValue),
-    [setSettings],
-  );
+  const resetSettings = useCallback(() => {
+    posthog.capture("settings-reset");
+    setSettings(defaultValue);
+  }, [setSettings]);
 
   const exposed = useMemo<Context>(
     () => ({

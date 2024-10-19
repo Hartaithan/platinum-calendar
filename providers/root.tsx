@@ -6,6 +6,7 @@ import ThemeProvider from "@/providers/theme";
 import DataProvider from "@/providers/data";
 import FiltersProvider from "@/providers/filters";
 import SettingsProvider from "@/providers/settings";
+import AnalyticsProvider from "@/providers/analytics";
 import { TooltipProvider } from "@/components/ui/tooltip";
 
 interface Props extends PropsWithChildren {
@@ -15,15 +16,17 @@ interface Props extends PropsWithChildren {
 const RootProviders: FC<Props> = (props) => {
   const { defaultTheme, children } = props;
   return (
-    <ThemeProvider defaultValue={defaultTheme}>
-      <TooltipProvider>
-        <DataProvider>
-          <FiltersProvider>
-            <SettingsProvider>{children}</SettingsProvider>
-          </FiltersProvider>
-        </DataProvider>
-      </TooltipProvider>
-    </ThemeProvider>
+    <AnalyticsProvider>
+      <ThemeProvider defaultValue={defaultTheme}>
+        <TooltipProvider>
+          <DataProvider>
+            <FiltersProvider>
+              <SettingsProvider>{children}</SettingsProvider>
+            </FiltersProvider>
+          </DataProvider>
+        </TooltipProvider>
+      </ThemeProvider>
+    </AnalyticsProvider>
   );
 };
 

@@ -31,6 +31,7 @@ import { useTheme } from "@/providers/theme";
 import { defaultTheme } from "@/constants/app";
 import AboutModal from "@/components/about-modal";
 import type { Theme } from "@/models/app";
+import posthog from "posthog-js";
 
 interface Form extends HTMLFormControlsCollection {
   id: { value: string };
@@ -64,22 +65,20 @@ const MainSection: FC = () => {
       const id = elements.id.value;
       try {
         setStatus("profile-loading");
+        posthog.capture("submit-profile", { id });
         controller.current = new AbortController();
         const { profile } = await fetchAPI.get<ProfileResponse>(
           "/profile",
           { id, source },
           { signal: controller.current.signal },
         );
-        if (!profile) {
-          toast.error("Unable to fetch profile");
-          setStatus("idle");
-          return;
-        }
+        if (!profile) throw new Error("Unable to fetch profile");
         setProfile(profile);
         const pages = Math.ceil(profile.counts.platinum / 50);
         let list: Platinum[] = [];
         popupRef.current?.setPages({ current: 1, total: pages });
         setStatus("platinums-loading");
+        posthog.capture("submit-platinums", { id });
         for (let i = 1; i <= pages; i++) {
           if (controller.current.signal.aborted) {
             throw new Error(controller.current.signal.reason);
@@ -101,6 +100,7 @@ const MainSection: FC = () => {
         setGroups(groups);
         setPlatinums(platinums);
         setStatus("completed");
+        posthog.capture("submit-complete", { id, count: list.length });
         popupRef.current?.reset();
       } catch (error) {
         console.error("submit error", error);
@@ -108,6 +108,7 @@ const MainSection: FC = () => {
         popupRef.current?.reset();
         const message = readError(error);
         toast.error(message);
+        posthog.capture("submit-error", { id, message });
       }
     },
     [source, setStatus, setProfile, setGroups, setPlatinums],
@@ -116,6 +117,7 @@ const MainSection: FC = () => {
   const handleAbort = useCallback(() => {
     if (!controller.current) return;
     controller.current.abort("The user canceled the data download");
+    posthog.capture("submit-cancelled");
   }, []);
 
   const handleDayClick: DayClickHandler = useCallback(

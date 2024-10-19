@@ -4,6 +4,7 @@ import { useCallback, useState, type FC } from "react";
 import { Button } from "@/components/ui/button";
 import { XIcon } from "lucide-react";
 import { useLocalStorage } from "@/hooks/use-local-storage";
+import posthog from "posthog-js";
 
 interface ContentProps {
   openVideo: () => void;
@@ -22,6 +23,11 @@ const sandbox = "allow-scripts allow-same-origin allow-presentation";
 
 const Content: FC<ContentProps> = (props) => {
   const { openVideo, hidePromo } = props;
+
+  const handleLink = useCallback(() => {
+    posthog.capture("promo-link-click");
+  }, []);
+
   return (
     <div className="animate-fade-in w-11/12 max-w-[320px] fixed top-auto bottom-3 right-3 2xl:top-3 2xl:bottom-auto 2xl:right-3 rounded-lg border-2 border-emerald-700/50 bg-card text-card-foreground shadow-sm px-4 py-3">
       <h1 className="font-medium text-sm text-emerald-900">
@@ -29,7 +35,10 @@ const Content: FC<ContentProps> = (props) => {
       </h1>
       <div className="flex gap-2 flex-wrap mt-1">
         <Button className={styles.button} asChild>
-          <a href="https://trophy-hunt-template.vercel.app/" target="_blank">
+          <a
+            href="https://trophy-hunt-template.vercel.app/"
+            target="_blank"
+            onClick={handleLink}>
             Visit Website
           </a>
         </Button>
@@ -80,14 +89,17 @@ const Promo: FC = () => {
   });
 
   const handleOpenVideo = useCallback(() => {
+    posthog.capture("promo-video-open");
     setVideoOpen(true);
   }, [setVideoOpen]);
 
   const handleCloseVideo = useCallback(() => {
+    posthog.capture("promo-video-close");
     setVideoOpen(false);
   }, [setVideoOpen]);
 
   const hidePromo = useCallback(() => {
+    posthog.capture("promo-hide");
     setPromoVisible(false);
   }, [setPromoVisible]);
 
