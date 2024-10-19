@@ -5,9 +5,14 @@ import { PostHogProvider } from "posthog-js/react";
 import type { FC, PropsWithChildren } from "react";
 
 const KEY = process.env.NEXT_PUBLIC_POSTHOG_KEY ?? "";
-const HOST = process.env.NEXT_PUBLIC_POSTHOG_HOST ?? "";
+const HOST = process.env.NEXT_PUBLIC_POSTHOG_HOST;
 
-const environment = process.env.VERCEL_ENV || process.env.NODE_ENV;
+const NODE = process.env.NODE_ENV;
+const VERCEL = process.env.NEXT_PUBLIC_VERCEL_ENV;
+const VERCEL_PUBLIC = process.env.NEXT_PUBLIC_VERCEL_ENV;
+
+const environment = VERCEL || VERCEL_PUBLIC || NODE;
+
 const isClientSide = typeof window !== "undefined";
 const isProd = environment === "production";
 
