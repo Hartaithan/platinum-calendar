@@ -89,7 +89,7 @@ const Promo: FC = () => {
 
   const hidePromo = useCallback(() => {
     setPromoVisible(false);
-  }, []);
+  }, [setPromoVisible]);
 
   if (!isPromoVisible) return null;
 
