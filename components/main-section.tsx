@@ -42,6 +42,11 @@ const calendars: Record<Theme, FC<CalendarProps>> = {
   heatmap: HeatMapCalendar,
 };
 
+const errors = {
+  empty: "Enter your PSN ID. This field cannot be empty",
+  fetch: "Unable to fetch profile",
+};
+
 const MainSection: FC = () => {
   const { setProfile, setStatus, setPlatinums, setGroups } = useData();
   const calendarRef = useRef<HTMLDivElement | null>(null);
@@ -62,8 +67,9 @@ const MainSection: FC = () => {
       e.preventDefault();
       const form = e.currentTarget;
       const elements = form.elements as Form;
-      const id = elements.id.value;
+      const id = elements.id.value.trim();
       try {
+        if (id.length === 0) throw Error(errors.empty);
         setStatus("profile-loading");
         posthog.capture("submit-profile", { id });
         controller.current = new AbortController();
@@ -72,7 +78,7 @@ const MainSection: FC = () => {
           { id, source },
           { signal: controller.current.signal },
         );
-        if (!profile) throw new Error("Unable to fetch profile");
+        if (!profile) throw Error(errors.fetch);
         setProfile(profile);
         const pages = Math.ceil(profile.counts.platinum / 50);
         let list: Platinum[] = [];
