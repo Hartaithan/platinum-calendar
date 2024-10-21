@@ -69,7 +69,7 @@ const MainSection: FC = () => {
       const elements = form.elements as Form;
       const id = elements.id.value.trim();
       try {
-        if (id.length === 0) throw Error(errors.empty);
+        if (id.length === 0) throw new Error(errors.empty);
         setStatus("profile-loading");
         posthog.capture("submit-profile", { id });
         controller.current = new AbortController();
@@ -78,7 +78,7 @@ const MainSection: FC = () => {
           { id, source },
           { signal: controller.current.signal },
         );
-        if (!profile) throw Error(errors.fetch);
+        if (!profile) throw new Error(errors.fetch);
         setProfile(profile);
         const pages = Math.ceil(profile.counts.platinum / 50);
         let list: Platinum[] = [];

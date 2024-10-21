@@ -22,7 +22,7 @@ const get = async <T>(
   const url = getURL(path, params);
   const response = await fetch(url, init);
   const data = await response.json();
-  if (!response.ok) throw Error(data?.message ?? "Unknown error");
+  if (!response.ok) throw new Error(data?.message ?? "Unknown error");
   return data;
 };
 
@@ -31,7 +31,7 @@ const post = async <T>(path: string, init?: RequestInit): Promise<T> => {
   const reqInit = { ...init, method: "POST" };
   const response = await fetch(url, reqInit);
   const data = await response.json();
-  if (!response.ok) throw Error(data?.message ?? "Unknown error");
+  if (!response.ok) throw new Error(data?.message ?? "Unknown error");
   return data;
 };
 

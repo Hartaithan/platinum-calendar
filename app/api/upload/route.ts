@@ -29,9 +29,9 @@ export const POST = async (
       body: form,
     });
     const response: ImageResponse = await request.json();
-    if (!request.ok) throw Error(JSON.stringify(response));
-    if (!response.success) throw Error(response.data.error);
-    if (!response.data.link) throw Error("Image link not found");
+    if (!request.ok) throw new Error(JSON.stringify(response));
+    if (!response.success) throw new Error(response.data.error);
+    if (!response.data.link) throw new Error("Image link not found");
 
     return NextResponse.json({
       message: "Image successfully uploaded!",

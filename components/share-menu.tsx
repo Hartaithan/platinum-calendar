@@ -87,7 +87,7 @@ const ShareMenu: FC<Props> = (props) => {
       if (!image) throw new Error("Unable to generate image");
       upload?.set({ status: "upload" });
       const response = await uploadImage(image, profile?.name);
-      if (!response.success) throw Error(response.message);
+      if (!response.success) throw new Error(response.message);
       const link = getRedditLink(response.link, profile?.name);
       upload?.set({ status: "complete", image: response.link, redirect: link });
       redirect(link.toString(), "_blank");

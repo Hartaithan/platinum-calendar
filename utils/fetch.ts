@@ -15,7 +15,7 @@ export const fetchPage = async (
     const contentType = request.headers.get("content-type");
     const isJSON = contentType && contentType.includes("application/json");
     const response = isJSON ? await request.json() : await request.text();
-    if (!request.ok) throw Error(response?.message ?? "Unknown error");
+    if (!request.ok) throw new Error(response?.message ?? "Unknown error");
     switch (source) {
       case "bravo":
         return response?.body || response;
