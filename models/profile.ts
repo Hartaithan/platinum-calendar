@@ -105,3 +105,5 @@ export interface ProfileResponseData {
 export type ProfileResponse = RouteResponse<ProfileResponseData>;
 
 export type FetchProfileParams = FetchParams;
+
+export type ParsedProfile = Profile | "not-found" | "not-valid";

@@ -1,5 +1,5 @@
 import { notFound } from "@/constants/messages";
-import type { Profile, ProfileLevel } from "@/models/profile";
+import type { ParsedProfile, ProfileLevel } from "@/models/profile";
 import type { TrophyCounts } from "@/models/trophy";
 import type { CheerioAPI } from "cheerio";
 import type { AnyNode } from "domhandler";
@@ -7,6 +7,7 @@ import { load } from "cheerio";
 import { toNumber } from "@/utils/number";
 
 const select = {
+  title: "head > title",
   link: "li.active a",
   name: "span.username",
   avatar: "div.avatar img",
@@ -78,13 +79,18 @@ const getCounty = (cheerio: CheerioAPI): string => {
   return country ?? notFound;
 };
 
-export const parseProfile = (content: string): Profile | null => {
+export const parseProfile = (content: string): ParsedProfile => {
   const cheerio = load(content);
+
+  const title = cheerio(select.title).text();
+  const isValidPage = title.includes("PSNProfiles");
+
+  if (!isValidPage) return "not-valid";
 
   const link = cheerio(select.link).first().text().trim();
   const isProfileExists = link === "Profile";
 
-  if (!isProfileExists) return null;
+  if (!isProfileExists) return "not-found";
 
   const name = cheerio(select.name).text().trim() || notFound;
   const avatar_url = cheerio(select.avatar).first().attr("src") || notFound;

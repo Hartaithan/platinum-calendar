@@ -27,7 +27,13 @@ export const GET = async (
       );
     }
     const parsed = parseProfile(response);
-    if (!parsed) {
+    if (parsed === "not-valid") {
+      return NextResponse.json(
+        { message: "The data obtained is not valid" },
+        { status: 400 },
+      );
+    }
+    if (parsed === "not-found") {
       return NextResponse.json(
         { message: "Profile doesn't exist" },
         { status: 400 },
