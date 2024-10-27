@@ -38,14 +38,21 @@ const HelpTab: FC = () => {
         </AccordionItem>
         <AccordionItem value="fetch-error">
           <AccordionTrigger className={styles.trigger}>
-            I got the error &apos;Unable to fetch platinums data&apos;. What
-            happened?
+            I got the error &apos;Unable to fetch platinums data&apos;
           </AccordionTrigger>
           <AccordionContent>
             <b>The fetch source Alpha</b>
             &nbsp;may not work with profiles that have 1000+ platinum trophies.
-            Try changing the fetch source in the settings and give it another
-            shot
+          </AccordionContent>
+        </AccordionItem>
+        <AccordionItem value="not-valid-error">
+          <AccordionTrigger className={styles.trigger}>
+            I got the error &apos;The data obtained is not valid&apos;
+          </AccordionTrigger>
+          <AccordionContent>
+            <b>The fetch source Bravo</b> has most likely&nbsp;
+            <b>been blacklisted by the PSNProfiles administration</b>, making it
+            impossible to retrieve data via this fetch source, unfortunately.
           </AccordionContent>
         </AccordionItem>
         <AccordionItem value="artifacts">
