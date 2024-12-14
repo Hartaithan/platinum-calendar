@@ -1,6 +1,11 @@
 "use server";
 
-import { FETCH_URL, defaultFetchSource } from "@/constants/fetch";
+import {
+  FETCH_CHARLIE_API_KEY,
+  FETCH_CHARLIE_HOST,
+  FETCH_URL,
+  defaultFetchSource,
+} from "@/constants/fetch";
 import { SERVICE_URL } from "@/constants/variables";
 import type { FetchPageParams, FetchWithInit } from "@/models/fetch";
 import type { FetchProfileParams } from "@/models/profile";
@@ -10,14 +15,28 @@ export const fetchPage = async (
   params: FetchPageParams,
 ): Promise<string | null> => {
   const { url, source, init } = params;
+  let sourceInit: RequestInit = {};
   try {
-    const request = await fetch(url, init);
+    switch (source) {
+      case "charlie": {
+        sourceInit.headers = {
+          "Content-Type": "application/json",
+          "X-RapidAPI-Key": FETCH_CHARLIE_API_KEY,
+          "X-RapidAPI-Host": FETCH_CHARLIE_HOST,
+        };
+        break;
+      }
+      default:
+        break;
+    }
+    const request = await fetch(url, { ...init, ...sourceInit });
     const contentType = request.headers.get("content-type");
     const isJSON = contentType && contentType.includes("application/json");
     const response = isJSON ? await request.json() : await request.text();
     if (!request.ok) throw new Error(response?.message ?? "Unknown error");
     switch (source) {
       case "bravo":
+      case "charlie":
         return response?.body || response;
       default:
         return response;
@@ -35,7 +54,8 @@ export const fetchProfile: FetchWithInit<
   const { id, source = defaultFetchSource } = params;
   let url: URL;
   switch (source) {
-    case "bravo": {
+    case "bravo":
+    case "charlie": {
       const pageUrl = SERVICE_URL + "/" + id;
       url = new URL(FETCH_URL[source]);
       url.searchParams.set("url", pageUrl);
@@ -58,11 +78,12 @@ export const fetchPlatinums: FetchWithInit<
 > = async (params, init) => {
   const { id, page, source = defaultFetchSource } = params;
   let url: URL;
+  const pageUrl = new URL(`${SERVICE_URL}/${id}/log`);
+  pageUrl.searchParams.set("type", "platinum");
+  pageUrl.searchParams.set("page", page);
   switch (source) {
-    case "bravo": {
-      const pageUrl = new URL(`${SERVICE_URL}/${id}/log`);
-      pageUrl.searchParams.set("type", "platinum");
-      pageUrl.searchParams.set("page", page);
+    case "bravo":
+    case "charlie": {
       url = new URL(FETCH_URL[source]);
       url.searchParams.set("url", pageUrl.toString());
       break;

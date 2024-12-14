@@ -18,12 +18,15 @@ import type { FetchSource } from "@/models/fetch";
 import { themes, themesLabels } from "@/constants/app";
 import { useTheme } from "@/providers/theme";
 import { useSearchParams } from "next/navigation";
+import { fetchSourceOptions } from "@/constants/fetch";
 
 const sourceDescription: Record<FetchSource, string> = {
   alpha:
     "more stable, but may encounter issues retrieving profiles with over 1000+ platinums",
   bravo:
     "slower, but without limitations. use only if you experience issues with Alpha",
+  charlie:
+    "backup source, has a monthly quota. might not be available by the end of the month",
 };
 
 const SettingsModal: FC<ModalProps> = (props) => {
@@ -99,8 +102,11 @@ const SettingsModal: FC<ModalProps> = (props) => {
               <SelectValue placeholder="Select fetch source" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="alpha">Alpha</SelectItem>
-              <SelectItem value="bravo">Bravo</SelectItem>
+              {fetchSourceOptions.map(({ label, value }) => (
+                <SelectItem key={value} value={value}>
+                  {label}
+                </SelectItem>
+              ))}
             </SelectContent>
           </Select>
           <p className="text-[11px] md:text-xs text-neutral-500 mt-2">
