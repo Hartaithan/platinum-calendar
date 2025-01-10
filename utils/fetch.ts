@@ -10,7 +10,7 @@ import { SERVICE_URL } from "@/constants/variables";
 import type { FetchPageParams, FetchWithInit } from "@/models/fetch";
 import type { FetchProfileParams } from "@/models/profile";
 import type { FetchPlatinumsParams } from "@/models/trophy";
-import { Logs } from "@/utils/logs";
+import posthog from "posthog-js";
 
 export const fetchPage = async (
   params: FetchPageParams,
@@ -31,11 +31,10 @@ export const fetchPage = async (
         break;
     }
     const request = await fetch(url, { ...init, ...sourceInit });
-    Logs.add("fetch page request", { url, source, request });
     const contentType = request.headers.get("content-type");
     const isJSON = contentType && contentType.includes("application/json");
     const response = isJSON ? await request.json() : await request.text();
-    Logs.add("fetch page response", { url, source, response });
+    posthog.capture("fetch-page-response", { url, source, response });
     if (!request.ok) throw new Error(response?.message ?? "Unknown error");
     switch (source) {
       case "bravo":
@@ -46,7 +45,7 @@ export const fetchPage = async (
     }
   } catch (error) {
     console.error("unable to fetch data", url.toString(), source, error);
-    Logs.add("unable to fetch data", { url, source, error });
+    posthog.capture("fetch-page-error", { url, source, error });
     return null;
   }
 };
@@ -71,7 +70,6 @@ export const fetchProfile: FetchWithInit<
       break;
     }
   }
-  Logs.add("fetch profile payload", { url, source, init });
   const response = await fetchPage({ url, source, init });
   if (!response) return null;
   return response;
@@ -100,7 +98,6 @@ export const fetchPlatinums: FetchWithInit<
       break;
     }
   }
-  Logs.add("fetch platinums payload", { url, source, init });
   const response = await fetchPage({ url, source, init });
   if (!response) return null;
   return response;
