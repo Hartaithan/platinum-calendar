@@ -71,7 +71,7 @@ const MainSection: FC = () => {
       try {
         if (id.length === 0) throw new Error(errors.empty);
         setStatus("profile-loading");
-        posthog.capture("submit-profile", { id });
+        posthog.capture("submit-profile", { id, source });
         controller.current = new AbortController();
         const { profile } = await fetchAPI.get<ProfileResponse>(
           "/profile",
@@ -84,7 +84,7 @@ const MainSection: FC = () => {
         let list: Platinum[] = [];
         popupRef.current?.setPages({ current: 1, total: pages });
         setStatus("platinums-loading");
-        posthog.capture("submit-platinums", { id });
+        posthog.capture("submit-platinums", { id, source });
         for (let i = 1; i <= pages; i++) {
           if (controller.current.signal.aborted) {
             throw new Error(controller.current.signal.reason);
@@ -106,7 +106,7 @@ const MainSection: FC = () => {
         setGroups(groups);
         setPlatinums(platinums);
         setStatus("completed");
-        posthog.capture("submit-complete", { id, count: list.length });
+        posthog.capture("submit-complete", { id, source, count: list.length });
         popupRef.current?.reset();
       } catch (error) {
         console.error("submit error", error);
@@ -114,7 +114,7 @@ const MainSection: FC = () => {
         popupRef.current?.reset();
         const message = readError(error);
         toast.error(message);
-        posthog.capture("submit-error", { id, message });
+        posthog.capture("submit-error", { id, source, message });
       }
     },
     [source, setStatus, setProfile, setGroups, setPlatinums],
