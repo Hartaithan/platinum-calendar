@@ -10,7 +10,6 @@ import { SERVICE_URL } from "@/constants/variables";
 import type { FetchPageParams, FetchWithInit } from "@/models/fetch";
 import type { FetchProfileParams } from "@/models/profile";
 import type { FetchPlatinumsParams } from "@/models/trophy";
-import posthog from "posthog-js";
 
 export const fetchPage = async (
   params: FetchPageParams,
@@ -34,7 +33,6 @@ export const fetchPage = async (
     const contentType = request.headers.get("content-type");
     const isJSON = contentType && contentType.includes("application/json");
     const response = isJSON ? await request.json() : await request.text();
-    posthog.capture("fetch-page-response", { url, source, response });
     if (!request.ok) throw new Error(response?.message ?? "Unknown error");
     switch (source) {
       case "bravo":
@@ -45,7 +43,6 @@ export const fetchPage = async (
     }
   } catch (error) {
     console.error("unable to fetch data", url.toString(), source, error);
-    posthog.capture("fetch-page-error", { url, source, error });
     return null;
   }
 };
