@@ -7,7 +7,7 @@ import { useCallback, useRef, type FC } from "react";
 import OGCalendar from "@/components/og-calendar";
 import HeatMapCalendar from "@/components/heatmap-calendar";
 import { groupPlatinumList } from "@/utils/group";
-import { fetchAPI } from "@/utils/api";
+import { API } from "@/utils/api";
 import type { ProfileResponse } from "@/models/profile";
 import type { DataLoadingPopupHandle } from "@/components/data-loading-popup";
 import DataLoadingPopup from "@/components/data-loading-popup";
@@ -73,7 +73,7 @@ const MainSection: FC = () => {
         setStatus("profile-loading");
         posthog.capture("submit-profile", { id, source });
         controller.current = new AbortController();
-        const { profile } = await fetchAPI.get<ProfileResponse>(
+        const { profile } = await API.get<ProfileResponse>(
           "/profile",
           { id, source },
           { signal: controller.current.signal },
@@ -90,7 +90,7 @@ const MainSection: FC = () => {
             throw new Error(controller.current.signal.reason);
           }
           controller.current = new AbortController();
-          const response = await fetchAPI.get<PlatinumsResponse>(
+          const response = await API.get<PlatinumsResponse>(
             "/platinums",
             { id, page: i, source },
             { signal: controller.current.signal },

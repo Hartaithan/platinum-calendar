@@ -1,7 +1,7 @@
 import { UPLOAD_CLIENT_ID } from "@/constants/variables";
 import type { UploadBody, UploadResponse } from "@/models/upload";
 import { getLinkMessage } from "@/utils/link";
-import { fetchAPI } from "@/utils/api";
+import { API } from "@/utils/api";
 
 export const getUploadHeaders = (params?: HeadersInit): HeadersInit => {
   return { Authorization: `Client-ID ${UPLOAD_CLIENT_ID}`, ...params };
@@ -26,8 +26,7 @@ export const uploadImage = async (
 ): Promise<UploadResponse> => {
   const psnId = name ?? "Platinum Calendar";
   const formData = getUploadFormData(image, psnId);
-  const response = await fetchAPI.post<UploadResponse>("/upload", {
-    body: formData,
-  });
+  const payload = { body: formData };
+  const response = await API.post<UploadResponse>("/upload", payload);
   return response;
 };
