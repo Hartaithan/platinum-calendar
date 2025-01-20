@@ -4,6 +4,7 @@ import { fetchProfile } from "@/utils/fetch";
 import { parseProfile } from "@/utils/profile";
 import type { ProfileResponse } from "@/models/profile";
 import { readParams } from "@/utils/params";
+import { blocked } from "@/constants/blocked";
 
 export const GET = async (
   req: NextRequest,
@@ -14,6 +15,14 @@ export const GET = async (
     console.error("param id not found", params);
     return NextResponse.json(
       { message: "Missing required parameter: id" },
+      { status: 400 },
+    );
+  }
+
+  if (blocked[id]) {
+    console.error("blocked profile", params);
+    return NextResponse.json(
+      { message: "The profile is blocked" },
       { status: 400 },
     );
   }

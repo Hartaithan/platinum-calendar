@@ -1,3 +1,4 @@
+import { blocked } from "@/constants/blocked";
 import type { PlatinumsResponse } from "@/models/trophy";
 import { fetchPlatinums } from "@/utils/fetch";
 import { readParams } from "@/utils/params";
@@ -14,6 +15,14 @@ export const GET = async (
     console.error("param id not found", params);
     return NextResponse.json(
       { message: "Missing required parameter: id" },
+      { status: 400 },
+    );
+  }
+
+  if (blocked[id]) {
+    console.error("blocked profile", params);
+    return NextResponse.json(
+      { message: "The profile is blocked" },
       { status: 400 },
     );
   }
