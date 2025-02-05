@@ -31,7 +31,6 @@ import { defaultTheme } from "@/constants/app";
 import AboutModal from "@/components/about-modal";
 import type { Theme } from "@/models/app";
 import posthog from "posthog-js";
-import { blocked } from "@/constants/blocked";
 
 interface Form extends HTMLFormControlsCollection {
   id: { value: string };
@@ -45,8 +44,6 @@ const calendars: Record<Theme, FC<CalendarProps>> = {
 const errors = {
   empty: "Enter your PSN ID. This field cannot be empty",
   fetch: "Unable to fetch profile",
-  blocked:
-    "The profile is blocked. Please contact us at hartaithan@gmail.com to unlock it",
 };
 
 const MainSection: FC = () => {
@@ -72,11 +69,6 @@ const MainSection: FC = () => {
       const id = elements.id.value.trim();
       try {
         if (id.length === 0) throw new Error(errors.empty);
-        if (blocked[id]) {
-          toast.error(errors.blocked, { duration: 20000 });
-          posthog.capture("submit-blocked", { id, source });
-          return;
-        }
         setStatus("profile-loading");
         posthog.capture("submit-profile", { id, source });
         controller.current = new AbortController();
