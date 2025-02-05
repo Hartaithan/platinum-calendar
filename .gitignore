@@ -37,3 +37,6 @@ next-env.d.ts
 
 # examples
 examples.ts
+
+# certificates
+certificates

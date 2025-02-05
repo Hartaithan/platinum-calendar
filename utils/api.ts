@@ -1,7 +1,10 @@
+"use client";
+
 import { API_URL } from "@/constants/variables";
 import type { FetchProfileParams, ProfileResponse } from "@/models/profile";
 import type { FetchPlatinumsParams, PlatinumsResponse } from "@/models/trophy";
 import type { UploadResponse } from "@/models/upload";
+import { getHeaders } from "@/utils/signature";
 
 const statuses: Record<number, string> = {
   504: "The server took too long to respond. Please try again later",
@@ -23,7 +26,8 @@ const getProfile = async (
   url.pathname += "/" + source;
   url.pathname += "/" + id;
   url.pathname += "/profile";
-  const response = await fetch(url, init);
+  const headers = await getHeaders("GET", url.toString());
+  const response = await fetch(url, { ...init, headers });
   return await handleResponse(response);
 };
 
@@ -37,14 +41,16 @@ const getPlatinums = async (
   url.pathname += "/" + id;
   url.pathname += "/platinums";
   if (page) url.searchParams.set("page", page.toString());
-  const response = await fetch(url, init);
+  const headers = await getHeaders("GET", url.toString());
+  const response = await fetch(url, { ...init, headers });
   return await handleResponse(response);
 };
 
 const uploadImage = async (body: FormData): Promise<UploadResponse> => {
   const url = new URL(API_URL);
   url.pathname += "/upload";
-  const response = await fetch(url, { body, method: "POST" });
+  const headers = await getHeaders("POST", url.toString(), body);
+  const response = await fetch(url, { body, method: "POST", headers });
   return await handleResponse(response);
 };
 

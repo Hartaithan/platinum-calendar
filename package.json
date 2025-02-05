@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev -H local.hartaithan.com --experimental-https",
     "dev:inspect": "NODE_OPTIONS='--inspect' next dev",
     "build": "next build",
     "start": "next start",
