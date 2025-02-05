@@ -17,21 +17,6 @@ export const monthLength: Record<number, number> = {
 
 export const monthIndex = Array.from({ length: 12 }, (_, i) => i + 1);
 
-export const monthKeys: Record<string, string> = {
-  Jan: "01",
-  Feb: "02",
-  Mar: "03",
-  Apr: "04",
-  May: "05",
-  Jun: "06",
-  Jul: "07",
-  Aug: "08",
-  Sep: "09",
-  Oct: "10",
-  Nov: "11",
-  Dec: "12",
-};
-
 export const monthLabels: Record<number, DayLabel> = {
   1: { long: "January", short: "Jan" },
   2: { long: "February", short: "Feb" },

@@ -1,11 +1,6 @@
-import { UPLOAD_CLIENT_ID } from "@/constants/variables";
 import type { UploadBody, UploadResponse } from "@/models/upload";
 import { getLinkMessage } from "@/utils/link";
 import { API } from "@/utils/api";
-
-export const getUploadHeaders = (params?: HeadersInit): HeadersInit => {
-  return { Authorization: `Client-ID ${UPLOAD_CLIENT_ID}`, ...params };
-};
 
 export const getUploadFormData = (
   image: UploadBody["image"],

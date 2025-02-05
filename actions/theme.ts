@@ -4,7 +4,7 @@ import { cookies } from "next/headers";
 import type { Theme } from "@/models/app";
 import { defaultTheme, themeKey } from "@/constants/app";
 
-const getCookieExpires = () => {
+export const getCookieExpires = () => {
   const expires = new Date();
   expires.setDate(expires.getDate() + 365);
   return expires;
