@@ -1,6 +1,6 @@
 "use client";
 
-import type { Platinum, PlatinumsResponse } from "@/models/trophy";
+import type { Platinum } from "@/models/trophy";
 import { useData } from "@/providers/data";
 import type { FormEventHandler } from "react";
 import { useCallback, useRef, type FC } from "react";
@@ -8,7 +8,6 @@ import OGCalendar from "@/components/og-calendar";
 import HeatMapCalendar from "@/components/heatmap-calendar";
 import { groupPlatinumList } from "@/utils/group";
 import { API } from "@/utils/api";
-import type { ProfileResponse } from "@/models/profile";
 import type { DataLoadingPopupHandle } from "@/components/data-loading-popup";
 import DataLoadingPopup from "@/components/data-loading-popup";
 import DateDetailsModal from "@/components/date-details-modal";
@@ -81,8 +80,7 @@ const MainSection: FC = () => {
         setStatus("profile-loading");
         posthog.capture("submit-profile", { id, source });
         controller.current = new AbortController();
-        const { profile } = await API.get<ProfileResponse>(
-          "/profile",
+        const { profile } = await API.getProfile(
           { id, source },
           { signal: controller.current.signal },
         );
@@ -98,9 +96,8 @@ const MainSection: FC = () => {
             throw new Error(controller.current.signal.reason);
           }
           controller.current = new AbortController();
-          const response = await API.get<PlatinumsResponse>(
-            "/platinums",
-            { id, page: i, source },
+          const response = await API.getPlatinums(
+            { id, source, page: i },
             { signal: controller.current.signal },
           );
           if (!response.list) continue;

@@ -25,8 +25,6 @@ const sourceDescription: Record<FetchSource, string> = {
     "more stable, but may encounter issues retrieving profiles with over 1000+ platinums",
   bravo:
     "slower, but without limitations. use only if you experience issues with Alpha",
-  charlie:
-    "backup source, has a monthly quota. might not be available by the end of the month",
 };
 
 const SettingsModal: FC<ModalProps> = (props) => {

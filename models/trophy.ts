@@ -1,5 +1,5 @@
-import type { RouteResponse } from "@/models/app";
-import type { FetchParams } from "@/models/fetch";
+import type { CachedResponse, Response } from "@/models/app";
+import type { FetchSource } from "@/models/fetch";
 
 export type TrophyType = "platinum" | "gold" | "silver" | "bronze";
 export type TrophyTypeAll = "total" | TrophyType;
@@ -43,15 +43,17 @@ export interface GroupedPlatinumList {
 
 export type Pagination = Omit<PlatinumsResponse, "list"> | null;
 
-export interface PlatinumsResponseData {
+export interface PlatinumsResponseData extends CachedResponse {
   list: Platinum[];
-  current_page: number;
+  current_page: number | null;
   previous_page: number | null;
   next_page: number | null;
 }
 
-export type PlatinumsResponse = RouteResponse<PlatinumsResponseData>;
+export type PlatinumsResponse = Response<PlatinumsResponseData>;
 
-export interface FetchPlatinumsParams extends FetchParams {
-  page: string;
+export interface FetchPlatinumsParams {
+  id: string;
+  source?: FetchSource;
+  page?: number;
 }

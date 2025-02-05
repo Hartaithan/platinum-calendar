@@ -17,7 +17,11 @@ interface ResponseBase {
   message: string;
 }
 
-export type RouteResponse<T = undefined> = ResponseBase & Partial<T>;
+export type Response<T = undefined> = ResponseBase & Partial<T>;
+
+export interface CachedResponse {
+  expires?: string;
+}
 
 export interface Settings {
   source: FetchSource;

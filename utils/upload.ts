@@ -21,7 +21,6 @@ export const uploadImage = async (
 ): Promise<UploadResponse> => {
   const psnId = name ?? "Platinum Calendar";
   const formData = getUploadFormData(image, psnId);
-  const payload = { body: formData };
-  const response = await API.post<UploadResponse>("/upload", payload);
+  const response = await API.uploadImage(formData);
   return response;
 };

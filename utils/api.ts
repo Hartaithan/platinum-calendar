@@ -1,21 +1,10 @@
 import { API_URL } from "@/constants/variables";
-
-type Params = Record<string, string | number | undefined>;
+import type { FetchProfileParams, ProfileResponse } from "@/models/profile";
+import type { FetchPlatinumsParams, PlatinumsResponse } from "@/models/trophy";
+import type { UploadResponse } from "@/models/upload";
 
 const statuses: Record<number, string> = {
   504: "The server took too long to respond. Please try again later",
-};
-
-const getURL = (path: string, params?: Params) => {
-  const url = new URL(API_URL);
-  url.pathname += path;
-  if (params) {
-    const paramEntries = Object.entries(params);
-    for (const [key, value] of paramEntries) {
-      url.searchParams.set(key, value ? value.toString() : "");
-    }
-  }
-  return url;
 };
 
 const handleResponse = async (response: Response) => {
@@ -25,23 +14,42 @@ const handleResponse = async (response: Response) => {
   return data;
 };
 
-const get = async <T>(
-  path: string,
-  params: Params,
+const getProfile = async (
+  params: FetchProfileParams,
   init?: RequestInit,
-): Promise<T> => {
-  const url = getURL(path, params);
+): Promise<ProfileResponse> => {
+  const { id, source = "alpha" } = params;
+  const url = new URL(API_URL);
+  url.pathname += "/" + source;
+  url.pathname += "/" + id;
+  url.pathname += "/profile";
   const response = await fetch(url, init);
   return await handleResponse(response);
 };
 
-const post = async <T>(path: string, init?: RequestInit): Promise<T> => {
-  const url = getURL(path);
-  const response = await fetch(url, { ...init, method: "POST" });
+const getPlatinums = async (
+  params: FetchPlatinumsParams,
+  init?: RequestInit,
+): Promise<PlatinumsResponse> => {
+  const { id, source = "alpha", page } = params;
+  const url = new URL(API_URL);
+  url.pathname += "/" + source;
+  url.pathname += "/" + id;
+  url.pathname += "/platinums";
+  if (page) url.searchParams.set("page", page.toString());
+  const response = await fetch(url, init);
+  return await handleResponse(response);
+};
+
+const uploadImage = async (body: FormData): Promise<UploadResponse> => {
+  const url = new URL(API_URL);
+  url.pathname += "/upload";
+  const response = await fetch(url, { body, method: "POST" });
   return await handleResponse(response);
 };
 
 export const API = {
-  get,
-  post,
+  getProfile,
+  getPlatinums,
+  uploadImage,
 };

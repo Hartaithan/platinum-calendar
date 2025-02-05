@@ -1,6 +1,6 @@
 import type { TrophyCounts } from "@/models/trophy";
-import type { RouteResponse } from "@/models/app";
-import type { FetchParams } from "@/models/fetch";
+import type { CachedResponse, Response } from "@/models/app";
+import type { FetchSource } from "@/models/fetch";
 
 export type ProfileCountry =
   | "ae"
@@ -98,12 +98,13 @@ export interface Profile {
 
 export type NullableProfile = Profile | null;
 
-export interface ProfileResponseData {
+export interface ProfileResponseData extends CachedResponse {
   profile: Profile;
 }
 
-export type ProfileResponse = RouteResponse<ProfileResponseData>;
+export type ProfileResponse = Response<ProfileResponseData>;
 
-export type FetchProfileParams = FetchParams;
-
-export type ParsedProfile = Profile | "not-found" | "not-valid";
+export interface FetchProfileParams {
+  id: string;
+  source?: FetchSource;
+}
