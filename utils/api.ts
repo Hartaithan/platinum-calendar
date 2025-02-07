@@ -1,6 +1,7 @@
 "use client";
 
 import { API_URL } from "@/constants/variables";
+import type { FetchSourcesResponse } from "@/models/fetch";
 import type { FetchProfileParams, ProfileResponse } from "@/models/profile";
 import type { FetchPlatinumsParams, PlatinumsResponse } from "@/models/trophy";
 import type { UploadResponse } from "@/models/upload";
@@ -46,6 +47,13 @@ const getPlatinums = async (
   return await handleResponse(response);
 };
 
+const getSources = async (): Promise<FetchSourcesResponse> => {
+  const url = new URL(API_URL);
+  url.pathname += "/sources";
+  const response = await fetch(url);
+  return await handleResponse(response);
+};
+
 const uploadImage = async (body: FormData): Promise<UploadResponse> => {
   const url = new URL(API_URL);
   url.pathname += "/upload";
@@ -57,5 +65,6 @@ const uploadImage = async (body: FormData): Promise<UploadResponse> => {
 export const API = {
   getProfile,
   getPlatinums,
+  getSources,
   uploadImage,
 };
