@@ -121,11 +121,10 @@ const SettingsModal: FC<ModalProps> = (props) => {
               </SelectContent>
             )}
           </Select>
-          {descriptions && (
-            <p className="text-[11px] md:text-xs text-neutral-500 mt-2">
-              {descriptions[settings.source]}
-            </p>
-          )}
+          <p className="text-[11px] md:text-xs text-neutral-500 mt-2">
+            {isLoading && "loading..."}
+            {!isLoading && descriptions && descriptions[settings.source]}
+          </p>
         </div>
         <Button aria-label="Reset settings" onClick={resetSettings}>
           Reset settings
