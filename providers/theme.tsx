@@ -1,6 +1,6 @@
 "use client";
 
-import { extendTheme, setTheme as setThemeAction } from "@/actions/theme";
+import { setTheme as setThemeAction } from "@/actions/theme";
 import { defaultTheme } from "@/constants/app";
 import type { Theme } from "@/models/app";
 import posthog from "posthog-js";
@@ -58,9 +58,9 @@ const ThemeProvider: FC<Props> = (props) => {
   );
 
   useEffect(() => {
-    const runExtendTheme = async () => await extendTheme();
-    runExtendTheme();
-  }, []);
+    const extendTheme = async () => await setThemeAction(defaultValue);
+    extendTheme();
+  }, [defaultValue]);
 
   return <Context.Provider value={exposed}>{children}</Context.Provider>;
 };
