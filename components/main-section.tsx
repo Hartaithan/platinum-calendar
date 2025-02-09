@@ -31,6 +31,7 @@ import { defaultTheme } from "@/constants/app";
 import AboutModal from "@/components/about-modal";
 import type { Theme } from "@/models/app";
 import posthog from "posthog-js";
+import { showExpiresToast } from "@/utils/toast";
 
 interface Form extends HTMLFormControlsCollection {
   id: { value: string };
@@ -69,6 +70,7 @@ const MainSection: FC = () => {
       const id = elements.id.value.trim();
       let list: Platinum[] = [];
       try {
+        let expires: string | null = null;
         if (id.length === 0) throw new Error(errors.empty);
         setStatus("profile-loading");
         posthog.capture("submit-profile", { id, source });
@@ -92,6 +94,7 @@ const MainSection: FC = () => {
             { id, source, page: i },
             { signal: controller.current.signal },
           );
+          if (response.expires) expires = response.expires;
           if (!response.list) continue;
           list = list.concat(response.list);
           popupRef.current?.setPages((prev) => ({
@@ -103,6 +106,7 @@ const MainSection: FC = () => {
         setGroups(groups);
         setPlatinums(platinums);
         setStatus("completed");
+        showExpiresToast(expires);
         posthog.capture("submit-complete", { id, source, count: list.length });
         popupRef.current?.reset();
       } catch (error) {
