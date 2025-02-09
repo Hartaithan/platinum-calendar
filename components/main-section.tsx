@@ -67,6 +67,7 @@ const MainSection: FC = () => {
       const form = e.currentTarget;
       const elements = form.elements as Form;
       const id = elements.id.value.trim();
+      let list: Platinum[] = [];
       try {
         if (id.length === 0) throw new Error(errors.empty);
         setStatus("profile-loading");
@@ -79,7 +80,6 @@ const MainSection: FC = () => {
         if (!profile) throw new Error(errors.fetch);
         setProfile(profile);
         const pages = Math.ceil(profile.counts.platinum / 50);
-        let list: Platinum[] = [];
         popupRef.current?.setPages({ current: 1, total: pages });
         setStatus("platinums-loading");
         posthog.capture("submit-platinums", { id, source });
@@ -107,6 +107,9 @@ const MainSection: FC = () => {
         popupRef.current?.reset();
       } catch (error) {
         console.error("submit error", error);
+        const { groups, platinums } = groupPlatinumList(list);
+        setGroups(groups);
+        setPlatinums(platinums);
         setStatus("idle");
         popupRef.current?.reset();
         const message = readError(error);
