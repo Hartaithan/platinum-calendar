@@ -8,6 +8,7 @@ import type { UploadResponse } from "@/models/upload";
 import { getHeaders } from "@/utils/signature";
 
 const statuses: Record<number, string> = {
+  401: "Unauthorized",
   504: "The server took too long to respond. Please try again later",
 };
 
