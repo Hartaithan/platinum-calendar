@@ -1,6 +1,7 @@
 "use client";
 
 import { SECRET } from "@/constants/variables";
+import { objectToString } from "@/utils/object";
 
 const hmacSHA256 = async (message: string) => {
   const encoder = new TextEncoder();
@@ -37,7 +38,7 @@ export const getHeaders = async (
     method,
     path,
     query,
-    body: body ? JSON.stringify(body) : "",
+    body: objectToString(body),
     timestamp,
   };
 
