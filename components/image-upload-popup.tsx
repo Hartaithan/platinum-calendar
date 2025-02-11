@@ -95,7 +95,7 @@ const ImageUploadPopup: ForwardRefRenderFunction<ImageUploadPopupHandle> = (
           {status === "error" && (error || "Something went wrong.")}
         </p>
         {image && (
-          <a className="font-medium" href={image} target="_blank">
+          <a className="font-medium text-center" href={image} target="_blank">
             {image}
           </a>
         )}

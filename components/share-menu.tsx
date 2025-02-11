@@ -128,9 +128,9 @@ const ShareMenu: FC<Props> = (props) => {
             <SaveIcon className="size-4 mr-2" />
             <span>Save as PNG</span>
           </DropdownMenuItem>
-          <DropdownMenuItem onClick={handleUpload} aria-label="Upload to Imgur">
+          <DropdownMenuItem onClick={handleUpload} aria-label="Upload image">
             <UploadIcon className="size-4 mr-2" />
-            <span>Upload to Imgur</span>
+            <span>Upload image</span>
           </DropdownMenuItem>
           <DropdownMenuItem onClick={handleReddit} aria-label="Share on Reddit">
             <RedditIcon className="size-4 mr-2" />
