@@ -36,25 +36,6 @@ const HelpTab: FC = () => {
             from there
           </AccordionContent>
         </AccordionItem>
-        <AccordionItem value="fetch-error">
-          <AccordionTrigger className={styles.trigger}>
-            I got the error &apos;Unable to fetch platinums data&apos;
-          </AccordionTrigger>
-          <AccordionContent>
-            <b>The fetch source Alpha</b>
-            &nbsp;may not work with profiles that have 1000+ platinum trophies.
-          </AccordionContent>
-        </AccordionItem>
-        <AccordionItem value="not-valid-error">
-          <AccordionTrigger className={styles.trigger}>
-            I got the error &apos;The data obtained is not valid&apos;
-          </AccordionTrigger>
-          <AccordionContent>
-            <b>The fetch source Bravo</b> has most likely&nbsp;
-            <b>been blacklisted by the PSNProfiles administration</b>, making it
-            impossible to retrieve data via this fetch source, unfortunately.
-          </AccordionContent>
-        </AccordionItem>
         <AccordionItem value="artifacts">
           <AccordionTrigger className={styles.trigger}>
             The generated image contains artifacts. How can I fix this?
@@ -76,9 +57,13 @@ const HelpTab: FC = () => {
             I see outdated data in the calendar
           </AccordionTrigger>
           <AccordionContent>
-            This likely happens because you <b>haven&apos;t updated</b> your
-            profile on PSNProfiles. To view the most up-to-date data, make sure
-            your profile is updated on PSNProfiles
+            <b>This may happen for two reasons:</b>
+            <br />
+            <b>Cache</b>: to check if the data is loaded from the cache, look
+            for a notification after receiving the data
+            <br />
+            <b>Outdated profile on PSNProfiles</b>: make sure your profile is
+            synchronized on PSNProfiles to see the most up-to-date data.
           </AccordionContent>
         </AccordionItem>
         <AccordionItem value="legend">
