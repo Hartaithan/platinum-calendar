@@ -40,7 +40,7 @@ const Context = createContext<Context>(initialValue);
 const SettingsProvider: FC<PropsWithChildren> = (props) => {
   const { children } = props;
   const [settings, setSettings] = useLocalStorage<Context["settings"]>({
-    key: "plat-cal-settings-dec-2024",
+    key: "plat-cal-settings-feb-2025",
     defaultValue,
   });
 
