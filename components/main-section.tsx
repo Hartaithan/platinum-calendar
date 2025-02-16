@@ -75,16 +75,17 @@ const MainSection: FC = () => {
         setStatus("profile-loading");
         posthog.capture("submit-profile", { id, source });
         controller.current = new AbortController();
-        const { profile } = await API.getProfile(
+        const { profile, expires: profileExpires } = await API.getProfile(
           { id, source },
           { signal: controller.current.signal },
         );
         if (!profile) throw new Error(errors.fetch);
+        if (profileExpires) expires = profileExpires;
         setProfile(profile);
         const pages = Math.ceil(profile.counts.platinum / 50);
         popupRef.current?.setPages({ current: 1, total: pages });
         setStatus("platinums-loading");
-        posthog.capture("submit-platinums", { id, source });
+        posthog.capture("submit-platinums", { id, source, expires });
         for (let i = 1; i <= pages; i++) {
           if (controller.current.signal.aborted) {
             throw new Error(controller.current.signal.reason);
@@ -107,7 +108,8 @@ const MainSection: FC = () => {
         setPlatinums(platinums);
         setStatus("completed");
         showExpiresToast(expires);
-        posthog.capture("submit-complete", { id, source, count: list.length });
+        const count = list.length;
+        posthog.capture("submit-complete", { id, source, count, expires });
         popupRef.current?.reset();
       } catch (error) {
         console.error("submit error", error);
