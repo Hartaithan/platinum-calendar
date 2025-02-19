@@ -1,7 +1,15 @@
 "use client";
 
 import { SECRET } from "@/constants/variables";
-import { objectToString } from "@/utils/object";
+
+const bodyToString = (
+  value: Record<string, unknown> | null | undefined | FormData,
+  emptyValue = "",
+) => {
+  if (!value) return emptyValue;
+  if (Object.keys(value).length === 0) return emptyValue;
+  return JSON.stringify(value);
+};
 
 const hmacSHA256 = async (message: string) => {
   const encoder = new TextEncoder();
@@ -38,7 +46,7 @@ export const getHeaders = async (
     method,
     path,
     query,
-    body: objectToString(body),
+    body: bodyToString(body),
     timestamp,
   };
 
