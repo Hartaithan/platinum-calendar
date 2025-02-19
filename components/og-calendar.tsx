@@ -14,11 +14,8 @@ import { getDateKey, getDateLabel } from "@/utils/date";
 import type { ComponentPropsWithRef } from "react";
 import { forwardRef, memo, type FC } from "react";
 import { cn } from "@/utils/styles";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
+import { TooltipTrigger } from "@/components/ui/tooltip";
+import DayTooltip from "@/components/day-tooltip";
 import { Button } from "@/components/ui/button";
 import { useMediaQuery } from "@/hooks/use-media-query";
 import { pluralize } from "@/utils/string";
@@ -133,7 +130,8 @@ const Day: FC<DayProps> = memo((props) => {
   const date: DateKeyParams = { day, month, year };
   const key = getDateKey(date);
   const platinums = groups ? groups[key] : null;
-  const hasPlatinums = !!platinums && platinums.length > 0;
+  const count = platinums?.length || 0;
+  const hasPlatinums = !!platinums && count > 0;
   const isTouchDevice = useMediaQuery("(pointer: coarse)");
   const label = getDateLabel({ date });
   const { isDayVisible } = checkLeapDay({ ...date, settings });
@@ -151,21 +149,20 @@ const Day: FC<DayProps> = memo((props) => {
         aria-label={ariaLabel}
         className={dayStyles}
         onClick={() => onDayClick({ date, platinums })}>
-        <Mark count={platinums.length} />
+        <Mark count={count} />
       </Button>
     );
   }
 
   return (
-    <Tooltip delayDuration={100}>
+    <DayTooltip label={label}>
       <TooltipTrigger
         aria-label={ariaLabel}
         className={dayStyles}
         onClick={() => onDayClick({ date, platinums })}>
-        <Mark count={platinums.length} />
+        <Mark count={count} />
       </TooltipTrigger>
-      <TooltipContent>{label}</TooltipContent>
-    </Tooltip>
+    </DayTooltip>
   );
 });
 
