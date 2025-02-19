@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, type FC } from "react";
+import { memo, useEffect, type FC } from "react";
 import { Modal } from "@/components/ui/modal";
 import type { ModalProps } from "@/components/ui/modal";
 import {
@@ -18,8 +18,10 @@ import { themes, themesLabels } from "@/constants/app";
 import { useTheme } from "@/providers/theme";
 import { useSearchParams } from "next/navigation";
 import { useFetchSources } from "@/hooks/use-fetch-sources";
+import { useModal } from "@/hooks/use-modal";
+import { SettingsIcon } from "lucide-react";
 
-const SettingsModal: FC<ModalProps> = (props) => {
+const Content: FC<ModalProps> = (props) => {
   const { isVisible, onClose } = props;
   const {
     settings,
@@ -133,5 +135,22 @@ const SettingsModal: FC<ModalProps> = (props) => {
     </Modal>
   );
 };
+
+const SettingsModal = memo(() => {
+  const [settings, openSettings, closeSettings] = useModal();
+  return (
+    <>
+      <Content isVisible={settings.isVisible} onClose={closeSettings} />
+      <Button
+        id="settings-modal"
+        variant="secondary"
+        aria-label="Open settings"
+        className="border border-input"
+        onClick={openSettings}>
+        <SettingsIcon className="size-5 stroke-[1.5]" />
+      </Button>
+    </>
+  );
+});
 
 export default SettingsModal;

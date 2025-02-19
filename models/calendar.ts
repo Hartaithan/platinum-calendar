@@ -7,10 +7,6 @@ export interface DateDetails {
 
 export type DayClickHandler = (details: DateDetails) => void;
 
-export interface CalendarProps {
-  onDayClick: DayClickHandler;
-}
-
 export interface BaseMonthProps {
   month: number;
 }

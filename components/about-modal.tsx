@@ -11,6 +11,9 @@ import {
 } from "@/components/ui/accordion";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { cn } from "@/utils/styles";
+import { useModal } from "@/hooks/use-modal";
+import { Button } from "@/components/ui/button";
+import { CircleHelpIcon } from "lucide-react";
 
 const styles = {
   trigger: "text-left text-sm pr-2",
@@ -163,7 +166,7 @@ const AboutTab: FC = () => {
   );
 };
 
-const AboutModal: FC<ModalProps> = (props) => {
+const Content: FC<ModalProps> = (props) => {
   const { isVisible, onClose } = props;
   return (
     <Modal
@@ -180,6 +183,23 @@ const AboutModal: FC<ModalProps> = (props) => {
         <AboutTab />
       </Tabs>
     </Modal>
+  );
+};
+
+const AboutModal: FC = () => {
+  const [about, openAbout, closeAbout] = useModal();
+  return (
+    <>
+      <Content isVisible={about.isVisible} onClose={closeAbout} />
+      <Button
+        id="about-modal"
+        variant="secondary"
+        aria-label="Open about modal"
+        className="border border-input"
+        onClick={openAbout}>
+        <CircleHelpIcon className="size-5 stroke-[1.5]" />
+      </Button>
+    </>
   );
 };
 

@@ -10,20 +10,14 @@ import { groupPlatinumList } from "@/utils/group";
 import { API } from "@/utils/api";
 import type { DataLoadingPopupHandle } from "@/components/data-loading-popup";
 import DataLoadingPopup from "@/components/data-loading-popup";
-import DateDetailsModal from "@/components/date-details-modal";
-import type { DetailsModalData } from "@/components/date-details-modal";
-import type { CalendarProps, DayClickHandler } from "@/models/calendar";
 import YearFilter from "@/components/year-filter";
 import Profile from "@/components/profile";
 import LinkMessage from "@/components/link-message";
 import { readError } from "@/utils/error";
 import { toast } from "sonner";
 import { drawImage } from "@/utils/image";
-import { CircleHelpIcon, SettingsIcon } from "lucide-react";
 import SettingsModal from "@/components/settings-modal";
-import { useModal } from "@/hooks/use-modal";
 import SubmitForm from "@/components/submit-form";
-import { Button } from "@/components/ui/button";
 import { useSettings } from "@/providers/settings";
 import ShareMenu from "@/components/share-menu";
 import { useTheme } from "@/providers/theme";
@@ -37,7 +31,7 @@ interface Form extends HTMLFormControlsCollection {
   id: { value: string };
 }
 
-const calendars: Record<Theme, FC<CalendarProps>> = {
+const calendars: Record<Theme, FC> = {
   og: OGCalendar,
   heatmap: HeatMapCalendar,
 };
@@ -53,9 +47,6 @@ const MainSection: FC = () => {
   const hiddenRef = useRef<HTMLDivElement | null>(null);
   const popupRef = useRef<DataLoadingPopupHandle>(null);
   const controller = useRef<AbortController | null>(null);
-  const [details, openDetails, closeDetails] = useModal<DetailsModalData>();
-  const [settings, openSettings, closeSettings] = useModal();
-  const [about, openAbout, closeAbout] = useModal();
   const {
     settings: { source, link },
   } = useSettings();
@@ -132,11 +123,6 @@ const MainSection: FC = () => {
     posthog.capture("submit-cancelled");
   }, []);
 
-  const handleDayClick: DayClickHandler = useCallback(
-    (details) => openDetails(details),
-    [openDetails],
-  );
-
   const generateImage = useCallback(async (): Promise<Blob | null> => {
     const calendar = calendarRef.current;
     const hidden = hiddenRef.current;
@@ -163,29 +149,15 @@ const MainSection: FC = () => {
         <div className="flex flex-wrap h-auto lg:h-9 w-full lg:w-[auto] gap-2 [&>*]:flex-1">
           <YearFilter />
           <ShareMenu generateImage={generateImage} />
-          <Button
-            id="about-modal"
-            variant="secondary"
-            aria-label="Open about modal"
-            className="border border-input"
-            onClick={openAbout}>
-            <CircleHelpIcon className="size-5 stroke-[1.5]" />
-          </Button>
-          <Button
-            id="settings-modal"
-            variant="secondary"
-            aria-label="Open settings"
-            className="border border-input"
-            onClick={openSettings}>
-            <SettingsIcon className="size-5 stroke-[1.5]" />
-          </Button>
+          <AboutModal />
+          <SettingsModal />
         </div>
       </div>
       <div
         className="flex flex-grow flex-col items-center relative px-10 py-9"
         ref={calendarRef}>
         <Profile />
-        <Calendar onDayClick={handleDayClick} />
+        <Calendar />
         {link && <LinkMessage />}
       </div>
       <div className="fixed top-0 left-0 w-full h-full overflow-hidden -z-50">
@@ -195,13 +167,6 @@ const MainSection: FC = () => {
         />
       </div>
       <DataLoadingPopup ref={popupRef} handleAbort={handleAbort} />
-      <DateDetailsModal
-        data={details.data}
-        isVisible={details.isVisible}
-        onClose={closeDetails}
-      />
-      <SettingsModal isVisible={settings.isVisible} onClose={closeSettings} />
-      <AboutModal isVisible={about.isVisible} onClose={closeAbout} />
     </div>
   );
 };

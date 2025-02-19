@@ -1,11 +1,7 @@
 "use client";
 
 import { monthIndex, monthLabels, monthLength } from "@/constants/calendar";
-import type {
-  BaseMonthProps,
-  CalendarProps,
-  DayClickHandler,
-} from "@/models/calendar";
+import type { BaseMonthProps, DayClickHandler } from "@/models/calendar";
 import type { DateKeyParams } from "@/models/date";
 import { useData } from "@/providers/data";
 import { useFilters } from "@/providers/filters";
@@ -21,6 +17,7 @@ import { useMediaQuery } from "@/hooks/use-media-query";
 import { pluralize } from "@/utils/string";
 import { useSettings } from "@/providers/settings";
 import { checkLeapDay } from "@/utils/calendar";
+import { useDateDetailsModal } from "@/hooks/use-date-details-modal";
 
 interface MonthProps extends BaseMonthProps {
   onDayClick: DayClickHandler;
@@ -233,18 +230,19 @@ const Legend: FC = () => {
   );
 };
 
-const OGCalendar: FC<CalendarProps> = (props) => {
-  const { onDayClick } = props;
+const OGCalendar: FC = () => {
+  const { handleDayClick, modal } = useDateDetailsModal();
   return (
     <div className="flex flex-1 items-center">
       <div className="flex flex-col lg:flex-row @save:flex-row">
         <div className="relative grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 @save:grid-cols-4 gap-4 justify-items-center order-1">
           {monthIndex.map((month) => (
-            <Month key={month} month={month} onDayClick={onDayClick} />
+            <Month key={month} month={month} onDayClick={handleDayClick} />
           ))}
         </div>
         <Legend />
       </div>
+      {modal}
     </div>
   );
 };
