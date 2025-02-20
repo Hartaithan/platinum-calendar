@@ -1,8 +1,8 @@
 "use client";
 
+import { useLocalStorage } from "@/hooks/use-local-storage";
 import type { Status } from "@/models/app";
 import type { NullableProfile } from "@/models/profile";
-import { useLocalStorage } from "@/hooks/use-local-storage";
 import type {
   NullableGroupedPlatinums,
   NullableGroupedPlatinumsKeys,

@@ -1,7 +1,7 @@
 "use client";
 
-import type { ComponentProps } from "react";
 import { isSafari } from "@/utils/device";
+import type { ComponentProps } from "react";
 
 export const redirect = (
   url: string,

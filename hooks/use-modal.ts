@@ -1,6 +1,6 @@
+import type { ModalState } from "@/components/ui/modal";
 import type { MouseEvent } from "react";
 import { useCallback, useState } from "react";
-import type { ModalState } from "@/components/ui/modal";
 
 export const useModal = <T = null>() => {
   const [state, setState] = useState<ModalState<T>>({

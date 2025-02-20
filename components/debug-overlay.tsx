@@ -21,16 +21,16 @@ const DebugOverlay: FC = () => {
 
   return (
     <>
-      <div className="w-0 xl:w-[250px] fixed inset-y-1/2 -translate-y-1/2 left-3 overflow-auto h-[90%] flex flex-col justify-center items-center">
-        <pre className="w-full text-[9px] whitespace-pre-wrap break-all">
+      <div className="fixed inset-y-1/2 left-3 flex h-[90%] w-0 -translate-y-1/2 flex-col items-center justify-center overflow-auto xl:w-[250px]">
+        <pre className="w-full whitespace-pre-wrap break-all text-[9px]">
           profile: {JSON.stringify(profile, null, 2)}
         </pre>
       </div>
-      <div className="w-0 xl:w-[250px] fixed inset-y-1/2 -translate-y-1/2 right-3 overflow-auto h-[90%]">
-        <pre className="w-full text-[9px] whitespace-pre-wrap break-all">
+      <div className="fixed inset-y-1/2 right-3 h-[90%] w-0 -translate-y-1/2 overflow-auto xl:w-[250px]">
+        <pre className="w-full whitespace-pre-wrap break-all text-[9px]">
           groups: {JSON.stringify(groups, null, 2)}
         </pre>
-        <pre className="w-full text-[9px] whitespace-pre-wrap break-all">
+        <pre className="w-full whitespace-pre-wrap break-all text-[9px]">
           platinums: {JSON.stringify(platinums, null, 2)}
         </pre>
       </div>

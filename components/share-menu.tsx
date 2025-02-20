@@ -1,25 +1,25 @@
 "use client";
 
-import { useCallback, useRef, type FC } from "react";
+import type { ImageUploadPopupHandle } from "@/components/image-upload-popup";
+import ImageUploadPopup from "@/components/image-upload-popup";
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { SaveIcon, Share2Icon, UploadIcon } from "lucide-react";
-import { useData } from "@/providers/data";
-import { toast } from "sonner";
-import { readError } from "@/utils/error";
-import type { ImageUploadPopupHandle } from "@/components/image-upload-popup";
-import ImageUploadPopup from "@/components/image-upload-popup";
-import { Button } from "@/components/ui/button";
 import RedditIcon from "@/icons/reddit";
-import { uploadImage } from "@/utils/upload";
-import { getRedditLink } from "@/utils/share";
-import { redirect } from "@/utils/navigation";
-import posthog from "posthog-js";
+import { useData } from "@/providers/data";
 import { withTheme } from "@/utils/analytics";
+import { readError } from "@/utils/error";
+import { redirect } from "@/utils/navigation";
+import { getRedditLink } from "@/utils/share";
+import { uploadImage } from "@/utils/upload";
+import { SaveIcon, Share2Icon, UploadIcon } from "lucide-react";
+import posthog from "posthog-js";
+import { useCallback, useRef, type FC } from "react";
+import { toast } from "sonner";
 
 interface Props {
   generateImage: () => Promise<Blob | null>;
@@ -119,21 +119,21 @@ const ShareMenu: FC<Props> = (props) => {
             variant="secondary"
             aria-label="Share"
             className="border border-input font-normal">
-            <Share2Icon className="size-5 stroke-[1.5] mr-3" />
+            <Share2Icon className="mr-3 size-5 stroke-[1.5]" />
             <span>Share</span>
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent>
           <DropdownMenuItem onClick={handleSave} aria-label="Save as PNG">
-            <SaveIcon className="size-4 mr-2" />
+            <SaveIcon className="mr-2 size-4" />
             <span>Save as PNG</span>
           </DropdownMenuItem>
           <DropdownMenuItem onClick={handleUpload} aria-label="Upload image">
-            <UploadIcon className="size-4 mr-2" />
+            <UploadIcon className="mr-2 size-4" />
             <span>Upload image</span>
           </DropdownMenuItem>
           <DropdownMenuItem onClick={handleReddit} aria-label="Share on Reddit">
-            <RedditIcon className="size-4 mr-2" />
+            <RedditIcon className="mr-2 size-4" />
             <span>Share on Reddit</span>
           </DropdownMenuItem>
         </DropdownMenuContent>

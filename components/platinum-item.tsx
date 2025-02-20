@@ -1,9 +1,9 @@
 "use client";
 
-import type { FC } from "react";
+import GameImage from "@/components/game-image";
 import { useData } from "@/providers/data";
 import Image from "next/image";
-import GameImage from "@/components/game-image";
+import type { FC } from "react";
 
 interface Props {
   platinumId: string;
@@ -15,10 +15,10 @@ const PlatinumItem: FC<Props> = (props) => {
   const platinum = platinums ? platinums[key] : null;
   if (!platinum) return null;
   return (
-    <div className="flex flex-col rounded-lg border border-input/25 text-card-foreground shadow-sm w-full p-3 gap-3">
+    <div className="flex w-full flex-col gap-3 rounded-lg border border-input/25 p-3 text-card-foreground shadow-sm">
       <div className="flex items-center gap-4 text-left">
         <Image
-          className="rounded-md min-w-12 h-auto"
+          className="h-auto min-w-12 rounded-md"
           width={48}
           height={48}
           alt={platinum.title}
@@ -26,11 +26,11 @@ const PlatinumItem: FC<Props> = (props) => {
           unoptimized
         />
         <div>
-          <h3 className="text-sm md:text-lg font-semibold">{platinum.title}</h3>
+          <h3 className="text-sm font-semibold md:text-lg">{platinum.title}</h3>
           <p className="text-xs md:text-sm">{platinum.description}</p>
         </div>
       </div>
-      <div className="flex flex-col gap-2 text-sm md:text-base text-left">
+      <div className="flex flex-col gap-2 text-left text-sm md:text-base">
         <div className="flex flex-wrap gap-x-4 gap-y-1">
           <div>
             <span>#{platinum.number.toLocaleString()}</span>
@@ -57,9 +57,9 @@ const PlatinumItem: FC<Props> = (props) => {
           </div>
         </div>
       </div>
-      <div className="flex items-center gap-3 md:gap-4 text-left">
+      <div className="flex items-center gap-3 text-left md:gap-4">
         <GameImage src={platinum.game.image_url} alt={platinum.game.title} />
-        <h1 className="text-sm md:text-base font-medium">
+        <h1 className="text-sm font-medium md:text-base">
           {platinum.game.title}
         </h1>
       </div>

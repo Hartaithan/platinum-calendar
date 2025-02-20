@@ -1,10 +1,10 @@
-import type { PropsWithChildren } from "react";
-import { memo, type FC } from "react";
 import {
-  TooltipContent,
   Tooltip,
+  TooltipContent,
   TooltipProvider,
 } from "@/components/ui/tooltip";
+import type { PropsWithChildren } from "react";
+import { memo, type FC } from "react";
 
 interface Props extends PropsWithChildren {
   label: string;

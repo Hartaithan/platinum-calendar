@@ -1,12 +1,12 @@
 "use client";
 
+import { Button } from "@/components/ui/button";
+import { Spinner } from "@/components/ui/spinner";
+import type { Pages } from "@/models/app";
+import { useData } from "@/providers/data";
+import { CircleCheckIcon } from "lucide-react";
 import type { Dispatch, ForwardRefRenderFunction, SetStateAction } from "react";
 import { forwardRef, useCallback, useImperativeHandle, useState } from "react";
-import { Spinner } from "@/components/ui/spinner";
-import { Button } from "@/components/ui/button";
-import { CircleCheckIcon } from "lucide-react";
-import { useData } from "@/providers/data";
-import type { Pages } from "@/models/app";
 
 interface Props {
   handleAbort: () => void;
@@ -40,9 +40,9 @@ const DataLoadingPopup: ForwardRefRenderFunction<
   if (status === "completed") return null;
 
   return (
-    <div className="w-[240px] fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-xl bg-background shadow-2xl py-4 px-5 z-10">
+    <div className="fixed left-1/2 top-1/2 z-10 w-[240px] -translate-x-1/2 -translate-y-1/2 transform rounded-xl bg-background px-5 py-4 shadow-2xl">
       <h1 className="text-lg font-medium">Loading...</h1>
-      <div className="flex justify-between items-center w-full mt-2">
+      <div className="mt-2 flex w-full items-center justify-between">
         <p>Profile</p>
         {status === "profile-loading" ? (
           <Spinner className="size-5" />
@@ -50,11 +50,11 @@ const DataLoadingPopup: ForwardRefRenderFunction<
           <CircleCheckIcon className="size-5 stroke-ring" />
         )}
       </div>
-      <div className="flex justify-between items-center w-full mt-2">
+      <div className="mt-2 flex w-full items-center justify-between">
         <p>Platinums</p>
         <div className="flex items-center">
           {status === "platinums-loading" && (
-            <p className="text-sm mr-2">
+            <p className="mr-2 text-sm">
               {pages.current}/{pages.total}
             </p>
           )}

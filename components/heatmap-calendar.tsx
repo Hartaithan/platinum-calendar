@@ -1,22 +1,22 @@
 "use client";
 
+import DayTooltip from "@/components/day-tooltip";
+import { Button } from "@/components/ui/button";
+import { TooltipTrigger } from "@/components/ui/tooltip";
 import { monthIndex, monthLabels, monthLength } from "@/constants/calendar";
+import { useDateDetailsModal } from "@/hooks/use-date-details-modal";
+import { useMediaQuery } from "@/hooks/use-media-query";
 import type { BaseMonthProps, DayClickHandler } from "@/models/calendar";
 import type { DateKeyParams } from "@/models/date";
 import { useData } from "@/providers/data";
 import { useFilters } from "@/providers/filters";
+import { useSettings } from "@/providers/settings";
 import { createArray } from "@/utils/array";
+import { checkLeapDay } from "@/utils/calendar";
 import { getDateKey, getDateLabel } from "@/utils/date";
+import { pluralize } from "@/utils/string";
 import { cn } from "@/utils/styles";
 import { memo, type FC } from "react";
-import { TooltipTrigger } from "@/components/ui/tooltip";
-import DayTooltip from "@/components/day-tooltip";
-import { Button } from "@/components/ui/button";
-import { useMediaQuery } from "@/hooks/use-media-query";
-import { useSettings } from "@/providers/settings";
-import { checkLeapDay } from "@/utils/calendar";
-import { pluralize } from "@/utils/string";
-import { useDateDetailsModal } from "@/hooks/use-date-details-modal";
 
 interface MonthProps extends BaseMonthProps {
   onDayClick: DayClickHandler;
@@ -107,10 +107,10 @@ const MonthHeader: FC<BaseMonthProps> = memo((props) => {
   const key = getDateKey({ month, year });
   const total = groups ? groups[key] : null;
   return (
-    <div className="flex justify-between items-center mb-2">
+    <div className="mb-2 flex items-center justify-between">
       <h3 className="font-semibold">{monthLabels[month].long}</h3>
       {total && total.length > 0 && (
-        <p className="font-medium text-xs">{pluralize(total.length, "plat")}</p>
+        <p className="text-xs font-medium">{pluralize(total.length, "plat")}</p>
       )}
     </div>
   );
@@ -121,7 +121,7 @@ const Month: FC<MonthProps> = memo((props) => {
   const count = monthLength[month];
   const days = createArray(count);
   return (
-    <div className="flex flex-col w-fit justify-self-center">
+    <div className="flex w-fit flex-col justify-self-center">
       <MonthHeader month={month} />
       <div className="grid grid-cols-7 gap-1.5">
         {days.map((day) => (
@@ -139,17 +139,17 @@ const Month: FC<MonthProps> = memo((props) => {
 
 const Legend: FC = () => {
   return (
-    <div className="w-full flex justify-center lg:justify-end @save:justify-end">
-      <div className="mt-6 grid grid-cols-[1fr_1fr] md:grid-cols-[1fr_auto_1fr] @save:grid-cols-[1fr_auto_1fr] gap-y-1 md:gap-y-0 @save:gap-y-0">
-        <span className="text-sm mr-2 row-[1/2] md:row-auto @save:row-auto col-[1/2] md:col-auto @save:col-auto text-left">
+    <div className="flex w-full justify-center @save:justify-end lg:justify-end">
+      <div className="mt-6 grid grid-cols-[1fr_1fr] gap-y-1 @save:grid-cols-[1fr_auto_1fr] @save:gap-y-0 md:grid-cols-[1fr_auto_1fr] md:gap-y-0">
+        <span className="col-[1/2] row-[1/2] mr-2 text-left text-sm @save:col-auto @save:row-auto md:col-auto md:row-auto">
           Less
         </span>
-        <div className="flex gap-1 row-[2/3] md:row-auto @save:row-auto col-[1/3] md:col-auto @save:col-auto">
+        <div className="col-[1/3] row-[2/3] flex gap-1 @save:col-auto @save:row-auto md:col-auto md:row-auto">
           {dayColors.map(([bg, fg], index) => (
             <div
               key={`legend-${index}`}
               className={cn(
-                "size-5 flex justify-center items-center text-white text-[12px] leading-[normal]",
+                "flex size-5 items-center justify-center text-[12px] leading-[normal] text-white",
                 bg,
                 fg,
               )}>
@@ -157,7 +157,7 @@ const Legend: FC = () => {
             </div>
           ))}
         </div>
-        <span className="text-sm ml-2 row-[1/2] md:row-auto @save:row-auto col-[2/3] md:col-auto @save:col-auto text-right">
+        <span className="col-[2/3] row-[1/2] ml-2 text-right text-sm @save:col-auto @save:row-auto md:col-auto md:row-auto">
           More
         </span>
       </div>
@@ -168,8 +168,8 @@ const Legend: FC = () => {
 const HeatMapCalendar: FC = () => {
   const { handleDayClick, modal } = useDateDetailsModal();
   return (
-    <div className="flex flex-col flex-1 justify-center">
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 @save:grid-cols-4 gap-x-8 gap-y-4">
+    <div className="flex flex-1 flex-col justify-center">
+      <div className="grid grid-cols-1 gap-x-8 gap-y-4 @save:grid-cols-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         {monthIndex.map((month) => (
           <Month key={month} month={month} onDayClick={handleDayClick} />
         ))}

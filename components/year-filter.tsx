@@ -1,16 +1,16 @@
 "use client";
 
-import { ArrowLeftIcon, ArrowRightIcon, XIcon } from "lucide-react";
-import { useFilters } from "@/providers/filters";
-import type { FC } from "react";
 import { Button } from "@/components/ui/button";
+import { useFilters } from "@/providers/filters";
+import { ArrowLeftIcon, ArrowRightIcon, XIcon } from "lucide-react";
+import type { FC } from "react";
 
 const YearFilter: FC = () => {
   const { year, setYear, handleYear } = useFilters();
   return (
     <div
       id="year-filter"
-      className="flex items-center justify-center relative h-full min-w-full md:min-w-[auto] rounded-md py-2 px-3 border border-input bg-secondary">
+      className="relative flex h-full min-w-full items-center justify-center rounded-md border border-input bg-secondary px-3 py-2 md:min-w-[auto]">
       <Button
         unstyled
         className="rounded"
@@ -18,7 +18,7 @@ const YearFilter: FC = () => {
         onClick={() => handleYear("prev")}>
         <ArrowLeftIcon className="size-4" />
       </Button>
-      <p className="w-16 text-center text-sm leading-[normal] cursor-default">
+      <p className="w-16 cursor-default text-center text-sm leading-[normal]">
         {year ?? "All"}
       </p>
       <Button
@@ -32,7 +32,7 @@ const YearFilter: FC = () => {
         <Button
           unstyled
           aria-label="Reset year filter"
-          className="absolute bg-secondary border border-input size-5 rounded-full -top-2 -right-2 flex justify-center items-center"
+          className="absolute -right-2 -top-2 flex size-5 items-center justify-center rounded-full border border-input bg-secondary"
           onClick={() => setYear(null)}>
           <XIcon className="size-3" />
         </Button>

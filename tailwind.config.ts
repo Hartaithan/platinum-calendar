@@ -1,5 +1,5 @@
-import type { Config } from "tailwindcss";
 import containerQueries from "@tailwindcss/container-queries";
+import type { Config } from "tailwindcss";
 import tailwindAnimate from "tailwindcss-animate";
 
 const config: Config = {

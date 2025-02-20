@@ -1,5 +1,5 @@
-import { useCallback, useEffect, useState } from "react";
 import { useWindowEvent } from "@/hooks/use-window-event";
+import { useCallback, useEffect, useState } from "react";
 
 export type StorageType = "localStorage" | "sessionStorage";
 

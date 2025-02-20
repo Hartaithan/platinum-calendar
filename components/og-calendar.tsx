@@ -1,23 +1,23 @@
 "use client";
 
+import DayTooltip from "@/components/day-tooltip";
+import { Button } from "@/components/ui/button";
+import { TooltipTrigger } from "@/components/ui/tooltip";
 import { monthIndex, monthLabels, monthLength } from "@/constants/calendar";
+import { useDateDetailsModal } from "@/hooks/use-date-details-modal";
+import { useMediaQuery } from "@/hooks/use-media-query";
 import type { BaseMonthProps, DayClickHandler } from "@/models/calendar";
 import type { DateKeyParams } from "@/models/date";
 import { useData } from "@/providers/data";
 import { useFilters } from "@/providers/filters";
+import { useSettings } from "@/providers/settings";
 import { createArray } from "@/utils/array";
+import { checkLeapDay } from "@/utils/calendar";
 import { getDateKey, getDateLabel } from "@/utils/date";
+import { pluralize } from "@/utils/string";
+import { cn } from "@/utils/styles";
 import type { ComponentPropsWithRef } from "react";
 import { forwardRef, memo, type FC } from "react";
-import { cn } from "@/utils/styles";
-import { TooltipTrigger } from "@/components/ui/tooltip";
-import DayTooltip from "@/components/day-tooltip";
-import { Button } from "@/components/ui/button";
-import { useMediaQuery } from "@/hooks/use-media-query";
-import { pluralize } from "@/utils/string";
-import { useSettings } from "@/providers/settings";
-import { checkLeapDay } from "@/utils/calendar";
-import { useDateDetailsModal } from "@/hooks/use-date-details-modal";
 
 interface MonthProps extends BaseMonthProps {
   onDayClick: DayClickHandler;
@@ -109,7 +109,7 @@ const Mark: FC<MarkProps> = (props) => {
     <MarkCircle
       color={bg}
       className={cn(
-        "absolute inset-0 m-auto flex justify-center items-center",
+        "absolute inset-0 m-auto flex items-center justify-center",
         count > 100 ? "text-xs" : "text-sm",
         text,
         bg,
@@ -176,7 +176,7 @@ const Total: FC<TotalProps> = memo((props) => {
     <div
       className={cn(
         columns[isTotalVisible ? cols + 1 : cols],
-        "h-day flex justify-center items-center border-r border-r-black border-b border-b-black",
+        "flex h-day items-center justify-center border-b border-r border-b-black border-r-black",
       )}>
       {total && total.length > 0 && pluralize(total.length, "plat")}
     </div>
@@ -188,10 +188,10 @@ const Month: FC<MonthProps> = memo((props) => {
   const count = monthLength[month];
   const days = createArray(count);
   return (
-    <div className="month w-fit flex flex-col border-l border-l-black border-t border-t-black">
+    <div className="month flex w-fit flex-col border-l border-t border-l-black border-t-black">
       <div
         className={cn(
-          "header h-day flex items-center justify-center border-r border-r-black border-b border-b-black font-semibold text-sm",
+          "header flex h-day items-center justify-center border-b border-r border-b-black border-r-black text-sm font-semibold",
           headerColors[month],
         )}>
         {monthLabels[month].long}
@@ -214,13 +214,13 @@ const Month: FC<MonthProps> = memo((props) => {
 const Legend: FC = () => {
   const colors = Object.entries(markColors);
   return (
-    <div className="relative ml-0 lg:ml-4 @save:ml-4 mb-4 lg:mb-0 @save:mb-0 self-center lg:self-start @save:self-start flex flex-row lg:flex-col @save:flex-col gap-1 -order-1 lg:order-2 @save:order-2">
+    <div className="relative -order-1 mb-4 ml-0 flex flex-row gap-1 self-center @save:order-2 @save:mb-0 @save:ml-4 @save:flex-col @save:self-start lg:order-2 lg:mb-0 lg:ml-4 lg:flex-col lg:self-start">
       {colors.map(([value, color]) => (
         <div
           key={value}
-          className="flex flex-col lg:flex-row @save:flex-row justify-center lg:justify-normal @save:justify-normal items-center">
+          className="flex flex-col items-center justify-center @save:flex-row @save:justify-normal lg:flex-row lg:justify-normal">
           <MarkCircle color={color[0]} />
-          <p className="ml-0 lg:ml-3 @save:ml-3">
+          <p className="ml-0 @save:ml-3 lg:ml-3">
             {value}
             {value === "7" && "+"}
           </p>
@@ -234,8 +234,8 @@ const OGCalendar: FC = () => {
   const { handleDayClick, modal } = useDateDetailsModal();
   return (
     <div className="flex flex-1 items-center">
-      <div className="flex flex-col lg:flex-row @save:flex-row">
-        <div className="relative grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 @save:grid-cols-4 gap-4 justify-items-center order-1">
+      <div className="flex flex-col @save:flex-row lg:flex-row">
+        <div className="relative order-1 grid grid-cols-1 justify-items-center gap-4 @save:grid-cols-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {monthIndex.map((month) => (
             <Month key={month} month={month} onDayClick={handleDayClick} />
           ))}

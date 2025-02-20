@@ -1,19 +1,19 @@
 "use client";
 
-import type { FC } from "react";
-import { Modal } from "@/components/ui/modal";
-import type { ModalProps } from "@/components/ui/modal";
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { cn } from "@/utils/styles";
-import { useModal } from "@/hooks/use-modal";
 import { Button } from "@/components/ui/button";
+import type { ModalProps } from "@/components/ui/modal";
+import { Modal } from "@/components/ui/modal";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useModal } from "@/hooks/use-modal";
+import { cn } from "@/utils/styles";
 import { CircleHelpIcon } from "lucide-react";
+import type { FC } from "react";
 
 const styles = {
   trigger: "text-left text-sm pr-2",
@@ -27,7 +27,7 @@ const HelpTab: FC = () => {
   return (
     <TabsContent
       value="help"
-      className="w-full-scrollbar-base flex flex-col gap-3 max-h-[80vh] overflow-y-auto overflow-x-hidden scrollbar-gutter">
+      className="w-full-scrollbar-base scrollbar-gutter flex max-h-[80vh] flex-col gap-3 overflow-y-auto overflow-x-hidden">
       <Accordion type="multiple">
         <AccordionItem value="ps-account">
           <AccordionTrigger className={styles.trigger}>
@@ -137,7 +137,7 @@ const AboutTab: FC = () => {
           you stay motivated on your journey to trophy mastery
         </p>
       </div>
-      <h1 className={cn(styles.heading, "mt-4 mb-2")}>Special Thanks</h1>
+      <h1 className={cn(styles.heading, "mb-2 mt-4")}>Special Thanks</h1>
       <ul>
         <li className={styles.content}>
           <a
@@ -161,7 +161,7 @@ const AboutTab: FC = () => {
           <b>Han_the_Dragon, disorderly</b> - for assistance with testing
         </li>
       </ul>
-      <h1 className={cn(styles.heading, "mt-4 mb-2")}>Happy hunting!</h1>
+      <h1 className={cn(styles.heading, "mb-2 mt-4")}>Happy hunting!</h1>
     </TabsContent>
   );
 };

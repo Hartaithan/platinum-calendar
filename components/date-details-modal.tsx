@@ -1,9 +1,9 @@
-import type { FC } from "react";
-import { Modal } from "@/components/ui/modal";
+import PlatinumList from "@/components/platinum-list";
 import type { ModalProps } from "@/components/ui/modal";
+import { Modal } from "@/components/ui/modal";
 import type { DateDetails } from "@/models/calendar";
 import { getDateLabelWithCount } from "@/utils/date";
-import PlatinumList from "@/components/platinum-list";
+import type { FC } from "react";
 
 export type DetailsModalData = DateDetails | null;
 

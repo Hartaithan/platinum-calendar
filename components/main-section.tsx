@@ -1,31 +1,31 @@
 "use client";
 
-import type { Platinum } from "@/models/trophy";
-import { useData } from "@/providers/data";
-import type { FormEventHandler } from "react";
-import { useCallback, useRef, type FC } from "react";
-import OGCalendar from "@/components/og-calendar";
-import HeatMapCalendar from "@/components/heatmap-calendar";
-import { groupPlatinumList } from "@/utils/group";
-import { API } from "@/utils/api";
+import AboutModal from "@/components/about-modal";
 import type { DataLoadingPopupHandle } from "@/components/data-loading-popup";
 import DataLoadingPopup from "@/components/data-loading-popup";
-import YearFilter from "@/components/year-filter";
-import Profile from "@/components/profile";
+import HeatMapCalendar from "@/components/heatmap-calendar";
 import LinkMessage from "@/components/link-message";
-import { readError } from "@/utils/error";
-import { toast } from "sonner";
-import { drawImage } from "@/utils/image";
+import OGCalendar from "@/components/og-calendar";
+import Profile from "@/components/profile";
 import SettingsModal from "@/components/settings-modal";
-import SubmitForm from "@/components/submit-form";
-import { useSettings } from "@/providers/settings";
 import ShareMenu from "@/components/share-menu";
-import { useTheme } from "@/providers/theme";
+import SubmitForm from "@/components/submit-form";
+import YearFilter from "@/components/year-filter";
 import { defaultTheme } from "@/constants/app";
-import AboutModal from "@/components/about-modal";
 import type { Theme } from "@/models/app";
-import posthog from "posthog-js";
+import type { Platinum } from "@/models/trophy";
+import { useData } from "@/providers/data";
+import { useSettings } from "@/providers/settings";
+import { useTheme } from "@/providers/theme";
+import { API } from "@/utils/api";
+import { readError } from "@/utils/error";
+import { groupPlatinumList } from "@/utils/group";
+import { drawImage } from "@/utils/image";
 import { showExpiresToast } from "@/utils/toast";
+import posthog from "posthog-js";
+import type { FormEventHandler } from "react";
+import { useCallback, useRef, type FC } from "react";
+import { toast } from "sonner";
 
 interface Form extends HTMLFormControlsCollection {
   id: { value: string };
@@ -143,10 +143,10 @@ const MainSection: FC = () => {
   }, []);
 
   return (
-    <div className="flex flex-col justify-center items-center">
-      <div className="flex flex-col lg:flex-row w-4/5 lg:w-auto items-center gap-2">
+    <div className="flex flex-col items-center justify-center">
+      <div className="flex w-4/5 flex-col items-center gap-2 lg:w-auto lg:flex-row">
         <SubmitForm onSubmit={handleSubmit} />
-        <div className="flex flex-wrap h-auto lg:h-9 w-full lg:w-[auto] gap-2 [&>*]:flex-1">
+        <div className="flex h-auto w-full flex-wrap gap-2 lg:h-9 lg:w-[auto] [&>*]:flex-1">
           <YearFilter />
           <ShareMenu generateImage={generateImage} />
           <AboutModal />
@@ -154,15 +154,15 @@ const MainSection: FC = () => {
         </div>
       </div>
       <div
-        className="flex flex-grow flex-col items-center relative px-10 py-9"
+        className="relative flex flex-grow flex-col items-center px-10 py-9"
         ref={calendarRef}>
         <Profile />
         <Calendar />
         {link && <LinkMessage />}
       </div>
-      <div className="fixed top-0 left-0 w-full h-full overflow-hidden -z-50">
+      <div className="fixed left-0 top-0 -z-50 h-full w-full overflow-hidden">
         <div
-          className="flex flex-col w-[1200px] h-[800px] @container"
+          className="flex h-[800px] w-[1200px] flex-col @container"
           ref={hiddenRef}
         />
       </div>

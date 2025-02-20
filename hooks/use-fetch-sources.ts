@@ -1,4 +1,3 @@
-import { useCallback, useMemo, useState } from "react";
 import { useStateWithRef } from "@/hooks/use-state-with-ref";
 import type {
   FetchSourceDescriptions,
@@ -7,6 +6,7 @@ import type {
 import { API } from "@/utils/api";
 import { readError } from "@/utils/error";
 import posthog from "posthog-js";
+import { useCallback, useMemo, useState } from "react";
 
 export const useFetchSources = () => {
   const [isLoading, setLoading] = useState<boolean>(false);

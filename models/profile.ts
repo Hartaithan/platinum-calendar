@@ -1,6 +1,6 @@
-import type { TrophyCounts } from "@/models/trophy";
 import type { CachedResponse, Response } from "@/models/app";
 import type { FetchSource } from "@/models/fetch";
+import type { TrophyCounts } from "@/models/trophy";
 
 export type ProfileCountry =
   | "ae"

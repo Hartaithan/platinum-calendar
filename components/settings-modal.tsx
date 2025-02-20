@@ -1,8 +1,9 @@
 "use client";
 
-import { memo, useEffect, type FC } from "react";
-import { Modal } from "@/components/ui/modal";
+import { Button } from "@/components/ui/button";
+import { Label } from "@/components/ui/label";
 import type { ModalProps } from "@/components/ui/modal";
+import { Modal } from "@/components/ui/modal";
 import {
   Select,
   SelectContent,
@@ -10,16 +11,15 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
-import { Button } from "@/components/ui/button";
-import { useSettings } from "@/providers/settings";
 import { themes, themesLabels } from "@/constants/app";
-import { useTheme } from "@/providers/theme";
-import { useSearchParams } from "next/navigation";
 import { useFetchSources } from "@/hooks/use-fetch-sources";
 import { useModal } from "@/hooks/use-modal";
+import { useSettings } from "@/providers/settings";
+import { useTheme } from "@/providers/theme";
 import { SettingsIcon } from "lucide-react";
+import { useSearchParams } from "next/navigation";
+import { memo, useEffect, type FC } from "react";
 
 const Content: FC<ModalProps> = (props) => {
   const { isVisible, onClose } = props;
@@ -54,7 +54,7 @@ const Content: FC<ModalProps> = (props) => {
           <div className="flex items-center space-x-2">
             <Label htmlFor="link" className="w-full">
               <p className="text-sm font-semibold">Show Link on Image</p>
-              <p className="text-[11px] md:text-xs font-normal text-neutral-500 mt-1">
+              <p className="mt-1 text-[11px] font-normal text-neutral-500 md:text-xs">
                 determine whether a link should be displayed in the generated
                 image
               </p>
@@ -69,7 +69,7 @@ const Content: FC<ModalProps> = (props) => {
         <div className="flex items-center space-x-2">
           <Label htmlFor="link" className="w-full">
             <p className="text-sm font-semibold">Show Leap Day</p>
-            <p className="text-[11px] md:text-xs font-normal text-neutral-500 mt-1">
+            <p className="mt-1 text-[11px] font-normal text-neutral-500 md:text-xs">
               determine whether the leap day should be shown and included in
               progress tracking calculations for your calendar
             </p>
@@ -81,7 +81,7 @@ const Content: FC<ModalProps> = (props) => {
           />
         </div>
         <div className="flex flex-col">
-          <Label className="text-sm font-semibold mb-1">Theme</Label>
+          <Label className="mb-1 text-sm font-semibold">Theme</Label>
           <Select value={theme} onValueChange={changeTheme}>
             <SelectTrigger>
               <SelectValue placeholder="Select theme" />
@@ -96,7 +96,7 @@ const Content: FC<ModalProps> = (props) => {
           </Select>
         </div>
         <div className="flex flex-col">
-          <Label className="text-sm font-semibold mb-1">Fetch Source</Label>
+          <Label className="mb-1 text-sm font-semibold">Fetch Source</Label>
           <Select
             defaultValue="not-found"
             value={settings.source}
@@ -123,7 +123,7 @@ const Content: FC<ModalProps> = (props) => {
               </SelectContent>
             )}
           </Select>
-          <p className="text-[11px] md:text-xs text-neutral-500 mt-2">
+          <p className="mt-2 text-[11px] text-neutral-500 md:text-xs">
             {isLoading && "loading..."}
             {!isLoading && descriptions && descriptions[settings.source]}
           </p>

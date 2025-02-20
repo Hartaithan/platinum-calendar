@@ -1,6 +1,6 @@
-import type { FC } from "react";
 import type { ImageProps } from "next/image";
 import Image from "next/image";
+import type { FC } from "react";
 import { twMerge } from "tailwind-merge";
 
 type Props = ImageProps;
@@ -10,7 +10,7 @@ const GameImage: FC<Props> = (props) => {
   return (
     <div
       className={twMerge(
-        "relative flex justify-center rounded-md h-9 w-auto aspect-[20/11] flex-shrink-0 overflow-hidden",
+        "relative flex aspect-[20/11] h-9 w-auto flex-shrink-0 justify-center overflow-hidden rounded-md",
         className,
       )}>
       <Image
@@ -22,7 +22,7 @@ const GameImage: FC<Props> = (props) => {
         height="0"
         unoptimized
       />
-      <div className="z-[2] absolute size-full bg-black/30" />
+      <div className="absolute z-[2] size-full bg-black/30" />
       <Image
         className="z-[1] object-cover blur"
         src={src}

@@ -1,4 +1,4 @@
-import type { SetStateAction, Dispatch } from "react";
+import type { Dispatch, SetStateAction } from "react";
 import { useCallback, useRef, useState } from "react";
 
 const isFunction = <S>(

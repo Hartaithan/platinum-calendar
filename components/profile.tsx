@@ -1,13 +1,13 @@
 "use client";
 
+import CalendarProgress from "@/components/calendar-progress";
+import TrophyIcon from "@/icons/trophy";
+import type { Profile as ProfileInfo } from "@/models/profile";
 import type { TrophyTypeAll } from "@/models/trophy";
 import { useData } from "@/providers/data";
+import { cn } from "@/utils/styles";
 import Image from "next/image";
 import { memo, type FC } from "react";
-import { cn } from "@/utils/styles";
-import TrophyIcon from "@/icons/trophy";
-import CalendarProgress from "@/components/calendar-progress";
-import type { Profile as ProfileInfo } from "@/models/profile";
 
 const trophyColors: Record<TrophyTypeAll | string, [string, string]> = {
   total: ["fill-[#27272a]", "text-[#27272a]"],
@@ -19,11 +19,11 @@ const trophyColors: Record<TrophyTypeAll | string, [string, string]> = {
 
 const EmptyProfile: FC = () => {
   return (
-    <div className="flex flex-col flex-1 justify-center items-center min-h-[50px] mb-4">
-      <h1 className="text-sm md:text-base font-medium text-center leading-[normal]">
+    <div className="mb-4 flex min-h-[50px] flex-1 flex-col items-center justify-center">
+      <h1 className="text-center text-sm font-medium leading-[normal] md:text-base">
         Enter your PSN ID to create your personalized Platinum Trophy Calendar!
       </h1>
-      <p className="text-xs md:text-sm text-center mt-1 md:mt-0">
+      <p className="mt-1 text-center text-xs md:mt-0 md:text-sm">
         Just make sure your profile is up-to-date on PSNProfiles before you
         start!
       </p>
@@ -36,7 +36,7 @@ type InfoProps = Pick<ProfileInfo, "avatar_url" | "name" | "level">;
 const Info: FC<InfoProps> = memo((props) => {
   const { avatar_url, name, level } = props;
   return (
-    <div className="flex justify-center lg:justify-normal @save:justify-normal">
+    <div className="flex justify-center @save:justify-normal lg:justify-normal">
       <Image
         className="rounded-full"
         width={50}
@@ -60,12 +60,12 @@ type CountsProps = Pick<ProfileInfo, "counts">;
 const Counts: FC<CountsProps> = memo((props) => {
   const { counts } = props;
   return (
-    <div className="w-4/5 md:w-10/12 lg:w-auto @save:w-auto flex items-center justify-center lg:justify-normal @save:justify-normal gap-x-4 gap-y-2 flex-wrap @save:flex-nowrap ml-[none] lg:ml-auto @save:ml-auto">
+    <div className="ml-[none] flex w-4/5 flex-wrap items-center justify-center gap-x-4 gap-y-2 @save:ml-auto @save:w-auto @save:flex-nowrap @save:justify-normal md:w-10/12 lg:ml-auto lg:w-auto lg:justify-normal">
       {Object.entries(counts).map(([key, value]) => (
-        <div key={key} className="flex gap-2 items-center">
+        <div key={key} className="flex items-center gap-2">
           <div
             className={cn(
-              "size-6 rounded-full flex justify-center items-center",
+              "flex size-6 items-center justify-center rounded-full",
               trophyColors[key][0],
             )}>
             <TrophyIcon
@@ -87,7 +87,7 @@ const Profile: FC = () => {
   if (!profile || Object.keys(profile).length === 0) return <EmptyProfile />;
   const { avatar_url, name, level, counts } = profile;
   return (
-    <div className="flex flex-col lg:flex-row @save:flex-row w-full mb-4 gap-3 lg:gap-0 @save:gap-0 items-center lg:items-normal @save:items-normal">
+    <div className="lg:items-normal @save:items-normal mb-4 flex w-full flex-col items-center gap-3 @save:flex-row @save:gap-0 lg:flex-row lg:gap-0">
       <Info avatar_url={avatar_url} name={name} level={level} />
       <CalendarProgress />
       <Counts counts={counts} />

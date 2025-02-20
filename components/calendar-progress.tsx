@@ -23,15 +23,15 @@ const CalendarProgress: FC = memo(() => {
   }, [platinums, year, total]);
 
   return (
-    <div className="ml-[none] lg:ml-4 @save:ml-4 flex flex-col justify-center items-center lg:items-start @save:items-start">
+    <div className="ml-[none] flex flex-col items-center justify-center @save:ml-4 @save:items-start lg:ml-4 lg:items-start">
       <h1 className="font-medium leading-[normal]">
         Completion{year && ` ${year}`}
       </h1>
-      <div className="flex gap-x-2 items-center">
+      <div className="flex items-center gap-x-2">
         <p className="font-medium leading-[normal]">
           {toFixed(progress.value)}%
         </p>
-        <p className="leading-[normal] text-sm">
+        <p className="text-sm leading-[normal]">
           {progress.count}/{total} days
         </p>
       </div>

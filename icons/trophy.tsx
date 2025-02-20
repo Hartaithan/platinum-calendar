@@ -32,12 +32,12 @@ const TrophyIcon: FC<Props> = (props) => {
   return (
     <div className="relative">
       <Icon
-        className={cn(className, "absolute top-0 -left-1.5 scale-75")}
+        className={cn(className, "absolute -left-1.5 top-0 scale-75")}
         {...rest}
       />
       <Icon className={className} {...rest} />
       <Icon
-        className={cn(className, "absolute top-0 -right-1.5 scale-75")}
+        className={cn(className, "absolute -right-1.5 top-0 scale-75")}
         {...rest}
       />
     </div>

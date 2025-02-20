@@ -1,8 +1,8 @@
 "use server";
 
-import { cookies } from "next/headers";
-import type { Theme } from "@/models/app";
 import { defaultTheme, themeKey } from "@/constants/app";
+import type { Theme } from "@/models/app";
+import { cookies } from "next/headers";
 
 export const setTheme = async (value: Theme) => {
   const expires = new Date();

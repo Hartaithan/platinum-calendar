@@ -1,13 +1,13 @@
-import type { FC } from "react";
 import { getLinkMessage } from "@/utils/link";
+import type { FC } from "react";
 
 const LinkMessage: FC = () => {
   const { message, href, link } = getLinkMessage();
   return (
-    <span className="hidden @save:block w-full text-sm text-center lg:text-right @save:text-right pt-6 md:pt-3 @save:pt-3">
+    <span className="hidden w-full pt-6 text-center text-sm @save:block @save:pt-3 @save:text-right md:pt-3 lg:text-right">
       {message}&nbsp;
       <a
-        className="font-medium hover:text-foreground visited:text-foreground"
+        className="font-medium visited:text-foreground hover:text-foreground"
         target="_blank"
         href={href}>
         {link}

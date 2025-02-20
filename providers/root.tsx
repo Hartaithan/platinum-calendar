@@ -1,12 +1,12 @@
 "use client";
 
-import type { FC, PropsWithChildren } from "react";
 import type { Theme } from "@/models/app";
-import ThemeProvider from "@/providers/theme";
+import AnalyticsProvider from "@/providers/analytics";
 import DataProvider from "@/providers/data";
 import FiltersProvider from "@/providers/filters";
 import SettingsProvider from "@/providers/settings";
-import AnalyticsProvider from "@/providers/analytics";
+import ThemeProvider from "@/providers/theme";
+import type { FC, PropsWithChildren } from "react";
 
 interface Props extends PropsWithChildren {
   defaultTheme: Theme;

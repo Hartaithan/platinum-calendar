@@ -1,12 +1,12 @@
+import { getTheme } from "@/actions/theme";
 import "@/app/globals.css";
+import { Toaster } from "@/components/ui/sonner";
+import { URL as BASE_URL } from "@/constants/variables";
+import RootProviders from "@/providers/root";
 import type { Metadata, Viewport } from "next";
+import dynamic from "next/dynamic";
 import { Rubik } from "next/font/google";
 import type { FC, PropsWithChildren } from "react";
-import RootProviders from "@/providers/root";
-import { Toaster } from "@/components/ui/sonner";
-import { getTheme } from "@/actions/theme";
-import { URL as BASE_URL } from "@/constants/variables";
-import dynamic from "next/dynamic";
 
 const Promo = dynamic(() => import("@/components/promo"), { ssr: false });
 

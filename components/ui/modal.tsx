@@ -1,4 +1,5 @@
-import * as React from "react";
+import type { ButtonProps } from "@/components/ui/button";
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogCloseStyles,
@@ -7,9 +8,8 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import type { ButtonProps } from "@/components/ui/button";
-import { Button } from "@/components/ui/button";
 import { XIcon } from "lucide-react";
+import * as React from "react";
 
 import { cn } from "@/utils/styles";
 
@@ -30,10 +30,10 @@ const Modal: React.FC<ModalProps> = (props) => {
   const { isVisible, title, description, children, onClose } = props;
   return (
     <Dialog open={isVisible} onOpenChange={onClose}>
-      <DialogContent className="px-4 py-3 w-[calc(100%-1.5rem)] md:w-full rounded-lg">
+      <DialogContent className="w-[calc(100%-1.5rem)] rounded-lg px-4 py-3 md:w-full">
         <DialogHeader className="space-y-3">
           {title && (
-            <DialogTitle className="w-full text-center text-sm md:text-base font-medium">
+            <DialogTitle className="w-full text-center text-sm font-medium md:text-base">
               {title}
             </DialogTitle>
           )}

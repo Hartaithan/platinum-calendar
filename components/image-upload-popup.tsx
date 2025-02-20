@@ -1,5 +1,8 @@
 "use client";
 
+import { Button } from "@/components/ui/button";
+import { ModalCloseButton } from "@/components/ui/modal";
+import { Spinner } from "@/components/ui/spinner";
 import type { ForwardRefRenderFunction } from "react";
 import {
   forwardRef,
@@ -8,9 +11,6 @@ import {
   useMemo,
   useState,
 } from "react";
-import { Spinner } from "@/components/ui/spinner";
-import { ModalCloseButton } from "@/components/ui/modal";
-import { Button } from "@/components/ui/button";
 
 export type UploadStatus = "generate" | "upload" | "complete" | "error";
 
@@ -71,16 +71,16 @@ const ImageUploadPopup: ForwardRefRenderFunction<ImageUploadPopupHandle> = (
   if (!isVisible) return null;
 
   return (
-    <div className="w-[360px] min-h-16 fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-xl bg-background shadow-2xl p-4 z-10">
+    <div className="fixed left-1/2 top-1/2 z-10 min-h-16 w-[360px] -translate-x-1/2 -translate-y-1/2 transform rounded-xl bg-background p-4 shadow-2xl">
       {!isLoading && (
         <ModalCloseButton
-          className="float-none absolute top-3 right-3"
+          className="absolute right-3 top-3 float-none"
           onClick={close}
         />
       )}
-      <div className="w-full flex flex-col items-center justify-center gap-1">
+      <div className="flex w-full flex-col items-center justify-center gap-1">
         <div className="flex items-center">
-          {isLoading && <Spinner className="size-4 mr-2" />}
+          {isLoading && <Spinner className="mr-2 size-4" />}
           <p className="font-medium">
             {status === "generate" && "Generating..."}
             {status === "upload" && "Uploading..."}
@@ -88,20 +88,20 @@ const ImageUploadPopup: ForwardRefRenderFunction<ImageUploadPopupHandle> = (
             {status === "error" && "Oops!"}
           </p>
         </div>
-        <p className="mt-1 text-sm text-center">
+        <p className="mt-1 text-center text-sm">
           {status === "generate" && "The image is being created..."}
           {status === "upload" && "The image is uploading..."}
           {status === "complete" && "All done! Your link should be below."}
           {status === "error" && (error || "Something went wrong.")}
         </p>
         {image && (
-          <a className="font-medium text-center" href={image} target="_blank">
+          <a className="text-center font-medium" href={image} target="_blank">
             {image}
           </a>
         )}
         {redirect && (
           <>
-            <p className="text-sm text-center mt-1">
+            <p className="mt-1 text-center text-sm">
               If you&apos;re not redirected within 3 seconds, please click the
               link below.
             </p>
@@ -109,7 +109,7 @@ const ImageUploadPopup: ForwardRefRenderFunction<ImageUploadPopupHandle> = (
               asChild
               aria-label="Redirect to generated link"
               variant="secondary"
-              className="w-full mt-1"
+              className="mt-1 w-full"
               size="sm">
               <a href={redirect.toString()} target="_blank">
                 Redirect
