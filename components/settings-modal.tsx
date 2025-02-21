@@ -19,7 +19,7 @@ import { useSettings } from "@/providers/settings";
 import { useTheme } from "@/providers/theme";
 import { SettingsIcon } from "lucide-react";
 import { useSearchParams } from "next/navigation";
-import { memo, useEffect, type FC } from "react";
+import { memo, useCallback, useEffect, type FC } from "react";
 
 const Content: FC<ModalProps> = (props) => {
   const { isVisible, onClose } = props;
@@ -31,11 +31,16 @@ const Content: FC<ModalProps> = (props) => {
     resetSettings,
   } = useSettings();
   const searchParams = useSearchParams();
-  const { theme, changeTheme } = useTheme();
+  const { theme, changeTheme, resetTheme } = useTheme();
   const { isLoading, options, optionsRef, descriptions, fetchSources } =
     useFetchSources();
 
   const isDev = searchParams.get("dev") !== null;
+
+  const handleReset = useCallback(() => {
+    resetSettings();
+    resetTheme();
+  }, [resetSettings, resetTheme]);
 
   useEffect(() => {
     if (!isVisible) return;
@@ -128,7 +133,7 @@ const Content: FC<ModalProps> = (props) => {
             {!isLoading && descriptions && descriptions[settings.source]}
           </p>
         </div>
-        <Button aria-label="Reset settings" onClick={resetSettings}>
+        <Button aria-label="Reset settings" onClick={handleReset}>
           Reset settings
         </Button>
       </div>

@@ -22,12 +22,14 @@ interface Context {
   theme: Theme;
   setTheme: Dispatch<SetStateAction<Theme>>;
   changeTheme: (value: Theme) => void;
+  resetTheme: () => void;
 }
 
 const initialValue: Context = {
   theme: defaultTheme,
   setTheme: () => null,
   changeTheme: () => null,
+  resetTheme: () => null,
 };
 
 const Context = createContext<Context>(initialValue);
@@ -48,13 +50,18 @@ const ThemeProvider: FC<Props> = (props) => {
     }
   }, []);
 
+  const resetTheme = useCallback(() => {
+    changeTheme(defaultTheme);
+  }, [changeTheme]);
+
   const exposed: Context = useMemo(
     () => ({
       theme,
       setTheme,
       changeTheme,
+      resetTheme,
     }),
-    [theme, changeTheme],
+    [theme, changeTheme, resetTheme],
   );
 
   useEffect(() => {
