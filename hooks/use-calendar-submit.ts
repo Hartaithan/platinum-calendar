@@ -41,6 +41,7 @@ const setPlatinumList = (
   setGroups: Dispatch<SetStateAction<NullableGroupedPlatinumsKeys>>,
   setPlatinums: Dispatch<SetStateAction<NullableGroupedPlatinums>>,
 ) => {
+  if (list.length === 0) return;
   const { groups, platinums } = groupPlatinumList(list);
   setGroups(groups);
   setPlatinums(platinums);
