@@ -1,5 +1,6 @@
 "use client";
 
+import { isMobile } from "@/utils/device";
 import type { Options } from "modern-screenshot";
 import { domToBlob } from "modern-screenshot";
 
@@ -26,6 +27,7 @@ export const drawImage = async (
   if (!element) return null;
   try {
     await domToBlob(element, options.pre);
+    if (isMobile()) await domToBlob(element, options.pre);
     const image = await domToBlob(element, options.final);
     return image;
   } catch (error) {
