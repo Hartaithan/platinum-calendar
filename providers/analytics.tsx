@@ -1,11 +1,12 @@
 "use client";
 
+import { POSTHOG_KEY, URL } from "@/constants/variables";
 import posthog from "posthog-js";
 import { PostHogProvider } from "posthog-js/react";
 import type { FC, PropsWithChildren } from "react";
 
-const KEY = process.env.NEXT_PUBLIC_POSTHOG_KEY ?? "";
-const HOST = process.env.NEXT_PUBLIC_POSTHOG_HOST;
+const KEY = POSTHOG_KEY;
+const HOST = URL + "/ingest";
 
 const NODE = process.env.NODE_ENV;
 const VERCEL = process.env.NEXT_PUBLIC_VERCEL_ENV;
