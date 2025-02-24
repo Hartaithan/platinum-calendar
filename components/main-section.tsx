@@ -1,6 +1,7 @@
 "use client";
 
 import AboutModal from "@/components/about-modal";
+import Calendar from "@/components/calendar";
 import DataLoadingPopup from "@/components/data-loading-popup";
 import LinkMessage from "@/components/link-message";
 import Profile from "@/components/profile";
@@ -10,7 +11,6 @@ import SubmitForm from "@/components/submit-form";
 import YearFilter from "@/components/year-filter";
 import { useCalendarCapture } from "@/hooks/use-calendar-capture";
 import { useCalendarSubmit } from "@/hooks/use-calendar-submit";
-import { Calendar } from "lucide-react";
 import type { FC } from "react";
 
 const MainSection: FC = () => {
