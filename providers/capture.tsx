@@ -29,11 +29,11 @@ const Context = createContext<Context>(initialValue);
 const CaptureProvider: FC<PropsWithChildren> = (props) => {
   const { children } = props;
   const captureRef = useRef<HTMLDivElement>(null);
-  const hiddenRef = useRef<HTMLDivElement>(null);
+  const tempRef = useRef<HTMLDivElement>(null);
 
   const capture = useCallback(async (): Promise<Blob | null> => {
     const calendar = captureRef.current;
-    const hidden = hiddenRef.current;
+    const hidden = tempRef.current;
     if (!calendar || !hidden) return null;
     try {
       hidden.innerHTML = "";
@@ -51,17 +51,17 @@ const CaptureProvider: FC<PropsWithChildren> = (props) => {
   }, []);
 
   const exposed: Context = useMemo(
-    () => ({ captureRef, hiddenRef, capture }),
-    [captureRef, hiddenRef, capture],
+    () => ({ captureRef, capture }),
+    [captureRef, capture],
   );
 
   return (
     <Context.Provider value={exposed}>
       {children}
-      <div className="fixed left-0 top-0 -z-50 h-full w-full overflow-hidden">
+      <div className="fixed -left-full top-0 -z-50 h-full w-full overflow-hidden">
         <div
           className="flex h-[800px] w-[1200px] flex-col @container"
-          ref={hiddenRef}
+          ref={tempRef}
         />
       </div>
     </Context.Provider>
