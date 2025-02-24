@@ -1,0 +1,73 @@
+"use client";
+
+import { readError } from "@/utils/error";
+import { drawImage } from "@/utils/image";
+import type { RefObject } from "react";
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useMemo,
+  useRef,
+  type FC,
+  type PropsWithChildren,
+} from "react";
+import { toast } from "sonner";
+
+interface Context {
+  captureRef: RefObject<HTMLDivElement>;
+  capture: () => Promise<Blob | null>;
+}
+
+const initialValue: Context = {
+  captureRef: { current: null },
+  capture: async () => null,
+};
+
+const Context = createContext<Context>(initialValue);
+
+const CaptureProvider: FC<PropsWithChildren> = (props) => {
+  const { children } = props;
+  const captureRef = useRef<HTMLDivElement>(null);
+  const hiddenRef = useRef<HTMLDivElement>(null);
+
+  const capture = useCallback(async (): Promise<Blob | null> => {
+    const calendar = captureRef.current;
+    const hidden = hiddenRef.current;
+    if (!calendar || !hidden) return null;
+    try {
+      hidden.innerHTML = "";
+      hidden.appendChild(calendar.cloneNode(true));
+      const image = await drawImage(hidden);
+      if (!image) throw new Error("Unable to generate image");
+      hidden.innerHTML = "";
+      return image;
+    } catch (error) {
+      console.error("generate image error", error);
+      const message = readError(error);
+      toast.error(message);
+      return null;
+    }
+  }, []);
+
+  const exposed: Context = useMemo(
+    () => ({ captureRef, hiddenRef, capture }),
+    [captureRef, hiddenRef, capture],
+  );
+
+  return (
+    <Context.Provider value={exposed}>
+      {children}
+      <div className="fixed left-0 top-0 -z-50 h-full w-full overflow-hidden">
+        <div
+          className="flex h-[800px] w-[1200px] flex-col @container"
+          ref={hiddenRef}
+        />
+      </div>
+    </Context.Provider>
+  );
+};
+
+export const useCapture = (): Context => useContext(Context);
+
+export default CaptureProvider;

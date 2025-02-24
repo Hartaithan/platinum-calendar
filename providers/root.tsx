@@ -2,6 +2,7 @@
 
 import type { Theme } from "@/models/app";
 import AnalyticsProvider from "@/providers/analytics";
+import CaptureProvider from "@/providers/capture";
 import DataProvider from "@/providers/data";
 import FiltersProvider from "@/providers/filters";
 import SettingsProvider from "@/providers/settings";
@@ -19,7 +20,9 @@ const RootProviders: FC<Props> = (props) => {
       <ThemeProvider defaultValue={defaultTheme}>
         <DataProvider>
           <FiltersProvider>
-            <SettingsProvider>{children}</SettingsProvider>
+            <SettingsProvider>
+              <CaptureProvider>{children}</CaptureProvider>
+            </SettingsProvider>
           </FiltersProvider>
         </DataProvider>
       </ThemeProvider>

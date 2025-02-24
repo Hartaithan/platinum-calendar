@@ -10,6 +10,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import RedditIcon from "@/icons/reddit";
+import { useCapture } from "@/providers/capture";
 import { useData } from "@/providers/data";
 import { withTheme } from "@/utils/analytics";
 import { readError } from "@/utils/error";
@@ -21,20 +22,16 @@ import posthog from "posthog-js";
 import { useCallback, useRef, type FC } from "react";
 import { toast } from "sonner";
 
-interface Props {
-  generateImage: () => Promise<Blob | null>;
-}
-
-const ShareMenu: FC<Props> = (props) => {
-  const { generateImage } = props;
+const ShareMenu: FC = () => {
   const { profile } = useData();
+  const { capture } = useCapture();
   const popupRef = useRef<ImageUploadPopupHandle>(null);
   const { upload } = popupRef.current ?? {};
 
   const handleSave = useCallback(async () => {
     try {
       posthog.capture("save-start", withTheme({ id: profile?.name }));
-      const image = await generateImage();
+      const image = await capture();
       if (!image) throw new Error("Unable to generate image");
       const link = document.createElement("a");
       link.href = URL.createObjectURL(image);
@@ -48,13 +45,13 @@ const ShareMenu: FC<Props> = (props) => {
       toast.error(message);
       posthog.capture("save-error", withTheme({ id: profile?.name, message }));
     }
-  }, [profile?.name, generateImage]);
+  }, [profile?.name, capture]);
 
   const handleUpload = useCallback(async () => {
     try {
       posthog.capture("upload-start", withTheme({ id: profile?.name }));
       upload?.open();
-      const image = await generateImage();
+      const image = await capture();
       if (!image) throw new Error("Unable to generate image");
       upload?.set({ status: "upload" });
       const response = await uploadImage(image, profile?.name);
@@ -77,13 +74,13 @@ const ShareMenu: FC<Props> = (props) => {
         withTheme({ id: profile?.name, message }),
       );
     }
-  }, [profile?.name, generateImage, upload]);
+  }, [profile?.name, capture, upload]);
 
   const handleReddit = useCallback(async () => {
     try {
       posthog.capture("reddit-start", withTheme({ id: profile?.name }));
       upload?.open();
-      const image = await generateImage();
+      const image = await capture();
       if (!image) throw new Error("Unable to generate image");
       upload?.set({ status: "upload" });
       const response = await uploadImage(image, profile?.name);
@@ -108,7 +105,7 @@ const ShareMenu: FC<Props> = (props) => {
         withTheme({ id: profile?.name, message }),
       );
     }
-  }, [profile?.name, generateImage, upload]);
+  }, [profile?.name, capture, upload]);
 
   return (
     <>

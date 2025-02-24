@@ -3,13 +3,12 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useData } from "@/providers/data";
+import SubmitProvider, { useSubmit } from "@/providers/submit";
 import { SendHorizontalIcon } from "lucide-react";
-import type { ComponentPropsWithoutRef, FC } from "react";
+import type { FC } from "react";
 
-type Props = ComponentPropsWithoutRef<"form">;
-
-const SubmitForm: FC<Props> = (props) => {
-  const { onSubmit } = props;
+const SubmitForm: FC = () => {
+  const { onSubmit } = useSubmit();
   const { status } = useData();
   const isLoading =
     status === "platinums-loading" || status === "profile-loading";
@@ -35,4 +34,10 @@ const SubmitForm: FC<Props> = (props) => {
   );
 };
 
-export default SubmitForm;
+const Wrapper: FC = () => (
+  <SubmitProvider>
+    <SubmitForm />
+  </SubmitProvider>
+);
+
+export default Wrapper;

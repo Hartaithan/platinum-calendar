@@ -1,4 +1,7 @@
+"use client";
+
 import type { DataLoadingPopupHandle } from "@/components/data-loading-popup";
+import DataLoadingPopup from "@/components/data-loading-popup";
 import { useAbortController } from "@/hooks/use-abort-controller";
 import type {
   NullableGroupedPlatinums,
@@ -14,12 +17,18 @@ import { showExpiresToast } from "@/utils/toast";
 import posthog from "posthog-js";
 import type {
   Dispatch,
+  FC,
   FormEvent,
   FormEventHandler,
+  PropsWithChildren,
   SetStateAction,
 } from "react";
-import { useCallback, useRef } from "react";
+import { createContext, useCallback, useContext, useMemo, useRef } from "react";
 import { toast } from "sonner";
+
+interface Context {
+  onSubmit: FormEventHandler<HTMLFormElement>;
+}
 
 interface Form extends HTMLFormControlsCollection {
   id: { value: string };
@@ -47,7 +56,15 @@ const setPlatinumList = (
   setPlatinums(platinums);
 };
 
-export const useCalendarSubmit = () => {
+const initialValue: Context = {
+  onSubmit: () => null,
+};
+
+const Context = createContext<Context>(initialValue);
+
+const SubmitProvider: FC<PropsWithChildren> = (props) => {
+  const { children } = props;
+
   const { setProfile, setStatus, setPlatinums, setGroups } = useData();
   const { controller, abort } = useAbortController();
   const {
@@ -55,7 +72,7 @@ export const useCalendarSubmit = () => {
   } = useSettings();
   const popupRef = useRef<DataLoadingPopupHandle>(null);
 
-  const submit: FormEventHandler<HTMLFormElement> = useCallback(
+  const onSubmit: FormEventHandler<HTMLFormElement> = useCallback(
     async (e) => {
       e.preventDefault();
 
@@ -125,5 +142,16 @@ export const useCalendarSubmit = () => {
     [source, controller, setStatus, setProfile, setGroups, setPlatinums],
   );
 
-  return { popupRef, submit, abort };
+  const exposed: Context = useMemo(() => ({ onSubmit }), [onSubmit]);
+
+  return (
+    <Context.Provider value={exposed}>
+      {children}
+      <DataLoadingPopup ref={popupRef} handleAbort={abort} />
+    </Context.Provider>
+  );
 };
+
+export const useSubmit = (): Context => useContext(Context);
+
+export default SubmitProvider;
