@@ -10,8 +10,10 @@ const calendars: Record<Theme, FC> = {
   heatmap: HeatMapCalendar,
 };
 
-export const useCalendar = () => {
+const Calendar: FC = () => {
   const { theme } = useTheme();
-  const Calendar = calendars[theme || defaultTheme];
-  return { Calendar };
+  const Picked = calendars[theme || defaultTheme];
+  return <Picked />;
 };
+
+export default Calendar;

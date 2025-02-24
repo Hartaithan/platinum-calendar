@@ -8,15 +8,12 @@ import SettingsModal from "@/components/settings-modal";
 import ShareMenu from "@/components/share-menu";
 import SubmitForm from "@/components/submit-form";
 import YearFilter from "@/components/year-filter";
-import { useCalendar } from "@/hooks/use-calendar";
 import { useCalendarCapture } from "@/hooks/use-calendar-capture";
 import { useCalendarSubmit } from "@/hooks/use-calendar-submit";
-import { useSettings } from "@/providers/settings";
+import { Calendar } from "lucide-react";
 import type { FC } from "react";
 
 const MainSection: FC = () => {
-  const { Calendar } = useCalendar();
-  const { settings } = useSettings();
   const { popupRef, submit, abort } = useCalendarSubmit();
   const { calendarRef, hiddenRef, capture } = useCalendarCapture();
 
@@ -36,7 +33,7 @@ const MainSection: FC = () => {
         ref={calendarRef}>
         <Profile />
         <Calendar />
-        {settings?.link && <LinkMessage />}
+        <LinkMessage />
       </div>
       <div className="fixed left-0 top-0 -z-50 h-full w-full overflow-hidden">
         <div
