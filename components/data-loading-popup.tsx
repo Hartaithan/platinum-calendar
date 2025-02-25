@@ -55,7 +55,7 @@ const DataLoadingPopup: ForwardRefRenderFunction<
         <div className="flex items-center">
           {status === "platinums-loading" && (
             <p className="mr-2 text-sm">
-              {pages.current}/{pages.total}
+              {Math.round((pages.current / pages.total) * 100)}%
             </p>
           )}
           {status === "platinums-loading" && pages.current > 0 && (
