@@ -13,27 +13,19 @@ import {
 } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
 import { themes, themesLabels } from "@/constants/app";
-import { useFetchSources } from "@/hooks/use-fetch-sources";
 import { useModal } from "@/hooks/use-modal";
 import { useSettings } from "@/providers/settings";
 import { useTheme } from "@/providers/theme";
 import { SettingsIcon } from "lucide-react";
 import { useSearchParams } from "next/navigation";
-import { memo, useCallback, useEffect, type FC } from "react";
+import { memo, useCallback, type FC } from "react";
 
 const Content: FC<ModalProps> = (props) => {
   const { isVisible, onClose } = props;
-  const {
-    settings,
-    handleSourceChange,
-    handleLinkChange,
-    handleLeapChange,
-    resetSettings,
-  } = useSettings();
+  const { settings, handleLinkChange, handleLeapChange, resetSettings } =
+    useSettings();
   const searchParams = useSearchParams();
   const { theme, changeTheme, resetTheme } = useTheme();
-  const { isLoading, options, optionsRef, descriptions, fetchSources } =
-    useFetchSources();
 
   const isDev = searchParams.get("dev") !== null;
 
@@ -41,12 +33,6 @@ const Content: FC<ModalProps> = (props) => {
     resetSettings();
     resetTheme();
   }, [resetSettings, resetTheme]);
-
-  useEffect(() => {
-    if (!isVisible) return;
-    if (optionsRef.current.length > 0) return;
-    fetchSources();
-  }, [isVisible, optionsRef, fetchSources]);
 
   return (
     <Modal
@@ -99,39 +85,6 @@ const Content: FC<ModalProps> = (props) => {
               ))}
             </SelectContent>
           </Select>
-        </div>
-        <div className="flex flex-col">
-          <Label className="mb-1 text-sm font-semibold">Fetch Source</Label>
-          <Select
-            defaultValue="not-found"
-            value={settings.source}
-            onValueChange={handleSourceChange}>
-            {isLoading && <SelectTrigger>Loading...</SelectTrigger>}
-            {!isLoading && (
-              <SelectTrigger>
-                <SelectValue placeholder="Select fetch source" />
-              </SelectTrigger>
-            )}
-            {!isLoading && (
-              <SelectContent>
-                {options.length === 0 && (
-                  <SelectItem value={settings.source} disabled>
-                    Nothing found :(
-                  </SelectItem>
-                )}
-                {options.length > 0 &&
-                  options.map(({ label, value }) => (
-                    <SelectItem key={value} value={value}>
-                      {label}
-                    </SelectItem>
-                  ))}
-              </SelectContent>
-            )}
-          </Select>
-          <p className="mt-2 text-[11px] text-neutral-500 md:text-xs">
-            {isLoading && "loading..."}
-            {!isLoading && descriptions && descriptions[settings.source]}
-          </p>
         </div>
         <Button aria-label="Reset settings" onClick={handleReset}>
           Reset settings

@@ -1,30 +1,25 @@
 "use client";
 
-import { defaultFetchSource } from "@/constants/fetch";
 import { useLocalStorage } from "@/hooks/use-local-storage";
 import type { Settings } from "@/models/app";
-import type { FetchSource } from "@/models/fetch";
 import posthog from "posthog-js";
 import type { FC, PropsWithChildren } from "react";
 import { createContext, useCallback, useContext, useMemo } from "react";
 
 interface Context {
   settings: Settings;
-  handleSourceChange: (value: FetchSource) => void;
   handleLinkChange: (value: boolean) => void;
   handleLeapChange: (value: boolean) => void;
   resetSettings: () => void;
 }
 
 const defaultValue: Settings = {
-  source: defaultFetchSource,
   link: true,
   leap: true,
 };
 
 const initialValue: Context = {
   settings: defaultValue,
-  handleSourceChange: () => null,
   handleLinkChange: () => null,
   handleLeapChange: () => null,
   resetSettings: () => null,
@@ -43,14 +38,6 @@ const SettingsProvider: FC<PropsWithChildren> = (props) => {
     key: "plat-cal-settings-feb-2025",
     defaultValue,
   });
-
-  const handleSourceChange = useCallback(
-    (value: FetchSource) => {
-      posthog.capture("settings-source", { value });
-      setSettings((prev) => ({ ...prev, source: value }));
-    },
-    [setSettings],
-  );
 
   const handleLinkChange = useCallback(
     (value: boolean) => {
@@ -76,18 +63,11 @@ const SettingsProvider: FC<PropsWithChildren> = (props) => {
   const exposed = useMemo<Context>(
     () => ({
       settings: merge(settings),
-      handleSourceChange,
       handleLinkChange,
       handleLeapChange,
       resetSettings,
     }),
-    [
-      settings,
-      handleSourceChange,
-      handleLinkChange,
-      handleLeapChange,
-      resetSettings,
-    ],
+    [settings, handleLinkChange, handleLeapChange, resetSettings],
   );
 
   return <Context.Provider value={exposed}>{children}</Context.Provider>;

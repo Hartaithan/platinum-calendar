@@ -1,5 +1,3 @@
-import type { FetchSource } from "@/models/fetch";
-
 export type Theme = "og" | "heatmap";
 
 export type Status =
@@ -24,7 +22,6 @@ export interface CachedResponse {
 }
 
 export interface Settings {
-  source: FetchSource;
   link: boolean;
   leap: boolean;
 }
