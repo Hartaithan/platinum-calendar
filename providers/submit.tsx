@@ -6,10 +6,10 @@ import { useAbortController } from "@/hooks/use-abort-controller";
 import type {
   NullableGroupedPlatinums,
   NullableGroupedPlatinumsKeys,
-  Platinum,
-} from "@/models/trophy";
+  NullablePlatinum,
+  PlatinumProgressData,
+} from "@/models/platinum";
 import { useData } from "@/providers/data";
-import { useSettings } from "@/providers/settings";
 import { API } from "@/utils/api";
 import { readError } from "@/utils/error";
 import { groupPlatinumList } from "@/utils/group";
@@ -46,7 +46,7 @@ const getId = (e: FormEvent<HTMLFormElement>) => {
 };
 
 const setPlatinumList = (
-  list: Platinum[],
+  list: NullablePlatinum[],
   setGroups: Dispatch<SetStateAction<NullableGroupedPlatinumsKeys>>,
   setPlatinums: Dispatch<SetStateAction<NullableGroupedPlatinums>>,
 ) => {
@@ -67,79 +67,62 @@ const SubmitProvider: FC<PropsWithChildren> = (props) => {
 
   const { setProfile, setStatus, setPlatinums, setGroups } = useData();
   const { controller, abort } = useAbortController();
-  const {
-    settings: { source },
-  } = useSettings();
   const popupRef = useRef<DataLoadingPopupHandle>(null);
+
+  const onProgress = useCallback((data: PlatinumProgressData) => {
+    const current = data?.current || 0;
+    const total = data?.total || 0;
+    popupRef.current?.setPages({ current, total });
+  }, []);
 
   const onSubmit: FormEventHandler<HTMLFormElement> = useCallback(
     async (e) => {
       e.preventDefault();
 
       const id = getId(e);
-      let list: Platinum[] = [];
       let expires: string | null = null;
 
       try {
         if (id.length === 0) throw new Error(errors.empty);
 
         setStatus("profile-loading");
-        posthog.capture("submit-profile", { id, source });
+        posthog.capture("submit-profile", { id });
         controller.current = new AbortController();
 
         const { profile, expires: profileExpires } = await API.getProfile(
-          { id, source },
+          { id },
           { signal: controller.current.signal },
         );
         if (!profile) throw new Error(errors.fetch);
         if (profileExpires) expires = profileExpires;
         setProfile(profile);
 
-        const pages = Math.ceil(profile.counts.platinum / 50);
-        popupRef.current?.setPages({ current: 1, total: pages });
-
         setStatus("platinums-loading");
-        posthog.capture("submit-platinums", { id, source, expires });
+        posthog.capture("submit-platinums", { id, expires });
 
-        for (let i = 1; i <= pages; i++) {
-          if (controller.current.signal.aborted) {
-            throw new Error(controller.current.signal.reason);
-          }
-          controller.current = new AbortController();
-          const response = await API.getPlatinums(
-            { id, source, page: i },
-            { signal: controller.current.signal },
-          );
-          if (response.expires) expires = response.expires;
-          if (!response.list) continue;
-          list = list.concat(response.list);
-          popupRef.current?.setPages((prev) => ({
-            ...prev,
-            current: response?.next_page ?? prev.current,
-          }));
-        }
+        const platinums = await API.getPlatinums({ id, onProgress });
+        // console.log("platinums", platinums);
 
-        const count = list.length;
-        setPlatinumList(list, setGroups, setPlatinums);
+        const count = platinums.length;
+        setPlatinumList(platinums, setGroups, setPlatinums);
         setStatus("completed");
         showExpiresToast(expires);
 
         popupRef.current?.reset();
-        posthog.capture("submit-complete", { id, source, count, expires });
+        posthog.capture("submit-complete", { id, count, expires });
       } catch (error) {
         console.error("submit error", error);
 
-        setPlatinumList(list, setGroups, setPlatinums);
         setStatus("idle");
 
         const message = readError(error);
         toast.error(message);
 
         popupRef.current?.reset();
-        posthog.capture("submit-error", { id, source, message });
+        posthog.capture("submit-error", { id, message });
       }
     },
-    [source, controller, setStatus, setProfile, setGroups, setPlatinums],
+    [setStatus, controller, setProfile, onProgress, setGroups, setPlatinums],
   );
 
   const exposed: Context = useMemo(() => ({ onSubmit }), [onSubmit]);

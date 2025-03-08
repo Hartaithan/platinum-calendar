@@ -3,13 +3,13 @@
 import CalendarProgress from "@/components/calendar-progress";
 import TrophyIcon from "@/icons/trophy";
 import type { Profile as ProfileInfo } from "@/models/profile";
-import type { TrophyTypeAll } from "@/models/trophy";
+import type { TrophyCounts } from "@/models/trophy";
 import { useData } from "@/providers/data";
 import { cn } from "@/utils/styles";
 import Image from "next/image";
 import { memo, type FC } from "react";
 
-const trophyColors: Record<TrophyTypeAll | string, [string, string]> = {
+const trophyColors: Record<keyof TrophyCounts | string, [string, string]> = {
   total: ["fill-[#27272a]", "text-[#27272a]"],
   platinum: ["fill-[#7a96d1]", "text-[#7a96d1]"],
   gold: ["fill-[#cd9a46]", "text-[#cd9a46]"],
@@ -47,9 +47,7 @@ const Info: FC<InfoProps> = memo((props) => {
       />
       <div className="ml-3 flex flex-col justify-center">
         <h1 className="font-medium leading-[normal]">{name}</h1>
-        <p className="leading-[normal]">
-          Level: {level.value.toLocaleString()}
-        </p>
+        <p className="leading-[normal]">Level: {level.toLocaleString()}</p>
       </div>
     </div>
   );

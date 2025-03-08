@@ -2,11 +2,11 @@
 
 import { useLocalStorage } from "@/hooks/use-local-storage";
 import type { Status } from "@/models/app";
-import type { NullableProfile } from "@/models/profile";
 import type {
   NullableGroupedPlatinums,
   NullableGroupedPlatinumsKeys,
-} from "@/models/trophy";
+} from "@/models/platinum";
+import type { NullableProfile } from "@/models/profile";
 import type { Dispatch, FC, PropsWithChildren, SetStateAction } from "react";
 import { createContext, useContext, useMemo, useState } from "react";
 

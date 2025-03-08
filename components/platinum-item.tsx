@@ -1,6 +1,6 @@
 "use client";
 
-import GameImage from "@/components/game-image";
+// import GameImage from "@/components/game-image";
 import { useData } from "@/providers/data";
 import Image from "next/image";
 import type { FC } from "react";
@@ -33,14 +33,19 @@ const PlatinumItem: FC<Props> = (props) => {
       <div className="flex flex-col gap-2 text-left text-sm md:text-base">
         <div className="flex flex-wrap gap-x-4 gap-y-1">
           <div>
-            <span>#{platinum.number.toLocaleString()}</span>
+            <span>#TODO: number</span>
+            {/* <span>#{platinum.number.toLocaleString()}</span> */}
           </div>
-          <div>
-            <span className="font-medium">Earned:&nbsp;</span>
-            <span>{new Date(platinum.date).toLocaleString()}</span>
-          </div>
+          {platinum.trophy?.earned_at && (
+            <div>
+              <span className="font-medium">Earned:&nbsp;</span>
+              <span>
+                {new Date(platinum.trophy.earned_at).toLocaleString()}
+              </span>
+            </div>
+          )}
         </div>
-        <div className="flex flex-wrap gap-x-4 gap-y-1">
+        {/* <div className="flex flex-wrap gap-x-4 gap-y-1">
           <div>
             <span className="font-medium capitalize">
               {platinum.rarity.type}:&nbsp;
@@ -55,14 +60,14 @@ const PlatinumItem: FC<Props> = (props) => {
             <span className="font-medium">Owners:&nbsp;</span>
             <span>{platinum.owners.toLocaleString()}</span>
           </div>
-        </div>
+        </div> */}
       </div>
-      <div className="flex items-center gap-3 text-left md:gap-4">
+      {/* <div className="flex items-center gap-3 text-left md:gap-4">
         <GameImage src={platinum.game.image_url} alt={platinum.game.title} />
         <h1 className="text-sm font-medium md:text-base">
           {platinum.game.title}
         </h1>
-      </div>
+      </div> */}
     </div>
   );
 };
