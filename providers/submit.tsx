@@ -101,7 +101,6 @@ const SubmitProvider: FC<PropsWithChildren> = (props) => {
         posthog.capture("submit-platinums", { id, expires });
 
         const platinums = await API.getPlatinums({ id, onProgress });
-        // console.log("platinums", platinums);
 
         const count = platinums.length;
         setPlatinumList(platinums, setGroups, setPlatinums);
