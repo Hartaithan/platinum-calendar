@@ -1,5 +1,6 @@
 "use client";
 
+import { APP_URL } from "@/constants/variables";
 import { isMobile } from "@/utils/device";
 import type { Options } from "modern-screenshot";
 import { domToBlob } from "modern-screenshot";
@@ -34,4 +35,10 @@ export const drawImage = async (
     console.error("draw image error", error);
     return null;
   }
+};
+
+export const getProxyURL = (url: string): string => {
+  const parsed = new URL(url);
+  const path = parsed.pathname;
+  return APP_URL + "/api/proxy" + path;
 };

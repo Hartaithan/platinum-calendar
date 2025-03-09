@@ -5,6 +5,7 @@ import TrophyIcon from "@/icons/trophy";
 import type { Profile as ProfileInfo } from "@/models/profile";
 import type { TrophyCounts } from "@/models/trophy";
 import { useData } from "@/providers/data";
+import { getProxyURL } from "@/utils/image";
 import { cn } from "@/utils/styles";
 import Image from "next/image";
 import { memo, type FC } from "react";
@@ -35,13 +36,14 @@ type InfoProps = Pick<ProfileInfo, "avatar_url" | "name" | "level">;
 
 const Info: FC<InfoProps> = memo((props) => {
   const { avatar_url, name, level } = props;
+  const image_url = getProxyURL(avatar_url);
   return (
     <div className="flex justify-center @save:justify-normal lg:justify-normal">
       <Image
         className="rounded-full"
         width={50}
         height={50}
-        src={avatar_url}
+        src={image_url}
         alt={name}
         unoptimized
       />
