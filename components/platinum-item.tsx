@@ -7,10 +7,6 @@ import { useData } from "@/providers/data";
 import Image from "next/image";
 import type { FC } from "react";
 
-interface Props {
-  platinumId: string;
-}
-
 interface PlatinumsProps {
   platinum: Platinum | undefined;
 }
@@ -36,7 +32,7 @@ const TrophyItem: FC<TrophyProps> = (props) => {
   return (
     <div className="flex items-center gap-4 text-left">
       <Image
-        className="h-auto min-w-12 rounded-md"
+        className="image-shadow h-auto min-w-12 rounded-md"
         width={48}
         height={48}
         alt={trophy?.title ?? "Unknown"}
@@ -94,6 +90,10 @@ const TrophyStats: FC<PlatinumsProps> = (props) => {
     </div>
   );
 };
+
+interface Props {
+  platinumId: string;
+}
 
 const PlatinumItem: FC<Props> = (props) => {
   const { platinumId: key } = props;

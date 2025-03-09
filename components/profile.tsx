@@ -40,7 +40,7 @@ const Info: FC<InfoProps> = memo((props) => {
   return (
     <div className="flex justify-center @save:justify-normal lg:justify-normal">
       <Image
-        className="rounded-full"
+        className="image-shadow rounded-full"
         width={50}
         height={50}
         src={image_url}
