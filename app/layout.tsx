@@ -1,7 +1,7 @@
 import { getTheme } from "@/actions/theme";
 import "@/app/globals.css";
 import { Toaster } from "@/components/ui/sonner";
-import { URL as BASE_URL } from "@/constants/variables";
+import { APP_URL } from "@/constants/variables";
 import RootProviders from "@/providers/root";
 import type { Metadata, Viewport } from "next";
 // import dynamic from "next/dynamic";
@@ -50,7 +50,7 @@ export const metadata: Metadata = {
     "platinum stats",
   ],
   robots: "all",
-  metadataBase: new URL(BASE_URL),
+  metadataBase: new URL(APP_URL),
 };
 
 export const viewport: Viewport = {
