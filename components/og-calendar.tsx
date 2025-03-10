@@ -5,24 +5,18 @@ import { Button } from "@/components/ui/button";
 import { TooltipTrigger } from "@/components/ui/tooltip";
 import { monthIndex, monthLabels, monthLength } from "@/constants/calendar";
 import { useDateDetailsModal } from "@/hooks/use-date-details-modal";
-import { useMediaQuery } from "@/hooks/use-media-query";
-import type { BaseMonthProps, DayClickHandler } from "@/models/calendar";
-import type { DateKeyParams } from "@/models/date";
+import { useDayParams } from "@/hooks/use-day-params";
+import type { BaseMonthProps, DayProps, MonthProps } from "@/models/calendar";
 import { useData } from "@/providers/data";
 import { useFilters } from "@/providers/filters";
 import { useSettings } from "@/providers/settings";
 import { createArray } from "@/utils/array";
 import { checkLeapDay } from "@/utils/calendar";
-import { getDateKey, getDateLabel } from "@/utils/date";
-import { getPlatinumsListItems } from "@/utils/group";
+import { getDateKey } from "@/utils/date";
 import { pluralize } from "@/utils/string";
 import { cn } from "@/utils/styles";
 import type { ComponentPropsWithRef } from "react";
 import { forwardRef, memo, type FC } from "react";
-
-interface MonthProps extends BaseMonthProps {
-  onDayClick: DayClickHandler;
-}
 
 interface MarkProps {
   count: number;
@@ -30,11 +24,6 @@ interface MarkProps {
 
 interface MarkCircleProps extends ComponentPropsWithRef<"div"> {
   color: string;
-}
-
-interface DayProps extends BaseMonthProps {
-  day: number;
-  onDayClick: DayClickHandler;
 }
 
 interface TotalProps extends BaseMonthProps {
@@ -122,21 +111,19 @@ const Mark: FC<MarkProps> = (props) => {
 
 const Day: FC<DayProps> = memo((props) => {
   const { month, day, onDayClick } = props;
-  const { groups, completes } = useData();
-  const { year } = useFilters();
-  const { settings } = useSettings();
-  const date: DateKeyParams = { day, month, year };
-  const key = getDateKey(date);
-  const { items, count, hasItems } = getPlatinumsListItems({
-    key,
-    groups,
-    completes,
-    settings,
+  const {
+    items,
+    hasItems,
+    count,
+    isTouchDevice,
+    isDayVisible,
+    date,
+    label,
+    ariaLabel,
+  } = useDayParams({
+    month,
+    day,
   });
-  const isTouchDevice = useMediaQuery("(pointer: coarse)");
-  const label = getDateLabel({ date });
-  const { isDayVisible } = checkLeapDay({ ...date, settings });
-  const ariaLabel = `${label}: Show details`;
   const dayStyles = cn(styles.day, hasItems && "completed-day");
 
   if (isDayVisible) return null;
