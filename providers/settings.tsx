@@ -1,5 +1,6 @@
 "use client";
 
+import { settingsKey } from "@/constants/storage";
 import { useLocalStorage } from "@/hooks/use-local-storage";
 import type { Settings } from "@/models/app";
 import posthog from "posthog-js";
@@ -35,7 +36,7 @@ const Context = createContext<Context>(initialValue);
 const SettingsProvider: FC<PropsWithChildren> = (props) => {
   const { children } = props;
   const [settings, setSettings] = useLocalStorage<Context["settings"]>({
-    key: "plat-cal-settings-feb-2025",
+    key: settingsKey,
     defaultValue,
   });
 

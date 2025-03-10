@@ -1,6 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { promoKey } from "@/constants/storage";
 import { useLocalStorage } from "@/hooks/use-local-storage";
 import { XIcon } from "lucide-react";
 import posthog from "posthog-js";
@@ -84,7 +85,7 @@ const Video: FC<VideoProps> = (props) => {
 const Promo: FC = () => {
   const [isVideoOpen, setVideoOpen] = useState(false);
   const [isPromoVisible, setPromoVisible] = useLocalStorage({
-    key: "plat-cal-promo",
+    key: promoKey,
     defaultValue: true,
   });
 

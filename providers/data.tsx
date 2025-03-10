@@ -1,5 +1,6 @@
 "use client";
 
+import { groupsKey, platinumsKey, profileKey } from "@/constants/storage";
 import { useLocalStorage } from "@/hooks/use-local-storage";
 import type { Status } from "@/models/app";
 import type {
@@ -38,15 +39,15 @@ const DataProvider: FC<PropsWithChildren> = (props) => {
   const { children } = props;
   const [status, setStatus] = useState<Context["status"]>(initialValue.status);
   const [profile, setProfile] = useLocalStorage<Context["profile"]>({
-    key: "plat-cal-profile",
+    key: profileKey,
     defaultValue: initialValue.profile,
   });
   const [groups, setGroups] = useLocalStorage<Context["groups"]>({
-    key: "plat-cal-groups",
+    key: groupsKey,
     defaultValue: initialValue.groups,
   });
   const [platinums, setPlatinums] = useLocalStorage<Context["platinums"]>({
-    key: "plat-cal-platinums",
+    key: platinumsKey,
     defaultValue: initialValue.platinums,
   });
 
