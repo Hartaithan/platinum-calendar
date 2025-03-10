@@ -1,6 +1,11 @@
 "use client";
 
-import { groupsKey, platinumsKey, profileKey } from "@/constants/storage";
+import {
+  completesKey,
+  groupsKey,
+  platinumsKey,
+  profileKey,
+} from "@/constants/storage";
 import { useLocalStorage } from "@/hooks/use-local-storage";
 import type { Status } from "@/models/app";
 import type {
@@ -18,6 +23,8 @@ interface Context {
   setProfile: Dispatch<SetStateAction<NullableProfile>>;
   groups: NullableGroupedPlatinumsKeys;
   setGroups: Dispatch<SetStateAction<NullableGroupedPlatinumsKeys>>;
+  completes: NullableGroupedPlatinumsKeys;
+  setCompletes: Dispatch<SetStateAction<NullableGroupedPlatinumsKeys>>;
   platinums: NullableGroupedPlatinums;
   setPlatinums: Dispatch<SetStateAction<NullableGroupedPlatinums>>;
 }
@@ -29,6 +36,8 @@ const initialValue: Context = {
   setProfile: () => null,
   groups: null,
   setGroups: () => null,
+  completes: null,
+  setCompletes: () => null,
   platinums: null,
   setPlatinums: () => null,
 };
@@ -50,6 +59,10 @@ const DataProvider: FC<PropsWithChildren> = (props) => {
     key: platinumsKey,
     defaultValue: initialValue.platinums,
   });
+  const [completes, setCompletes] = useLocalStorage<Context["completes"]>({
+    key: completesKey,
+    defaultValue: initialValue.completes,
+  });
 
   const exposed: Context = useMemo(
     () => ({
@@ -61,8 +74,20 @@ const DataProvider: FC<PropsWithChildren> = (props) => {
       setGroups,
       platinums,
       setPlatinums,
+      completes,
+      setCompletes,
     }),
-    [status, profile, setProfile, groups, setGroups, platinums, setPlatinums],
+    [
+      status,
+      profile,
+      setProfile,
+      groups,
+      setGroups,
+      platinums,
+      setPlatinums,
+      completes,
+      setCompletes,
+    ],
   );
 
   return <Context.Provider value={exposed}>{children}</Context.Provider>;

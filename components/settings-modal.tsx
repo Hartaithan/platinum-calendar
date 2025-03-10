@@ -22,8 +22,13 @@ import { memo, useCallback, type FC } from "react";
 
 const Content: FC<ModalProps> = (props) => {
   const { isVisible, onClose } = props;
-  const { settings, handleLinkChange, handleLeapChange, resetSettings } =
-    useSettings();
+  const {
+    settings,
+    handleLinkChange,
+    handleLeapChange,
+    handleCompletesChange,
+    resetSettings,
+  } = useSettings();
   const searchParams = useSearchParams();
   const { theme, changeTheme, resetTheme } = useTheme();
 
@@ -41,6 +46,21 @@ const Content: FC<ModalProps> = (props) => {
       isVisible={isVisible}
       onClose={onClose}>
       <div className="flex flex-col space-y-4">
+        <div className="flex flex-col">
+          <Label className="mb-1 text-sm font-semibold">Theme</Label>
+          <Select value={theme} onValueChange={changeTheme}>
+            <SelectTrigger>
+              <SelectValue placeholder="Select theme" />
+            </SelectTrigger>
+            <SelectContent>
+              {themes.map((theme) => (
+                <SelectItem key={theme} value={theme}>
+                  {themesLabels[theme]}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
         {isDev && (
           <div className="flex items-center space-x-2">
             <Label htmlFor="link" className="w-full">
@@ -58,33 +78,32 @@ const Content: FC<ModalProps> = (props) => {
           </div>
         )}
         <div className="flex items-center space-x-2">
-          <Label htmlFor="link" className="w-full">
+          <Label htmlFor="leap" className="w-full">
             <p className="text-sm font-semibold">Show Leap Day</p>
             <p className="mt-1 text-[11px] font-normal text-neutral-500 md:text-xs">
-              determine whether the leap day should be shown and included in
-              progress tracking calculations for your calendar
+              determine whether <b>the leap day</b> should be shown and included
+              in progress tracking calculations for your calendar
             </p>
           </Label>
           <Switch
-            id="link"
+            id="leap"
             checked={settings.leap}
             onCheckedChange={handleLeapChange}
           />
         </div>
-        <div className="flex flex-col">
-          <Label className="mb-1 text-sm font-semibold">Theme</Label>
-          <Select value={theme} onValueChange={changeTheme}>
-            <SelectTrigger>
-              <SelectValue placeholder="Select theme" />
-            </SelectTrigger>
-            <SelectContent>
-              {themes.map((theme) => (
-                <SelectItem key={theme} value={theme}>
-                  {themesLabels[theme]}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
+        <div className="flex items-center space-x-2">
+          <Label htmlFor="completes" className="w-full">
+            <p className="text-sm font-semibold">Show Completes</p>
+            <p className="mt-1 text-[11px] font-normal text-neutral-500 md:text-xs">
+              determine whether <b>completes</b> should be shown and included in
+              progress tracking calculations for your calendar.
+            </p>
+          </Label>
+          <Switch
+            id="completes"
+            checked={settings.completes}
+            onCheckedChange={handleCompletesChange}
+          />
         </div>
         <Button aria-label="Reset settings" onClick={handleReset}>
           Reset settings

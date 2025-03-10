@@ -14,18 +14,21 @@ interface Context {
   settings: Settings;
   handleLinkChange: (value: boolean) => void;
   handleLeapChange: (value: boolean) => void;
+  handleCompletesChange: (value: boolean) => void;
   resetSettings: () => void;
 }
 
 const defaultValue: Settings = {
   link: true,
   leap: true,
+  completes: false,
 };
 
 const initialValue: Context = {
   settings: defaultValue,
   handleLinkChange: () => null,
   handleLeapChange: () => null,
+  handleCompletesChange: () => null,
   resetSettings: () => null,
 };
 
@@ -68,6 +71,14 @@ const SettingsProvider: FC<PropsWithChildren> = (props) => {
     [setSettings],
   );
 
+  const handleCompletesChange = useCallback(
+    (value: boolean) => {
+      posthog.capture("settings-completes", { value });
+      setSettings((prev) => ({ ...prev, completes: value }));
+    },
+    [setSettings],
+  );
+
   const resetSettings = useCallback(() => {
     posthog.capture("settings-reset");
     setSettings(defaultValue);
@@ -78,9 +89,16 @@ const SettingsProvider: FC<PropsWithChildren> = (props) => {
       settings,
       handleLinkChange,
       handleLeapChange,
+      handleCompletesChange,
       resetSettings,
     }),
-    [settings, handleLinkChange, handleLeapChange, resetSettings],
+    [
+      settings,
+      handleLinkChange,
+      handleLeapChange,
+      handleCompletesChange,
+      resetSettings,
+    ],
   );
 
   return <Context.Provider value={exposed}>{children}</Context.Provider>;

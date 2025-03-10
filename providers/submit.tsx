@@ -30,6 +30,13 @@ interface Context {
   onSubmit: FormEventHandler<HTMLFormElement>;
 }
 
+interface SetPlatinumListParams {
+  list: NullablePlatinum[];
+  setGroups: Dispatch<SetStateAction<NullableGroupedPlatinumsKeys>>;
+  setCompletes: Dispatch<SetStateAction<NullableGroupedPlatinumsKeys>>;
+  setPlatinums: Dispatch<SetStateAction<NullableGroupedPlatinums>>;
+}
+
 interface Form extends HTMLFormControlsCollection {
   id: { value: string };
 }
@@ -45,14 +52,12 @@ const getId = (e: FormEvent<HTMLFormElement>) => {
   return elements?.id.value.trim();
 };
 
-const setPlatinumList = (
-  list: NullablePlatinum[],
-  setGroups: Dispatch<SetStateAction<NullableGroupedPlatinumsKeys>>,
-  setPlatinums: Dispatch<SetStateAction<NullableGroupedPlatinums>>,
-) => {
+const setPlatinumList = (params: SetPlatinumListParams) => {
+  const { list, setGroups, setPlatinums, setCompletes } = params;
   if (list.length === 0) return;
-  const { groups, platinums } = groupPlatinumList(list);
+  const { groups, platinums, completes } = groupPlatinumList(list);
   setGroups(groups);
+  setCompletes(completes);
   setPlatinums(platinums);
 };
 
@@ -65,7 +70,8 @@ const Context = createContext<Context>(initialValue);
 const SubmitProvider: FC<PropsWithChildren> = (props) => {
   const { children } = props;
 
-  const { setProfile, setStatus, setPlatinums, setGroups } = useData();
+  const { setProfile, setStatus, setGroups, setPlatinums, setCompletes } =
+    useData();
   const { controller, abort } = useAbortController();
   const popupRef = useRef<DataLoadingPopupHandle>(null);
 
@@ -100,10 +106,10 @@ const SubmitProvider: FC<PropsWithChildren> = (props) => {
         setStatus("platinums-loading");
         posthog.capture("submit-platinums", { id, expires });
 
-        const platinums = await API.getPlatinums({ id, onProgress });
+        const list = await API.getPlatinums({ id, onProgress });
 
-        const count = platinums.length;
-        setPlatinumList(platinums, setGroups, setPlatinums);
+        const count = list.length;
+        setPlatinumList({ list, setGroups, setPlatinums, setCompletes });
         setStatus("completed");
         showExpiresToast(expires);
 
@@ -121,7 +127,15 @@ const SubmitProvider: FC<PropsWithChildren> = (props) => {
         posthog.capture("submit-error", { id, message });
       }
     },
-    [setStatus, controller, setProfile, onProgress, setGroups, setPlatinums],
+    [
+      setStatus,
+      controller,
+      setProfile,
+      onProgress,
+      setGroups,
+      setPlatinums,
+      setCompletes,
+    ],
   );
 
   const exposed: Context = useMemo(() => ({ onSubmit }), [onSubmit]);

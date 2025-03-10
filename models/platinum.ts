@@ -27,6 +27,7 @@ export type NullableGroupedPlatinumsKeys = GroupedPlatinumKeys | null;
 
 export interface GroupedPlatinumList {
   groups: GroupedPlatinumKeys;
+  completes: GroupedPlatinumKeys;
   platinums: GroupedPlatinums;
 }
 

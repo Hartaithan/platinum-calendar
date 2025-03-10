@@ -12,7 +12,7 @@ const DateDetailsModal: FC<ModalProps<DetailsModalData>> = (props) => {
   const label = data
     ? getDateLabelWithCount({
         date: data?.date,
-        count: data?.platinums?.length,
+        count: data?.items?.length,
       })
     : "Details";
   return (
@@ -22,7 +22,7 @@ const DateDetailsModal: FC<ModalProps<DetailsModalData>> = (props) => {
       isVisible={isVisible}
       onClose={onClose}>
       <div className="flex flex-col items-center">
-        <PlatinumList data={data?.platinums} />
+        <PlatinumList data={data?.items} />
       </div>
     </Modal>
   );

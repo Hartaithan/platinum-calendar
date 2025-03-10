@@ -14,6 +14,7 @@ import { useSettings } from "@/providers/settings";
 import { createArray } from "@/utils/array";
 import { checkLeapDay } from "@/utils/calendar";
 import { getDateKey, getDateLabel } from "@/utils/date";
+import { getPlatinumsListItems } from "@/utils/group";
 import { pluralize } from "@/utils/string";
 import { cn } from "@/utils/styles";
 import type { ComponentPropsWithRef } from "react";
@@ -121,23 +122,26 @@ const Mark: FC<MarkProps> = (props) => {
 
 const Day: FC<DayProps> = memo((props) => {
   const { month, day, onDayClick } = props;
-  const { groups } = useData();
+  const { groups, completes } = useData();
   const { year } = useFilters();
   const { settings } = useSettings();
   const date: DateKeyParams = { day, month, year };
   const key = getDateKey(date);
-  const platinums = groups ? groups[key] : null;
-  const count = platinums?.length || 0;
-  const hasPlatinums = !!platinums && count > 0;
+  const { items, count, hasItems } = getPlatinumsListItems({
+    key,
+    groups,
+    completes,
+    settings,
+  });
   const isTouchDevice = useMediaQuery("(pointer: coarse)");
   const label = getDateLabel({ date });
   const { isDayVisible } = checkLeapDay({ ...date, settings });
   const ariaLabel = `${label}: Show details`;
-  const dayStyles = cn(styles.day, hasPlatinums && "completed-day");
+  const dayStyles = cn(styles.day, hasItems && "completed-day");
 
   if (isDayVisible) return null;
 
-  if (!hasPlatinums) return <div className={dayStyles}>{day}</div>;
+  if (!hasItems) return <div className={dayStyles}>{day}</div>;
 
   if (isTouchDevice) {
     return (
@@ -145,7 +149,7 @@ const Day: FC<DayProps> = memo((props) => {
         unstyled
         aria-label={ariaLabel}
         className={dayStyles}
-        onClick={() => onDayClick({ date, platinums })}>
+        onClick={() => onDayClick({ date, items })}>
         <Mark count={count} />
       </Button>
     );
@@ -156,7 +160,7 @@ const Day: FC<DayProps> = memo((props) => {
       <TooltipTrigger
         aria-label={ariaLabel}
         className={dayStyles}
-        onClick={() => onDayClick({ date, platinums })}>
+        onClick={() => onDayClick({ date, items })}>
         <Mark count={count} />
       </TooltipTrigger>
     </DayTooltip>
