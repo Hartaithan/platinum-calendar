@@ -1,7 +1,10 @@
 "use client";
 
 import { settingsKey } from "@/constants/storage";
-import { useLocalStorage } from "@/hooks/use-local-storage";
+import {
+  readLocalStorageValue,
+  useLocalStorage,
+} from "@/hooks/use-local-storage";
 import type { Settings } from "@/models/app";
 import posthog from "posthog-js";
 import type { FC, PropsWithChildren } from "react";
@@ -33,6 +36,15 @@ const merge = (stored: Partial<Settings> | null): Settings => ({
 
 const Context = createContext<Context>(initialValue);
 
+const updateSettings = () => {
+  if (typeof window === "undefined") return;
+  const value = readLocalStorageValue({ key: settingsKey, defaultValue });
+  const merged = merge(value);
+  localStorage.setItem(settingsKey, JSON.stringify(merged));
+};
+
+updateSettings();
+
 const SettingsProvider: FC<PropsWithChildren> = (props) => {
   const { children } = props;
   const [settings, setSettings] = useLocalStorage<Context["settings"]>({
@@ -63,7 +75,7 @@ const SettingsProvider: FC<PropsWithChildren> = (props) => {
 
   const exposed = useMemo<Context>(
     () => ({
-      settings: merge(settings),
+      settings,
       handleLinkChange,
       handleLeapChange,
       resetSettings,
