@@ -7,10 +7,14 @@ import { domToBlob } from "modern-screenshot";
 
 type Step = "final" | "pre";
 
+// TODO: fix long drawing on second call and remove this
+const timeout = 2000;
+
 const options: Record<Step, Options> = {
   pre: {
     quality: 1,
     type: "image/png",
+    timeout,
   },
   final: {
     scale: 2,
@@ -19,6 +23,7 @@ const options: Record<Step, Options> = {
     drawImageInterval: 1000,
     backgroundColor: "#FFFFFF",
     fetch: { bypassingCache: true },
+    timeout,
   },
 };
 
