@@ -35,8 +35,8 @@ const HelpTab: FC = () => {
           </AccordionTrigger>
           <AccordionContent>
             Yes, you need a PlayStation account. Additionally,&nbsp;
-            <b>you must be registered on PSNProfiles</b>, as the app pulls data
-            from there
+            <b>your PSN account must be set to public</b> so your trophy data
+            can be accessed
           </AccordionContent>
         </AccordionItem>
         <AccordionItem value="artifacts">
@@ -60,13 +60,11 @@ const HelpTab: FC = () => {
             I see outdated data in the calendar
           </AccordionTrigger>
           <AccordionContent>
-            <b>This may happen for two reasons:</b>
-            <br />
-            <b>Cache</b>: to check if the data is loaded from the cache, look
-            for a notification after receiving the data
-            <br />
-            <b>Outdated profile on PSNProfiles</b>: make sure your profile is
-            synchronized on PSNProfiles to see the most up-to-date data.
+            Outdated data can appear if you&apos;re seeing&nbsp;
+            <b>cached response</b>. You&apos;re notified about this right after
+            the data is retrieved. The data is <b>cached for 1 day</b>, so the
+            most up-to-date data&nbsp;
+            <b>will only be available after 24 hours</b>
           </AccordionContent>
         </AccordionItem>
         <AccordionItem value="legend">
@@ -93,7 +91,8 @@ const HelpTab: FC = () => {
             Can I track 100% completions with this app?
           </AccordionTrigger>
           <AccordionContent>
-            No, this app <b>only tracks platinum trophies</b>
+            <b>Yes, you can</b>! Tracking 100% completions is supported, and you
+            can enable this feature <b>in the settings</b>
           </AccordionContent>
         </AccordionItem>
         <AccordionItem value="report">

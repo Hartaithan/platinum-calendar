@@ -25,8 +25,8 @@ const EmptyProfile: FC = () => {
         Enter your PSN ID to create your personalized Platinum Trophy Calendar!
       </h1>
       <p className="mt-1 text-center text-xs md:mt-0 md:text-sm">
-        Just make sure your profile is up-to-date on PSNProfiles before you
-        start!
+        Just make sure your PSN profile is set to public so your trophy data can
+        be accessed!
       </p>
     </div>
   );
