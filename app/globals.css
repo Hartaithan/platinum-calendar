@@ -36,6 +36,7 @@
     --scrollbar-foreground: #d4d4d8;
     --scrollbar-background: transparent;
     --scrollbar-hover: #a1a1aa;
+    --day-size: 33px;
   }
 
   :root[data-theme="heatmap"] {
@@ -67,6 +68,7 @@
     --scrollbar-foreground: #d4d4d8;
     --scrollbar-background: transparent;
     --scrollbar-hover: #a1a1aa;
+    --day-size: 26px;
   }
 
   ::-webkit-scrollbar {
@@ -132,5 +134,10 @@
 
   .image-shadow {
     filter: drop-shadow(1px 1px 0px rgba(0, 0, 0, 0.5));
+  }
+
+  .size-day {
+    width: var(--day-size);
+    height: var(--day-size);
   }
 }

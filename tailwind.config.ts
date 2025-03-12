@@ -63,15 +63,6 @@ const config: Config = {
       containers: {
         save: "1200px",
       },
-      height: {
-        day: "33px",
-      },
-      width: {
-        day: "33px",
-      },
-      size: {
-        day: "33px",
-      },
       keyframes: {
         "accordion-down": {
           from: { height: "0" },
