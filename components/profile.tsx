@@ -3,20 +3,11 @@
 import CalendarProgress from "@/components/calendar-progress";
 import TrophyIcon from "@/icons/trophy";
 import type { Profile as ProfileInfo } from "@/models/profile";
-import type { TrophyCounts } from "@/models/trophy";
 import { useData } from "@/providers/data";
 import { getProxyURL } from "@/utils/image";
 import { cn } from "@/utils/styles";
 import Image from "next/image";
 import { memo, type FC } from "react";
-
-const trophyColors: Record<keyof TrophyCounts | string, [string, string]> = {
-  total: ["fill-[#27272a]", "text-[#27272a]"],
-  platinum: ["fill-[#7a96d1]", "text-[#7a96d1]"],
-  gold: ["fill-[#cd9a46]", "text-[#cd9a46]"],
-  silver: ["fill-[#9b9b9b]", "text-[#9b9b9b]"],
-  bronze: ["fill-[#bf6a3a]", "text-[#bf6a3a]"],
-};
 
 const EmptyProfile: FC = () => {
   return (
@@ -66,14 +57,14 @@ const Counts: FC<CountsProps> = memo((props) => {
           <div
             className={cn(
               "flex size-6 items-center justify-center rounded-full",
-              trophyColors[key][0],
+              `trophy-${key}`,
             )}>
             <TrophyIcon
-              className={cn("size-5", trophyColors[key][0])}
+              className={cn("size-5", `trophy-${key}`)}
               total={key === "total"}
             />
           </div>
-          <p className={cn("text-sm font-medium", trophyColors[key][1])}>
+          <p className={cn("text-sm font-medium", `trophy-${key}`)}>
             {value.toLocaleString()}
           </p>
         </div>

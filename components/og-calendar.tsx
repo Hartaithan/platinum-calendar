@@ -167,7 +167,7 @@ const Total: FC<TotalProps> = memo((props) => {
     <div
       className={cn(
         columns[isTotalVisible ? cols + 1 : cols],
-        "h-day flex items-center justify-center border-b border-r border-b-black border-r-black",
+        "flex items-center justify-center border-b border-r border-b-black border-r-black",
       )}>
       {total && total.length > 0 && pluralize(total.length, "plat")}
     </div>
@@ -182,7 +182,7 @@ const Month: FC<MonthProps> = memo((props) => {
     <div className="month flex w-fit flex-col border-l border-t border-l-black border-t-black">
       <div
         className={cn(
-          "header h-day flex items-center justify-center border-b border-r border-b-black border-r-black text-sm font-semibold",
+          "header flex items-center justify-center border-b border-r border-b-black border-r-black text-sm font-semibold",
           headerColors[month],
         )}>
         {monthLabels[month].long}

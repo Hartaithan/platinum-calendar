@@ -14,7 +14,7 @@ const timeout = 2000;
 
 const background: Record<Theme, string> = {
   og: "#FFFFFF",
-  heatmap: "#FFFFFF",
+  heatmap: "#010409",
 };
 
 const options: Record<Step, GetOptions> = {
