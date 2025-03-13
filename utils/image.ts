@@ -1,46 +1,6 @@
 "use client";
 
 import { APP_URL } from "@/constants/variables";
-import { isMobile } from "@/utils/device";
-import type { Options } from "modern-screenshot";
-import { domToBlob } from "modern-screenshot";
-
-type Step = "final" | "pre";
-
-// TODO: fix long drawing on second call and remove this
-const timeout = 2000;
-
-const options: Record<Step, Options> = {
-  pre: {
-    quality: 1,
-    type: "image/png",
-    timeout,
-  },
-  final: {
-    scale: 2,
-    quality: 1,
-    type: "image/png",
-    drawImageInterval: 1000,
-    backgroundColor: "#FFFFFF",
-    fetch: { bypassingCache: true },
-    timeout,
-  },
-};
-
-export const drawImage = async (
-  element: HTMLDivElement | null,
-): Promise<Blob | null> => {
-  if (!element) return null;
-  try {
-    await domToBlob(element, options.pre);
-    if (isMobile()) await domToBlob(element, options.pre);
-    const image = await domToBlob(element, options.final);
-    return image;
-  } catch (error) {
-    console.error("draw image error", error);
-    return null;
-  }
-};
 
 export const getProxyURL = (url: string): string => {
   const parsed = new URL(url);

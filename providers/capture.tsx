@@ -1,7 +1,8 @@
 "use client";
 
+import { useTheme } from "@/providers/theme";
+import { captureElement } from "@/utils/capture";
 import { readError } from "@/utils/error";
-import { drawImage } from "@/utils/image";
 import type { RefObject } from "react";
 import {
   createContext,
@@ -30,6 +31,7 @@ const CaptureProvider: FC<PropsWithChildren> = (props) => {
   const { children } = props;
   const captureRef = useRef<HTMLDivElement>(null);
   const tempRef = useRef<HTMLDivElement>(null);
+  const { theme } = useTheme();
 
   const capture = useCallback(async (): Promise<Blob | null> => {
     const calendar = captureRef.current;
@@ -38,7 +40,7 @@ const CaptureProvider: FC<PropsWithChildren> = (props) => {
     try {
       hidden.innerHTML = "";
       hidden.appendChild(calendar.cloneNode(true));
-      const image = await drawImage(hidden);
+      const image = await captureElement(hidden, theme);
       if (!image) throw new Error("Unable to generate image");
       hidden.innerHTML = "";
       return image;
@@ -48,7 +50,7 @@ const CaptureProvider: FC<PropsWithChildren> = (props) => {
       toast.error(message);
       return null;
     }
-  }, []);
+  }, [theme]);
 
   const exposed: Context = useMemo(
     () => ({ captureRef, capture }),
