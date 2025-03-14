@@ -44,6 +44,7 @@
     --trophy-silver: #9b9b9b;
     --trophy-bronze: #bf6a3a;
     --day-size: 33px;
+    --calendar-padding: 36px 40px;
   }
 
   :root[data-theme="heatmap"] {
@@ -83,6 +84,7 @@
     --trophy-silver: #9b9b9b;
     --trophy-bronze: #bf6a3a;
     --day-size: 26px;
+    --calendar-padding: 36px 40px;
   }
 
   ::-webkit-scrollbar {
@@ -161,6 +163,10 @@
   .size-day {
     width: var(--day-size);
     height: var(--day-size);
+  }
+
+  .calendar-padding {
+    padding: var(--calendar-padding);
   }
 }
 

@@ -23,7 +23,7 @@ const Calendar: FC = () => {
   const { captureRef } = useCapture();
   return (
     <div
-      className="relative flex flex-grow flex-col items-center px-10 py-9"
+      className="calendar-padding relative flex flex-grow flex-col items-center"
       ref={captureRef}>
       <Profile />
       <PickedCalendar />
