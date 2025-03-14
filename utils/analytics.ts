@@ -1,6 +1,6 @@
 "use client";
 
-import { themeKey } from "@/constants/app";
+import { themeKey } from "@/constants/storage";
 
 export const withTheme = (event: Object) => {
   const cookies = document.cookie.split("; ");

@@ -7,6 +7,4 @@ export const themesLabels: Record<Theme, string> = {
   heatmap: "HeatMap",
 };
 
-export const defaultTheme: Theme = "og";
-
-export const themeKey = "plat-cal-theme";
+export const defaultTheme: Theme = "heatmap";
