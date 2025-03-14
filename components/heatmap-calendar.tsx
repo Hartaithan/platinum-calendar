@@ -22,7 +22,7 @@ const dayColors = [
   ["bg-[#006d32]", "text-gray-50"],
   ["bg-[#0d5c26]", "text-gray-50"],
   ["bg-[#138a3a]", "text-gray-50"],
-  ["bg-[#26a641]", "text-gray-900"],
+  ["bg-[#26a641]", "text-gray-50"],
   ["bg-[#30bd4a]", "text-gray-900"],
   ["bg-[#34c84f]", "text-gray-900"],
   ["bg-[#39d353]", "text-gray-900"],
