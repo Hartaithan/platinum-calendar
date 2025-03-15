@@ -15,27 +15,34 @@ import { pluralize } from "@/utils/string";
 import { cn } from "@/utils/styles";
 import { memo, type FC } from "react";
 
-const dayColors = [
-  ["bg-gray-100", "text-gray-400"],
-  ["bg-emerald-200", "text-black"],
-  ["bg-emerald-300", "text-black"],
-  ["bg-emerald-400", "text-black"],
-  ["bg-emerald-500", "text-black"],
-  ["bg-emerald-600", "text-white"],
-  ["bg-emerald-700", "text-white"],
-  ["bg-emerald-800", "text-white"],
-  ["bg-emerald-900", "text-white"],
-  ["bg-emerald-950", "text-white"],
+const colors = [
+  "border-dashed",
+  "bg-neutral-300 text-neutral-500",
+  "bg-neutral-400 text-neutral-50",
+  "bg-neutral-500 text-white",
+  "bg-neutral-600 text-white",
+  "bg-neutral-700 text-white",
+  "bg-neutral-800 text-white",
+  "bg-neutral-900 text-white",
+  "bg-neutral-950 text-white",
+  "bg-black text-white",
 ];
 
 const styles = {
-  day: "day w-full h-auto py-1 px-2 flex items-center text-xs",
+  day: "day w-full h-6 flex items-center justify-between text-xs border border-black overflow-hidden",
+  completed: "completed-day",
+  content: "ml-1 text-4xl font-bold",
+  month: "flex flex-col justify-center w-full h-6 border border-black",
+  monthContent: "ml-2 text-xs font-semibold",
+  key: "key flex items-center justify-center size-6 text-xs border border-black",
 };
 
-const getDayColor = (count: number) => {
-  if (count > 9) return dayColors.at(-1);
-  const color = dayColors[count];
-  if (!color) return dayColors[0];
+const monthKeys = Array.from({ length: 31 }, (_, i) => i + 1);
+
+const getColor = (count: number) => {
+  if (count > 9) return colors.at(-1);
+  const color = colors[count];
+  if (!color) return colors[0];
   return color;
 };
 
@@ -54,15 +61,18 @@ const Day: FC<DayProps> = memo((props) => {
     month,
     day,
   });
+
   const dayStyles = cn(
     styles.day,
-    getDayColor(count),
-    hasItems && "completed-day",
+    getColor(count),
+    hasItems && styles.completed,
   );
+
+  const content = <p className={styles.content}>{count}</p>;
 
   if (isDayVisible) return null;
 
-  if (!hasItems) return <div className={dayStyles}>{day}</div>;
+  if (!hasItems) return <div className={dayStyles} />;
 
   if (isTouchDevice) {
     return (
@@ -71,8 +81,7 @@ const Day: FC<DayProps> = memo((props) => {
         aria-label={ariaLabel}
         className={dayStyles}
         onClick={() => onDayClick({ date, items })}>
-        <p>{day}</p>
-        <p className="ml-2">{pluralize(count, "plat")}</p>
+        {content}
       </Button>
     );
   }
@@ -83,8 +92,7 @@ const Day: FC<DayProps> = memo((props) => {
         aria-label={ariaLabel}
         className={dayStyles}
         onClick={() => onDayClick({ date, items })}>
-        <p className="w-3 text-left">{day}</p>
-        <p className="ml-2">{pluralize(count, "plat")}</p>
+        {content}
       </TooltipTrigger>
     </DayTooltip>
   );
@@ -92,16 +100,24 @@ const Day: FC<DayProps> = memo((props) => {
 
 const MonthHeader: FC<BaseMonthProps> = memo((props) => {
   const { month } = props;
+  return (
+    <div className={cn(styles.month, "mb-1")}>
+      <h3 className={styles.monthContent}>{monthLabels[month].long}</h3>
+    </div>
+  );
+});
+
+const MonthFooter: FC<BaseMonthProps> = memo((props) => {
+  const { month } = props;
   const { groups } = useData();
   const { year } = useFilters();
   const key = getDateKey({ month, year });
   const total = groups ? groups[key] : null;
   return (
-    <div className="mb-2 flex flex-col justify-between">
-      <h3 className="text-sm font-semibold">{monthLabels[month].long}</h3>
-      {total && total.length > 0 && (
-        <p className="text-xs font-medium">{pluralize(total.length, "plat")}</p>
-      )}
+    <div className={cn(styles.month, "mt-1")}>
+      <p className={styles.monthContent}>
+        {total && total.length > 0 ? pluralize(total.length, "plat") : ":("}
+      </p>
     </div>
   );
 });
@@ -111,7 +127,7 @@ const Month: FC<MonthProps> = memo((props) => {
   const count = monthLength[month];
   const days = createArray(count);
   return (
-    <div className="flex w-24 flex-col justify-self-center">
+    <div className="flex w-20 flex-col justify-self-center">
       <MonthHeader month={month} />
       <div className="flex flex-1 flex-col gap-1">
         {days.map((day) => (
@@ -123,6 +139,22 @@ const Month: FC<MonthProps> = memo((props) => {
           />
         ))}
       </div>
+      <MonthFooter month={month} />
+    </div>
+  );
+});
+
+const MonthKeys: FC = memo(() => {
+  return (
+    <div className="flex flex-col justify-self-center">
+      <div className="flex flex-1 flex-col justify-end gap-1">
+        {monthKeys.map((index) => (
+          <div key={`month-key-${index}`} className={styles.key}>
+            <p>{index}</p>
+          </div>
+        ))}
+        <div className={cn(styles.key, "opacity-0")} />
+      </div>
     </div>
   );
 });
@@ -131,7 +163,8 @@ const ColumnsCalendar: FC = () => {
   const { handleDayClick, modal } = useDateDetailsModal();
   return (
     <div className="flex flex-1 flex-col justify-center">
-      <div className="flex flex-wrap gap-3">
+      <div className="flex flex-wrap gap-1">
+        <MonthKeys />
         {monthIndex.map((month) => (
           <Month key={month} month={month} onDayClick={handleDayClick} />
         ))}
