@@ -15,27 +15,27 @@ import { pluralize } from "@/utils/string";
 import { cn } from "@/utils/styles";
 import { memo, type FC } from "react";
 
-const dayColors = [
-  ["bg-[#161b22]", "text-gray-500"],
-  ["bg-[#0e4429]", "text-gray-50"],
-  ["bg-[#07592e]", "text-gray-50"],
-  ["bg-[#006d32]", "text-gray-50"],
-  ["bg-[#0d5c26]", "text-gray-50"],
-  ["bg-[#138a3a]", "text-gray-50"],
-  ["bg-[#26a641]", "text-gray-50"],
-  ["bg-[#30bd4a]", "text-gray-900"],
-  ["bg-[#34c84f]", "text-gray-900"],
-  ["bg-[#39d353]", "text-gray-900"],
+const colors = [
+  "bg-[#161b22] text-gray-500",
+  "bg-[#0e4429] text-gray-50",
+  "bg-[#07592e] text-gray-50",
+  "bg-[#006d32] text-gray-50",
+  "bg-[#0d5c26] text-gray-50",
+  "bg-[#138a3a] text-gray-50",
+  "bg-[#26a641] text-gray-50",
+  "bg-[#30bd4a] text-gray-900",
+  "bg-[#34c84f] text-gray-900",
+  "bg-[#39d353] text-gray-900",
 ];
 
 const styles = {
   day: "day size-day flex justify-center items-center text-sm",
 };
 
-const getDayColor = (count: number) => {
-  if (count > 9) return dayColors.at(-1);
-  const color = dayColors[count];
-  if (!color) return dayColors[0];
+const getColor = (count: number) => {
+  if (count > 9) return colors.at(-1);
+  const color = colors[count];
+  if (!color) return colors[0];
   return color;
 };
 
@@ -56,7 +56,7 @@ const Day: FC<DayProps> = memo((props) => {
   });
   const dayStyles = cn(
     styles.day,
-    getDayColor(count),
+    getColor(count),
     hasItems && "completed-day",
   );
 
@@ -133,13 +133,12 @@ const Legend: FC = () => {
           Less
         </span>
         <div className="col-[1/3] row-[2/3] flex gap-1 @save:col-auto @save:row-auto md:col-auto md:row-auto">
-          {dayColors.map(([bg, fg], index) => (
+          {colors.map((color, index) => (
             <div
               key={`legend-${index}`}
               className={cn(
                 "flex size-5 items-center justify-center text-[12px] leading-[normal] text-white",
-                bg,
-                fg,
+                color,
               )}>
               {index}
             </div>
