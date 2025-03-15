@@ -1,4 +1,4 @@
-export type Theme = "og" | "heatmap";
+export type Theme = "og" | "heatmap" | "columns";
 
 export type Status =
   | "idle"

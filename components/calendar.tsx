@@ -1,3 +1,4 @@
+import ColumnsCalendar from "@/components/columns-calendar";
 import HeatMapCalendar from "@/components/heatmap-calendar";
 import LinkMessage from "@/components/link-message";
 import OGCalendar from "@/components/og-calendar";
@@ -11,6 +12,7 @@ import type { FC } from "react";
 const calendars: Record<Theme, FC> = {
   og: OGCalendar,
   heatmap: HeatMapCalendar,
+  columns: ColumnsCalendar,
 };
 
 const PickedCalendar: FC = () => {

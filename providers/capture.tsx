@@ -31,6 +31,7 @@ const Context = createContext<Context>(initialValue);
 const sizes: Record<Theme, { width: number; height: number }> = {
   heatmap: { width: 1200, height: 800 },
   og: { width: 1200, height: 800 },
+  columns: { width: 1400, height: 1100 },
 };
 
 const CaptureProvider: FC<PropsWithChildren> = (props) => {
