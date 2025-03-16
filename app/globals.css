@@ -153,6 +153,20 @@
 
   html {
     @apply h-full;
+    scrollbar-gutter: stable;
+  }
+
+  html:has(body[data-scroll-locked]) {
+    scrollbar-gutter: unset;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    html {
+      margin-left: var(--scrollbar-width);
+    }
+    html > body[data-scroll-locked] {
+      margin-right: var(--scrollbar-width) !important;
+    }
   }
 
   body {
