@@ -128,6 +128,7 @@
   }
 
   ::-webkit-scrollbar {
+    height: var(--scrollbar-width);
     width: var(--scrollbar-width);
   }
 

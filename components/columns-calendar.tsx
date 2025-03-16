@@ -34,7 +34,7 @@ const styles = {
   content: "ml-1 text-4xl font-bold",
   month: "flex flex-col justify-center w-full h-6 border border-black",
   monthContent: "ml-2 text-xs font-semibold",
-  key: "key flex items-center justify-center size-6 text-xs border border-black",
+  key: "key flex items-center justify-center size-6 text-xs border border-black bg-white",
 };
 
 const monthKeys = Array.from({ length: 31 }, (_, i) => i + 1);
@@ -116,7 +116,9 @@ const MonthFooter: FC<BaseMonthProps> = memo((props) => {
   return (
     <div className={cn(styles.month, "mt-1")}>
       <p className={styles.monthContent}>
-        {total && total.length > 0 ? pluralize(total.length, "plat") : ":("}
+        {total && total.length > 0
+          ? pluralize(total.length, "plat")
+          : "no plats :("}
       </p>
     </div>
   );
@@ -127,7 +129,7 @@ const Month: FC<MonthProps> = memo((props) => {
   const count = monthLength[month];
   const days = createArray(count);
   return (
-    <div className="flex w-20 flex-col justify-self-center">
+    <div className="flex w-20 min-w-20 flex-col justify-self-center">
       <MonthHeader month={month} />
       <div className="flex flex-1 flex-col gap-1">
         {days.map((day) => (
@@ -146,7 +148,7 @@ const Month: FC<MonthProps> = memo((props) => {
 
 const MonthKeys: FC = memo(() => {
   return (
-    <div className="flex flex-col justify-self-center">
+    <div className="sticky left-0 flex flex-col justify-self-center">
       <div className="flex flex-1 flex-col justify-end gap-1">
         {monthKeys.map((index) => (
           <div key={`month-key-${index}`} className={styles.key}>
@@ -163,7 +165,7 @@ const ColumnsCalendar: FC = () => {
   const { handleDayClick, modal } = useDateDetailsModal();
   return (
     <div className="flex flex-1 flex-col justify-center">
-      <div className="flex flex-wrap gap-1">
+      <div className="flex w-[80vw] gap-1 overflow-x-auto @save:w-auto lg:w-auto">
         <MonthKeys />
         {monthIndex.map((month) => (
           <Month key={month} month={month} onDayClick={handleDayClick} />
