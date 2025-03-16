@@ -220,6 +220,14 @@
     height: var(--day-size);
   }
 
+  .h-day {
+    height: var(--day-size);
+  }
+
+  .w-day {
+    width: var(--day-size);
+  }
+
   .calendar-padding {
     padding: var(--calendar-padding);
   }
