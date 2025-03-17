@@ -16,16 +16,16 @@ import { cn } from "@/utils/styles";
 import { memo, type FC } from "react";
 
 const colors = [
-  "border-dashed",
-  "bg-neutral-300 text-neutral-500",
-  "bg-neutral-400 text-neutral-50",
-  "bg-neutral-500 text-white",
-  "bg-neutral-600 text-white",
-  "bg-neutral-700 text-white",
-  "bg-neutral-800 text-white",
-  "bg-neutral-900 text-white",
-  "bg-neutral-950 text-white",
-  "bg-black text-white",
+  "border-dashed text-gray-400",
+  "border-black/50 bg-yellow-100 text-black/70",
+  "border-black/50 bg-yellow-200 text-black/70",
+  "border-black/50 bg-yellow-300 text-black/70",
+  "border-black/50 bg-yellow-400 text-black/70",
+  "border-black/50 bg-yellow-500 text-black/70",
+  "border-black/50 bg-orange-400 text-white",
+  "border-black/50 bg-orange-500 text-white",
+  "border-black/50 bg-red-500 text-white",
+  "border-black/50 bg-red-600 text-white",
 ];
 
 const styles = {
