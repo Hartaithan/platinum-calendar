@@ -16,16 +16,16 @@ import { cn } from "@/utils/styles";
 import { memo, type FC } from "react";
 
 const colors = [
-  "bg-[#161b22] text-gray-500",
-  "bg-[#0e4429] text-gray-50",
-  "bg-[#07592e] text-gray-50",
-  "bg-[#006d32] text-gray-50",
-  "bg-[#0d5c26] text-gray-50",
-  "bg-[#138a3a] text-gray-50",
-  "bg-[#26a641] text-gray-50",
-  "bg-[#30bd4a] text-gray-900",
-  "bg-[#34c84f] text-gray-900",
-  "bg-[#39d353] text-gray-900",
+  ["bg-gray-100", "text-gray-400"],
+  ["bg-emerald-200", "text-black"],
+  ["bg-emerald-300", "text-black"],
+  ["bg-emerald-400", "text-black"],
+  ["bg-emerald-500", "text-black"],
+  ["bg-emerald-600", "text-white"],
+  ["bg-emerald-700", "text-white"],
+  ["bg-emerald-800", "text-white"],
+  ["bg-emerald-900", "text-white"],
+  ["bg-emerald-950", "text-white"],
 ];
 
 const styles = {
