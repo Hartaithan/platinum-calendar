@@ -14,7 +14,7 @@
     --card-foreground: 0 0% 3.9%;
     --popover: 0 0% 100%;
     --popover-foreground: 0 0% 3.9%;
-    --primary: 0 0% 9%;
+    --primary: 360 100% 38%;
     --primary-foreground: 0 0% 98%;
     --secondary: 0 0% 96.1%;
     --secondary-foreground: 0 0% 9%;
@@ -73,12 +73,12 @@
     --chart-4: 43 74% 66%;
     --chart-5: 27 87% 67%;
     --radius: 0.5rem;
-    --scrollbar-foreground: #404040;
+    --scrollbar-foreground: #d4d4d8;
     --scrollbar-background: transparent;
-    --scrollbar-hover: #666666;
-    --link: #4493f8;
-    --link-hover: #2a7aef;
-    --trophy-total: #f0f6fc;
+    --scrollbar-hover: #a1a1aa;
+    --link: #006045;
+    --link-hover: #009966;
+    --trophy-total: #27272a;
     --trophy-platinum: #7a96d1;
     --trophy-gold: #cd9a46;
     --trophy-silver: #9b9b9b;
@@ -94,7 +94,7 @@
     --card-foreground: 0 0% 3.9%;
     --popover: 0 0% 100%;
     --popover-foreground: 0 0% 3.9%;
-    --primary: 0 0% 9%;
+    --primary: 44 100% 47%;
     --primary-foreground: 0 0% 98%;
     --secondary: 0 0% 96.1%;
     --secondary-foreground: 0 0% 9%;
@@ -116,8 +116,8 @@
     --scrollbar-foreground: #d4d4d8;
     --scrollbar-background: transparent;
     --scrollbar-hover: #a1a1aa;
-    --link: #0a0a0a;
-    --link-hover: #6b6b6b;
+    --link: #d08700;
+    --link-hover: #f0b100;
     --trophy-total: #27272a;
     --trophy-platinum: #7a96d1;
     --trophy-gold: #cd9a46;
