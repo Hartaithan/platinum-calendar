@@ -11,6 +11,7 @@ import type { FetchProfileParams, ProfileResponse } from "@/models/profile";
 import type { UploadResponse } from "@/models/upload";
 import { readError } from "@/utils/error";
 import { getHeaders } from "@/utils/signature";
+import { EventSource } from "eventsource";
 
 const statuses: Record<number, string> = {
   401: "Unauthorized",
@@ -46,7 +47,10 @@ const getPlatinums = async (
   url.pathname += "/" + id;
   url.pathname += "/platinums";
 
-  const source = new EventSource(url);
+  const headers = await getHeaders("GET", url.toString());
+  const source = new EventSource(url, {
+    fetch: (input, init) => fetch(input, { ...init, headers }),
+  });
 
   return new Promise((resolve, reject) => {
     source.onmessage = (event) => {
