@@ -13,14 +13,14 @@ type Params = Omit<DayProps, "onDayClick">;
 export const useDayParams = (params: Params) => {
   const { month, day } = params;
 
-  const { groups, completes } = useData();
+  const { platinums, completes } = useData();
   const { year } = useFilters();
   const { settings } = useSettings();
   const date: DateKeyParams = { day, month, year };
   const key = getDateKey(date);
   const { items, count, hasItems } = getPlatinumsListItems({
     key,
-    groups,
+    platinums,
     completes,
     settings,
   });

@@ -157,11 +157,11 @@ const Day: FC<DayProps> = memo((props) => {
 const Total: FC<TotalProps> = memo((props) => {
   const { month, days } = props;
   const { year } = useFilters();
-  const { groups } = useData();
+  const { platinums } = useData();
   const { settings } = useSettings();
   const key = getDateKey({ month, year });
   const { isTotalVisible } = checkLeapDay({ month, settings });
-  const total = groups ? groups[key] : null;
+  const total = platinums ? platinums[key] : null;
   const cols = 35 - days;
   return (
     <div

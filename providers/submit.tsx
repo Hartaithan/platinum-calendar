@@ -32,9 +32,9 @@ interface Context {
 
 interface SetPlatinumListParams {
   list: NullablePlatinum[];
-  setGroups: Dispatch<SetStateAction<NullableGroupedPlatinumsKeys>>;
+  setList: Dispatch<SetStateAction<NullableGroupedPlatinums>>;
+  setPlatinums: Dispatch<SetStateAction<NullableGroupedPlatinumsKeys>>;
   setCompletes: Dispatch<SetStateAction<NullableGroupedPlatinumsKeys>>;
-  setPlatinums: Dispatch<SetStateAction<NullableGroupedPlatinums>>;
 }
 
 interface Form extends HTMLFormControlsCollection {
@@ -53,10 +53,10 @@ const getId = (e: FormEvent<HTMLFormElement>) => {
 };
 
 const setPlatinumList = (params: SetPlatinumListParams) => {
-  const { list, setGroups, setPlatinums, setCompletes } = params;
+  const { list, setList, setPlatinums, setCompletes } = params;
   if (list.length === 0) return;
-  const { groups, platinums, completes } = groupPlatinumList(list);
-  setGroups(groups);
+  const { items, platinums, completes } = groupPlatinumList(list);
+  setList(items);
   setCompletes(completes);
   setPlatinums(platinums);
 };
@@ -70,7 +70,7 @@ const Context = createContext<Context>(initialValue);
 const SubmitProvider: FC<PropsWithChildren> = (props) => {
   const { children } = props;
 
-  const { setProfile, setStatus, setGroups, setPlatinums, setCompletes } =
+  const { setProfile, setStatus, setList, setPlatinums, setCompletes } =
     useData();
   const { controller, abort } = useAbortController();
   const popupRef = useRef<DataLoadingPopupHandle>(null);
@@ -109,7 +109,7 @@ const SubmitProvider: FC<PropsWithChildren> = (props) => {
         const list = await API.getPlatinums({ id, onProgress });
 
         const count = list.length;
-        setPlatinumList({ list, setGroups, setPlatinums, setCompletes });
+        setPlatinumList({ list, setList, setPlatinums, setCompletes });
         setStatus("completed");
         showExpiresToast(expires);
 
@@ -132,7 +132,7 @@ const SubmitProvider: FC<PropsWithChildren> = (props) => {
       controller,
       setProfile,
       onProgress,
-      setGroups,
+      setList,
       setPlatinums,
       setCompletes,
     ],

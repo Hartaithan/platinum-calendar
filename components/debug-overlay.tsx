@@ -8,7 +8,7 @@ import { memo, type FC } from "react";
 const isProduction = process.env.NODE_ENV === "production";
 
 const DebugOverlay: FC = () => {
-  const { profile, platinums, groups } = useData();
+  const { profile, list, platinums } = useData();
   const [visible, { toggle }] = useDisclosure();
 
   useHotkeys([
@@ -28,7 +28,7 @@ const DebugOverlay: FC = () => {
       </div>
       <div className="fixed inset-y-1/2 right-3 h-[90%] w-0 -translate-y-1/2 overflow-auto xl:w-[250px]">
         <pre className="w-full whitespace-pre-wrap break-all text-[9px]">
-          groups: {JSON.stringify(groups, null, 2)}
+          list: {JSON.stringify(list, null, 2)}
         </pre>
         <pre className="w-full whitespace-pre-wrap break-all text-[9px]">
           platinums: {JSON.stringify(platinums, null, 2)}

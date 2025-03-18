@@ -109,10 +109,10 @@ const MonthHeader: FC<BaseMonthProps> = memo((props) => {
 
 const MonthFooter: FC<BaseMonthProps> = memo((props) => {
   const { month } = props;
-  const { groups } = useData();
+  const { platinums } = useData();
   const { year } = useFilters();
   const key = getDateKey({ month, year });
-  const total = groups ? groups[key] : null;
+  const total = platinums ? platinums[key] : null;
   return (
     <div className={cn(styles.month, "mt-1")}>
       <p className={styles.monthContent}>

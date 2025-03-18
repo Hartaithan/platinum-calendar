@@ -2,7 +2,7 @@
 
 import {
   completesKey,
-  groupsKey,
+  listKey,
   platinumsKey,
   profileKey,
 } from "@/constants/storage";
@@ -21,12 +21,12 @@ interface Context {
   setStatus: Dispatch<SetStateAction<Status>>;
   profile: NullableProfile;
   setProfile: Dispatch<SetStateAction<NullableProfile>>;
-  groups: NullableGroupedPlatinumsKeys;
-  setGroups: Dispatch<SetStateAction<NullableGroupedPlatinumsKeys>>;
+  list: NullableGroupedPlatinums;
+  setList: Dispatch<SetStateAction<NullableGroupedPlatinums>>;
+  platinums: NullableGroupedPlatinumsKeys;
+  setPlatinums: Dispatch<SetStateAction<NullableGroupedPlatinumsKeys>>;
   completes: NullableGroupedPlatinumsKeys;
   setCompletes: Dispatch<SetStateAction<NullableGroupedPlatinumsKeys>>;
-  platinums: NullableGroupedPlatinums;
-  setPlatinums: Dispatch<SetStateAction<NullableGroupedPlatinums>>;
 }
 
 const initialValue: Context = {
@@ -34,12 +34,12 @@ const initialValue: Context = {
   setStatus: () => null,
   profile: null,
   setProfile: () => null,
-  groups: null,
-  setGroups: () => null,
-  completes: null,
-  setCompletes: () => null,
+  list: null,
+  setList: () => null,
   platinums: null,
   setPlatinums: () => null,
+  completes: null,
+  setCompletes: () => null,
 };
 
 const Context = createContext<Context>(initialValue);
@@ -51,9 +51,9 @@ const DataProvider: FC<PropsWithChildren> = (props) => {
     key: profileKey,
     defaultValue: initialValue.profile,
   });
-  const [groups, setGroups] = useLocalStorage<Context["groups"]>({
-    key: groupsKey,
-    defaultValue: initialValue.groups,
+  const [list, setList] = useLocalStorage<Context["list"]>({
+    key: listKey,
+    defaultValue: initialValue.list,
   });
   const [platinums, setPlatinums] = useLocalStorage<Context["platinums"]>({
     key: platinumsKey,
@@ -70,8 +70,8 @@ const DataProvider: FC<PropsWithChildren> = (props) => {
       setStatus,
       profile,
       setProfile,
-      groups,
-      setGroups,
+      list,
+      setList,
       platinums,
       setPlatinums,
       completes,
@@ -81,8 +81,8 @@ const DataProvider: FC<PropsWithChildren> = (props) => {
       status,
       profile,
       setProfile,
-      groups,
-      setGroups,
+      list,
+      setList,
       platinums,
       setPlatinums,
       completes,

@@ -90,10 +90,10 @@ const Day: FC<DayProps> = memo((props) => {
 
 const MonthHeader: FC<BaseMonthProps> = memo((props) => {
   const { month } = props;
-  const { groups } = useData();
+  const { platinums } = useData();
   const { year } = useFilters();
   const key = getDateKey({ month, year });
-  const total = groups ? groups[key] : null;
+  const total = platinums ? platinums[key] : null;
   return (
     <div className="mb-2 flex items-center justify-between">
       <h3 className="font-semibold">{monthLabels[month].long}</h3>

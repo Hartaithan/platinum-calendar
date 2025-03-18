@@ -26,9 +26,9 @@ export type GroupedPlatinumKeys = Record<string, string[]>;
 export type NullableGroupedPlatinumsKeys = GroupedPlatinumKeys | null;
 
 export interface GroupedPlatinumList {
-  groups: GroupedPlatinumKeys;
+  platinums: GroupedPlatinumKeys;
   completes: GroupedPlatinumKeys;
-  platinums: GroupedPlatinums;
+  items: GroupedPlatinums;
 }
 
 export type PlatinumEventType = "progress" | "complete" | "error";
