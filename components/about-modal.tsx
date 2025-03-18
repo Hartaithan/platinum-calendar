@@ -13,7 +13,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useModal } from "@/hooks/use-modal";
 import { cn } from "@/utils/styles";
 import { CircleHelpIcon } from "lucide-react";
-import type { FC } from "react";
+import type { ComponentPropsWithoutRef, FC } from "react";
 
 const styles = {
   trigger: "text-left text-sm pr-2",
@@ -21,6 +21,15 @@ const styles = {
   group: "flex flex-col gap-y-2",
   content: "text-sm",
   link: "font-bold",
+};
+
+const AboutLink: FC<ComponentPropsWithoutRef<"a">> = (props) => {
+  const { children, className, target = "_blank", ...rest } = props;
+  return (
+    <a className={cn(className, styles.link)} target={target} {...rest}>
+      {children}
+    </a>
+  );
 };
 
 const HelpTab: FC = () => {
@@ -47,12 +56,9 @@ const HelpTab: FC = () => {
             This can happen if you&apos;re using an <b>mobile browser</b>. Try
             generating the image again from desktop mode, and if the issue
             persists, feel free to email me at&nbsp;
-            <a
-              className={styles.link}
-              href="mailto:hartaithan@gmail.com"
-              target="_blank">
+            <AboutLink href="mailto:hartaithan@gmail.com">
               hartaithan@gmail.com
-            </a>
+            </AboutLink>
           </AccordionContent>
         </AccordionItem>
         <AccordionItem value="outdated-data">
@@ -102,12 +108,9 @@ const HelpTab: FC = () => {
           <AccordionContent>
             You can contact me via Discord <b>@hartaithan</b> or by email
             at&nbsp;
-            <a
-              className={styles.link}
-              href="mailto:hartaithan@gmail.com"
-              target="_blank">
+            <AboutLink href="mailto:hartaithan@gmail.com">
               hartaithan@gmail.com
-            </a>
+            </AboutLink>
           </AccordionContent>
         </AccordionItem>
       </Accordion>
@@ -139,25 +142,37 @@ const AboutTab: FC = () => {
       <h1 className={cn(styles.heading, "mb-2 mt-4")}>Special Thanks</h1>
       <ul>
         <li className={styles.content}>
-          <a
-            className={styles.link}
-            href="https://www.reddit.com/user/Colinaaron250/"
-            target="_blank">
+          <AboutLink href="https://www.reddit.com/user/Colinaaron250">
             Colinaaron250
-          </a>
-          &nbsp;- for providing the fantastic idea
+          </AboutLink>
+          &nbsp;- for providing the fantastic&nbsp;
+          <AboutLink href="https://www.reddit.com/r/Trophies/comments/1bszyil/other_i_recently_got_my_365th_platinum_trophy">
+            idea
+          </AboutLink>
         </li>
         <li className={styles.content}>
-          <a
-            className={styles.link}
-            href="https://github.com/TheYuriG/"
-            target="_blank">
-            TheYuriG
-          </a>
+          <AboutLink href="https://github.com/TheYuriG">TheYuriG</AboutLink>
+          ,&nbsp;
+          <AboutLink href="https://psnprofiles.com/Copanele">
+            Copanele
+          </AboutLink>
+          ,&nbsp;
+          <AboutLink href="https://psnprofiles.com/Deceptrox">
+            Deceptrox
+          </AboutLink>
+          ,&nbsp;
+          <AboutLink href="https://psnprofiles.com/Evil_Joker88">
+            Evil_Joker88
+          </AboutLink>
           &nbsp;- for valuable feedback
         </li>
         <li className={styles.content}>
-          <b>Han_the_Dragon, disorderly</b> - for assistance with testing
+          <AboutLink href="https://psnprofiles.com/Han_the_Dragon">
+            Han_the_Dragon
+          </AboutLink>
+          ,&nbsp;
+          <AboutLink href="https://psnprofiles.com/IIFraxx">IIFraxx</AboutLink>
+          &nbsp;- for assistance with testing
         </li>
       </ul>
       <h1 className={cn(styles.heading, "mb-2 mt-4")}>Happy hunting!</h1>
