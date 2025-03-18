@@ -14,7 +14,7 @@ const timeout = 2000;
 
 const background: Record<Theme, string> = {
   og: "#FFFFFF",
-  heatmap: "#010409",
+  heatmap: "#FFFFFF",
   columns: "#FFFFFF",
 };
 
