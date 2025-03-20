@@ -165,7 +165,7 @@ const ColumnsCalendar: FC = () => {
   const { handleDayClick, modal } = useDateDetailsModal();
   return (
     <div className="flex flex-1 flex-col justify-center">
-      <div className="flex w-[80vw] gap-1 overflow-x-auto @save:w-auto lg:w-auto">
+      <div className="flex w-[80vw] gap-1 overflow-x-auto @save:!w-auto lg:w-auto">
         <MonthKeys />
         {monthIndex.map((month) => (
           <Month key={month} month={month} onDayClick={handleDayClick} />

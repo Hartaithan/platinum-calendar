@@ -9,7 +9,7 @@ const LinkMessage: FC = () => {
   if (!settings.link) return null;
 
   return (
-    <span className="hidden w-full pt-6 text-center text-sm @save:block @save:pt-3 @save:text-right md:pt-3 lg:text-right">
+    <span className="hidden w-full pt-6 text-center text-sm @save:!block @save:!pt-3 @save:!text-right md:pt-3 lg:text-right">
       {message}&nbsp;
       <a
         className="font-medium visited:text-foreground hover:text-foreground"

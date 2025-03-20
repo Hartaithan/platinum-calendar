@@ -29,7 +29,7 @@ const Info: FC<InfoProps> = memo((props) => {
   const { avatar_url, name, level } = props;
   const image_url = getProxyURL(avatar_url);
   return (
-    <div className="flex justify-center @save:justify-normal lg:justify-normal">
+    <div className="flex justify-center @save:!justify-normal lg:justify-normal">
       <Image
         className="image-shadow rounded-full"
         width={50}
@@ -51,7 +51,7 @@ type CountsProps = Pick<ProfileInfo, "counts">;
 const Counts: FC<CountsProps> = memo((props) => {
   const { counts } = props;
   return (
-    <div className="ml-[none] flex w-4/5 flex-wrap items-center justify-center gap-x-4 gap-y-2 @save:ml-auto @save:w-auto @save:flex-nowrap @save:justify-normal md:w-10/12 lg:ml-auto lg:w-auto lg:justify-normal">
+    <div className="ml-[none] flex w-4/5 flex-wrap items-center justify-center gap-x-4 gap-y-2 @save:!ml-auto @save:!w-auto @save:!flex-nowrap @save:!justify-normal md:w-10/12 lg:ml-auto lg:w-auto lg:justify-normal">
       {Object.entries(counts).map(([key, value]) => (
         <div key={key} className="flex items-center gap-2">
           <div
@@ -78,7 +78,7 @@ const Profile: FC = () => {
   if (!profile || Object.keys(profile).length === 0) return <EmptyProfile />;
   const { avatar_url, name, level, counts } = profile;
   return (
-    <div className="lg:items-normal @save:items-normal mb-4 flex w-full flex-col items-center gap-3 @save:flex-row @save:gap-0 lg:flex-row lg:gap-0">
+    <div className="lg:items-normal @save:!items-normal mb-4 flex w-full flex-col items-center gap-3 @save:!flex-row @save:!gap-0 lg:flex-row lg:gap-0">
       <Info avatar_url={avatar_url} name={name} level={level} />
       <CalendarProgress />
       <Counts counts={counts} />

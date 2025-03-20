@@ -205,13 +205,13 @@ const Month: FC<MonthProps> = memo((props) => {
 const Legend: FC = () => {
   const colors = Object.entries(markColors);
   return (
-    <div className="relative -order-1 mb-4 ml-0 flex flex-row gap-1 self-center @save:order-2 @save:mb-0 @save:ml-4 @save:flex-col @save:self-start lg:order-2 lg:mb-0 lg:ml-4 lg:flex-col lg:self-start">
+    <div className="relative -order-1 mb-4 ml-0 flex flex-row gap-1 self-center @save:!order-2 @save:!mb-0 @save:!ml-4 @save:!flex-col @save:!self-start lg:order-2 lg:mb-0 lg:ml-4 lg:flex-col lg:self-start">
       {colors.map(([value, color]) => (
         <div
           key={value}
-          className="flex flex-col items-center justify-center @save:flex-row @save:justify-normal lg:flex-row lg:justify-normal">
+          className="flex flex-col items-center justify-center @save:!flex-row @save:!justify-normal lg:flex-row lg:justify-normal">
           <MarkCircle color={color[0]} />
-          <p className="ml-0 @save:ml-3 lg:ml-3">
+          <p className="ml-0 @save:!ml-3 lg:ml-3">
             {value}
             {value === "7" && "+"}
           </p>
@@ -225,8 +225,8 @@ const OGCalendar: FC = () => {
   const { handleDayClick, modal } = useDateDetailsModal();
   return (
     <div className="flex flex-1 items-center">
-      <div className="flex flex-col @save:flex-row lg:flex-row">
-        <div className="relative order-1 grid grid-cols-1 justify-items-center gap-4 @save:grid-cols-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+      <div className="flex flex-col @save:!flex-row lg:flex-row">
+        <div className="relative order-1 grid grid-cols-1 justify-items-center gap-4 @save:!grid-cols-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {monthIndex.map((month) => (
             <Month key={month} month={month} onDayClick={handleDayClick} />
           ))}

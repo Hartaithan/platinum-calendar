@@ -127,12 +127,12 @@ const Month: FC<MonthProps> = memo((props) => {
 
 const Legend: FC = () => {
   return (
-    <div className="flex w-full justify-center @save:justify-end lg:justify-end">
-      <div className="mt-6 grid grid-cols-[1fr_1fr] gap-y-1 @save:grid-cols-[1fr_auto_1fr] @save:gap-y-0 md:grid-cols-[1fr_auto_1fr] md:gap-y-0">
-        <span className="col-[1/2] row-[1/2] mr-2 text-left text-sm @save:col-auto @save:row-auto md:col-auto md:row-auto">
+    <div className="flex w-full justify-center @save:!justify-end lg:justify-end">
+      <div className="mt-6 grid grid-cols-[1fr_1fr] gap-y-1 @save:!grid-cols-[1fr_auto_1fr] @save:!gap-y-0 md:grid-cols-[1fr_auto_1fr] md:gap-y-0">
+        <span className="col-[1/2] row-[1/2] mr-2 text-left text-sm @save:!col-auto @save:!row-auto md:col-auto md:row-auto">
           Less
         </span>
-        <div className="col-[1/3] row-[2/3] flex gap-1 @save:col-auto @save:row-auto md:col-auto md:row-auto">
+        <div className="col-[1/3] row-[2/3] flex gap-1 @save:!col-auto @save:!row-auto md:col-auto md:row-auto">
           {colors.map((color, index) => (
             <div
               key={`legend-${index}`}
@@ -144,7 +144,7 @@ const Legend: FC = () => {
             </div>
           ))}
         </div>
-        <span className="col-[2/3] row-[1/2] ml-2 text-right text-sm @save:col-auto @save:row-auto md:col-auto md:row-auto">
+        <span className="col-[2/3] row-[1/2] ml-2 text-right text-sm @save:!col-auto @save:!row-auto md:col-auto md:row-auto">
           More
         </span>
       </div>
@@ -156,7 +156,7 @@ const HeatMapCalendar: FC = () => {
   const { handleDayClick, modal } = useDateDetailsModal();
   return (
     <div className="flex flex-1 flex-col justify-center">
-      <div className="grid grid-cols-1 gap-x-8 gap-y-4 @save:grid-cols-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+      <div className="grid grid-cols-1 gap-x-8 gap-y-4 @save:!grid-cols-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         {monthIndex.map((month) => (
           <Month key={month} month={month} onDayClick={handleDayClick} />
         ))}

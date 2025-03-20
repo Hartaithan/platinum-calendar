@@ -23,7 +23,7 @@ const CalendarProgress: FC = memo(() => {
   }, [platinums, year, total, settings.leap, settings.completes]);
 
   return (
-    <div className="ml-[none] flex flex-col items-center justify-center @save:ml-4 @save:items-start lg:ml-4 lg:items-start">
+    <div className="ml-[none] flex flex-col items-center justify-center @save:!ml-4 @save:!items-start lg:ml-4 lg:items-start">
       <h1 className="font-medium leading-[normal]">
         Completion{year && ` ${year}`}
       </h1>
