@@ -9,13 +9,10 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import RedditIcon from "@/icons/reddit";
 import { useCapture } from "@/providers/capture";
 import { useData } from "@/providers/data";
 import { withTheme } from "@/utils/analytics";
 import { readError } from "@/utils/error";
-import { redirect } from "@/utils/navigation";
-import { getRedditLink } from "@/utils/share";
 import { uploadImage } from "@/utils/upload";
 import { SaveIcon, Share2Icon, UploadIcon } from "lucide-react";
 import posthog from "posthog-js";
@@ -76,37 +73,6 @@ const ShareMenu: FC = () => {
     }
   }, [profile?.name, capture, upload]);
 
-  const handleReddit = useCallback(async () => {
-    try {
-      posthog.capture("reddit-start", withTheme({ id: profile?.name }));
-      upload?.open();
-      const image = await capture();
-      if (!image) throw new Error("Unable to generate image");
-      upload?.set({ status: "upload" });
-      const response = await uploadImage(image, profile?.name);
-      if (!response.success) throw new Error(response.message);
-      const link = getRedditLink(response.link, profile?.name);
-      upload?.set({ status: "complete", image: response.link, redirect: link });
-      redirect(link.toString(), "_blank");
-      posthog.capture(
-        "reddit-complete",
-        withTheme({
-          id: profile?.name,
-          link: response.link,
-        }),
-      );
-    } catch (error) {
-      console.error("reddit upload error", error);
-      const message = readError(error);
-      upload?.set({ status: "error", error: message });
-      toast.error(message);
-      posthog.capture(
-        "reddit-error",
-        withTheme({ id: profile?.name, message }),
-      );
-    }
-  }, [profile?.name, capture, upload]);
-
   return (
     <>
       <DropdownMenu>
@@ -128,10 +94,6 @@ const ShareMenu: FC = () => {
           <DropdownMenuItem onClick={handleUpload} aria-label="Upload image">
             <UploadIcon className="mr-2 size-4" />
             <span>Upload image</span>
-          </DropdownMenuItem>
-          <DropdownMenuItem onClick={handleReddit} aria-label="Share on Reddit">
-            <RedditIcon className="mr-2 size-4" />
-            <span>Share on Reddit</span>
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
