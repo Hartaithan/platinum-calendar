@@ -17,22 +17,13 @@ import { useModal } from "@/hooks/use-modal";
 import { useSettings } from "@/providers/settings";
 import { useTheme } from "@/providers/theme";
 import { SettingsIcon } from "lucide-react";
-import { useSearchParams } from "next/navigation";
 import { memo, useCallback, type FC } from "react";
 
 const Content: FC<ModalProps> = (props) => {
   const { isVisible, onClose } = props;
-  const {
-    settings,
-    handleLinkChange,
-    handleLeapChange,
-    handleCompletesChange,
-    resetSettings,
-  } = useSettings();
-  const searchParams = useSearchParams();
+  const { settings, handleLeapChange, handleCompletesChange, resetSettings } =
+    useSettings();
   const { theme, changeTheme, resetTheme } = useTheme();
-
-  const isDev = searchParams.get("dev") !== null;
 
   const handleReset = useCallback(() => {
     resetSettings();
@@ -61,28 +52,12 @@ const Content: FC<ModalProps> = (props) => {
             </SelectContent>
           </Select>
         </div>
-        {isDev && (
-          <div className="flex items-center space-x-2">
-            <Label htmlFor="link" className="w-full">
-              <p className="text-sm font-semibold">Show Link on Image</p>
-              <p className="mt-1 text-[11px] font-normal text-neutral-500 md:text-xs">
-                determine whether a link should be displayed in the generated
-                image
-              </p>
-            </Label>
-            <Switch
-              id="link"
-              checked={settings.link}
-              onCheckedChange={handleLinkChange}
-            />
-          </div>
-        )}
         <div className="flex items-center space-x-2">
           <Label htmlFor="leap" className="w-full">
             <p className="text-sm font-semibold">Show Leap Day</p>
             <p className="mt-1 text-[11px] font-normal text-neutral-500 md:text-xs">
-              determine whether <b>the leap day</b> should be shown and included
-              in progress tracking calculations for your calendar
+              determine whether <b>leap day</b> should be shown and included in
+              progress tracking calculations for your calendar
             </p>
           </Label>
           <Switch

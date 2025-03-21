@@ -1,13 +1,8 @@
-import { useSettings } from "@/providers/settings";
 import { getLinkMessage } from "@/utils/link";
 import type { FC } from "react";
 
 const LinkMessage: FC = () => {
   const { message, href, link } = getLinkMessage();
-  const { settings } = useSettings();
-
-  if (!settings.link) return null;
-
   return (
     <span className="hidden w-full pt-6 text-center text-sm @save:!block @save:!pt-3 @save:!text-right md:pt-3 lg:text-right">
       {message}&nbsp;

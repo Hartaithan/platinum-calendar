@@ -22,7 +22,6 @@ export interface CachedResponse {
 }
 
 export interface Settings {
-  link: boolean;
   leap: boolean;
   completes: boolean;
 }

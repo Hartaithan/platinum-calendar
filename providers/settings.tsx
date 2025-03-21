@@ -14,21 +14,18 @@ import { createContext, useCallback, useContext, useMemo } from "react";
 
 interface Context {
   settings: Settings;
-  handleLinkChange: (value: boolean) => void;
   handleLeapChange: (value: boolean) => void;
   handleCompletesChange: (value: boolean) => void;
   resetSettings: () => void;
 }
 
 const defaultValue: Settings = {
-  link: true,
   leap: true,
   completes: false,
 };
 
 const initialValue: Context = {
   settings: defaultValue,
-  handleLinkChange: () => null,
   handleLeapChange: () => null,
   handleCompletesChange: () => null,
   resetSettings: () => null,
@@ -63,14 +60,6 @@ const SettingsProvider: FC<PropsWithChildren> = (props) => {
     defaultValue,
   });
 
-  const handleLinkChange = useCallback(
-    (value: boolean) => {
-      posthog.capture("settings-link", { value });
-      setSettings((prev) => ({ ...prev, link: value }));
-    },
-    [setSettings],
-  );
-
   const handleLeapChange = useCallback(
     (value: boolean) => {
       debouncedCapture("settings-leap", value);
@@ -95,18 +84,11 @@ const SettingsProvider: FC<PropsWithChildren> = (props) => {
   const exposed = useMemo<Context>(
     () => ({
       settings,
-      handleLinkChange,
       handleLeapChange,
       handleCompletesChange,
       resetSettings,
     }),
-    [
-      settings,
-      handleLinkChange,
-      handleLeapChange,
-      handleCompletesChange,
-      resetSettings,
-    ],
+    [settings, handleLeapChange, handleCompletesChange, resetSettings],
   );
 
   return <Context.Provider value={exposed}>{children}</Context.Provider>;
