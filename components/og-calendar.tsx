@@ -13,6 +13,7 @@ import { useSettings } from "@/providers/settings";
 import { createArray } from "@/utils/array";
 import { checkLeapDay } from "@/utils/calendar";
 import { getDateKey } from "@/utils/date";
+import { getDataItems } from "@/utils/group";
 import { pluralize } from "@/utils/string";
 import { cn } from "@/utils/styles";
 import type { ComponentPropsWithRef } from "react";
@@ -156,12 +157,12 @@ const Day: FC<DayProps> = memo((props) => {
 
 const Total: FC<TotalProps> = memo((props) => {
   const { month, days } = props;
+  const data = useData();
   const { year } = useFilters();
-  const { platinums } = useData();
   const { settings } = useSettings();
   const key = getDateKey({ month, year });
   const { isTotalVisible } = checkLeapDay({ month, settings });
-  const total = platinums ? platinums[key] : null;
+  const { count, hasItems } = getDataItems({ key, data, settings });
   const cols = 35 - days;
   return (
     <div
@@ -169,7 +170,7 @@ const Total: FC<TotalProps> = memo((props) => {
         columns[isTotalVisible ? cols + 1 : cols],
         "h-day flex items-center justify-center border-b border-r border-b-black border-r-black",
       )}>
-      {total && total.length > 0 && pluralize(total.length, "plat")}
+      {hasItems && pluralize(count, "plat")}
     </div>
   );
 });

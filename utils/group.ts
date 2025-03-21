@@ -4,10 +4,10 @@ import type {
   GroupedPlatinumKeys,
   GroupedPlatinumList,
   GroupedPlatinums,
-  NullableGroupedPlatinumData,
   NullablePlatinum,
   Platinum,
 } from "@/models/platinum";
+import type { DataContext } from "@/providers/data";
 import { getDateKeys } from "@/utils/date";
 
 const setItem = (key: string, item: Platinum, list: GroupedPlatinumKeys) => {
@@ -52,17 +52,17 @@ export const groupPlatinumList = (
   return { games, platinums, completes, collection };
 };
 
-interface GetPlatinumListParams {
+interface GetDataParams {
   key: string;
   settings: Settings;
-  payload: NullableGroupedPlatinumData;
+  data: DataContext;
 }
 
-export const getPlatinumsListItems = (params: GetPlatinumListParams) => {
-  const { key, settings, payload } = params;
+export const getDataItems = (params: GetDataParams) => {
+  const { key, settings, data } = params;
   let items: string[] | null = null;
-  const data = payload[settings.data];
-  if (data) items = data[key];
+  const picked = data[settings.data];
+  if (picked) items = picked[key];
   const count = items?.length || 0;
   const hasItems = !!items && items.length > 0;
   return { items, count, hasItems };

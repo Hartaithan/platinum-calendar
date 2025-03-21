@@ -17,7 +17,7 @@ import type { NullableProfile } from "@/models/profile";
 import type { Dispatch, FC, PropsWithChildren, SetStateAction } from "react";
 import { createContext, useContext, useMemo, useState } from "react";
 
-interface Context {
+export interface DataContext {
   status: Status;
   setStatus: Dispatch<SetStateAction<Status>>;
   profile: NullableProfile;
@@ -31,6 +31,8 @@ interface Context {
   collection: NullableGroupedPlatinumsKeys;
   setCollection: Dispatch<SetStateAction<NullableGroupedPlatinumsKeys>>;
 }
+
+type Context = DataContext;
 
 const initialValue: Context = {
   status: "idle",

@@ -9,8 +9,10 @@ import { useDayParams } from "@/hooks/use-day-params";
 import type { BaseMonthProps, DayProps, MonthProps } from "@/models/calendar";
 import { useData } from "@/providers/data";
 import { useFilters } from "@/providers/filters";
+import { useSettings } from "@/providers/settings";
 import { createArray } from "@/utils/array";
 import { getDateKey } from "@/utils/date";
+import { getDataItems } from "@/utils/group";
 import { pluralize } from "@/utils/string";
 import { cn } from "@/utils/styles";
 import { memo, type FC } from "react";
@@ -90,15 +92,16 @@ const Day: FC<DayProps> = memo((props) => {
 
 const MonthHeader: FC<BaseMonthProps> = memo((props) => {
   const { month } = props;
-  const { platinums } = useData();
+  const data = useData();
   const { year } = useFilters();
+  const { settings } = useSettings();
   const key = getDateKey({ month, year });
-  const total = platinums ? platinums[key] : null;
+  const { count, hasItems } = getDataItems({ key, data, settings });
   return (
     <div className="mb-2 flex items-center justify-between">
       <h3 className="font-semibold">{monthLabels[month].long}</h3>
-      {total && total.length > 0 && (
-        <p className="text-xs font-medium">{pluralize(total.length, "plat")}</p>
+      {hasItems && (
+        <p className="text-xs font-medium">{pluralize(count, "plat")}</p>
       )}
     </div>
   );
