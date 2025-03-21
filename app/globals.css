@@ -165,7 +165,7 @@
     html {
       margin-left: var(--scrollbar-width);
     }
-    html > body[data-scroll-locked] {
+    html[data-browser="chrome"] > body[data-scroll-locked] {
       margin-right: var(--scrollbar-width) !important;
     }
   }
