@@ -21,7 +21,9 @@ export interface CachedResponse {
   expires?: string;
 }
 
+export type DataKey = "platinums" | "completes" | "collection";
+
 export interface Settings {
   leap: boolean;
-  completes: boolean;
+  data: DataKey;
 }

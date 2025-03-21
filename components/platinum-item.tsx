@@ -97,8 +97,8 @@ interface Props {
 
 const PlatinumItem: FC<Props> = (props) => {
   const { platinumId: key } = props;
-  const { list } = useData();
-  const platinum = list ? list[key] : null;
+  const { games } = useData();
+  const platinum = games ? games[key] : null;
   if (!platinum) return null;
   return (
     <div className="flex w-full flex-col gap-3 rounded-lg border border-input/25 p-3 text-card-foreground shadow-sm">

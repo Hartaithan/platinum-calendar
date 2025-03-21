@@ -12,7 +12,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
-import { themes, themesLabels } from "@/constants/app";
+import { dataKeys, dataLabels, themes, themesLabels } from "@/constants/app";
 import { useModal } from "@/hooks/use-modal";
 import { useSettings } from "@/providers/settings";
 import { useTheme } from "@/providers/theme";
@@ -21,7 +21,7 @@ import { memo, useCallback, type FC } from "react";
 
 const Content: FC<ModalProps> = (props) => {
   const { isVisible, onClose } = props;
-  const { settings, handleLeapChange, handleCompletesChange, resetSettings } =
+  const { settings, handleLeapChange, handleDataChange, resetSettings } =
     useSettings();
   const { theme, changeTheme, resetTheme } = useTheme();
 
@@ -52,6 +52,25 @@ const Content: FC<ModalProps> = (props) => {
             </SelectContent>
           </Select>
         </div>
+        <div className="flex flex-col">
+          <Label className="mb-1 text-sm font-semibold">Data Type</Label>
+          <Select value={settings.data} onValueChange={handleDataChange}>
+            <SelectTrigger>
+              <SelectValue placeholder="Select data type" />
+            </SelectTrigger>
+            <SelectContent>
+              {dataKeys.map((theme) => (
+                <SelectItem key={theme} value={theme}>
+                  {dataLabels[theme]}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+          <p className="mt-2 text-[11px] font-normal text-neutral-500 md:text-xs">
+            select what you want to see:&nbsp;
+            <b>only platinums, only 100% completions or both</b>
+          </p>
+        </div>
         <div className="flex items-center space-x-2">
           <Label htmlFor="leap" className="w-full">
             <p className="text-sm font-semibold">Show Leap Day</p>
@@ -64,20 +83,6 @@ const Content: FC<ModalProps> = (props) => {
             id="leap"
             checked={settings.leap}
             onCheckedChange={handleLeapChange}
-          />
-        </div>
-        <div className="flex items-center space-x-2">
-          <Label htmlFor="completes" className="w-full">
-            <p className="text-sm font-semibold">Show Completes</p>
-            <p className="mt-1 text-[11px] font-normal text-neutral-500 md:text-xs">
-              determine whether <b>completes</b> should be shown and included in
-              progress tracking calculations for your calendar.
-            </p>
-          </Label>
-          <Switch
-            id="completes"
-            checked={settings.completes}
-            onCheckedChange={handleCompletesChange}
           />
         </div>
         <Button aria-label="Reset settings" onClick={handleReset}>

@@ -1,8 +1,9 @@
 "use client";
 
 import {
+  collectionKey,
   completesKey,
-  listKey,
+  gamesKey,
   platinumsKey,
   profileKey,
 } from "@/constants/storage";
@@ -21,12 +22,14 @@ interface Context {
   setStatus: Dispatch<SetStateAction<Status>>;
   profile: NullableProfile;
   setProfile: Dispatch<SetStateAction<NullableProfile>>;
-  list: NullableGroupedPlatinums;
-  setList: Dispatch<SetStateAction<NullableGroupedPlatinums>>;
+  games: NullableGroupedPlatinums;
+  setGames: Dispatch<SetStateAction<NullableGroupedPlatinums>>;
   platinums: NullableGroupedPlatinumsKeys;
   setPlatinums: Dispatch<SetStateAction<NullableGroupedPlatinumsKeys>>;
   completes: NullableGroupedPlatinumsKeys;
   setCompletes: Dispatch<SetStateAction<NullableGroupedPlatinumsKeys>>;
+  collection: NullableGroupedPlatinumsKeys;
+  setCollection: Dispatch<SetStateAction<NullableGroupedPlatinumsKeys>>;
 }
 
 const initialValue: Context = {
@@ -34,12 +37,14 @@ const initialValue: Context = {
   setStatus: () => null,
   profile: null,
   setProfile: () => null,
-  list: null,
-  setList: () => null,
+  games: null,
+  setGames: () => null,
   platinums: null,
   setPlatinums: () => null,
   completes: null,
   setCompletes: () => null,
+  collection: null,
+  setCollection: () => null,
 };
 
 const Context = createContext<Context>(initialValue);
@@ -51,9 +56,9 @@ const DataProvider: FC<PropsWithChildren> = (props) => {
     key: profileKey,
     defaultValue: initialValue.profile,
   });
-  const [list, setList] = useLocalStorage<Context["list"]>({
-    key: listKey,
-    defaultValue: initialValue.list,
+  const [games, setGames] = useLocalStorage<Context["games"]>({
+    key: gamesKey,
+    defaultValue: initialValue.games,
   });
   const [platinums, setPlatinums] = useLocalStorage<Context["platinums"]>({
     key: platinumsKey,
@@ -63,6 +68,10 @@ const DataProvider: FC<PropsWithChildren> = (props) => {
     key: completesKey,
     defaultValue: initialValue.completes,
   });
+  const [collection, setCollection] = useLocalStorage<Context["collection"]>({
+    key: collectionKey,
+    defaultValue: initialValue.collection,
+  });
 
   const exposed: Context = useMemo(
     () => ({
@@ -70,23 +79,27 @@ const DataProvider: FC<PropsWithChildren> = (props) => {
       setStatus,
       profile,
       setProfile,
-      list,
-      setList,
+      games,
+      setGames,
       platinums,
       setPlatinums,
       completes,
       setCompletes,
+      collection,
+      setCollection,
     }),
     [
       status,
       profile,
       setProfile,
-      list,
-      setList,
+      games,
+      setGames,
       platinums,
       setPlatinums,
       completes,
       setCompletes,
+      collection,
+      setCollection,
     ],
   );
 

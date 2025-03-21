@@ -1,3 +1,4 @@
+import type { DataKey } from "@/models/app";
 import type { Trophy, TrophyCounts } from "@/models/trophy";
 
 export type Platform = "PS5" | "PS4" | "PS3" | "PSVITA" | "PSPC";
@@ -25,10 +26,14 @@ export type NullableGroupedPlatinums = GroupedPlatinums | null;
 export type GroupedPlatinumKeys = Record<string, string[]>;
 export type NullableGroupedPlatinumsKeys = GroupedPlatinumKeys | null;
 
-export interface GroupedPlatinumList {
-  platinums: GroupedPlatinumKeys;
-  completes: GroupedPlatinumKeys;
-  items: GroupedPlatinums;
+export type GroupedPlatinumData = Record<DataKey, GroupedPlatinumKeys>;
+export type NullableGroupedPlatinumData = Record<
+  DataKey,
+  NullableGroupedPlatinumsKeys
+>;
+
+export interface GroupedPlatinumList extends GroupedPlatinumData {
+  games: GroupedPlatinums;
 }
 
 export type PlatinumEventType = "progress" | "complete" | "error";

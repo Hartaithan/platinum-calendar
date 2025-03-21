@@ -32,9 +32,10 @@ interface Context {
 
 interface SetPlatinumListParams {
   list: NullablePlatinum[];
-  setList: Dispatch<SetStateAction<NullableGroupedPlatinums>>;
+  setGames: Dispatch<SetStateAction<NullableGroupedPlatinums>>;
   setPlatinums: Dispatch<SetStateAction<NullableGroupedPlatinumsKeys>>;
   setCompletes: Dispatch<SetStateAction<NullableGroupedPlatinumsKeys>>;
+  setCollection: Dispatch<SetStateAction<NullableGroupedPlatinumsKeys>>;
 }
 
 interface Form extends HTMLFormControlsCollection {
@@ -53,12 +54,13 @@ const getId = (e: FormEvent<HTMLFormElement>) => {
 };
 
 const setPlatinumList = (params: SetPlatinumListParams) => {
-  const { list, setList, setPlatinums, setCompletes } = params;
+  const { list, setGames, setPlatinums, setCompletes, setCollection } = params;
   if (list.length === 0) return;
-  const { items, platinums, completes } = groupPlatinumList(list);
-  setList(items);
+  const { games, platinums, completes, collection } = groupPlatinumList(list);
+  setGames(games);
   setCompletes(completes);
   setPlatinums(platinums);
+  setCollection(collection);
 };
 
 const initialValue: Context = {
@@ -70,8 +72,14 @@ const Context = createContext<Context>(initialValue);
 const SubmitProvider: FC<PropsWithChildren> = (props) => {
   const { children } = props;
 
-  const { setProfile, setStatus, setList, setPlatinums, setCompletes } =
-    useData();
+  const {
+    setProfile,
+    setStatus,
+    setGames,
+    setPlatinums,
+    setCompletes,
+    setCollection,
+  } = useData();
   const { controller, abort } = useAbortController();
   const popupRef = useRef<DataLoadingPopupHandle>(null);
 
@@ -109,7 +117,13 @@ const SubmitProvider: FC<PropsWithChildren> = (props) => {
         const list = await API.getPlatinums({ id, onProgress });
 
         const count = list.length;
-        setPlatinumList({ list, setList, setPlatinums, setCompletes });
+        setPlatinumList({
+          list,
+          setGames,
+          setPlatinums,
+          setCompletes,
+          setCollection,
+        });
         setStatus("completed");
         showExpiresToast(expires);
 
@@ -132,9 +146,10 @@ const SubmitProvider: FC<PropsWithChildren> = (props) => {
       controller,
       setProfile,
       onProgress,
-      setList,
+      setGames,
       setPlatinums,
       setCompletes,
+      setCollection,
     ],
   );
 

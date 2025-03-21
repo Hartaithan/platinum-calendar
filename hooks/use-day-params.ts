@@ -1,6 +1,7 @@
 import { useMediaQuery } from "@/hooks/use-media-query";
 import type { DayProps } from "@/models/calendar";
 import type { DateKeyParams } from "@/models/date";
+import type { NullableGroupedPlatinumData } from "@/models/platinum";
 import { useData } from "@/providers/data";
 import { useFilters } from "@/providers/filters";
 import { useSettings } from "@/providers/settings";
@@ -13,15 +14,19 @@ type Params = Omit<DayProps, "onDayClick">;
 export const useDayParams = (params: Params) => {
   const { month, day } = params;
 
-  const { platinums, completes } = useData();
+  const { platinums, completes, collection } = useData();
   const { year } = useFilters();
   const { settings } = useSettings();
   const date: DateKeyParams = { day, month, year };
   const key = getDateKey(date);
-  const { items, count, hasItems } = getPlatinumsListItems({
-    key,
+  const payload: NullableGroupedPlatinumData = {
     platinums,
     completes,
+    collection,
+  };
+  const { items, count, hasItems } = getPlatinumsListItems({
+    key,
+    payload,
     settings,
   });
   const isTouchDevice = useMediaQuery("(pointer: coarse)");

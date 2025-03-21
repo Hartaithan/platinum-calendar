@@ -20,7 +20,7 @@ const CalendarProgress: FC = memo(() => {
     const value = (count * 100) / total;
     const left = total - count;
     setProgress({ count, value, left });
-  }, [platinums, year, total, settings.leap, settings.completes]);
+  }, [platinums, year, total, settings.leap, settings.data]);
 
   return (
     <div className="ml-[none] flex flex-col items-center justify-center @save:!ml-4 @save:!items-start lg:ml-4 lg:items-start">

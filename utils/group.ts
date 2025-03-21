@@ -1,9 +1,10 @@
 import type { Settings } from "@/models/app";
 import type {
+  GroupedPlatinumData,
   GroupedPlatinumKeys,
   GroupedPlatinumList,
   GroupedPlatinums,
-  NullableGroupedPlatinumsKeys,
+  NullableGroupedPlatinumData,
   NullablePlatinum,
   Platinum,
 } from "@/models/platinum";
@@ -17,50 +18,50 @@ const setItem = (key: string, item: Platinum, list: GroupedPlatinumKeys) => {
   }
 };
 
-interface SetGroupParams {
+interface SetGroupParams extends GroupedPlatinumData {
   key: string;
   item: Platinum;
-  platinums: GroupedPlatinumKeys;
-  completes: GroupedPlatinumKeys;
 }
 
 export const setGroupValue = (params: SetGroupParams) => {
-  const { key, item, platinums, completes } = params;
+  const { key, item, platinums, completes, collection } = params;
   const isComplete = item.completion === "complete";
-  if (!isComplete) setItem(key, item, platinums);
-  setItem(key, item, completes);
+  if (isComplete) setItem(key, item, completes);
+  else setItem(key, item, platinums);
+  setItem(key, item, collection);
 };
 
 export const groupPlatinumList = (
   list: NullablePlatinum[],
 ): GroupedPlatinumList => {
-  let items: GroupedPlatinums = {};
+  let games: GroupedPlatinums = {};
   let platinums: GroupedPlatinumKeys = {};
   let completes: GroupedPlatinumKeys = {};
+  let collection: GroupedPlatinumKeys = {};
   for (const item of list) {
     if (!item) continue;
     const { id, trophy } = item;
     if (!trophy?.earned_at) continue;
 
     const keys = Object.values(getDateKeys(trophy.earned_at));
-    for (const key of keys) setGroupValue({ key, item, platinums, completes });
+    for (const key of keys)
+      setGroupValue({ key, item, platinums, completes, collection });
 
-    items[id] = item;
+    games[id] = item;
   }
-  return { items, platinums, completes };
+  return { games, platinums, completes, collection };
 };
 
 interface GetPlatinumListParams {
   key: string;
-  platinums: NullableGroupedPlatinumsKeys;
-  completes: NullableGroupedPlatinumsKeys;
   settings: Settings;
+  payload: NullableGroupedPlatinumData;
 }
 
 export const getPlatinumsListItems = (params: GetPlatinumListParams) => {
-  const { key, platinums, completes, settings } = params;
+  const { key, settings, payload } = params;
   let items: string[] | null = null;
-  const data = settings.completes ? completes : platinums;
+  const data = payload[settings.data];
   if (data) items = data[key];
   const count = items?.length || 0;
   const hasItems = !!items && items.length > 0;

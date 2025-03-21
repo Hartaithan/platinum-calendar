@@ -13,20 +13,20 @@ import { createContext, useCallback, useContext, useMemo } from "react";
 
 interface Context {
   settings: Settings;
-  handleLeapChange: (value: boolean) => void;
-  handleCompletesChange: (value: boolean) => void;
+  handleLeapChange: (value: Settings["leap"]) => void;
+  handleDataChange: (value: Settings["data"]) => void;
   resetSettings: () => void;
 }
 
 const defaultValue: Settings = {
   leap: true,
-  completes: false,
+  data: "platinums",
 };
 
 const initialValue: Context = {
   settings: defaultValue,
   handleLeapChange: () => null,
-  handleCompletesChange: () => null,
+  handleDataChange: () => null,
   resetSettings: () => null,
 };
 
@@ -53,18 +53,18 @@ const SettingsProvider: FC<PropsWithChildren> = (props) => {
     defaultValue,
   });
 
-  const handleLeapChange = useCallback(
-    (value: boolean) => {
+  const handleLeapChange: Context["handleLeapChange"] = useCallback(
+    (value) => {
       debouncedCapture("settings-leap", { value });
       setSettings((prev) => ({ ...prev, leap: value }));
     },
     [setSettings],
   );
 
-  const handleCompletesChange = useCallback(
-    (value: boolean) => {
-      debouncedCapture("settings-completes", { value });
-      setSettings((prev) => ({ ...prev, completes: value }));
+  const handleDataChange: Context["handleDataChange"] = useCallback(
+    (value) => {
+      debouncedCapture("settings-data", { value });
+      setSettings((prev) => ({ ...prev, data: value }));
     },
     [setSettings],
   );
@@ -78,10 +78,10 @@ const SettingsProvider: FC<PropsWithChildren> = (props) => {
     () => ({
       settings,
       handleLeapChange,
-      handleCompletesChange,
+      handleDataChange,
       resetSettings,
     }),
-    [settings, handleLeapChange, handleCompletesChange, resetSettings],
+    [settings, handleLeapChange, handleDataChange, resetSettings],
   );
 
   return <Context.Provider value={exposed}>{children}</Context.Provider>;
