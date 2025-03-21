@@ -6,8 +6,7 @@ import {
   useLocalStorage,
 } from "@/hooks/use-local-storage";
 import type { Settings } from "@/models/app";
-import { debounce } from "@/utils/async";
-import type { Properties } from "posthog-js";
+import { debouncedCapture } from "@/utils/analytics";
 import posthog from "posthog-js";
 import type { FC, PropsWithChildren } from "react";
 import { createContext, useCallback, useContext, useMemo } from "react";
@@ -45,12 +44,6 @@ const updateSettings = () => {
   localStorage.setItem(settingsKey, JSON.stringify(merged));
 };
 
-const debouncedCapture = debounce((key: string, value?: string | boolean) => {
-  let payload: Properties | null = null;
-  if (value) payload = { value };
-  posthog.capture(key, payload);
-}, 1500);
-
 updateSettings();
 
 const SettingsProvider: FC<PropsWithChildren> = (props) => {
@@ -62,7 +55,7 @@ const SettingsProvider: FC<PropsWithChildren> = (props) => {
 
   const handleLeapChange = useCallback(
     (value: boolean) => {
-      debouncedCapture("settings-leap", value);
+      debouncedCapture("settings-leap", { value });
       setSettings((prev) => ({ ...prev, leap: value }));
     },
     [setSettings],
@@ -70,7 +63,7 @@ const SettingsProvider: FC<PropsWithChildren> = (props) => {
 
   const handleCompletesChange = useCallback(
     (value: boolean) => {
-      debouncedCapture("settings-completes", value);
+      debouncedCapture("settings-completes", { value });
       setSettings((prev) => ({ ...prev, completes: value }));
     },
     [setSettings],
