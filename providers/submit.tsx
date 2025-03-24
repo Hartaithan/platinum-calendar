@@ -3,39 +3,18 @@
 import type { DataLoadingPopupHandle } from "@/components/data-loading-popup";
 import DataLoadingPopup from "@/components/data-loading-popup";
 import { useAbortController } from "@/hooks/use-abort-controller";
-import type {
-  NullableGroupedPlatinums,
-  NullableGroupedPlatinumsKeys,
-  NullablePlatinum,
-  PlatinumProgressData,
-} from "@/models/platinum";
+import type { PlatinumProgressData } from "@/models/platinum";
 import { useData } from "@/providers/data";
 import { API } from "@/utils/api";
 import { readError } from "@/utils/error";
-import { groupPlatinumList } from "@/utils/group";
 import { showExpiresToast } from "@/utils/toast";
 import posthog from "posthog-js";
-import type {
-  Dispatch,
-  FC,
-  FormEvent,
-  FormEventHandler,
-  PropsWithChildren,
-  SetStateAction,
-} from "react";
+import type { FC, FormEvent, FormEventHandler, PropsWithChildren } from "react";
 import { createContext, useCallback, useContext, useMemo, useRef } from "react";
 import { toast } from "sonner";
 
 interface Context {
   onSubmit: FormEventHandler<HTMLFormElement>;
-}
-
-interface SetPlatinumListParams {
-  list: NullablePlatinum[];
-  setGames: Dispatch<SetStateAction<NullableGroupedPlatinums>>;
-  setPlatinums: Dispatch<SetStateAction<NullableGroupedPlatinumsKeys>>;
-  setCompletes: Dispatch<SetStateAction<NullableGroupedPlatinumsKeys>>;
-  setCollection: Dispatch<SetStateAction<NullableGroupedPlatinumsKeys>>;
 }
 
 interface Form extends HTMLFormControlsCollection {
@@ -53,16 +32,6 @@ const getId = (e: FormEvent<HTMLFormElement>) => {
   return elements?.id.value.trim();
 };
 
-const setPlatinumList = (params: SetPlatinumListParams) => {
-  const { list, setGames, setPlatinums, setCompletes, setCollection } = params;
-  if (list.length === 0) return;
-  const { games, platinums, completes, collection } = groupPlatinumList(list);
-  setGames(games);
-  setCompletes(completes);
-  setPlatinums(platinums);
-  setCollection(collection);
-};
-
 const initialValue: Context = {
   onSubmit: () => null,
 };
@@ -72,14 +41,7 @@ const Context = createContext<Context>(initialValue);
 const SubmitProvider: FC<PropsWithChildren> = (props) => {
   const { children } = props;
 
-  const {
-    setProfile,
-    setStatus,
-    setGames,
-    setPlatinums,
-    setCompletes,
-    setCollection,
-  } = useData();
+  const { setProfile, setStatus, setData } = useData();
   const { controller, abort } = useAbortController();
   const popupRef = useRef<DataLoadingPopupHandle>(null);
 
@@ -117,13 +79,7 @@ const SubmitProvider: FC<PropsWithChildren> = (props) => {
         const list = await API.getPlatinums({ id, onProgress });
 
         const count = list.length;
-        setPlatinumList({
-          list,
-          setGames,
-          setPlatinums,
-          setCompletes,
-          setCollection,
-        });
+        setData(list);
         setStatus("completed");
         showExpiresToast(expires);
 
@@ -141,16 +97,7 @@ const SubmitProvider: FC<PropsWithChildren> = (props) => {
         posthog.capture("submit-error", { id, message });
       }
     },
-    [
-      setStatus,
-      controller,
-      setProfile,
-      onProgress,
-      setGames,
-      setPlatinums,
-      setCompletes,
-      setCollection,
-    ],
+    [setStatus, controller, setProfile, onProgress, setData],
   );
 
   const exposed: Context = useMemo(() => ({ onSubmit }), [onSubmit]);

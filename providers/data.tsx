@@ -12,10 +12,18 @@ import type { Status } from "@/models/app";
 import type {
   NullableGroupedPlatinums,
   NullableGroupedPlatinumsKeys,
+  NullablePlatinum,
 } from "@/models/platinum";
 import type { NullableProfile } from "@/models/profile";
+import { groupPlatinumList } from "@/utils/group";
 import type { Dispatch, FC, PropsWithChildren, SetStateAction } from "react";
-import { createContext, useContext, useMemo, useState } from "react";
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useMemo,
+  useState,
+} from "react";
 
 export interface DataContext {
   status: Status;
@@ -23,13 +31,10 @@ export interface DataContext {
   profile: NullableProfile;
   setProfile: Dispatch<SetStateAction<NullableProfile>>;
   games: NullableGroupedPlatinums;
-  setGames: Dispatch<SetStateAction<NullableGroupedPlatinums>>;
   platinums: NullableGroupedPlatinumsKeys;
-  setPlatinums: Dispatch<SetStateAction<NullableGroupedPlatinumsKeys>>;
   completes: NullableGroupedPlatinumsKeys;
-  setCompletes: Dispatch<SetStateAction<NullableGroupedPlatinumsKeys>>;
   collection: NullableGroupedPlatinumsKeys;
-  setCollection: Dispatch<SetStateAction<NullableGroupedPlatinumsKeys>>;
+  setData: (list: NullablePlatinum[]) => void;
 }
 
 type Context = DataContext;
@@ -40,13 +45,10 @@ const initialValue: Context = {
   profile: null,
   setProfile: () => null,
   games: null,
-  setGames: () => null,
   platinums: null,
-  setPlatinums: () => null,
   completes: null,
-  setCompletes: () => null,
   collection: null,
-  setCollection: () => null,
+  setData: () => null,
 };
 
 const Context = createContext<Context>(initialValue);
@@ -75,6 +77,18 @@ const DataProvider: FC<PropsWithChildren> = (props) => {
     defaultValue: initialValue.collection,
   });
 
+  const setData = useCallback(
+    (list: NullablePlatinum[]) => {
+      if (list.length === 0) return;
+      const grouped = groupPlatinumList(list);
+      setGames(grouped.games);
+      setPlatinums(grouped.platinums);
+      setCompletes(grouped.completes);
+      setCollection(grouped.collection);
+    },
+    [setGames, setPlatinums, setCompletes, setCollection],
+  );
+
   const exposed: Context = useMemo(
     () => ({
       status,
@@ -82,26 +96,20 @@ const DataProvider: FC<PropsWithChildren> = (props) => {
       profile,
       setProfile,
       games,
-      setGames,
       platinums,
-      setPlatinums,
       completes,
-      setCompletes,
       collection,
-      setCollection,
+      setData,
     }),
     [
       status,
       profile,
       setProfile,
       games,
-      setGames,
       platinums,
-      setPlatinums,
       completes,
-      setCompletes,
       collection,
-      setCollection,
+      setData,
     ],
   );
 
