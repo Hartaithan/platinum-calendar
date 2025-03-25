@@ -56,7 +56,7 @@ const SubmitProvider: FC<PropsWithChildren> = (props) => {
       e.preventDefault();
 
       const id = getId(e);
-      let expires: string | null = null;
+      let expires: string | undefined;
 
       try {
         if (id.length === 0) throw new Error(errors.empty);
@@ -69,18 +69,18 @@ const SubmitProvider: FC<PropsWithChildren> = (props) => {
           signal: getSignal(),
         });
         if (!profile) throw new Error(errors.fetch);
-        if (profileExpires) expires = profileExpires;
+        expires = profileExpires;
         setProfile(profile);
 
         setStatus("platinums-loading");
         posthog.capture("submit-platinums", { id, expires });
 
-        const list = await API.getPlatinums({
+        const { list, expires: platinumsExpires } = await API.getPlatinums({
           id,
           onProgress,
           signal: getSignal(),
         });
-
+        expires = platinumsExpires;
         const count = list.length;
         setData(list);
         setStatus("completed");

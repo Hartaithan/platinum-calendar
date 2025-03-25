@@ -1,4 +1,4 @@
-import type { DataKey } from "@/models/app";
+import type { CachedResponse, DataKey } from "@/models/app";
 import type { Trophy, TrophyCounts } from "@/models/trophy";
 
 export type Platform = "PS5" | "PS4" | "PS3" | "PSVITA" | "PSPC";
@@ -64,4 +64,8 @@ export interface FetchPlatinumsParams {
   id: string;
   onProgress: (data: PlatinumProgressData) => void;
   signal?: AbortSignal;
+}
+
+export interface FetchPlatinumsResponse extends CachedResponse {
+  list: NullablePlatinum[];
 }

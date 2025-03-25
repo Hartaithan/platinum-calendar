@@ -2,7 +2,7 @@
 
 import { toast } from "sonner";
 
-export const showExpiresToast = (expires: string | null) => {
+export const showExpiresToast = (expires: string | undefined) => {
   if (!expires) return;
   const expiration = new Date(expires);
   toast.warning("You are viewing cached data", {
