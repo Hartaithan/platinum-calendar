@@ -59,9 +59,7 @@ const DataLoadingPopup: ForwardRefRenderFunction<
               {getProgress(pages.current, pages.total)}
             </p>
           )}
-          {status === "platinums-loading" && pages.current > 0 && (
-            <Spinner className="size-5" />
-          )}
+          {status === "platinums-loading" && <Spinner className="size-5" />}
         </div>
       </div>
       <Button
