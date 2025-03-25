@@ -27,21 +27,20 @@ const handleResponse = async (response: Response) => {
 
 const getProfile = async (
   params: FetchProfileParams,
-  init?: RequestInit,
 ): Promise<ProfileResponse> => {
-  const { id } = params;
+  const { id, signal } = params;
   const url = new URL(API_URL);
   url.pathname += "/" + id;
   url.pathname += "/profile";
   const headers = await getHeaders("GET", url.toString());
-  const response = await fetch(url, { ...init, headers });
+  const response = await fetch(url, { headers, signal });
   return await handleResponse(response);
 };
 
 const getPlatinums = async (
   params: FetchPlatinumsParams,
 ): Promise<NullablePlatinum[]> => {
-  const { id, onProgress } = params;
+  const { id, onProgress, signal } = params;
 
   const url = new URL(API_URL);
   url.pathname += "/" + id;
@@ -49,7 +48,7 @@ const getPlatinums = async (
 
   const headers = await getHeaders("GET", url.toString());
   const source = new EventSource(url, {
-    fetch: (input, init) => fetch(input, { ...init, headers }),
+    fetch: (input, init) => fetch(input, { ...init, headers, signal }),
   });
 
   return new Promise((resolve, reject) => {
@@ -94,6 +93,17 @@ const getPlatinums = async (
         reject(message);
       }
     };
+
+    if (signal) {
+      const abortHandler = (event: Event) => {
+        source.close();
+        let message = "Unknown abort signal error";
+        if (event.target instanceof AbortSignal) message = event.target.reason;
+        signal.removeEventListener("abort", abortHandler);
+        reject(message);
+      };
+      signal.addEventListener("abort", abortHandler);
+    }
   });
 };
 

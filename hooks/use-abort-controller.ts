@@ -10,5 +10,11 @@ export const useAbortController = () => {
     posthog.capture("submit-cancelled");
   }, []);
 
-  return { controller, abort };
+  const getSignal = useCallback(() => {
+    if (controller.current) controller.current.abort();
+    controller.current = new AbortController();
+    return controller.current.signal;
+  }, []);
+
+  return { controller, abort, getSignal };
 };

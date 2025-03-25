@@ -20,4 +20,5 @@ export type ProfileResponse = Response<ProfileResponseData>;
 
 export interface FetchProfileParams {
   id: string;
+  signal?: AbortSignal;
 }

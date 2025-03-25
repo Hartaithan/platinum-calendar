@@ -42,7 +42,7 @@ const SubmitProvider: FC<PropsWithChildren> = (props) => {
   const { children } = props;
 
   const { setProfile, setStatus, setData } = useData();
-  const { controller, abort } = useAbortController();
+  const { abort, getSignal } = useAbortController();
   const popupRef = useRef<DataLoadingPopupHandle>(null);
 
   const onProgress = useCallback((data: PlatinumProgressData) => {
@@ -63,12 +63,11 @@ const SubmitProvider: FC<PropsWithChildren> = (props) => {
 
         setStatus("profile-loading");
         posthog.capture("submit-profile", { id });
-        controller.current = new AbortController();
 
-        const { profile, expires: profileExpires } = await API.getProfile(
-          { id },
-          { signal: controller.current.signal },
-        );
+        const { profile, expires: profileExpires } = await API.getProfile({
+          id,
+          signal: getSignal(),
+        });
         if (!profile) throw new Error(errors.fetch);
         if (profileExpires) expires = profileExpires;
         setProfile(profile);
@@ -76,7 +75,11 @@ const SubmitProvider: FC<PropsWithChildren> = (props) => {
         setStatus("platinums-loading");
         posthog.capture("submit-platinums", { id, expires });
 
-        const list = await API.getPlatinums({ id, onProgress });
+        const list = await API.getPlatinums({
+          id,
+          onProgress,
+          signal: getSignal(),
+        });
 
         const count = list.length;
         setData(list);
@@ -97,7 +100,7 @@ const SubmitProvider: FC<PropsWithChildren> = (props) => {
         posthog.capture("submit-error", { id, message });
       }
     },
-    [setStatus, controller, setProfile, onProgress, setData],
+    [setStatus, getSignal, setProfile, onProgress, setData],
   );
 
   const exposed: Context = useMemo(() => ({ onSubmit }), [onSubmit]);

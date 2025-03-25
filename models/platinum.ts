@@ -63,4 +63,5 @@ export type PlatinumEventData =
 export interface FetchPlatinumsParams {
   id: string;
   onProgress: (data: PlatinumProgressData) => void;
+  signal?: AbortSignal;
 }
