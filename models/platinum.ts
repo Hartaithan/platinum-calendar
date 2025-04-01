@@ -1,4 +1,4 @@
-import type { CachedResponse, DataKey } from "@/models/app";
+import type { DataKey } from "@/models/app";
 import type { Trophy, TrophyCounts } from "@/models/trophy";
 
 export type Platform = "PS5" | "PS4" | "PS3" | "PSVITA" | "PSPC";
@@ -19,6 +19,12 @@ export interface Platinum {
 }
 
 export type NullablePlatinum = Platinum | null;
+
+export interface PlatinumCounts {
+  total: number;
+  platinum: number;
+  complete: number;
+}
 
 export type NullablePlatinums = Platinum[] | null;
 export type GroupedPlatinums = Record<string, Platinum>;
@@ -49,6 +55,7 @@ export interface PlatinumProgressData extends PlatinumData<"progress"> {
 }
 
 export interface PlatinumCompleteData extends PlatinumData<"complete"> {
+  counts: PlatinumCounts;
   platinums?: NullablePlatinum[];
   expires?: string;
 }
@@ -64,8 +71,4 @@ export interface FetchPlatinumsParams {
   id: string;
   onProgress: (data: PlatinumProgressData) => void;
   signal?: AbortSignal;
-}
-
-export interface FetchPlatinumsResponse extends CachedResponse {
-  list: NullablePlatinum[];
 }

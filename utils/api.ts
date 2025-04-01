@@ -3,7 +3,7 @@
 import { API_URL } from "@/constants/variables";
 import type {
   FetchPlatinumsParams,
-  FetchPlatinumsResponse,
+  PlatinumCompleteData,
   PlatinumErrorData,
   PlatinumEventData,
 } from "@/models/platinum";
@@ -39,7 +39,7 @@ const getProfile = async (
 
 const getPlatinums = async (
   params: FetchPlatinumsParams,
-): Promise<FetchPlatinumsResponse> => {
+): Promise<PlatinumCompleteData> => {
   const { id, onProgress, signal } = params;
 
   const url = new URL(API_URL);
@@ -54,15 +54,13 @@ const getPlatinums = async (
   return new Promise((resolve, reject) => {
     source.onmessage = (event) => {
       try {
-        const data: PlatinumEventData = JSON.parse(event.data);
+        const data: PlatinumEventData = JSON.parse(event?.data);
         switch (data?.type) {
           case "progress":
             onProgress(data);
             break;
           case "complete": {
-            const list = data?.platinums || [];
-            const expires = data?.expires;
-            resolve({ list, expires });
+            resolve(data);
             source.close();
             break;
           }

@@ -75,19 +75,22 @@ const SubmitProvider: FC<PropsWithChildren> = (props) => {
         setStatus("platinums-loading");
         posthog.capture("submit-platinums", { id, expires });
 
-        const { list, expires: platinumsExpires } = await API.getPlatinums({
+        const {
+          platinums,
+          counts,
+          expires: platinumsExpires,
+        } = await API.getPlatinums({
           id,
           onProgress,
           signal: getSignal(),
         });
         expires = platinumsExpires;
-        const count = list.length;
-        setData(list);
+        setData(platinums || []);
         setStatus("completed");
         showExpiresToast(expires);
 
         popupRef.current?.reset();
-        posthog.capture("submit-complete", { id, count, expires });
+        posthog.capture("submit-complete", { id, ...counts, expires });
       } catch (error) {
         console.error("submit error", error);
 
