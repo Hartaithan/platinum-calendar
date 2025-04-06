@@ -90,7 +90,11 @@ const SubmitProvider: FC<PropsWithChildren> = (props) => {
         showExpiresToast(expires);
 
         popupRef.current?.reset();
-        posthog.capture("submit-complete", { id, ...counts, expires });
+        posthog.capture("submit-complete", {
+          id,
+          counts: JSON.stringify(counts),
+          expires,
+        });
       } catch (error) {
         console.error("submit error", error);
 
