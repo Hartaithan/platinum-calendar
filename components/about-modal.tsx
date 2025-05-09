@@ -48,6 +48,21 @@ const HelpTab: FC = () => {
             can be accessed
           </AccordionContent>
         </AccordionItem>
+        <AccordionItem value="private-profile">
+          <AccordionTrigger className={styles.trigger}>
+            I am seeing the error &apos;User has not granted access to view
+            trophies&apos;. What does this mean?
+          </AccordionTrigger>
+          <AccordionContent>
+            This error indicates that&nbsp;
+            <b>your profile&apos;s privacy settings</b> are preventing access to
+            your trophy data. To resolve this, you need to&nbsp;
+            <b>adjust your profile settings.</b> You can find more details&nbsp;
+            <AboutLink href="https://forum.psnprofiles.com/topic/171838-trophies-are-missing-hidden-or-private-trophies-how-to-fix-it">
+              here
+            </AboutLink>
+          </AccordionContent>
+        </AccordionItem>
         <AccordionItem value="artifacts">
           <AccordionTrigger className={styles.trigger}>
             The generated image contains artifacts. How can I fix this?
