@@ -2,9 +2,9 @@
 
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
+import { getProgress } from "@/hooks/use-progress";
 import type { Pages } from "@/models/app";
 import { useData } from "@/providers/data";
-import { getProgress } from "@/utils/number";
 import { CircleCheckIcon } from "lucide-react";
 import type { Dispatch, ForwardRefRenderFunction, SetStateAction } from "react";
 import { forwardRef, useCallback, useImperativeHandle, useState } from "react";
@@ -56,7 +56,7 @@ const DataLoadingPopup: ForwardRefRenderFunction<
         <div className="flex items-center">
           {status === "platinums-loading" && (
             <p className="mr-2 text-sm">
-              {getProgress(pages.current, pages.total)}
+              {getProgress(pages.current, pages.total).label}
             </p>
           )}
           {status === "platinums-loading" && <Spinner className="size-5" />}

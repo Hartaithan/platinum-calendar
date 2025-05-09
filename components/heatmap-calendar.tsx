@@ -52,15 +52,12 @@ const Day: FC<DayProps> = memo((props) => {
     date,
     label,
     ariaLabel,
+    status,
   } = useDayParams({
     month,
     day,
   });
-  const dayStyles = cn(
-    styles.day,
-    getColor(count),
-    hasItems && "completed-day",
-  );
+  const dayStyles = cn(styles.day, getColor(count), status);
 
   if (isDayVisible) return null;
 

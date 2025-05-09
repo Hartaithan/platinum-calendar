@@ -32,7 +32,6 @@ const colors = [
 
 const styles = {
   day: "day w-full h-6 flex items-center justify-between text-xs border border-black overflow-hidden",
-  completed: "completed-day",
   content: "ml-1 text-4xl font-bold",
   month: "flex flex-col justify-center w-full h-6 border border-black",
   monthContent: "ml-2 text-xs font-semibold",
@@ -59,16 +58,13 @@ const Day: FC<DayProps> = memo((props) => {
     date,
     label,
     ariaLabel,
+    status,
   } = useDayParams({
     month,
     day,
   });
 
-  const dayStyles = cn(
-    styles.day,
-    getColor(count),
-    hasItems && styles.completed,
-  );
+  const dayStyles = cn(styles.day, getColor(count), status);
 
   const content = <p className={styles.content}>{count}</p>;
 

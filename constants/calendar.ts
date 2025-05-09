@@ -31,3 +31,8 @@ export const monthLabels: Record<number, DayLabel> = {
   11: { long: "November", short: "Nov" },
   12: { long: "December", short: "Dec" },
 };
+
+export const dayStatus = {
+  completed: "completed-day",
+  uncompleted: "uncompleted-day",
+};

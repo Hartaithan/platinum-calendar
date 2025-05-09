@@ -1,3 +1,4 @@
+import { dayStatus } from "@/constants/calendar";
 import { useMediaQuery } from "@/hooks/use-media-query";
 import type { DayProps } from "@/models/calendar";
 import type { DateKeyParams } from "@/models/date";
@@ -23,6 +24,7 @@ export const useDayParams = (params: Params) => {
   const label = getDateLabel({ date });
   const { isDayVisible } = checkLeapDay({ ...date, settings });
   const ariaLabel = `${label}: Show details`;
+  const status = dayStatus[hasItems ? "completed" : "uncompleted"];
 
   return {
     items,
@@ -33,5 +35,6 @@ export const useDayParams = (params: Params) => {
     date,
     label,
     ariaLabel,
+    status,
   };
 };
