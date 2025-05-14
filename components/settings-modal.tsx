@@ -1,17 +1,10 @@
 "use client";
 
+import SettingSelect from "@/components/setting-select";
+import SettingSwitch from "@/components/setting-switch";
 import { Button } from "@/components/ui/button";
-import { Label } from "@/components/ui/label";
 import type { ModalProps } from "@/components/ui/modal";
 import { Modal } from "@/components/ui/modal";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { Switch } from "@/components/ui/switch";
 import { dataKeys, dataLabels, themes, themesLabels } from "@/constants/app";
 import { useModal } from "@/hooks/use-modal";
 import { useSettings } from "@/providers/settings";
@@ -42,68 +35,48 @@ const Content: FC<ModalProps> = (props) => {
       isVisible={isVisible}
       onClose={onClose}>
       <div className="flex flex-col space-y-4">
-        <div className="flex flex-col">
-          <Label className="mb-1 text-sm font-semibold">Theme</Label>
-          <Select value={theme} onValueChange={changeTheme}>
-            <SelectTrigger>
-              <SelectValue placeholder="Select theme" />
-            </SelectTrigger>
-            <SelectContent>
-              {themes.map((theme) => (
-                <SelectItem key={theme} value={theme}>
-                  {themesLabels[theme]}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </div>
-        <div className="flex flex-col">
-          <Label className="mb-1 text-sm font-semibold">Data Type</Label>
-          <Select value={settings.data} onValueChange={handleDataChange}>
-            <SelectTrigger>
-              <SelectValue placeholder="Select data type" />
-            </SelectTrigger>
-            <SelectContent>
-              {dataKeys.map((theme) => (
-                <SelectItem key={theme} value={theme}>
-                  {dataLabels[theme]}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
+        <SettingSelect
+          id="theme"
+          label="Theme"
+          placeholder="Select theme"
+          options={themes}
+          labels={themesLabels}
+          value={theme}
+          onValueChange={changeTheme}
+        />
+        <SettingSelect
+          id="data"
+          label="Data Type"
+          placeholder="Select data type"
+          options={dataKeys}
+          labels={dataLabels}
+          value={settings.data}
+          onValueChange={handleDataChange}>
           <p className="mt-2 text-[11px] font-normal text-neutral-500 md:text-xs">
             select what you want to see:&nbsp;
             <b>only platinums, only 100% completions or both</b>
           </p>
-        </div>
-        <div className="flex items-center space-x-2">
-          <Label htmlFor="leap" className="w-full">
-            <p className="text-sm font-semibold">Show Leap Day</p>
-            <p className="mt-1 text-[11px] font-normal text-neutral-500 md:text-xs">
-              determine whether <b>leap day</b> should be shown and included in
-              progress tracking calculations for your calendar
-            </p>
-          </Label>
-          <Switch
-            id="leap"
-            checked={settings.leap}
-            onCheckedChange={handleLeapChange}
-          />
-        </div>
-        <div className="flex items-center space-x-2">
-          <Label htmlFor="hide" className="w-full">
-            <p className="text-sm font-semibold">Hide Profile</p>
-            <p className="mt-1 text-[11px] font-normal text-neutral-500 md:text-xs">
-              enable this option to <b>blur your profile</b>, making the
-              personal information visually obscured
-            </p>
-          </Label>
-          <Switch
-            id="hide"
-            checked={settings.hide}
-            onCheckedChange={handleHideChange}
-          />
-        </div>
+        </SettingSelect>
+        <SettingSwitch
+          id="leap"
+          label="Show Leap Day"
+          checked={settings.leap}
+          onCheckedChange={handleLeapChange}>
+          <p className="mt-1 text-[11px] font-normal text-neutral-500 md:text-xs">
+            determine whether <b>leap day</b> should be shown and included in
+            progress tracking calculations for your calendar
+          </p>
+        </SettingSwitch>
+        <SettingSwitch
+          id="hide"
+          label="Hide Profile"
+          checked={settings.hide}
+          onCheckedChange={handleHideChange}>
+          <p className="mt-1 text-[11px] font-normal text-neutral-500 md:text-xs">
+            enable this option to <b>blur your profile</b>, making the personal
+            information visually obscured
+          </p>
+        </SettingSwitch>
         <Button aria-label="Reset settings" onClick={handleReset}>
           Reset settings
         </Button>
