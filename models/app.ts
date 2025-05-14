@@ -26,4 +26,5 @@ export type DataKey = "platinums" | "completes" | "collection";
 export interface Settings {
   leap: boolean;
   data: DataKey;
+  hide: boolean;
 }

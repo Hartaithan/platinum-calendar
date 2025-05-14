@@ -21,8 +21,13 @@ import { memo, useCallback, type FC } from "react";
 
 const Content: FC<ModalProps> = (props) => {
   const { isVisible, onClose } = props;
-  const { settings, handleLeapChange, handleDataChange, resetSettings } =
-    useSettings();
+  const {
+    settings,
+    handleLeapChange,
+    handleDataChange,
+    handleHideChange,
+    resetSettings,
+  } = useSettings();
   const { theme, changeTheme, resetTheme } = useTheme();
 
   const handleReset = useCallback(() => {
@@ -83,6 +88,20 @@ const Content: FC<ModalProps> = (props) => {
             id="leap"
             checked={settings.leap}
             onCheckedChange={handleLeapChange}
+          />
+        </div>
+        <div className="flex items-center space-x-2">
+          <Label htmlFor="hide" className="w-full">
+            <p className="text-sm font-semibold">Hide Profile</p>
+            <p className="mt-1 text-[11px] font-normal text-neutral-500 md:text-xs">
+              enable this option to <b>blur your profile</b>, making the
+              personal information visually obscured
+            </p>
+          </Label>
+          <Switch
+            id="hide"
+            checked={settings.hide}
+            onCheckedChange={handleHideChange}
           />
         </div>
         <Button aria-label="Reset settings" onClick={handleReset}>

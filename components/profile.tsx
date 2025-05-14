@@ -4,6 +4,7 @@ import CalendarProgress from "@/components/calendar-progress";
 import TrophyIcon from "@/icons/trophy";
 import type { Profile as ProfileInfo } from "@/models/profile";
 import { useData } from "@/providers/data";
+import { useSettings } from "@/providers/settings";
 import { getProxyURL } from "@/utils/image";
 import { cn } from "@/utils/styles";
 import Image from "next/image";
@@ -75,10 +76,15 @@ const Counts: FC<CountsProps> = memo((props) => {
 
 const Profile: FC = () => {
   const { profile } = useData();
+  const { settings } = useSettings();
   if (!profile || Object.keys(profile).length === 0) return <EmptyProfile />;
   const { avatar_url, name, level, counts } = profile;
   return (
-    <div className="lg:items-normal @save:!items-normal mb-4 flex w-full flex-col items-center gap-3 @save:!flex-row @save:!gap-0 lg:flex-row lg:gap-0">
+    <div
+      className={cn(
+        "lg:items-normal @save:!items-normal mb-4 flex w-full flex-col items-center gap-3 @save:!flex-row @save:!gap-0 lg:flex-row lg:gap-0",
+        settings.hide && "blur-md",
+      )}>
       <Info avatar_url={avatar_url} name={name} level={level} />
       <CalendarProgress />
       <Counts counts={counts} />

@@ -15,18 +15,21 @@ interface Context {
   settings: Settings;
   handleLeapChange: (value: Settings["leap"]) => void;
   handleDataChange: (value: Settings["data"]) => void;
+  handleHideChange: (value: Settings["hide"]) => void;
   resetSettings: () => void;
 }
 
 const defaultValue: Settings = {
   leap: true,
   data: "platinums",
+  hide: false,
 };
 
 const initialValue: Context = {
   settings: defaultValue,
   handleLeapChange: () => null,
   handleDataChange: () => null,
+  handleHideChange: () => null,
   resetSettings: () => null,
 };
 
@@ -69,6 +72,14 @@ const SettingsProvider: FC<PropsWithChildren> = (props) => {
     [setSettings],
   );
 
+  const handleHideChange: Context["handleHideChange"] = useCallback(
+    (value) => {
+      debouncedCapture("settings-hide", { value });
+      setSettings((prev) => ({ ...prev, hide: value }));
+    },
+    [setSettings],
+  );
+
   const resetSettings = useCallback(() => {
     posthog.capture("settings-reset");
     setSettings(defaultValue);
@@ -79,9 +90,16 @@ const SettingsProvider: FC<PropsWithChildren> = (props) => {
       settings,
       handleLeapChange,
       handleDataChange,
+      handleHideChange,
       resetSettings,
     }),
-    [settings, handleLeapChange, handleDataChange, resetSettings],
+    [
+      settings,
+      handleLeapChange,
+      handleDataChange,
+      handleHideChange,
+      resetSettings,
+    ],
   );
 
   return <Context.Provider value={exposed}>{children}</Context.Provider>;
