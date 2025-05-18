@@ -8,6 +8,7 @@ import { useSettings } from "@/providers/settings";
 import { getProxyURL } from "@/utils/image";
 import { cn } from "@/utils/styles";
 import Image from "next/image";
+import type { ComponentPropsWithoutRef } from "react";
 import { memo, type FC } from "react";
 
 const EmptyProfile: FC = () => {
@@ -24,13 +25,19 @@ const EmptyProfile: FC = () => {
   );
 };
 
-type InfoProps = Pick<ProfileInfo, "avatar_url" | "name" | "level">;
+type InfoProps = ComponentPropsWithoutRef<"div"> &
+  Pick<ProfileInfo, "avatar_url" | "name" | "level">;
 
 const Info: FC<InfoProps> = memo((props) => {
-  const { avatar_url, name, level } = props;
+  const { className, avatar_url, name, level, ...rest } = props;
   const image_url = getProxyURL(avatar_url);
   return (
-    <div className="flex justify-center @save:!justify-normal lg:justify-normal">
+    <div
+      className={cn(
+        "flex justify-center @save:!justify-normal lg:justify-normal",
+        className,
+      )}
+      {...rest}>
       <Image
         className="image-shadow rounded-full"
         width={50}
@@ -47,12 +54,18 @@ const Info: FC<InfoProps> = memo((props) => {
   );
 });
 
-type CountsProps = Pick<ProfileInfo, "counts">;
+type CountsProps = ComponentPropsWithoutRef<"div"> &
+  Pick<ProfileInfo, "counts">;
 
 const Counts: FC<CountsProps> = memo((props) => {
-  const { counts } = props;
+  const { className, counts, ...rest } = props;
   return (
-    <div className="ml-[none] flex w-4/5 flex-wrap items-center justify-center gap-x-4 gap-y-2 @save:!ml-auto @save:!w-auto @save:!flex-nowrap @save:!justify-normal md:w-10/12 lg:ml-auto lg:w-auto lg:justify-normal">
+    <div
+      className={cn(
+        "ml-[none] flex w-4/5 flex-wrap items-center justify-center gap-x-4 gap-y-2 @save:!ml-auto @save:!w-auto @save:!flex-nowrap @save:!justify-normal md:w-10/12 lg:ml-auto lg:w-auto lg:justify-normal",
+        className,
+      )}
+      {...rest}>
       {Object.entries(counts).map(([key, value]) => (
         <div key={key} className="flex items-center gap-2">
           <div
@@ -79,15 +92,17 @@ const Profile: FC = () => {
   const { settings } = useSettings();
   if (!profile || Object.keys(profile).length === 0) return <EmptyProfile />;
   const { avatar_url, name, level, counts } = profile;
+  const blurred = settings.hide ? "blur-md" : undefined;
   return (
-    <div
-      className={cn(
-        "lg:items-normal @save:!items-normal mb-4 flex w-full flex-col items-center gap-3 @save:!flex-row @save:!gap-0 lg:flex-row lg:gap-0",
-        settings.hide && "blur-md",
-      )}>
-      <Info avatar_url={avatar_url} name={name} level={level} />
+    <div className="lg:items-normal @save:!items-normal mb-4 flex w-full flex-col items-center gap-3 @save:!flex-row @save:!gap-0 lg:flex-row lg:gap-0">
+      <Info
+        className={blurred}
+        avatar_url={avatar_url}
+        name={name}
+        level={level}
+      />
       <CalendarProgress />
-      <Counts counts={counts} />
+      <Counts className={blurred} counts={counts} />
     </div>
   );
 };
