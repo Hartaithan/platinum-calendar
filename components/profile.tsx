@@ -92,17 +92,16 @@ const Profile: FC = () => {
   const { settings } = useSettings();
   if (!profile || Object.keys(profile).length === 0) return <EmptyProfile />;
   const { avatar_url, name, level, counts } = profile;
-  const blurred = settings.hide ? "blur-md" : undefined;
   return (
     <div className="lg:items-normal @save:!items-normal mb-4 flex w-full flex-col items-center gap-3 @save:!flex-row @save:!gap-0 lg:flex-row lg:gap-0">
       <Info
-        className={blurred}
+        className={settings.hide ? "blur-md" : undefined}
         avatar_url={avatar_url}
         name={name}
         level={level}
       />
       <CalendarProgress />
-      <Counts className={blurred} counts={counts} />
+      <Counts counts={counts} />
     </div>
   );
 };
