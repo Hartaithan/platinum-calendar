@@ -6,7 +6,6 @@ import {
   useLocalStorage,
 } from "@/hooks/use-local-storage";
 import type { Settings } from "@/models/app";
-import { debouncedCapture } from "@/utils/analytics";
 import posthog from "posthog-js";
 import type { FC, PropsWithChildren } from "react";
 import { createContext, useCallback, useContext, useMemo } from "react";
@@ -58,7 +57,7 @@ const SettingsProvider: FC<PropsWithChildren> = (props) => {
 
   const handleLeapChange: Context["handleLeapChange"] = useCallback(
     (value) => {
-      debouncedCapture("settings-leap", { value });
+      posthog.capture("settings-leap", { value });
       setSettings((prev) => ({ ...prev, leap: value }));
     },
     [setSettings],
@@ -66,7 +65,7 @@ const SettingsProvider: FC<PropsWithChildren> = (props) => {
 
   const handleDataChange: Context["handleDataChange"] = useCallback(
     (value) => {
-      debouncedCapture("settings-data", { value });
+      posthog.capture("settings-data", { value });
       setSettings((prev) => ({ ...prev, data: value }));
     },
     [setSettings],
@@ -74,7 +73,7 @@ const SettingsProvider: FC<PropsWithChildren> = (props) => {
 
   const handleHideChange: Context["handleHideChange"] = useCallback(
     (value) => {
-      debouncedCapture("settings-hide", { value });
+      posthog.capture("settings-hide", { value });
       setSettings((prev) => ({ ...prev, hide: value }));
     },
     [setSettings],
