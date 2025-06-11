@@ -6,7 +6,7 @@ import { PostHogProvider } from "posthog-js/react";
 import type { FC, PropsWithChildren } from "react";
 
 const KEY = POSTHOG_KEY;
-const HOST = APP_URL + "/ingest";
+const HOST = APP_URL + "/sync";
 
 const NODE = process.env.NODE_ENV;
 const VERCEL = process.env.NEXT_PUBLIC_VERCEL_ENV;

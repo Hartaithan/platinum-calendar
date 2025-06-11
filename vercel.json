@@ -6,11 +6,11 @@
   },
   "rewrites": [
     {
-      "source": "/ingest/static/:path*",
+      "source": "/sync/static/:path*",
       "destination": "https://us-assets.i.posthog.com/static/:path*"
     },
     {
-      "source": "/ingest/:path*",
+      "source": "/sync/:path*",
       "destination": "https://us.i.posthog.com/:path*"
     }
   ]
