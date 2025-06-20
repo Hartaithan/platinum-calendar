@@ -3,14 +3,14 @@
 import { API_URL } from "@/constants/variables";
 import type {
   FetchPlatinumsParams,
-  PlatinumCompleteData,
+  FetchPlatinumsResponse,
   PlatinumErrorData,
   PlatinumEventData,
 } from "@/models/platinum";
 import type { FetchProfileParams, ProfileResponse } from "@/models/profile";
 import type { UploadResponse } from "@/models/upload";
 import { readError } from "@/utils/error";
-import { getHeaders } from "@/utils/signature";
+import { getInit } from "@/utils/signature";
 import { EventSource } from "eventsource";
 
 const statuses: Record<number, string> = {
@@ -32,35 +32,38 @@ const getProfile = async (
   const url = new URL(API_URL);
   url.pathname += "/" + id;
   url.pathname += "/profile";
-  const headers = await getHeaders("GET", url.toString());
-  const response = await fetch(url, { headers, signal });
+  const init = await getInit({ method: "GET", url, signal });
+  const response = await fetch(url, init);
   return await handleResponse(response);
 };
 
 const getPlatinums = async (
   params: FetchPlatinumsParams,
-): Promise<PlatinumCompleteData> => {
+): Promise<FetchPlatinumsResponse> => {
   const { id, onProgress, signal } = params;
 
   const url = new URL(API_URL);
   url.pathname += "/" + id;
   url.pathname += "/platinums";
 
-  const headers = await getHeaders("GET", url.toString());
+  const init = await getInit({ method: "GET", url });
   const source = new EventSource(url, {
-    fetch: (input, init) => fetch(input, { ...init, headers, signal }),
+    fetch: (input, ini) => fetch(input, { ...ini, ...init }),
   });
 
   return new Promise((resolve, reject) => {
     source.onmessage = (event) => {
       try {
-        const data: PlatinumEventData = JSON.parse(event?.data);
+        const data: PlatinumEventData = JSON.parse(event.data);
         switch (data?.type) {
           case "progress":
             onProgress(data);
             break;
           case "complete": {
-            resolve(data);
+            const list = data?.platinums || [];
+            const expires = data?.expires;
+            const counts = data?.counts;
+            resolve({ list, counts, expires });
             source.close();
             break;
           }
@@ -109,8 +112,8 @@ const getPlatinums = async (
 const uploadImage = async (body: FormData): Promise<UploadResponse> => {
   const url = new URL(API_URL);
   url.pathname += "/upload";
-  const headers = await getHeaders("POST", url.toString(), body);
-  const response = await fetch(url, { body, method: "POST", headers });
+  const init = await getInit({ method: "POST", url, body });
+  const response = await fetch(url, init);
   return await handleResponse(response);
 };
 

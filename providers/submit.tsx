@@ -76,7 +76,7 @@ const SubmitProvider: FC<PropsWithChildren> = (props) => {
         posthog.capture("submit-platinums", { id, expires });
 
         const {
-          platinums,
+          list,
           counts,
           expires: platinumsExpires,
         } = await API.getPlatinums({
@@ -85,7 +85,7 @@ const SubmitProvider: FC<PropsWithChildren> = (props) => {
           signal: getSignal(),
         });
         expires = platinumsExpires;
-        setData(platinums || []);
+        setData(list);
         setStatus("completed");
         showExpiresToast(expires);
 

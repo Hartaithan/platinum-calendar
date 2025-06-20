@@ -2,11 +2,11 @@
 
 import { SECRET } from "@/constants/variables";
 
-const bodyToString = (
-  value: Record<string, unknown> | null | undefined | FormData,
-  emptyValue = "",
-) => {
+type Body = Record<string, unknown> | string | FormData;
+
+const parseBody = (value: Body | null | undefined, emptyValue = "") => {
   if (!value) return emptyValue;
+  if (typeof value === "string") return value;
   if (Object.keys(value).length === 0) return emptyValue;
   return JSON.stringify(value);
 };
@@ -31,29 +31,33 @@ const hmacSHA256 = async (message: string) => {
     .join("");
 };
 
-export const getHeaders = async (
-  method: string,
-  url: string,
-  body?: Record<string, unknown> | FormData,
-): Promise<HeadersInit> => {
+interface InitParams {
+  method: string;
+  url: URL | string;
+  body?: Body;
+  signal?: AbortSignal;
+}
+
+export const getInit = async (params: InitParams): Promise<RequestInit> => {
+  const { method, url, body, signal } = params;
   const timestamp = Math.floor(Date.now() / 1000).toString();
 
-  const parts = url.split("?");
+  const parts = url.toString().split("?");
+  // eslint-disable-next-line no-useless-escape
   const path = parts[0].replace(/^https?:\/\/[^\/]+/, "");
   const query = parts[1] || "";
+  const parsed = parseBody(body);
 
-  const data = {
-    method,
-    path,
-    query,
-    body: bodyToString(body),
-    timestamp,
-  };
-
+  const data = { method, path, query, body: parsed, timestamp };
   const signature = await hmacSHA256(JSON.stringify(data));
 
-  return {
+  const headers: HeadersInit = {
     Timestamp: timestamp,
     Authorization: signature,
   };
+  if (body && !(body instanceof FormData)) {
+    headers["Content-Type"] = "application/json";
+  }
+
+  return { method, headers, body: parsed, signal };
 };
