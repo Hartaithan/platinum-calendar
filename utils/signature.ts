@@ -4,10 +4,10 @@ import { SECRET } from "@/constants/variables";
 
 type Body = Record<string, unknown> | string | FormData;
 
-const parseBody = (value: Body | null | undefined, emptyValue = "") => {
-  if (!value) return emptyValue;
+const parseBody = (value: Body | null | undefined, empty?: string) => {
+  if (!value) return empty;
   if (typeof value === "string") return value;
-  if (Object.keys(value).length === 0) return emptyValue;
+  if (Object.keys(value).length === 0) return empty;
   return JSON.stringify(value);
 };
 
