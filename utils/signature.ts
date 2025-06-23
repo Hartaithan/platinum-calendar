@@ -2,7 +2,7 @@
 
 import { SECRET } from "@/constants/variables";
 
-type Body = Record<string, unknown> | string | FormData;
+type Body = BodyInit | Record<string, unknown>;
 
 const parseBody = (value: Body | null | undefined, empty?: string) => {
   if (!value) return empty;
@@ -46,9 +46,9 @@ export const getInit = async (params: InitParams): Promise<RequestInit> => {
   // eslint-disable-next-line no-useless-escape
   const path = parts[0].replace(/^https?:\/\/[^\/]+/, "");
   const query = parts[1] || "";
-  const parsed = parseBody(body);
+  let payload = body as BodyInit;
 
-  const data = { method, path, query, body: parsed, timestamp };
+  const data = { method, path, query, body: parseBody(body), timestamp };
   const signature = await hmacSHA256(JSON.stringify(data));
 
   const headers: HeadersInit = {
@@ -57,7 +57,8 @@ export const getInit = async (params: InitParams): Promise<RequestInit> => {
   };
   if (body && !(body instanceof FormData)) {
     headers["Content-Type"] = "application/json";
+    payload = JSON.stringify(body);
   }
 
-  return { method, headers, body: parsed, signal };
+  return { method, headers, body: payload, signal };
 };
