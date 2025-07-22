@@ -32,7 +32,8 @@ const ShareMenu: FC = () => {
       if (!image) throw new Error("Unable to generate image");
       const link = document.createElement("a");
       link.href = URL.createObjectURL(image);
-      link.download = `${profile?.name ?? "calendar"}.png`;
+      const timestamp = new Date().getTime().toString();
+      link.download = `${profile?.name ?? "calendar"} [${[timestamp]}].png`;
       link.click();
       link.remove();
       posthog.capture("save-complete", withTheme({ id: profile?.name }));
