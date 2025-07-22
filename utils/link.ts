@@ -1,5 +1,9 @@
 import { APP_URL } from "@/constants/variables";
-import { cleanLink } from "@/utils/string";
+
+export const cleanLink = (value: string) => {
+  const cleaned = value.replace(/^https?:\/\//, "");
+  return cleaned.split("/")[0];
+};
 
 export const getLinkMessage = () => {
   const link = cleanLink(APP_URL);

@@ -115,7 +115,7 @@ const SubmitProvider: FC<PropsWithChildren> = (props) => {
   return (
     <Context.Provider value={exposed}>
       {children}
-      <DataLoadingPopup ref={popupRef} handleAbort={abort} />
+      <DataLoadingPopup ref={popupRef} abort={abort} />
     </Context.Provider>
   );
 };

@@ -2,6 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
+import type { AbortHandler } from "@/hooks/use-abort-controller";
 import { getProgress } from "@/hooks/use-progress";
 import type { Pages } from "@/models/app";
 import { useData } from "@/providers/data";
@@ -10,7 +11,7 @@ import type { Dispatch, ForwardRefRenderFunction, SetStateAction } from "react";
 import { forwardRef, useCallback, useImperativeHandle, useState } from "react";
 
 interface Props {
-  handleAbort: () => void;
+  abort: AbortHandler;
 }
 
 export interface DataLoadingPopupHandle {
@@ -24,7 +25,7 @@ const DataLoadingPopup: ForwardRefRenderFunction<
   DataLoadingPopupHandle,
   Props
 > = (props, ref) => {
-  const { handleAbort } = props;
+  const { abort } = props;
   const { status } = useData();
   const [pages, setPages] = useState<Pages>(defaultPages);
 
@@ -66,7 +67,7 @@ const DataLoadingPopup: ForwardRefRenderFunction<
         variant="secondary"
         className="mt-3 h-8 w-full"
         aria-label="Cancel data loading"
-        onClick={handleAbort}>
+        onClick={() => abort("submit")}>
         Cancel
       </Button>
     </div>
