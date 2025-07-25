@@ -100,14 +100,20 @@ const ShareMenu: FC = () => {
             onClick={handleSave}
             aria-label="Save as PNG">
             <SaveIcon className="mr-2 size-4" />
-            <span>Save as PNG</span>
+            <span>
+              {isLoading && "In process.."}
+              {!isLoading && "Save as PNG"}
+            </span>
           </DropdownMenuItem>
           <DropdownMenuItem
             disabled={isLoading}
             onClick={handleUpload}
             aria-label="Upload image">
             <UploadIcon className="mr-2 size-4" />
-            <span>Upload image</span>
+            <span>
+              {isLoading && "In process.."}
+              {!isLoading && "Upload image"}
+            </span>
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
