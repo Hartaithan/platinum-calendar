@@ -16,18 +16,20 @@ import { readError } from "@/utils/error";
 import { uploadImage } from "@/utils/upload";
 import { SaveIcon, Share2Icon, UploadIcon } from "lucide-react";
 import posthog from "posthog-js";
-import { useCallback, useRef, type FC } from "react";
+import { useCallback, useRef, useState, type FC } from "react";
 import { toast } from "sonner";
 
 const ShareMenu: FC = () => {
   const { profile } = useData();
   const { capture } = useCapture();
+  const [isLoading, setLoading] = useState(false);
   const popupRef = useRef<ImageUploadPopupHandle>(null);
   const { upload } = popupRef.current ?? {};
 
   const handleSave = useCallback(async () => {
     try {
       posthog.capture("save-start", withTheme({ id: profile?.name }));
+      setLoading(true);
       const image = await capture();
       if (!image) throw new Error("Unable to generate image");
       const link = document.createElement("a");
@@ -42,6 +44,8 @@ const ShareMenu: FC = () => {
       const message = readError(error);
       toast.error(message);
       posthog.capture("save-error", withTheme({ id: profile?.name, message }));
+    } finally {
+      setLoading(false);
     }
   }, [profile?.name, capture]);
 
@@ -49,6 +53,7 @@ const ShareMenu: FC = () => {
     try {
       posthog.capture("upload-start", withTheme({ id: profile?.name }));
       upload?.open();
+      setLoading(true);
       const image = await capture();
       if (!image) throw new Error("Unable to generate image");
       upload?.set({ status: "upload" });
@@ -71,6 +76,8 @@ const ShareMenu: FC = () => {
         "upload-error",
         withTheme({ id: profile?.name, message }),
       );
+    } finally {
+      setLoading(false);
     }
   }, [profile?.name, capture, upload]);
 
@@ -88,11 +95,17 @@ const ShareMenu: FC = () => {
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent>
-          <DropdownMenuItem onClick={handleSave} aria-label="Save as PNG">
+          <DropdownMenuItem
+            disabled={isLoading}
+            onClick={handleSave}
+            aria-label="Save as PNG">
             <SaveIcon className="mr-2 size-4" />
             <span>Save as PNG</span>
           </DropdownMenuItem>
-          <DropdownMenuItem onClick={handleUpload} aria-label="Upload image">
+          <DropdownMenuItem
+            disabled={isLoading}
+            onClick={handleUpload}
+            aria-label="Upload image">
             <UploadIcon className="mr-2 size-4" />
             <span>Upload image</span>
           </DropdownMenuItem>
