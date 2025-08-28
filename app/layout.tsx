@@ -5,11 +5,11 @@ import { APP_URL } from "@/constants/variables";
 import RootProviders from "@/providers/root";
 import { detectBrowser } from "@/utils/device-server";
 import type { Metadata, Viewport } from "next";
-// import dynamic from "next/dynamic";
+import dynamic from "next/dynamic";
 import { Rubik } from "next/font/google";
 import type { FC, PropsWithChildren } from "react";
 
-// const Promo = dynamic(() => import("@/components/promo"), { ssr: false });
+const Promo = dynamic(() => import("@/components/promo"), { ssr: false });
 
 const font = Rubik({ subsets: ["latin"], fallback: ["Arial"] });
 
@@ -67,7 +67,7 @@ const MainLayout: FC<PropsWithChildren> = async ({ children }) => {
       <body className={font.className}>
         <RootProviders defaultTheme={defaultTheme}>{children}</RootProviders>
         <Toaster theme="light" position="top-right" richColors closeButton />
-        {/* <Promo /> */}
+        <Promo />
       </body>
     </html>
   );
