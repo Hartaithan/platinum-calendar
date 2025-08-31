@@ -202,6 +202,10 @@
     --toast-close-button-end: 0;
     --toast-close-button-transform: translate(35%, -35%);
   }
+
+  html[data-device="desktop"] > body[data-scroll-locked] > #promo {
+    margin-right: var(--scrollbar-width);
+  }
 }
 
 @layer utilities {

@@ -3,7 +3,7 @@ import "@/app/globals.css";
 import { Toaster } from "@/components/ui/sonner";
 import { APP_URL } from "@/constants/variables";
 import RootProviders from "@/providers/root";
-import { detectBrowser } from "@/utils/device-server";
+import { detectBrowser, getDeviceType } from "@/utils/device-server";
 import type { Metadata, Viewport } from "next";
 import dynamic from "next/dynamic";
 import { Rubik } from "next/font/google";
@@ -60,12 +60,17 @@ export const viewport: Viewport = {
 };
 
 const MainLayout: FC<PropsWithChildren> = async ({ children }) => {
-  const defaultTheme = await getTheme();
+  const theme = await getTheme();
   const browser = detectBrowser();
+  const device = getDeviceType();
   return (
-    <html lang="en" data-theme={defaultTheme} data-browser={browser}>
+    <html
+      lang="en"
+      data-theme={theme}
+      data-device={device}
+      data-browser={browser}>
       <body className={font.className}>
-        <RootProviders defaultTheme={defaultTheme}>{children}</RootProviders>
+        <RootProviders defaultTheme={theme}>{children}</RootProviders>
         <Toaster theme="light" position="top-right" richColors closeButton />
         <Promo />
       </body>

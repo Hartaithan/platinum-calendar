@@ -29,7 +29,9 @@ const Content: FC<ContentProps> = (props) => {
   );
 
   return (
-    <div className="fixed bottom-3 right-3 top-auto w-11/12 max-w-[340px] animate-fade-in rounded-lg border-2 border-emerald-700/50 bg-card px-4 py-3 text-card-foreground shadow-sm 2xl:bottom-auto 2xl:right-3 2xl:top-3">
+    <div
+      id="promo"
+      className="fixed bottom-3 right-3 top-auto w-11/12 max-w-[340px] animate-fade-in rounded-lg border-2 border-emerald-700/50 bg-card px-4 py-3 text-card-foreground shadow-sm 2xl:bottom-auto 2xl:right-3 2xl:top-3">
       <h1 className="text-sm font-medium text-emerald-900">
         Looking for a A-Z Platinum Challenge app?
       </h1>

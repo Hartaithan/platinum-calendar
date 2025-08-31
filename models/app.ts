@@ -21,6 +21,12 @@ export interface CachedResponse {
   expires?: string;
 }
 
+export type Device = "desktop" | "mobile";
+
+export interface DeviceProps {
+  device?: Device;
+}
+
 export type DataKey = "platinums" | "completes" | "collection";
 
 export interface Settings {
