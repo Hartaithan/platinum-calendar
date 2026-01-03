@@ -4,6 +4,7 @@ import { API_URL } from "@/constants/variables";
 import type {
   FetchPlatinumsParams,
   FetchPlatinumsResponse,
+  NullablePlatinum,
   PlatinumErrorData,
   PlatinumEventData,
 } from "@/models/platinum";
@@ -52,15 +53,18 @@ const getPlatinums = async (
   });
 
   return new Promise((resolve, reject) => {
+    let list: NullablePlatinum[] = [];
     source.onmessage = (event) => {
       try {
         const data: PlatinumEventData = JSON.parse(event.data);
         switch (data?.type) {
-          case "progress":
+          case "progress": {
+            const platinums = data?.platinums || [];
+            list = list.concat(platinums);
             onProgress(data);
             break;
+          }
           case "complete": {
-            const list = data?.platinums || [];
             const expires = data?.expires;
             const counts = data?.counts;
             resolve({ list, counts, expires });
