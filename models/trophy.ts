@@ -15,6 +15,7 @@ export interface Trophy {
   title?: string;
   description?: string;
   image_url?: string;
+  earned: boolean;
   earned_at?: string;
   earned_rate?: number;
   rarity?: TrophyRarity;

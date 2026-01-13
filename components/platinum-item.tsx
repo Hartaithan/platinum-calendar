@@ -80,12 +80,13 @@ const TrophyStats: FC<PlatinumsProps> = (props) => {
             <span>{trophy?.earned_rate?.toLocaleString() ?? "Unknown"}%</span>
           </div>
         )}
-        {trophy?.earned_at && (
-          <div>
-            <span className="font-medium">Earned:&nbsp;</span>
-            <span>{new Date(trophy.earned_at).toLocaleString()}</span>
-          </div>
-        )}
+        <div>
+          <span className="font-medium">Earned:&nbsp;</span>
+          <span>
+            {trophy?.earned_at && new Date(trophy.earned_at).toLocaleString()}
+            {!trophy?.earned_at && (trophy?.earned === true ? "Yes" : "No")}
+          </span>
+        </div>
       </div>
     </div>
   );
