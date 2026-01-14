@@ -79,7 +79,6 @@ const DataProvider: FC<PropsWithChildren> = (props) => {
 
   const setData = useCallback(
     (list: NullablePlatinum[]) => {
-      if (list.length === 0) return;
       const grouped = groupPlatinumList(list);
       setGames(grouped.games);
       setPlatinums(grouped.platinums);
