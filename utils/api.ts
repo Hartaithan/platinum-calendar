@@ -48,12 +48,31 @@ const getPlatinums = async (
   url.pathname += "/platinums";
 
   const init = await getInit({ method: "GET", url });
+
+  if (signal?.aborted) return Promise.reject(signal.reason);
+
   const source = new EventSource(url, {
-    fetch: (input, ini) => fetch(input, { ...ini, ...init }),
+    fetch: (input, ini) => fetch(input, { ...ini, ...init, signal }),
   });
 
   return new Promise((resolve, reject) => {
     let list: NullablePlatinum[] = [];
+
+    const cleanup = () => {
+      source.close();
+      signal?.removeEventListener("abort", abortHandler);
+    };
+
+    const abortHandler = (event: Event) => {
+      cleanup();
+      const reason = (event.target as AbortSignal)?.reason || "Aborted";
+      reject(reason);
+    };
+
+    if (signal) {
+      signal.addEventListener("abort", abortHandler);
+    }
+
     source.onmessage = (event) => {
       try {
         const data: PlatinumEventData = JSON.parse(event.data);
@@ -68,17 +87,17 @@ const getPlatinums = async (
             const expires = data?.expires;
             const counts = data?.counts;
             resolve({ list, counts, expires });
-            source.close();
+            cleanup();
             break;
           }
           default:
             console.info("unable to recognize event type", data);
-            source.close();
+            cleanup();
             break;
         }
       } catch (error) {
         console.error("error parsing SSE data", error);
-        source.close();
+        cleanup();
         const message = readError(error);
         reject(message);
       }
@@ -90,26 +109,15 @@ const getPlatinums = async (
         const data: PlatinumErrorData = JSON.parse(event?.data);
         const message = data?.message ?? "Unknown SSE error";
         console.error("known SSE error", message, event);
-        source.close();
+        cleanup();
         reject(message);
       } catch (error) {
         console.error("unknown SSE error", e, error);
-        source.close();
+        cleanup();
         const message = readError(error);
         reject(message);
       }
     };
-
-    if (signal) {
-      const abortHandler = (event: Event) => {
-        source.close();
-        let message = "Unknown abort signal error";
-        if (event.target instanceof AbortSignal) message = event.target.reason;
-        signal.removeEventListener("abort", abortHandler);
-        reject(message);
-      };
-      signal.addEventListener("abort", abortHandler);
-    }
   });
 };
 
