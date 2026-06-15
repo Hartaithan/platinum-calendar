@@ -2,5 +2,11 @@
   "files.associations": {
     "*.css": "tailwindcss"
   },
-  "tailwindCSS.classAttributes": ["class", "className", "ngClass", ".*Styles.*"]
+  "tailwindCSS.classAttributes": [
+    "class",
+    "className",
+    "ngClass",
+    ".*Styles.*"
+  ],
+  "js/ts.tsdk.path": "node_modules/typescript/lib"
 }
