@@ -1,0 +1,48 @@
+declare global {
+  namespace CrossServiceLink {
+    interface Item {
+      id: string;
+      title: string;
+      short_title: string;
+      description: string;
+      link: string;
+      image_url: string;
+      image_background: string;
+    }
+
+    interface Events {
+      onLinkClick?: (link: string) => void;
+      onLearnMoreClick?: () => void;
+      onNeverShowClick?: () => void;
+      onCloseClick?: () => void;
+    }
+
+    type Theme = "dark" | "light" | "inherit";
+
+    interface ModalOptions {
+      root: ShadowRoot;
+      events?: Events;
+      scrollLock?: boolean;
+    }
+
+    interface Options extends Pick<ModalOptions, "scrollLock"> {
+      target: string | HTMLElement;
+      events?: Events;
+      theme?: Theme;
+    }
+
+    interface Instance {
+      mount: (onMounted?: () => void) => Promise<void>;
+      unmount: () => Promise<void>;
+      setTheme: (theme: Theme) => void;
+    }
+
+    type Constructor = new (options: Options) => Instance;
+  }
+
+  interface Window {
+    CrossServiceLink: CrossServiceLink.Constructor;
+  }
+}
+
+export {};

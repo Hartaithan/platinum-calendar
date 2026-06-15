@@ -1,15 +1,13 @@
 import { getTheme } from "@/actions/theme";
 import "@/app/globals.css";
+import CrossServiceLink from "@/components/cross-service-link";
 import { Toaster } from "@/components/ui/sonner";
 import { APP_URL } from "@/constants/variables";
 import RootProviders from "@/providers/root";
 import { detectBrowser, getDeviceType } from "@/utils/device-server";
 import type { Metadata, Viewport } from "next";
-import dynamic from "next/dynamic";
 import { Rubik } from "next/font/google";
 import type { FC, PropsWithChildren } from "react";
-
-const Promo = dynamic(() => import("@/components/promo"), { ssr: false });
 
 const font = Rubik({ subsets: ["latin"], fallback: ["Arial"] });
 
@@ -72,7 +70,7 @@ const MainLayout: FC<PropsWithChildren> = async ({ children }) => {
       <body className={font.className}>
         <RootProviders defaultTheme={theme}>{children}</RootProviders>
         <Toaster theme="light" position="top-right" richColors closeButton />
-        <Promo />
+        <CrossServiceLink />
       </body>
     </html>
   );
