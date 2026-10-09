@@ -1,9 +1,8 @@
 "use client";
 
 import GameImage from "@/components/game-image";
-import type { Platinum } from "@/models/platinum";
-import type { Trophy } from "@/models/trophy";
 import { useData } from "@/providers/data";
+import type { Platinum, Trophy } from "@hartaithan/trophy-scout/types";
 import Image from "next/image";
 import type { FC } from "react";
 

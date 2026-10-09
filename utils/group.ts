@@ -4,11 +4,13 @@ import type {
   GroupedPlatinumKeys,
   GroupedPlatinumList,
   GroupedPlatinums,
-  NullablePlatinum,
-  Platinum,
 } from "@/models/platinum";
 import type { DataContext } from "@/providers/data";
 import { getDateKeys } from "@/utils/date";
+import type {
+  NullablePlatinum,
+  Platinum,
+} from "@hartaithan/trophy-scout/types";
 
 const setItem = (key: string, item: Platinum, list: GroupedPlatinumKeys) => {
   if (list[key] !== undefined) {

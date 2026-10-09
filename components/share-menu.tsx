@@ -54,17 +54,16 @@ const ShareMenu: FC = () => {
       posthog.capture("upload-start", withTheme({ id: profile?.name }));
       upload?.open();
       setLoading(true);
-      const image = await capture();
-      if (!image) throw new Error("Unable to generate image");
+      const captured = await capture();
+      if (!captured) throw new Error("Unable to generate image");
       upload?.set({ status: "upload" });
-      const response = await uploadImage(image, profile?.name);
-      if (!response.success) throw new Error(response.message);
-      upload?.set({ status: "complete", image: response.link });
+      const response = await uploadImage(captured, profile?.name);
+      upload?.set({ status: "complete", image: response.image.url });
       posthog.capture(
         "upload-complete",
         withTheme({
           id: profile?.name,
-          link: response.link,
+          link: response.image.url,
         }),
       );
     } catch (error) {

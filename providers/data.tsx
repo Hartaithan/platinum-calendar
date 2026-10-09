@@ -12,10 +12,12 @@ import type { Status } from "@/models/app";
 import type {
   NullableGroupedPlatinums,
   NullableGroupedPlatinumsKeys,
-  NullablePlatinum,
 } from "@/models/platinum";
-import type { NullableProfile } from "@/models/profile";
 import { groupPlatinumList } from "@/utils/group";
+import type {
+  NullablePlatinum,
+  NullableProfile,
+} from "@hartaithan/trophy-scout/types";
 import type { Dispatch, FC, PropsWithChildren, SetStateAction } from "react";
 import {
   createContext,

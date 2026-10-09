@@ -2,11 +2,11 @@
 
 import CalendarProgress from "@/components/calendar-progress";
 import TrophyIcon from "@/icons/trophy";
-import type { Profile as ProfileInfo } from "@/models/profile";
 import { useData } from "@/providers/data";
 import { useSettings } from "@/providers/settings";
 import { getProxyURL } from "@/utils/image";
 import { cn } from "@/utils/styles";
+import type { Profile as ProfileInfo } from "@hartaithan/trophy-scout/types";
 import Image from "next/image";
 import type { ComponentPropsWithoutRef } from "react";
 import { memo, type FC } from "react";

@@ -3,11 +3,11 @@
 import type { DataLoadingPopupHandle } from "@/components/data-loading-popup";
 import DataLoadingPopup from "@/components/data-loading-popup";
 import { useAbortController } from "@/hooks/use-abort-controller";
-import type { PlatinumProgressData } from "@/models/platinum";
 import { useData } from "@/providers/data";
 import { API } from "@/utils/api";
 import { readError } from "@/utils/error";
 import { showExpiresToast } from "@/utils/toast";
+import type { PlatinumProgressData } from "@hartaithan/trophy-scout/types";
 import posthog from "posthog-js";
 import type { FC, FormEvent, FormEventHandler, PropsWithChildren } from "react";
 import { createContext, useCallback, useContext, useMemo, useRef } from "react";

@@ -1,22 +1,22 @@
-import type { UploadBody, UploadResponse } from "@/models/upload";
+import type { UploadBody } from "@/models/upload";
 import { API } from "@/utils/api";
+import type { UploadImageResponse } from "@hartaithan/trophy-scout/types";
 
-export const getUploadFormData = (
+export const getUploadImage = (
   image: UploadBody["image"],
   psnId: UploadBody["psnId"],
-): FormData => {
-  const formData = new FormData();
-  formData.append("title", `${psnId}’s Platinum Calendar`);
-  formData.append("image", image);
-  return formData;
+): File => {
+  const name = `${psnId}’s Platinum Calendar`;
+  const options: FilePropertyBag = { type: image.type };
+  return new File([image], name, options);
 };
 
 export const uploadImage = async (
-  image: Blob,
+  file: Blob,
   name: string | undefined,
-): Promise<UploadResponse> => {
+): Promise<UploadImageResponse> => {
   const psnId = name ?? "Platinum Calendar";
-  const formData = getUploadFormData(image, psnId);
-  const response = await API.uploadImage(formData);
+  const image = getUploadImage(file, psnId);
+  const response = await API.uploadImage({ image });
   return response;
 };
