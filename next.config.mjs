@@ -1,4 +1,11 @@
+import { readFileSync } from "node:fs";
+
+const { version } = JSON.parse(
+  readFileSync(new URL("./package.json", import.meta.url), "utf8"),
+);
+
 const nextConfig = {
+  env: { APP_VERSION: version },
   async rewrites() {
     return [
       {

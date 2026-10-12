@@ -1,29 +1,17 @@
-import posthog from "posthog-js";
 import { useCallback, useRef } from "react";
 
-interface Params {
-  message?: string;
-}
+export type AbortHandler = () => void;
 
-export type AbortHandler = (section: string) => void;
-
-const defaultMessage = "Request was canceled by the user";
-
-export const useAbortController = (params?: Params) => {
-  const { message = defaultMessage } = params ?? {};
+export const useAbortController = () => {
   const controller = useRef<AbortController | null>(null);
 
-  const abort: AbortHandler = useCallback(
-    (section) => {
-      if (!controller.current) return;
-      controller.current.abort(message);
-      posthog.capture(`${section}-cancelled`);
-    },
-    [message],
-  );
+  const abort: AbortHandler = useCallback(() => {
+    if (!controller.current) return;
+    controller.current.abort("user");
+  }, []);
 
   const getSignal = useCallback(() => {
-    if (controller.current) controller.current.abort();
+    if (controller.current) controller.current.abort("superseded");
     controller.current = new AbortController();
     return controller.current.signal;
   }, []);

@@ -57,7 +57,7 @@ const SettingsProvider: FC<PropsWithChildren> = (props) => {
 
   const handleLeapChange: Context["handleLeapChange"] = useCallback(
     (value) => {
-      posthog.capture("settings-leap", { value });
+      posthog.capture("setting_changed", { setting: "leap", value });
       setSettings((prev) => ({ ...prev, leap: value }));
     },
     [setSettings],
@@ -65,7 +65,7 @@ const SettingsProvider: FC<PropsWithChildren> = (props) => {
 
   const handleDataChange: Context["handleDataChange"] = useCallback(
     (value) => {
-      posthog.capture("settings-data", { value });
+      posthog.capture("setting_changed", { setting: "data", value });
       setSettings((prev) => ({ ...prev, data: value }));
     },
     [setSettings],
@@ -73,14 +73,14 @@ const SettingsProvider: FC<PropsWithChildren> = (props) => {
 
   const handleHideChange: Context["handleHideChange"] = useCallback(
     (value) => {
-      posthog.capture("settings-hide", { value });
+      posthog.capture("setting_changed", { setting: "hide", value });
       setSettings((prev) => ({ ...prev, hide: value }));
     },
     [setSettings],
   );
 
   const resetSettings = useCallback(() => {
-    posthog.capture("settings-reset");
+    posthog.capture("settings_reset");
     setSettings(defaultValue);
   }, [setSettings]);
 

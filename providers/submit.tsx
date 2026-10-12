@@ -5,10 +5,9 @@ import DataLoadingPopup from "@/components/data-loading-popup";
 import { useAbortController } from "@/hooks/use-abort-controller";
 import { useData } from "@/providers/data";
 import { API } from "@/utils/api";
-import { readError } from "@/utils/error";
 import { showExpiresToast } from "@/utils/toast";
+import { TrophyScoutError } from "@hartaithan/trophy-scout";
 import type { PlatinumProgressData } from "@hartaithan/trophy-scout/types";
-import posthog from "posthog-js";
 import type { FC, FormEvent, FormEventHandler, PropsWithChildren } from "react";
 import { createContext, useCallback, useContext, useMemo, useRef } from "react";
 import { toast } from "sonner";
@@ -56,55 +55,47 @@ const SubmitProvider: FC<PropsWithChildren> = (props) => {
       e.preventDefault();
 
       const id = getId(e);
-      let expires: string | undefined;
+      if (id.length === 0) {
+        toast.error(errors.empty);
+        return;
+      }
+
+      const flow = API.flow("fetch", {
+        psn_id: id,
+        data: "platinums",
+        trigger: "form",
+      });
+      const signal = getSignal();
 
       try {
-        if (id.length === 0) throw new Error(errors.empty);
-
         setStatus("profile-loading");
-        posthog.capture("submit-profile", { id });
-
-        const { profile, expires: profileExpires } = await API.getProfile({
-          id,
-          signal: getSignal(),
-        });
-        if (!profile) throw new Error(errors.fetch);
-        expires = profileExpires;
+        const { profile } = await API.getProfile({ id, signal, flow });
+        if (!profile) throw new TrophyScoutError(errors.fetch);
         setProfile(profile);
 
         setStatus("platinums-loading");
-        posthog.capture("submit-platinums", { id, expires });
-
-        const {
-          list,
-          counts,
-          expires: platinumsExpires,
-        } = await API.getPlatinums({
+        const { list, counts, expires } = await API.getPlatinums({
           id,
           onProgress,
-          signal: getSignal(),
+          signal,
+          flow,
         });
-        expires = platinumsExpires;
         setData(list);
         setStatus("completed");
         showExpiresToast(expires);
 
-        popupRef.current?.reset();
-        posthog.capture("submit-complete", {
-          id,
-          counts: JSON.stringify(counts),
-          expires,
+        flow.complete({
+          platinum_count: counts.platinum,
+          complete_count: counts.complete,
+          total_count: counts.total,
         });
       } catch (error) {
-        console.error("submit error", error);
-
         setStatus("idle");
-
-        const message = readError(error);
-        toast.error(message);
-
+        if (flow.fail(error) === "failed") {
+          toast.error(API.getErrorMessage(error));
+        }
+      } finally {
         popupRef.current?.reset();
-        posthog.capture("submit-error", { id, message });
       }
     },
     [setStatus, getSignal, setProfile, onProgress, setData],

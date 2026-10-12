@@ -11,10 +11,13 @@ const CrossServiceLink: FC = () => {
       "cross-service-link:ready",
       () => {
         const onLinkClick = (link: string) =>
-          posthog.capture("link-click", { link });
-        const onLearnMoreClick = () => posthog.capture("learn-more-click");
-        const onNeverShowClick = () => posthog.capture("never-show-click");
-        const onCloseClick = () => posthog.capture("close-click");
+          posthog.capture("promo_widget_clicked", { action: "link", link });
+        const onLearnMoreClick = () =>
+          posthog.capture("promo_widget_clicked", { action: "learn_more" });
+        const onNeverShowClick = () =>
+          posthog.capture("promo_widget_clicked", { action: "never_show" });
+        const onCloseClick = () =>
+          posthog.capture("promo_widget_clicked", { action: "close" });
         const widget = new window.CrossServiceLink({
           target: document.body,
           theme: "light",

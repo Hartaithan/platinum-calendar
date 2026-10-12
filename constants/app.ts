@@ -1,4 +1,7 @@
 import type { DataKey, Theme } from "@/models/app";
+import type { AppName } from "@hartaithan/trophy-scout";
+
+export const APP_NAME: AppName = "platinum-calendar";
 
 export const themes: Theme[] = ["og", "heatmap", "columns"];
 

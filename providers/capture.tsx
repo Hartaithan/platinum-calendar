@@ -2,8 +2,8 @@
 
 import type { Theme } from "@/models/app";
 import { useTheme } from "@/providers/theme";
+import { API } from "@/utils/api";
 import { captureElement } from "@/utils/capture";
-import { readError } from "@/utils/error";
 import type { RefObject } from "react";
 import {
   createContext,
@@ -53,7 +53,7 @@ const CaptureProvider: FC<PropsWithChildren> = (props) => {
       return image;
     } catch (error) {
       console.error("generate image error", error);
-      const message = readError(error);
+      const message = API.getErrorMessage(error);
       toast.error(message);
       return null;
     } finally {

@@ -1,6 +1,7 @@
 "use client";
 
-import { APP_URL, POSTHOG_KEY } from "@/constants/variables";
+import { APP_NAME } from "@/constants/app";
+import { APP_URL, APP_VERSION, POSTHOG_KEY } from "@/constants/variables";
 import posthog from "posthog-js";
 import { PostHogProvider } from "posthog-js/react";
 import type { FC, PropsWithChildren } from "react";
@@ -33,8 +34,16 @@ if (isClientSide && isProd) {
     advanced_disable_flags: true,
     advanced_disable_toolbar_metrics: true,
     advanced_disable_feature_flags_on_first_load: true,
+    capture_exceptions: {
+      capture_unhandled_errors: true,
+      capture_unhandled_rejections: true,
+      capture_console_errors: false,
+    },
   });
+  posthog.register({ app: APP_NAME, app_version: APP_VERSION });
 }
+
+export const getPostHog = () => (posthog.__loaded ? posthog : null);
 
 const AnalyticsProvider: FC<PropsWithChildren> = ({ children }) => {
   if (!isProd) return children;

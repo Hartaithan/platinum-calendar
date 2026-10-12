@@ -40,7 +40,7 @@ const ThemeProvider: FC<Props> = (props) => {
 
   const changeTheme: Context["changeTheme"] = useCallback((value) => {
     setTheme(value);
-    posthog.capture("settings-theme", { value });
+    posthog.capture("setting_changed", { setting: "theme", value });
     const html = document.documentElement;
     if (html) html.setAttribute("data-theme", value);
     try {
